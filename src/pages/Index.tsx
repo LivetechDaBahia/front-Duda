@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Navbar } from '@/components/navigation/Navbar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { KanbanView } from '@/components/dashboard/KanbanView';
 import { TableView } from '@/components/dashboard/TableView';
@@ -18,6 +19,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
       
       <main className="container mx-auto px-6 py-8">
