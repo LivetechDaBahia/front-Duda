@@ -5,16 +5,27 @@ import { KanbanView } from '@/components/dashboard/KanbanView';
 import { TableView } from '@/components/dashboard/TableView';
 import { OrderDetailPanel } from '@/components/dashboard/OrderDetailPanel';
 import { mockOrders } from '@/data/mockOrders';
-import { PurchaseOrder } from '@/types/order';
+import { PurchaseOrder, OrderStatus } from '@/types/order';
+import { toast } from 'sonner';
 
 const Index = () => {
   const [viewMode, setViewMode] = useState<'kanban' | 'table'>('kanban');
+  const [orders, setOrders] = useState<PurchaseOrder[]>(mockOrders);
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const handleOrderClick = (order: PurchaseOrder) => {
     setSelectedOrder(order);
     setIsPanelOpen(true);
+  };
+
+  const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
+    setOrders(prev => prev.map(order => 
+      order.id === orderId 
+        ? { ...order, status: newStatus }
+        : order
+    ));
+    toast.success(`Order ${orderId} status updated to ${newStatus}`);
   };
 
   return (
@@ -24,9 +35,17 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-8">
         {viewMode === 'kanban' ? (
-          <KanbanView orders={mockOrders} onOrderClick={handleOrderClick} />
+          <KanbanView 
+            orders={orders} 
+            onOrderClick={handleOrderClick}
+            onStatusChange={handleStatusChange}
+          />
         ) : (
-          <TableView orders={mockOrders} onOrderClick={handleOrderClick} />
+          <TableView 
+            orders={orders} 
+            onOrderClick={handleOrderClick}
+            onStatusChange={handleStatusChange}
+          />
         )}
       </main>
 

@@ -1,9 +1,11 @@
 import { PurchaseOrder, OrderStatus } from '@/types/order';
 import { OrderCard } from './OrderCard';
+import { useState } from 'react';
 
 interface KanbanViewProps {
   orders: PurchaseOrder[];
   onOrderClick: (order: PurchaseOrder) => void;
+  onStatusChange: (orderId: string, newStatus: OrderStatus) => void;
 }
 
 const columns: { status: OrderStatus; label: string; color: string }[] = [
@@ -15,11 +17,45 @@ const columns: { status: OrderStatus; label: string; color: string }[] = [
   { status: 'cancelled', label: 'Cancelled', color: 'border-destructive' },
 ];
 
-export const KanbanView = ({ orders, onOrderClick }: KanbanViewProps) => {
+export const KanbanView = ({ orders, onOrderClick, onStatusChange }: KanbanViewProps) => {
+  const [draggedOrderId, setDraggedOrderId] = useState<string | null>(null);
+  const [dragOverColumn, setDragOverColumn] = useState<OrderStatus | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, orderId: string) => {
+    setDraggedOrderId(orderId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, status: OrderStatus) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverColumn(status);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverColumn(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, newStatus: OrderStatus) => {
+    e.preventDefault();
+    if (draggedOrderId) {
+      onStatusChange(draggedOrderId, newStatus);
+    }
+    setDraggedOrderId(null);
+    setDragOverColumn(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedOrderId(null);
+    setDragOverColumn(null);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
       {columns.map(({ status, label, color }) => {
         const columnOrders = orders.filter(order => order.status === status);
+        
+        const isDragOver = dragOverColumn === status;
         
         return (
           <div key={status} className="flex flex-col">
@@ -32,12 +68,20 @@ export const KanbanView = ({ orders, onOrderClick }: KanbanViewProps) => {
               </h3>
             </div>
             
-            <div className="space-y-3 flex-1">
+            <div 
+              className={`space-y-3 flex-1 min-h-[200px] rounded-lg transition-all ${
+                isDragOver ? 'bg-primary/5 border-2 border-dashed border-primary' : 'border-2 border-transparent'
+              }`}
+              onDragOver={(e) => handleDragOver(e, status)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, status)}
+            >
               {columnOrders.map(order => (
                 <OrderCard
                   key={order.id}
                   order={order}
                   onClick={() => onOrderClick(order)}
+                  onDragStart={handleDragStart}
                 />
               ))}
               

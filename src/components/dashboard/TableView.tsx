@@ -1,12 +1,21 @@
-import { PurchaseOrder } from '@/types/order';
+import { PurchaseOrder, OrderStatus } from '@/types/order';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 
 interface TableViewProps {
   orders: PurchaseOrder[];
   onOrderClick: (order: PurchaseOrder) => void;
+  onStatusChange: (orderId: string, newStatus: OrderStatus) => void;
 }
 
 const statusColors = {
@@ -20,7 +29,16 @@ const statusColors = {
 
 type SortField = 'id' | 'clientName' | 'value' | 'status' | 'dueDate';
 
-export const TableView = ({ orders, onOrderClick }: TableViewProps) => {
+const allStatuses: { value: OrderStatus; label: string }[] = [
+  { value: 'pending', label: 'Pending' },
+  { value: 'processing', label: 'Processing' },
+  { value: 'approved', label: 'Approved' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'declined', label: 'Declined' },
+  { value: 'cancelled', label: 'Cancelled' },
+];
+
+export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewProps) => {
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -89,6 +107,7 @@ export const TableView = ({ orders, onOrderClick }: TableViewProps) => {
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
+            <TableHead>Actions</TableHead>
             <TableHead>
               <button
                 onClick={() => handleSort('dueDate')}
@@ -104,22 +123,65 @@ export const TableView = ({ orders, onOrderClick }: TableViewProps) => {
           {sortedOrders.map((order) => (
             <TableRow
               key={order.id}
-              onClick={() => onOrderClick(order)}
-              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              className="hover:bg-muted/50 transition-colors"
             >
-              <TableCell className="font-medium">{order.id}</TableCell>
-              <TableCell>{order.clientName}</TableCell>
-              <TableCell className="font-semibold">
+              <TableCell 
+                className="font-medium cursor-pointer"
+                onClick={() => onOrderClick(order)}
+              >
+                {order.id}
+              </TableCell>
+              <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
+                {order.clientName}
+              </TableCell>
+              <TableCell 
+                className="font-semibold cursor-pointer"
+                onClick={() => onOrderClick(order)}
+              >
                 ${order.value.toLocaleString()}
               </TableCell>
-              <TableCell>{order.items}</TableCell>
-              <TableCell>
+              <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
+                {order.items}
+              </TableCell>
+              <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
                 <Badge className={statusColors[order.status]}>
                   {order.status}
                 </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
                 {new Date(order.dueDate).toLocaleDateString()}
+              </TableCell>
+              <TableCell onClick={(e) => e.stopPropagation()}>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="h-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Change Status
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {allStatuses
+                      .filter(s => s.value !== order.status)
+                      .map((statusOption) => (
+                        <DropdownMenuItem
+                          key={statusOption.value}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onStatusChange(order.id, statusOption.value);
+                          }}
+                        >
+                          <Badge className={`${statusColors[statusOption.value]} mr-2`}>
+                            {statusOption.label}
+                          </Badge>
+                        </DropdownMenuItem>
+                      ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableCell>
             </TableRow>
           ))}

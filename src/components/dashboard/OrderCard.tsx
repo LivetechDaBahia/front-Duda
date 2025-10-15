@@ -6,6 +6,7 @@ import { Calendar, DollarSign, Package, User } from 'lucide-react';
 interface OrderCardProps {
   order: PurchaseOrder;
   onClick: () => void;
+  onDragStart?: (e: React.DragEvent, orderId: string) => void;
 }
 
 const statusColors = {
@@ -17,11 +18,19 @@ const statusColors = {
   declined: 'bg-destructive/10 text-destructive border-destructive/20',
 };
 
-export const OrderCard = ({ order, onClick }: OrderCardProps) => {
+export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
+  const handleDragStart = (e: React.DragEvent) => {
+    if (onDragStart) {
+      onDragStart(e, order.id);
+    }
+  };
+
   return (
     <Card 
-      className="p-4 cursor-pointer transition-all hover:shadow-md hover:scale-[1.02] animate-scale-in bg-gradient-to-br from-card to-card/50"
+      className="p-4 cursor-grab active:cursor-grabbing transition-all hover:shadow-md hover:scale-[1.02] animate-scale-in bg-gradient-to-br from-card to-card/50"
       onClick={onClick}
+      draggable={!!onDragStart}
+      onDragStart={handleDragStart}
     >
       <div className="space-y-3">
         <div className="flex items-start justify-between">
