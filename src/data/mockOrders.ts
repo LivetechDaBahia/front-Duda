@@ -25,7 +25,8 @@ export const mockOrders: PurchaseOrder[] = [
     dueDate: '2024-10-25',
     description: 'Computer hardware and software licenses',
     shippingAddress: '456 Tech Ave, San Francisco, CA 94102',
-    billingAddress: '456 Tech Ave, San Francisco, CA 94102'
+    billingAddress: '456 Tech Ave, San Francisco, CA 94102',
+    needsApproval: true
   },
   {
     id: 'PO-2024-003',
@@ -64,7 +65,8 @@ export const mockOrders: PurchaseOrder[] = [
     dueDate: '2024-11-15',
     description: 'Raw materials for production line',
     shippingAddress: '555 Industrial Park, Detroit, MI 48201',
-    billingAddress: '555 Industrial Park, Detroit, MI 48201'
+    billingAddress: '555 Industrial Park, Detroit, MI 48201',
+    needsApproval: true
   },
   {
     id: 'PO-2024-006',
@@ -129,6 +131,7 @@ export const mockOrders: PurchaseOrder[] = [
     dueDate: '2024-11-30',
     description: 'Construction materials and tools',
     shippingAddress: '666 Builder Road, Denver, CO 80201',
-    billingAddress: '666 Builder Road, Denver, CO 80201'
+    billingAddress: '666 Builder Road, Denver, CO 80201',
+    needsApproval: true
   }
 ];

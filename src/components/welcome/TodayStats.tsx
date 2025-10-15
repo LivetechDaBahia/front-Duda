@@ -1,0 +1,52 @@
+import { Card } from '@/components/ui/card';
+import { AlertCircle, Clock, TrendingUp } from 'lucide-react';
+
+interface TodayStatsProps {
+  pendingCount: number;
+  urgentCount: number;
+  totalValue: number;
+}
+
+export const TodayStats = ({ pendingCount, urgentCount, totalValue }: TodayStatsProps) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Card className="p-5 bg-gradient-to-br from-warning/5 to-warning/10 border-warning/20">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-lg bg-warning/20 flex items-center justify-center">
+            <AlertCircle className="w-6 h-6 text-warning" />
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Needs Approval</p>
+            <p className="text-2xl font-bold text-foreground">{pendingCount}</p>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-5 bg-gradient-to-br from-destructive/5 to-destructive/10 border-destructive/20">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-lg bg-destructive/20 flex items-center justify-center">
+            <Clock className="w-6 h-6 text-destructive" />
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Urgent Orders</p>
+            <p className="text-2xl font-bold text-foreground">{urgentCount}</p>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-5 bg-gradient-to-br from-primary/5 to-accent/10 border-primary/20">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+            <TrendingUp className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Total Value</p>
+            <p className="text-2xl font-bold text-foreground">
+              ${totalValue.toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+};

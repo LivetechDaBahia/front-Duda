@@ -1,4 +1,4 @@
-export type OrderStatus = 'pending' | 'processing' | 'completed' | 'cancelled';
+export type OrderStatus = 'pending' | 'processing' | 'completed' | 'cancelled' | 'approved' | 'declined';
 
 export interface PurchaseOrder {
   id: string;
@@ -12,4 +12,5 @@ export interface PurchaseOrder {
   description: string;
   shippingAddress: string;
   billingAddress: string;
+  needsApproval?: boolean;
 }

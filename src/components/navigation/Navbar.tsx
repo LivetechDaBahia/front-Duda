@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 export const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isDashboard = location.pathname === '/dashboard';
+  const isDashboard = location.pathname === '/purchase-orders';
 
   return (
     <nav className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
@@ -37,9 +37,9 @@ export const Navbar = () => {
               size="sm"
               asChild
             >
-              <Link to="/dashboard" className="flex items-center gap-2">
+              <Link to="/purchase-orders" className="flex items-center gap-2">
                 <LayoutDashboard className="w-4 h-4" />
-                Dashboard
+                Purchase Orders
               </Link>
             </Button>
           </div>

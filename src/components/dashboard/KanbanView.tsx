@@ -9,7 +9,9 @@ interface KanbanViewProps {
 const columns: { status: OrderStatus; label: string; color: string }[] = [
   { status: 'pending', label: 'Pending', color: 'border-warning' },
   { status: 'processing', label: 'Processing', color: 'border-info' },
+  { status: 'approved', label: 'Approved', color: 'border-[hsl(var(--success))]' },
   { status: 'completed', label: 'Completed', color: 'border-[hsl(var(--success))]' },
+  { status: 'declined', label: 'Declined', color: 'border-destructive' },
   { status: 'cancelled', label: 'Cancelled', color: 'border-destructive' },
 ];
 
