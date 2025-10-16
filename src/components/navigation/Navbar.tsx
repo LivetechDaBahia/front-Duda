@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useLocale } from '@/contexts/LocaleContext';
 
 export const Navbar = () => {
@@ -47,6 +48,7 @@ export const Navbar = () => {
             </Button>
 
             <LanguageSwitcher />
+            <ThemeToggle />
           </div>
         </div>
       </div>
