@@ -2,12 +2,15 @@ import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { User } from 'lucide-react';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export const UserProfile = () => {
+  const { t } = useLocale();
+  
   // Mock user data - in real app this would come from auth/database
   const user = {
     name: 'John Anderson',
-    role: 'Purchase Manager',
+    role: t('profile.role'),
     email: 'john.anderson@company.com',
     initials: 'JA'
   };

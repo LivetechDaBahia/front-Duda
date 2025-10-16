@@ -44,20 +44,26 @@ const translations: Record<Locale, Record<string, string>> = {
     
     // Order Status
     'status.pending': 'Pending',
+    'status.processing': 'Processing',
     'status.approved': 'Approved',
     'status.inProgress': 'In Progress',
     'status.completed': 'Completed',
     'status.cancelled': 'Cancelled',
+    'status.declined': 'Declined',
     'status.changeStatus': 'Change Status',
     
     // Order Card
     'order.client': 'Client',
     'order.items': 'items',
+    'order.value': 'Value',
     'order.dueDate': 'Due',
     'order.statusUpdated': 'Order status updated to',
     
     // Order Details
+    'orderDetail.title': 'Purchase Order Details',
     'orderDetail.clientInfo': 'Client Information',
+    'orderDetail.clientName': 'Client Name',
+    'orderDetail.email': 'Email',
     'orderDetail.orderDetails': 'Order Details',
     'orderDetail.description': 'Description',
     'orderDetail.addresses': 'Addresses',
@@ -65,17 +71,25 @@ const translations: Record<Locale, Record<string, string>> = {
     'orderDetail.shippingAddress': 'Shipping Address',
     'orderDetail.orderNumber': 'Order Number',
     'orderDetail.createdDate': 'Created Date',
+    'orderDetail.dueDate': 'Due Date',
     'orderDetail.itemCount': 'Item Count',
+    'orderDetail.totalItems': 'Total Items',
     'orderDetail.totalValue': 'Total Value',
     
     // Welcome Page
     'welcome.greeting': 'Welcome back',
+    'welcome.todayOverview': "Today's Overview",
     'welcome.todayStats': "Today's Statistics",
     'welcome.pendingApprovals': 'Pending Approvals',
     'welcome.urgentOrders': 'Urgent Orders',
     'welcome.totalValue': 'Total Value',
     'welcome.recentActivity': 'Recent Activity',
     'welcome.viewAll': 'View All Orders',
+    'welcome.noPendingOrders': 'No orders pending approval',
+    'welcome.allCaughtUp': "Great job! You're all caught up.",
+    
+    // Profile
+    'profile.role': 'Purchase Manager',
     
     // Actions
     'actions.approve': 'Approve',
@@ -85,6 +99,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'actions.declining': 'Declining...',
     
     // Table
+    'table.orderID': 'Order ID',
     'table.orderNumber': 'Order #',
     'table.client': 'Client',
     'table.status': 'Status',
@@ -129,20 +144,26 @@ const translations: Record<Locale, Record<string, string>> = {
     
     // Order Status
     'status.pending': 'Pendente',
+    'status.processing': 'Processando',
     'status.approved': 'Aprovado',
     'status.inProgress': 'Em Progresso',
     'status.completed': 'Concluído',
     'status.cancelled': 'Cancelado',
+    'status.declined': 'Recusado',
     'status.changeStatus': 'Alterar Status',
     
     // Order Card
     'order.client': 'Cliente',
     'order.items': 'itens',
+    'order.value': 'Valor',
     'order.dueDate': 'Vencimento',
     'order.statusUpdated': 'Status da ordem atualizado para',
     
     // Order Details
+    'orderDetail.title': 'Detalhes da Ordem de Compra',
     'orderDetail.clientInfo': 'Informações do Cliente',
+    'orderDetail.clientName': 'Nome do Cliente',
+    'orderDetail.email': 'E-mail',
     'orderDetail.orderDetails': 'Detalhes da Ordem',
     'orderDetail.description': 'Descrição',
     'orderDetail.addresses': 'Endereços',
@@ -150,17 +171,25 @@ const translations: Record<Locale, Record<string, string>> = {
     'orderDetail.shippingAddress': 'Endereço de Entrega',
     'orderDetail.orderNumber': 'Número da Ordem',
     'orderDetail.createdDate': 'Data de Criação',
+    'orderDetail.dueDate': 'Data de Vencimento',
     'orderDetail.itemCount': 'Quantidade de Itens',
+    'orderDetail.totalItems': 'Total de Itens',
     'orderDetail.totalValue': 'Valor Total',
     
     // Welcome Page
     'welcome.greeting': 'Bem-vindo de volta',
+    'welcome.todayOverview': 'Visão Geral de Hoje',
     'welcome.todayStats': 'Estatísticas de Hoje',
     'welcome.pendingApprovals': 'Aprovações Pendentes',
     'welcome.urgentOrders': 'Ordens Urgentes',
     'welcome.totalValue': 'Valor Total',
     'welcome.recentActivity': 'Atividade Recente',
     'welcome.viewAll': 'Ver Todas as Ordens',
+    'welcome.noPendingOrders': 'Nenhuma ordem pendente de aprovação',
+    'welcome.allCaughtUp': 'Ótimo trabalho! Você está em dia.',
+    
+    // Profile
+    'profile.role': 'Gerente de Compras',
     
     // Actions
     'actions.approve': 'Aprovar',
@@ -170,6 +199,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'actions.declining': 'Recusando...',
     
     // Table
+    'table.orderID': 'ID da Ordem',
     'table.orderNumber': 'Ordem Nº',
     'table.client': 'Cliente',
     'table.status': 'Status',
@@ -214,20 +244,26 @@ const translations: Record<Locale, Record<string, string>> = {
     
     // Order Status
     'status.pending': 'Pendiente',
+    'status.processing': 'Procesando',
     'status.approved': 'Aprobado',
     'status.inProgress': 'En Progreso',
     'status.completed': 'Completado',
     'status.cancelled': 'Cancelado',
+    'status.declined': 'Rechazado',
     'status.changeStatus': 'Cambiar Estado',
     
     // Order Card
     'order.client': 'Cliente',
     'order.items': 'artículos',
+    'order.value': 'Valor',
     'order.dueDate': 'Vencimiento',
     'order.statusUpdated': 'Estado de la orden actualizado a',
     
     // Order Details
+    'orderDetail.title': 'Detalles de la Orden de Compra',
     'orderDetail.clientInfo': 'Información del Cliente',
+    'orderDetail.clientName': 'Nombre del Cliente',
+    'orderDetail.email': 'Correo Electrónico',
     'orderDetail.orderDetails': 'Detalles de la Orden',
     'orderDetail.description': 'Descripción',
     'orderDetail.addresses': 'Direcciones',
@@ -235,17 +271,25 @@ const translations: Record<Locale, Record<string, string>> = {
     'orderDetail.shippingAddress': 'Dirección de Envío',
     'orderDetail.orderNumber': 'Número de Orden',
     'orderDetail.createdDate': 'Fecha de Creación',
+    'orderDetail.dueDate': 'Fecha de Vencimiento',
     'orderDetail.itemCount': 'Cantidad de Artículos',
+    'orderDetail.totalItems': 'Total de Artículos',
     'orderDetail.totalValue': 'Valor Total',
     
     // Welcome Page
     'welcome.greeting': 'Bienvenido de nuevo',
+    'welcome.todayOverview': 'Resumen de Hoy',
     'welcome.todayStats': 'Estadísticas de Hoy',
     'welcome.pendingApprovals': 'Aprobaciones Pendientes',
     'welcome.urgentOrders': 'Órdenes Urgentes',
     'welcome.totalValue': 'Valor Total',
     'welcome.recentActivity': 'Actividad Reciente',
     'welcome.viewAll': 'Ver Todas las Órdenes',
+    'welcome.noPendingOrders': 'No hay órdenes pendientes de aprobación',
+    'welcome.allCaughtUp': '¡Buen trabajo! Estás al día.',
+    
+    // Profile
+    'profile.role': 'Gerente de Compras',
     
     // Actions
     'actions.approve': 'Aprobar',
@@ -255,6 +299,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'actions.declining': 'Rechazando...',
     
     // Table
+    'table.orderID': 'ID de Orden',
     'table.orderNumber': 'Orden Nº',
     'table.client': 'Cliente',
     'table.status': 'Estado',

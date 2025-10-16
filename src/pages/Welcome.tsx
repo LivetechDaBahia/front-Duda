@@ -9,8 +9,10 @@ import { PendingOrderCard } from '@/components/welcome/PendingOrderCard';
 import { OrderDetailPanel } from '@/components/dashboard/OrderDetailPanel';
 import { mockOrders } from '@/data/mockOrders';
 import { PurchaseOrder } from '@/types/order';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const Welcome = () => {
+  const { t } = useLocale();
   const [orders, setOrders] = useState(mockOrders);
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -68,7 +70,7 @@ const Welcome = () => {
 
         {/* Today's Stats */}
         <div className="mb-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
-          <h2 className="text-2xl font-bold mb-4 text-foreground">Today's Overview</h2>
+          <h2 className="text-2xl font-bold mb-4 text-foreground">{t('welcome.todayOverview')}</h2>
           <TodayStats 
             pendingCount={pendingOrders.length}
             urgentCount={urgentOrders.length}
@@ -80,12 +82,12 @@ const Welcome = () => {
         <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-foreground">
-              Pending Approvals
+              {t('welcome.pendingApprovals')}
             </h2>
             <Button variant="outline" asChild>
               <Link to="/purchase-orders" className="flex items-center gap-2">
                 <Package className="w-4 h-4" />
-                View All Orders
+                {t('welcome.viewAll')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
@@ -107,10 +109,10 @@ const Welcome = () => {
             <div className="text-center py-16 bg-muted/30 rounded-lg border-2 border-dashed">
               <Package className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground text-lg">
-                No orders pending approval
+                {t('welcome.noPendingOrders')}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                Great job! You're all caught up.
+                {t('welcome.allCaughtUp')}
               </p>
             </div>
           )}

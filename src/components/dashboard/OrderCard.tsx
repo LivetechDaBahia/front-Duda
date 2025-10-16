@@ -2,6 +2,7 @@ import { PurchaseOrder } from '@/types/order';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, DollarSign, Package, User } from 'lucide-react';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface OrderCardProps {
   order: PurchaseOrder;
@@ -19,6 +20,8 @@ const statusColors = {
 };
 
 export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
+  const { t } = useLocale();
+  
   const handleDragStart = (e: React.DragEvent) => {
     if (onDragStart) {
       onDragStart(e, order.id);
@@ -42,7 +45,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
             </p>
           </div>
           <Badge className={statusColors[order.status]}>
-            {order.status}
+            {t(`status.${order.status}`)}
           </Badge>
         </div>
         
@@ -50,7 +53,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="flex items-center gap-1">
               <DollarSign className="w-3 h-3" />
-              Value
+              {t('order.value')}
             </span>
             <span className="font-semibold text-foreground">
               ${order.value.toLocaleString()}
@@ -60,7 +63,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="flex items-center gap-1">
               <Package className="w-3 h-3" />
-              Items
+              {t('order.items')}
             </span>
             <span className="font-medium text-foreground">{order.items}</span>
           </div>
@@ -68,7 +71,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
-              Due
+              {t('order.dueDate')}
             </span>
             <span className="font-medium text-foreground">
               {new Date(order.dueDate).toLocaleDateString()}

@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
+import { useLocale } from '@/contexts/LocaleContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,16 +30,10 @@ const statusColors = {
 
 type SortField = 'id' | 'clientName' | 'value' | 'status' | 'dueDate';
 
-const allStatuses: { value: OrderStatus; label: string }[] = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'processing', label: 'Processing' },
-  { value: 'approved', label: 'Approved' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'declined', label: 'Declined' },
-  { value: 'cancelled', label: 'Cancelled' },
-];
+const allStatuses: OrderStatus[] = ['pending', 'processing', 'approved', 'completed', 'declined', 'cancelled'];
 
 export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewProps) => {
+  const { t } = useLocale();
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -75,7 +70,7 @@ export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewPro
                 onClick={() => handleSort('id')}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                Order ID
+                {t('table.orderID')}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
@@ -84,7 +79,7 @@ export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewPro
                 onClick={() => handleSort('clientName')}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                Client
+                {t('table.client')}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
@@ -93,27 +88,27 @@ export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewPro
                 onClick={() => handleSort('value')}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                Value
+                {t('table.value')}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
-            <TableHead>Items</TableHead>
+            <TableHead>{t('table.items')}</TableHead>
             <TableHead>
               <button
                 onClick={() => handleSort('status')}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                Status
+                {t('table.status')}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{t('table.actions')}</TableHead>
             <TableHead>
               <button
                 onClick={() => handleSort('dueDate')}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                Due Date
+                {t('table.dueDate')}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
@@ -145,7 +140,7 @@ export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewPro
               </TableCell>
               <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
                 <Badge className={statusColors[order.status]}>
-                  {order.status}
+                  {t(`status.${order.status}`)}
                 </Badge>
               </TableCell>
               <TableCell onClick={() => onOrderClick(order)} className="cursor-pointer">
@@ -160,23 +155,23 @@ export const TableView = ({ orders, onOrderClick, onStatusChange }: TableViewPro
                       className="h-8"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      Change Status
+                      {t('status.changeStatus')}
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     {allStatuses
-                      .filter(s => s.value !== order.status)
+                      .filter(s => s !== order.status)
                       .map((statusOption) => (
                         <DropdownMenuItem
-                          key={statusOption.value}
+                          key={statusOption}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onStatusChange(order.id, statusOption.value);
+                            onStatusChange(order.id, statusOption);
                           }}
                         >
-                          <Badge className={`${statusColors[statusOption.value]} mr-2`}>
-                            {statusOption.label}
+                          <Badge className={`${statusColors[statusOption]} mr-2`}>
+                            {t(`status.${statusOption}`)}
                           </Badge>
                         </DropdownMenuItem>
                       ))}

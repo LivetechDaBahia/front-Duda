@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Calendar, DollarSign, Mail, MapPin, Package, User } from 'lucide-react';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface OrderDetailPanelProps {
   order: PurchaseOrder | null;
@@ -20,6 +21,8 @@ const statusColors = {
 };
 
 export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps) => {
+  const { t } = useLocale();
+  
   if (!order) return null;
 
   return (
@@ -29,10 +32,10 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
           <div className="flex items-start justify-between">
             <div>
               <SheetTitle className="text-2xl">{order.id}</SheetTitle>
-              <p className="text-muted-foreground mt-1">Purchase Order Details</p>
+              <p className="text-muted-foreground mt-1">{t('orderDetail.title')}</p>
             </div>
             <Badge className={statusColors[order.status]}>
-              {order.status}
+              {t(`status.${order.status}`)}
             </Badge>
           </div>
         </SheetHeader>
@@ -40,19 +43,19 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
         <div className="mt-6 space-y-6">
           {/* Client Information */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">Client Information</h3>
+            <h3 className="font-semibold text-lg">{t('orderDetail.clientInfo')}</h3>
             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <User className="w-5 h-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-muted-foreground">Client Name</p>
+                  <p className="text-sm text-muted-foreground">{t('orderDetail.clientName')}</p>
                   <p className="font-medium">{order.clientName}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="text-sm text-muted-foreground">{t('orderDetail.email')}</p>
                   <p className="font-medium">{order.clientEmail}</p>
                 </div>
               </div>
@@ -63,12 +66,12 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
 
           {/* Order Details */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">Order Details</h3>
+            <h3 className="font-semibold text-lg">{t('orderDetail.orderDetails')}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg p-4 border border-primary/20">
                 <div className="flex items-center gap-2 text-muted-foreground mb-2">
                   <DollarSign className="w-4 h-4" />
-                  <span className="text-sm">Total Value</span>
+                  <span className="text-sm">{t('orderDetail.totalValue')}</span>
                 </div>
                 <p className="text-2xl font-bold text-foreground">
                   ${order.value.toLocaleString()}
@@ -78,7 +81,7 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
               <div className="bg-muted/50 rounded-lg p-4 border">
                 <div className="flex items-center gap-2 text-muted-foreground mb-2">
                   <Package className="w-4 h-4" />
-                  <span className="text-sm">Total Items</span>
+                  <span className="text-sm">{t('orderDetail.totalItems')}</span>
                 </div>
                 <p className="text-2xl font-bold text-foreground">
                   {order.items}
@@ -90,7 +93,7 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-muted-foreground" />
                 <div className="flex-1">
-                  <p className="text-sm text-muted-foreground">Created Date</p>
+                  <p className="text-sm text-muted-foreground">{t('orderDetail.createdDate')}</p>
                   <p className="font-medium">
                     {new Date(order.createdAt).toLocaleDateString('en-US', { 
                       year: 'numeric', 
@@ -103,7 +106,7 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-muted-foreground" />
                 <div className="flex-1">
-                  <p className="text-sm text-muted-foreground">Due Date</p>
+                  <p className="text-sm text-muted-foreground">{t('orderDetail.dueDate')}</p>
                   <p className="font-medium">
                     {new Date(order.dueDate).toLocaleDateString('en-US', { 
                       year: 'numeric', 
@@ -120,7 +123,7 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
 
           {/* Description */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">Description</h3>
+            <h3 className="font-semibold text-lg">{t('orderDetail.description')}</h3>
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-foreground leading-relaxed">{order.description}</p>
             </div>
@@ -130,13 +133,13 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
 
           {/* Addresses */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">Addresses</h3>
+            <h3 className="font-semibold text-lg">{t('orderDetail.addresses')}</h3>
             <div className="space-y-3">
               <div className="bg-muted/50 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Shipping Address</p>
+                    <p className="text-sm text-muted-foreground mb-1">{t('orderDetail.shippingAddress')}</p>
                     <p className="font-medium">{order.shippingAddress}</p>
                   </div>
                 </div>
@@ -145,7 +148,7 @@ export const OrderDetailPanel = ({ order, open, onClose }: OrderDetailPanelProps
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Billing Address</p>
+                    <p className="text-sm text-muted-foreground mb-1">{t('orderDetail.billingAddress')}</p>
                     <p className="font-medium">{order.billingAddress}</p>
                   </div>
                 </div>
