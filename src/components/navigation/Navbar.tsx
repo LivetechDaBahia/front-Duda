@@ -1,11 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isDashboard = location.pathname === '/purchase-orders';
+  const { t } = useLocale();
 
   return (
     <nav className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
@@ -16,7 +19,7 @@ export const Navbar = () => {
               <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              OrderFlow
+              {t('nav.brandName')}
             </span>
           </Link>
 
@@ -28,7 +31,7 @@ export const Navbar = () => {
             >
               <Link to="/" className="flex items-center gap-2">
                 <Home className="w-4 h-4" />
-                Home
+                {t('nav.home')}
               </Link>
             </Button>
             
@@ -39,9 +42,11 @@ export const Navbar = () => {
             >
               <Link to="/purchase-orders" className="flex items-center gap-2">
                 <LayoutDashboard className="w-4 h-4" />
-                Purchase Orders
+                {t('nav.purchaseOrders')}
               </Link>
             </Button>
+
+            <LanguageSwitcher />
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { LayoutGrid, Table2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface DashboardHeaderProps {
   viewMode: 'kanban' | 'table';
@@ -7,16 +8,18 @@ interface DashboardHeaderProps {
 }
 
 export const DashboardHeader = ({ viewMode, onViewChange }: DashboardHeaderProps) => {
+  const { t } = useLocale();
+  
   return (
     <header className="border-b bg-card">
       <div className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Purchase Orders
+              {t('dashboard.title')}
             </h1>
             <p className="text-muted-foreground mt-1">
-              Manage and track all your purchase orders
+              {t('dashboard.subtitle')}
             </p>
           </div>
           
@@ -28,7 +31,7 @@ export const DashboardHeader = ({ viewMode, onViewChange }: DashboardHeaderProps
               className="transition-all"
             >
               <LayoutGrid className="w-4 h-4 mr-2" />
-              Kanban
+              {t('dashboard.viewKanban')}
             </Button>
             <Button
               variant={viewMode === 'table' ? 'default' : 'ghost'}
@@ -37,7 +40,7 @@ export const DashboardHeader = ({ viewMode, onViewChange }: DashboardHeaderProps
               className="transition-all"
             >
               <Table2 className="w-4 h-4 mr-2" />
-              Table
+              {t('dashboard.viewTable')}
             </Button>
           </div>
         </div>
