@@ -1,36 +1,29 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Package } from 'lucide-react';
+import { ArrowRight, Package, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/navigation/Navbar';
 import { UserProfile } from '@/components/welcome/UserProfile';
 import { TodayStats } from '@/components/welcome/TodayStats';
 import { PendingOrderCard } from '@/components/welcome/PendingOrderCard';
 import { OrderDetailPanel } from '@/components/dashboard/OrderDetailPanel';
-import { mockOrders } from '@/data/mockOrders';
 import { PurchaseOrder } from '@/types/order';
 import { useLocale } from '@/contexts/LocaleContext';
+import { useOrders } from '@/hooks/useOrders';
 
 const Welcome = () => {
   const { t } = useLocale();
-  const [orders, setOrders] = useState(mockOrders);
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  
+  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders();
 
   const handleApprove = (orderId: string) => {
-    setOrders(prev => prev.map(order => 
-      order.id === orderId 
-        ? { ...order, status: 'approved' as const, needsApproval: false }
-        : order
-    ));
+    approveOrder(orderId);
   };
 
   const handleDecline = (orderId: string) => {
-    setOrders(prev => prev.map(order => 
-      order.id === orderId 
-        ? { ...order, status: 'declined' as const, needsApproval: false }
-        : order
-    ));
+    declineOrder(orderId);
   };
 
   const handleViewDetails = (order: PurchaseOrder) => {
@@ -57,6 +50,41 @@ const Welcome = () => {
     pendingOrders.reduce((sum, order) => sum + order.value, 0),
     [pendingOrders]
   );
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main className="container mx-auto px-6 py-8">
+          <div className="mb-8 animate-fade-in">
+            <UserProfile />
+          </div>
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main className="container mx-auto px-6 py-8">
+          <div className="mb-8 animate-fade-in">
+            <UserProfile />
+          </div>
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <p className="text-destructive mb-2">Error loading orders</p>
+              <p className="text-sm text-muted-foreground">{error?.message || 'Unknown error'}</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
