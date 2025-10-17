@@ -1,6 +1,12 @@
 import { PurchaseOrder, OrderStatus } from "@/types/order";
+import { createApiClient } from "@/lib/apiClient";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
+// This will be initialized with the getToken function from AuthContext
+let apiClient: ReturnType<typeof createApiClient>;
+
+export const initializeOrderService = (getToken: () => string | null) => {
+  apiClient = createApiClient(getToken);
+};
 
 export const orderService = {
   // Fetch all orders
@@ -11,7 +17,6 @@ export const orderService = {
     status: string,
     branch: string,
   ): Promise<PurchaseOrder[]> {
-    const token = localStorage.getItem("token");
     const params = new URLSearchParams({
       userEmail: email,
       dateBegin: dateBegin,
@@ -19,24 +24,12 @@ export const orderService = {
       types: status,
       tenantId: branch,
     });
-    const response = await fetch(`${API_BASE_URL}/purchaseOrders?$?${params}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch orders");
-    }
-    return response.json();
+    return apiClient.get(`/purchaseOrders?${params}`);
   },
 
   // Fetch a single order by ID
   async getOrderById(orderId: string): Promise<PurchaseOrder> {
-    const response = await fetch(`${API_BASE_URL}/purchaseOrders/${orderId}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch order ${orderId}`);
-    }
-    return response.json();
+    return apiClient.get(`/purchaseOrders/${orderId}`);
   },
 
   // Update order status
@@ -44,17 +37,7 @@ export const orderService = {
     orderId: string,
     status: OrderStatus,
   ): Promise<PurchaseOrder> {
-    const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to update order ${orderId} status`);
-    }
-    return response.json();
+    return apiClient.patch(`/orders/${orderId}/status`, { status });
   },
 
   // Approve order
@@ -69,26 +52,11 @@ export const orderService = {
 
   // Create new order
   async createOrder(order: Omit<PurchaseOrder, "id">): Promise<PurchaseOrder> {
-    const response = await fetch(`${API_BASE_URL}/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    });
-    if (!response.ok) {
-      throw new Error("Failed to create order");
-    }
-    return response.json();
+    return apiClient.post("/orders", order);
   },
 
   // Delete order
   async deleteOrder(orderId: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to delete order ${orderId}`);
-    }
+    return apiClient.delete(`/orders/${orderId}`);
   },
 };
