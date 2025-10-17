@@ -1,12 +1,5 @@
 import { PurchaseOrder, OrderStatus } from "@/types/order";
-import { createApiClient } from "@/lib/apiClient";
-
-// This will be initialized with the getToken function from AuthContext
-let apiClient: ReturnType<typeof createApiClient>;
-
-export const initializeOrderService = (getToken: () => string | null) => {
-  apiClient = createApiClient(getToken);
-};
+import { apiClient } from "@/lib/apiClient";
 
 export const orderService = {
   // Fetch all orders

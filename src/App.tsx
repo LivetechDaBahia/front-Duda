@@ -6,7 +6,6 @@ import { ThemeProvider } from "./components/theme/ThemeProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { LocaleProvider } from "./contexts/LocaleContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-import { useOrderService } from "./hooks/useOrderService";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
@@ -14,8 +13,6 @@ import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
-  useOrderService();
-  
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />

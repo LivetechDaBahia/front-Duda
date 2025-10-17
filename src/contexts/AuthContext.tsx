@@ -6,98 +6,86 @@ import {
   ReactNode,
 } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 interface User {
   email: string;
   name: string;
   provider: "microsoft";
+  role?: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
   isLoading: boolean;
-  loginWithMicrosoft: () => Promise<void>;
-  logout: () => void;
-  getToken: () => string | null;
-  setAuthData: (user: User, token: string) => void;
+  loginWithMicrosoft: () => void;
+  logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load saved user and token on mount
-    const savedUser = localStorage.getItem("user");
-    const savedToken = localStorage.getItem("token");
-    
-    if (savedUser && savedToken) {
-      setUser(JSON.parse(savedUser));
-      setToken(savedToken);
-    }
-    
-    setIsLoading(false);
+    // Check if user is already authenticated on mount
+    checkAuth();
   }, []);
 
-  const setAuthData = (userData: User, authToken: string) => {
-    setUser(userData);
-    setToken(authToken);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", authToken);
-  };
-
-  const loginWithMicrosoft = async () => {
-    // Mock Microsoft SSO - In production, this will redirect to Microsoft OAuth
-    // or use MSAL library to handle the authentication flow
+  const checkAuth = async () => {
     setIsLoading(true);
-    
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // In production, this would:
-      // 1. Redirect to Microsoft OAuth or use MSAL popup/redirect
-      // 2. Receive authorization code
-      // 3. Exchange code for tokens via your backend
-      // 4. Backend validates and returns your app's JWT token
+      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+        credentials: 'include',
+      });
       
-      const mockUser: User = {
-        email: "user@company.com",
-        name: "Microsoft User",
-        provider: "microsoft",
-      };
-      
-      const mockToken = "mock-jwt-token-" + Date.now();
-
-      setAuthData(mockUser, mockToken);
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+  const loginWithMicrosoft = () => {
+    // Redirect to backend login endpoint
+    window.location.href = `${API_BASE_URL}/auth/login`;
   };
 
-  const getToken = () => {
-    return token;
+  const logout = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      setUser(null);
+      window.location.href = '/';
+    }
+  };
+
+  const refreshUser = async () => {
+    await checkAuth();
   };
 
   return (
     <AuthContext.Provider
       value={{ 
         user, 
-        token, 
         isLoading,
         loginWithMicrosoft, 
         logout, 
-        getToken,
-        setAuthData 
+        refreshUser 
       }}
     >
       {children}

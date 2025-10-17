@@ -16,13 +16,20 @@ export const Navbar = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
 
-  const handleLogout = () => {
-    logout();
-    toast({
-      title: t("auth.logoutSuccess") || "Logged out successfully",
-      description: t("auth.logoutDescription") || "You have been logged out",
-    });
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast({
+        title: t("auth.logoutSuccess") || "Logged out successfully",
+        description: t("auth.logoutDescription") || "You have been logged out",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Logout failed",
+        description: "Please try again",
+      });
+    }
   };
 
   return (

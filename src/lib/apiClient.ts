@@ -2,35 +2,26 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 class ApiClient {
   private baseURL: string;
-  private getToken: () => string | null;
 
-  constructor(baseURL: string, getToken: () => string | null) {
+  constructor(baseURL: string) {
     this.baseURL = baseURL;
-    this.getToken = getToken;
   }
 
   private async request(endpoint: string, options: RequestInit = {}) {
-    const token = this.getToken();
-
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       ...options.headers,
     };
 
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
       headers,
+      credentials: 'include', // Send cookies with every request
     });
 
-    // Handle 401 - token expired or invalid
+    // Handle 401 - redirect to backend login
     if (response.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      window.location.href = "/login";
+      window.location.href = `${this.baseURL}/auth/login`;
       throw new Error("Unauthorized - Please log in again");
     }
 
@@ -67,6 +58,5 @@ class ApiClient {
   }
 }
 
-export const createApiClient = (getToken: () => string | null) => {
-  return new ApiClient(API_BASE_URL, getToken);
-};
+// Export singleton instance
+export const apiClient = new ApiClient(API_BASE_URL);

@@ -24,21 +24,9 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const handleMicrosoftLogin = async () => {
-    try {
-      await loginWithMicrosoft();
-      toast({
-        title: "Login successful",
-        description: "Welcome back!",
-      });
-      navigate("/purchase-orders");
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: "Could not sign in with Microsoft",
-      });
-    }
+  const handleMicrosoftLogin = () => {
+    // Redirect to backend login endpoint
+    loginWithMicrosoft();
   };
 
   return (
