@@ -1,11 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
-import { OrderStatus, PurchaseOrder } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus } from "@/types/order";
+import { mockOrders } from "@/data/mockOrders";
 import { toast } from "sonner";
 import { useLocale } from "@/contexts/LocaleContext";
-
-// For development: use mock data when API is not available
-import { mockOrders } from "@/data/mockOrders";
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
 
@@ -14,7 +12,7 @@ interface UseOrdersReturn {
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
-  updateStatus: (params: { orderId: string; status: OrderStatus }) => void;
+  updateStatus: (params: { orderId: string; status: UIOrderStatus }) => void;
   approveOrder: (orderId: string) => void;
   declineOrder: (orderId: string) => void;
   isUpdating: boolean;
@@ -32,13 +30,13 @@ export const useOrders = (): UseOrdersReturn => {
   } = useQuery<PurchaseOrder[], Error>({
     queryKey: ["orders"],
     queryFn: async (): Promise<PurchaseOrder[]> => {
-      // Use mock data in development or when API is not configured
       if (USE_MOCK_DATA) {
         return new Promise<PurchaseOrder[]>((resolve) => {
           setTimeout(() => resolve(mockOrders), 500);
         });
       }
-      return orderService.getOrders();
+      // TODO: Replace with actual API parameters
+      return orderService.getOrders("", "", "", "", "") as any;
     },
   });
 
@@ -48,14 +46,14 @@ export const useOrders = (): UseOrdersReturn => {
       status,
     }: {
       orderId: string;
-      status: OrderStatus;
+      status: UIOrderStatus;
     }) => {
       if (USE_MOCK_DATA) {
         return new Promise((resolve) => {
           setTimeout(() => resolve({ orderId, status }), 300);
         });
       }
-      return orderService.updateOrderStatus(orderId, status);
+      return orderService.updateOrderStatus(orderId, status as any);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });

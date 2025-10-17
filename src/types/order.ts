@@ -1,3 +1,4 @@
+// API OrderStatus (from backend)
 export type OrderStatus = (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS];
 
 export const ORDER_STATUS = {
@@ -9,6 +10,15 @@ export const ORDER_STATUS = {
   REJECTED: "06",
   REJECTED_BLOCKED_OTHER_APPROVER: "07",
 } as const;
+
+// UI OrderStatus (for components)
+export type UIOrderStatus = 
+  | "pending"
+  | "processing"
+  | "approved"
+  | "completed"
+  | "declined"
+  | "cancelled";
 
 export const isPendingStatus = (status: OrderStatus | string): boolean => {
   // Handle string status values from Order.status
@@ -22,7 +32,8 @@ export const isPendingStatus = (status: OrderStatus | string): boolean => {
   );
 };
 
-export interface PurchaseOrder {
+// Backend PurchaseOrder structure (from API)
+export interface PurchaseOrderAPI {
   branch: string;
   branchName: string;
   userEmail: string;
@@ -36,6 +47,22 @@ export interface PurchaseOrder {
   };
   status: string;
   items: Issue[];
+}
+
+// UI PurchaseOrder structure (for components and mock data)
+export interface PurchaseOrder {
+  id: string;
+  clientName: string;
+  clientEmail: string;
+  value: number;
+  status: UIOrderStatus;
+  items: number;
+  createdAt: string;
+  dueDate: string;
+  description: string;
+  shippingAddress: string;
+  billingAddress: string;
+  needsApproval?: boolean;
 }
 
 export interface Issue {
@@ -60,12 +87,12 @@ export interface Issue {
   observation: string;
 }
 
-export interface PurchaseOrderItem {
+// Extended PurchaseOrderItem for UI (matches Issue structure)
+export interface PurchaseOrderItem extends Issue {
   id: string;
-  orderId: string;
-  name: string;
-  quantity: number;
-  price: number;
+  status: UIOrderStatus;
+  dueDate: string;
+  items: number;
 }
 
 export interface DetailedPurchaseOrder {

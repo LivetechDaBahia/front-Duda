@@ -4,7 +4,7 @@ import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { KanbanView } from "@/components/dashboard/KanbanView";
 import { TableView } from "@/components/dashboard/TableView";
 import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
-import { PurchaseOrder, OrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
 import { Loader2 } from "lucide-react";
 
@@ -22,7 +22,7 @@ const Index = () => {
     setIsPanelOpen(true);
   };
 
-  const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
+  const handleStatusChange = (orderId: string, newStatus: UIOrderStatus) => {
     updateStatus({ orderId, status: newStatus });
   };
 

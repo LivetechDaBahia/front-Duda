@@ -1,14 +1,14 @@
-import { PurchaseOrderItem, OrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { OrderCard } from "./OrderCard";
 import { useState } from "react";
 
 interface KanbanViewProps {
-  orders: PurchaseOrderItem[];
-  onOrderClick: (order: PurchaseOrderItem) => void;
-  onStatusChange: (orderId: string, newStatus: OrderStatus) => void;
+  orders: PurchaseOrder[];
+  onOrderClick: (order: PurchaseOrder) => void;
+  onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
 }
 
-const columns: { status: OrderStatus; label: string; color: string }[] = [
+const columns: { status: UIOrderStatus; label: string; color: string }[] = [
   { status: "pending", label: "Pending", color: "border-warning" },
   { status: "processing", label: "Processing", color: "border-info" },
   {
@@ -25,28 +25,13 @@ const columns: { status: OrderStatus; label: string; color: string }[] = [
   { status: "cancelled", label: "Cancelled", color: "border-destructive" },
 ];
 
-// Best-effort mapping from item status fields to UI OrderStatus
-const mapStatus = (item: PurchaseOrderItem): OrderStatus => {
-  const s = `${item.statusCode ?? ""} ${item.statusDescription ?? ""}`
-    .toLowerCase()
-    .trim();
-  if (s.includes("approved") || s.includes("aprov")) return "approved";
-  if (s.includes("declined") || s.includes("reprov")) return "declined";
-  if (s.includes("cancel")) return "cancelled";
-  if (s.includes("complete") || s.includes("finaliz") || s.includes("done"))
-    return "completed";
-  if (s.includes("process") || s.includes("em and") || s.includes("ongoing"))
-    return "processing";
-  return "pending";
-};
-
 export const KanbanView = ({
   orders,
   onOrderClick,
   onStatusChange,
 }: KanbanViewProps) => {
   const [draggedOrderId, setDraggedOrderId] = useState<string | null>(null);
-  const [dragOverColumn, setDragOverColumn] = useState<OrderStatus | null>(
+  const [dragOverColumn, setDragOverColumn] = useState<UIOrderStatus | null>(
     null,
   );
 
@@ -55,7 +40,7 @@ export const KanbanView = ({
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDragOver = (e: React.DragEvent, status: OrderStatus) => {
+  const handleDragOver = (e: React.DragEvent, status: UIOrderStatus) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     setDragOverColumn(status);
@@ -65,7 +50,7 @@ export const KanbanView = ({
     setDragOverColumn(null);
   };
 
-  const handleDrop = (e: React.DragEvent, newStatus: OrderStatus) => {
+  const handleDrop = (e: React.DragEvent, newStatus: UIOrderStatus) => {
     e.preventDefault();
     if (draggedOrderId) {
       onStatusChange(draggedOrderId, newStatus);
@@ -83,7 +68,7 @@ export const KanbanView = ({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
       {columns.map(({ status, label, color }) => {
         const columnOrders = orders.filter(
-          (order) => mapStatus(order) === status,
+          (order) => order.status === status,
         );
 
         const isDragOver = dragOverColumn === status;
@@ -111,7 +96,7 @@ export const KanbanView = ({
             >
               {columnOrders.map((order) => (
                 <OrderCard
-                  key={order.document}
+                  key={order.id}
                   order={order}
                   onClick={() => onOrderClick(order)}
                   onDragStart={handleDragStart}

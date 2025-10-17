@@ -1,11 +1,11 @@
-import { PurchaseOrderItem, OrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, DollarSign, User } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
 interface OrderCardProps {
-  order: PurchaseOrderItem;
+  order: PurchaseOrder;
   onClick: () => void;
   onDragStart?: (e: React.DragEvent, orderId: string) => void;
 }
@@ -21,27 +21,12 @@ const statusColors = {
   declined: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
-// Best-effort mapping from item status fields to UI OrderStatus
-const mapStatus = (item: PurchaseOrderItem): OrderStatus => {
-  const s = `${item.statusCode ?? ""} ${item.statusDescription ?? ""}`
-    .toLowerCase()
-    .trim();
-  if (s.includes("approved") || s.includes("aprov")) return "approved";
-  if (s.includes("declined") || s.includes("reprov")) return "declined";
-  if (s.includes("cancel")) return "cancelled";
-  if (s.includes("complete") || s.includes("finaliz") || s.includes("done"))
-    return "completed";
-  if (s.includes("process") || s.includes("em and") || s.includes("ongoing"))
-    return "processing";
-  return "pending";
-};
-
 export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
   const { t } = useLocale();
 
   const handleDragStart = (e: React.DragEvent) => {
     if (onDragStart) {
-      onDragStart(e, order.document);
+      onDragStart(e, order.id);
     }
   };
 
@@ -55,14 +40,14 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
       <div className="space-y-3">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="font-semibold text-foreground">{order.document}</p>
+            <p className="font-semibold text-foreground">{order.id}</p>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <User className="w-3 h-3" />
-              {order.supplier}
+              {order.clientName}
             </p>
           </div>
-          <Badge className={statusColors[mapStatus(order)]}>
-            {t(`status.${mapStatus(order)}`)}
+          <Badge className={statusColors[order.status]}>
+            {t(`status.${order.status}`)}
           </Badge>
         </div>
 
@@ -73,8 +58,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              {order.coinSymbol}
-              {order.coinValue.toLocaleString()}
+              ${order.value.toLocaleString()}
             </span>
           </div>
 
@@ -84,7 +68,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
               {t("order.dueDate")}
             </span>
             <span className="font-medium text-foreground">
-              {new Date(order.emission).toLocaleDateString()}
+              {new Date(order.createdAt).toLocaleDateString()}
             </span>
           </div>
         </div>

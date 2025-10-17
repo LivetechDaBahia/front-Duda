@@ -54,7 +54,7 @@ export const OrderDetailPanel = ({
                 {t("orderDetail.title")}
               </p>
             </div>
-            <Badge className={statusColors[order.status]}>
+            <Badge className={statusColors[order.status as keyof typeof statusColors]}>
               {t(`status.${order.status}`)}
             </Badge>
           </div>

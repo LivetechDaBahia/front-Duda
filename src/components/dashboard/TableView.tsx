@@ -1,4 +1,4 @@
-import { PurchaseOrderItem, OrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -21,9 +21,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
 interface TableViewProps {
-  orders: PurchaseOrderItem[];
-  onOrderClick: (order: PurchaseOrderItem) => void;
-  onStatusChange: (orderId: string, newStatus: OrderStatus) => void;
+  orders: PurchaseOrder[];
+  onOrderClick: (order: PurchaseOrder) => void;
+  onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
 }
 
 const statusColors = {
@@ -38,13 +38,13 @@ const statusColors = {
 };
 
 type SortField =
-  | "document"
-  | "supplier"
-  | "coinValue"
-  | "statusDescription"
-  | "emission";
+  | "id"
+  | "clientName"
+  | "value"
+  | "status"
+  | "createdAt";
 
-const allStatuses: OrderStatus[] = [
+const allStatuses: UIOrderStatus[] = [
   "pending",
   "processing",
   "approved",
@@ -52,21 +52,6 @@ const allStatuses: OrderStatus[] = [
   "declined",
   "cancelled",
 ];
-
-// Best-effort mapping from item status fields to UI OrderStatus
-const mapStatus = (item: PurchaseOrderItem): OrderStatus => {
-  const s = `${item.statusCode ?? ""} ${item.statusDescription ?? ""}`
-    .toLowerCase()
-    .trim();
-  if (s.includes("approved") || s.includes("aprov")) return "approved";
-  if (s.includes("declined") || s.includes("reprov")) return "declined";
-  if (s.includes("cancel")) return "cancelled";
-  if (s.includes("complete") || s.includes("finaliz") || s.includes("done"))
-    return "completed";
-  if (s.includes("process") || s.includes("em and") || s.includes("ongoing"))
-    return "processing";
-  return "pending";
-};
 
 export const TableView = ({
   orders,
@@ -89,13 +74,13 @@ export const TableView = ({
   const sortedOrders = [...orders].sort((a, b) => {
     const multiplier = sortDirection === "asc" ? 1 : -1;
 
-    if (sortField === "coinValue") {
-      return (a.coinValue - b.coinValue) * multiplier;
+    if (sortField === "value") {
+      return (a.value - b.value) * multiplier;
     }
 
-    if (sortField === "emission") {
+    if (sortField === "createdAt") {
       return (
-        (new Date(a.emission).getTime() - new Date(b.emission).getTime()) *
+        (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) *
         multiplier
       );
     }
@@ -114,7 +99,7 @@ export const TableView = ({
           <TableRow className="hover:bg-transparent">
             <TableHead>
               <button
-                onClick={() => handleSort("document")}
+                onClick={() => handleSort("id")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
                 {t("table.orderID")}
@@ -123,7 +108,7 @@ export const TableView = ({
             </TableHead>
             <TableHead>
               <button
-                onClick={() => handleSort("supplier")}
+                onClick={() => handleSort("clientName")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
                 {t("table.client")}
@@ -132,7 +117,7 @@ export const TableView = ({
             </TableHead>
             <TableHead>
               <button
-                onClick={() => handleSort("coinValue")}
+                onClick={() => handleSort("value")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
                 {t("table.value")}
@@ -142,7 +127,7 @@ export const TableView = ({
             <TableHead>{t("table.items")}</TableHead>
             <TableHead>
               <button
-                onClick={() => handleSort("statusDescription")}
+                onClick={() => handleSort("status")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
                 {t("table.status")}
@@ -152,7 +137,7 @@ export const TableView = ({
             <TableHead>{t("table.actions")}</TableHead>
             <TableHead>
               <button
-                onClick={() => handleSort("emission")}
+                onClick={() => handleSort("createdAt")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
                 {t("table.dueDate")}
@@ -164,27 +149,26 @@ export const TableView = ({
         <TableBody>
           {sortedOrders.map((order) => (
             <TableRow
-              key={order.document}
+              key={order.id}
               className="hover:bg-muted/50 transition-colors"
             >
               <TableCell
                 className="font-medium cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                {order.document}
+                {order.id}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                {order.supplier}
+                {order.clientName}
               </TableCell>
               <TableCell
                 className="font-semibold cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                {order.coinSymbol}
-                {order.coinValue.toLocaleString()}
+                ${order.value.toLocaleString()}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}
@@ -196,15 +180,9 @@ export const TableView = ({
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                <Badge className={statusColors[order.status]}>
+                <Badge className={statusColors[order.status as keyof typeof statusColors]}>
                   {t(`status.${order.status}`)}
                 </Badge>
-              </TableCell>
-              <TableCell
-                onClick={() => onOrderClick(order)}
-                className="cursor-pointer"
-              >
-                {new Date(order.dueDate).toLocaleDateString()}
               </TableCell>
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
@@ -239,6 +217,12 @@ export const TableView = ({
                       ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
+              </TableCell>
+              <TableCell
+                onClick={() => onOrderClick(order)}
+                className="cursor-pointer"
+              >
+                {new Date(order.dueDate).toLocaleDateString()}
               </TableCell>
             </TableRow>
           ))}
