@@ -74,7 +74,7 @@ export const PendingOrderCard = ({
             </div>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <User className="w-3 h-3" />
-              {order.clientName}
+              {order.supplierName}
             </p>
           </div>
           <Button

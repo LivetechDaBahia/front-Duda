@@ -52,16 +52,15 @@ export interface PurchaseOrderAPI {
 // UI PurchaseOrder structure (for components and mock data)
 export interface PurchaseOrder {
   id: string;
-  clientName: string;
-  clientEmail: string;
+  supplierName: string;
+  supplierEmail: string;
   value: number;
   status: UIOrderStatus;
   items: number;
   createdAt: string;
   dueDate: string;
   description: string;
-  shippingAddress: string;
-  billingAddress: string;
+  branch: string;
   needsApproval?: boolean;
 }
 

@@ -39,7 +39,7 @@ const statusColors = {
 
 type SortField =
   | "id"
-  | "clientName"
+  | "supplierName"
   | "value"
   | "status"
   | "createdAt";
@@ -108,10 +108,10 @@ export const TableView = ({
             </TableHead>
             <TableHead>
               <button
-                onClick={() => handleSort("clientName")}
+                onClick={() => handleSort("supplierName")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                {t("table.client")}
+                {t("table.supplier")}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
@@ -162,7 +162,7 @@ export const TableView = ({
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                {order.clientName}
+                {order.supplierName}
               </TableCell>
               <TableCell
                 className="font-semibold cursor-pointer"

@@ -61,19 +61,19 @@ export const OrderDetailPanel = ({
         </SheetHeader>
 
         <div className="mt-6 space-y-6">
-          {/* Client Information */}
+          {/* Supplier Information */}
           <div className="space-y-3">
             <h3 className="font-semibold text-lg">
-              {t("orderDetail.clientInfo")}
+              {t("orderDetail.supplierInfo")}
             </h3>
             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <User className="w-5 h-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("orderDetail.clientName")}
+                    {t("orderDetail.supplierName")}
                   </p>
-                  <p className="font-medium">{order.clientName}</p>
+                  <p className="font-medium">{order.supplierName}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -82,7 +82,7 @@ export const OrderDetailPanel = ({
                   <p className="text-sm text-muted-foreground">
                     {t("orderDetail.email")}
                   </p>
-                  <p className="font-medium">{order.clientEmail}</p>
+                  <p className="font-medium">{order.supplierEmail}</p>
                 </div>
               </div>
             </div>
@@ -167,32 +167,19 @@ export const OrderDetailPanel = ({
 
           <Separator />
 
-          {/* Addresses */}
+          {/* Branch Information */}
           <div className="space-y-3">
             <h3 className="font-semibold text-lg">
-              {t("orderDetail.addresses")}
+              {t("orderDetail.branch")}
             </h3>
-            <div className="space-y-3">
-              <div className="bg-muted/50 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {t("orderDetail.shippingAddress")}
-                    </p>
-                    <p className="font-medium">{order.shippingAddress}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-muted/50 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {t("orderDetail.billingAddress")}
-                    </p>
-                    <p className="font-medium">{order.billingAddress}</p>
-                  </div>
+            <div className="bg-muted/50 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {t("orderDetail.branchCode")}
+                  </p>
+                  <p className="font-medium">{order.branch}</p>
                 </div>
               </div>
             </div>
