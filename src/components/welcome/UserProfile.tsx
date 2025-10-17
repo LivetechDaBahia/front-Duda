@@ -3,16 +3,27 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const UserProfile = () => {
   const { t } = useLocale();
+  const { user: authUser } = useAuth();
 
-  // Mock user data - in real app this would come from auth/database
+  // Get initials from user name
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   const user = {
-    name: "Favio Senger",
+    name: authUser?.name || "User",
     role: t("profile.role"),
-    email: "favio.senger@wdcpartners.com.br",
-    initials: "FS",
+    email: authUser?.email || "",
+    initials: authUser?.name ? getInitials(authUser.name) : "U",
   };
 
   return (

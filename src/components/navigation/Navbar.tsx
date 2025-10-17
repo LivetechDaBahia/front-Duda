@@ -1,15 +1,29 @@
-import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Home } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Home, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/purchase-orders";
   const { t } = useLocale();
+  const { user, logout } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: t("auth.logoutSuccess") || "Logged out successfully",
+      description: t("auth.logoutDescription") || "You have been logged out",
+    });
+    navigate("/login");
+  };
 
   return (
     <nav className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
@@ -45,6 +59,18 @@ export const Navbar = () => {
 
             <LanguageSwitcher />
             <ThemeToggle />
+            
+            {user && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">{t("auth.logout") || "Logout"}</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>
