@@ -1,14 +1,14 @@
-import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { ThemeToggle } from '@/components/theme/ThemeToggle';
-import { useLocale } from '@/contexts/LocaleContext';
+import { Link, useLocation } from "react-router-dom";
+import { LayoutDashboard, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export const Navbar = () => {
   const location = useLocation();
-  const isHome = location.pathname === '/';
-  const isDashboard = location.pathname === '/purchase-orders';
+  const isHome = location.pathname === "/";
+  const isDashboard = location.pathname === "/purchase-orders";
   const { t } = useLocale();
 
   return (
@@ -20,30 +20,26 @@ export const Navbar = () => {
               <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              {t('nav.brandName')}
+              {t("nav.brandName")}
             </span>
           </Link>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant={isHome ? 'default' : 'ghost'}
-              size="sm"
-              asChild
-            >
+            <Button variant={isHome ? "default" : "ghost"} size="sm" asChild>
               <Link to="/" className="flex items-center gap-2">
                 <Home className="w-4 h-4" />
-                {t('nav.home')}
+                {t("nav.home")}
               </Link>
             </Button>
-            
+
             <Button
-              variant={isDashboard ? 'default' : 'ghost'}
+              variant={isDashboard ? "default" : "ghost"}
               size="sm"
               asChild
             >
               <Link to="/purchase-orders" className="flex items-center gap-2">
                 <LayoutDashboard className="w-4 h-4" />
-                {t('nav.purchaseOrders')}
+                {t("nav.purchaseOrders")}
               </Link>
             </Button>
 

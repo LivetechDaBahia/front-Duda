@@ -1,22 +1,22 @@
-import { Globe } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useLocale } from '@/contexts/LocaleContext';
+} from "@/components/ui/dropdown-menu";
+import { useLocale } from "@/contexts/LocaleContext";
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'pt-BR', name: 'Português (BR)', flag: '🇧🇷' },
-  { code: 'es-ES', name: 'Español (ES)', flag: '🇪🇸' },
+  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "pt-BR", name: "Português (BR)", flag: "🇧🇷" },
+  { code: "es-ES", name: "Español (ES)", flag: "🇪🇸" },
 ] as const;
 
 export const LanguageSwitcher = () => {
   const { locale, setLocale } = useLocale();
-  const currentLanguage = languages.find(lang => lang.code === locale);
+  const currentLanguage = languages.find((lang) => lang.code === locale);
 
   return (
     <DropdownMenu>

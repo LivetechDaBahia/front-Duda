@@ -1,5 +1,5 @@
-import { Card } from '@/components/ui/card';
-import { AlertCircle, Clock, TrendingUp } from 'lucide-react';
+import { Card } from "@/components/ui/card";
+import { AlertCircle, Clock, TrendingUp } from "lucide-react";
 
 interface TodayStatsProps {
   pendingCount: number;
@@ -7,7 +7,11 @@ interface TodayStatsProps {
   totalValue: number;
 }
 
-export const TodayStats = ({ pendingCount, urgentCount, totalValue }: TodayStatsProps) => {
+export const TodayStats = ({
+  pendingCount,
+  urgentCount,
+  totalValue,
+}: TodayStatsProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <Card className="p-5 bg-gradient-to-br from-warning/5 to-warning/10 border-warning/20">

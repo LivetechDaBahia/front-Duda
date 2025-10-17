@@ -1,13 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { orderService } from '@/services/orderService';
-import { OrderStatus, PurchaseOrder } from '@/types/order';
-import { toast } from 'sonner';
-import { useLocale } from '@/contexts/LocaleContext';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { orderService } from "@/services/orderService";
+import { OrderStatus, PurchaseOrder } from "@/types/order";
+import { toast } from "sonner";
+import { useLocale } from "@/contexts/LocaleContext";
 
 // For development: use mock data when API is not available
-import { mockOrders } from '@/data/mockOrders';
+import { mockOrders } from "@/data/mockOrders";
 
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== 'false';
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
 
 interface UseOrdersReturn {
   orders: PurchaseOrder[];
@@ -30,7 +30,7 @@ export const useOrders = (): UseOrdersReturn => {
     error,
     refetch,
   } = useQuery<PurchaseOrder[], Error>({
-    queryKey: ['orders'],
+    queryKey: ["orders"],
     queryFn: async (): Promise<PurchaseOrder[]> => {
       // Use mock data in development or when API is not configured
       if (USE_MOCK_DATA) {
@@ -43,7 +43,13 @@ export const useOrders = (): UseOrdersReturn => {
   });
 
   const updateStatusMutation = useMutation({
-    mutationFn: ({ orderId, status }: { orderId: string; status: OrderStatus }) => {
+    mutationFn: ({
+      orderId,
+      status,
+    }: {
+      orderId: string;
+      status: OrderStatus;
+    }) => {
       if (USE_MOCK_DATA) {
         return new Promise((resolve) => {
           setTimeout(() => resolve({ orderId, status }), 300);
@@ -52,8 +58,10 @@ export const useOrders = (): UseOrdersReturn => {
       return orderService.updateOrderStatus(orderId, status);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['orders'] });
-      toast.success(`${t('order.statusUpdated')} ${t(`status.${variables.status}`)}`);
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast.success(
+        `${t("order.statusUpdated")} ${t(`status.${variables.status}`)}`,
+      );
     },
     onError: (error) => {
       toast.error(`Error: ${error.message}`);
@@ -64,14 +72,14 @@ export const useOrders = (): UseOrdersReturn => {
     mutationFn: (orderId: string) => {
       if (USE_MOCK_DATA) {
         return new Promise((resolve) => {
-          setTimeout(() => resolve({ orderId, status: 'approved' }), 300);
+          setTimeout(() => resolve({ orderId, status: "approved" }), 300);
         });
       }
       return orderService.approveOrder(orderId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['orders'] });
-      toast.success(t('login.success'));
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast.success(t("login.success"));
     },
     onError: (error) => {
       toast.error(`Error: ${error.message}`);
@@ -82,14 +90,14 @@ export const useOrders = (): UseOrdersReturn => {
     mutationFn: (orderId: string) => {
       if (USE_MOCK_DATA) {
         return new Promise((resolve) => {
-          setTimeout(() => resolve({ orderId, status: 'declined' }), 300);
+          setTimeout(() => resolve({ orderId, status: "declined" }), 300);
         });
       }
       return orderService.declineOrder(orderId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['orders'] });
-      toast.success(t('login.success'));
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast.success(t("login.success"));
     },
     onError: (error) => {
       toast.error(`Error: ${error.message}`);
@@ -104,6 +112,9 @@ export const useOrders = (): UseOrdersReturn => {
     updateStatus: updateStatusMutation.mutate,
     approveOrder: approveMutation.mutate,
     declineOrder: declineMutation.mutate,
-    isUpdating: updateStatusMutation.isPending || approveMutation.isPending || declineMutation.isPending,
+    isUpdating:
+      updateStatusMutation.isPending ||
+      approveMutation.isPending ||
+      declineMutation.isPending,
   };
 };

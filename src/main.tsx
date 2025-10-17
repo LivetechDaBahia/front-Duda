@@ -10,5 +10,5 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <App />
     </ThemeProvider>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );

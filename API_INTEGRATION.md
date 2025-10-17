@@ -19,6 +19,7 @@ VITE_USE_MOCK_DATA=true
 The application expects the following API endpoints:
 
 ### Get All Orders
+
 - **Endpoint**: `GET /api/orders`
 - **Response**: Array of `PurchaseOrder` objects
 
@@ -28,7 +29,13 @@ interface PurchaseOrder {
   clientName: string;
   clientEmail: string;
   value: number;
-  status: 'pending' | 'processing' | 'approved' | 'completed' | 'declined' | 'cancelled';
+  status:
+    | "pending"
+    | "processing"
+    | "approved"
+    | "completed"
+    | "declined"
+    | "cancelled";
   items: number;
   createdAt: string;
   dueDate: string;
@@ -40,25 +47,31 @@ interface PurchaseOrder {
 ```
 
 ### Get Single Order
+
 - **Endpoint**: `GET /api/orders/:orderId`
 - **Response**: Single `PurchaseOrder` object
 
 ### Update Order Status
+
 - **Endpoint**: `PATCH /api/orders/:orderId/status`
 - **Request Body**:
+
 ```json
 {
   "status": "approved" | "declined" | "pending" | "processing" | "completed" | "cancelled"
 }
 ```
+
 - **Response**: Updated `PurchaseOrder` object
 
 ### Create Order
+
 - **Endpoint**: `POST /api/orders`
 - **Request Body**: `PurchaseOrder` object (without `id`)
 - **Response**: Created `PurchaseOrder` object with `id`
 
 ### Delete Order
+
 - **Endpoint**: `DELETE /api/orders/:orderId`
 - **Response**: 204 No Content
 
@@ -79,6 +92,7 @@ The API calls are centralized in `src/services/orderService.ts`. This service ha
 ## Data Fetching
 
 The application uses:
+
 - **React Query (@tanstack/react-query)** for data fetching, caching, and state management
 - **Custom Hook (`useOrders`)** that provides:
   - `orders`: Array of all orders
@@ -95,6 +109,7 @@ The application uses:
 Currently, the application uses mock authentication. When connecting to a real API, you'll need to:
 
 1. Add authentication tokens to API requests in `src/services/orderService.ts`:
+
 ```typescript
 headers: {
   'Content-Type': 'application/json',
@@ -114,6 +129,7 @@ headers: {
 ## Localization
 
 All user-facing messages support three languages:
+
 - English (en)
 - Portuguese Brazil (pt-BR)
 - Spanish Spain (es-ES)

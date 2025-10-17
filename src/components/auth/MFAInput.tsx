@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Shield } from 'lucide-react';
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Shield } from "lucide-react";
 
 interface MFAInputProps {
   onVerify: (code: string) => Promise<void>;
@@ -10,19 +10,19 @@ interface MFAInputProps {
 }
 
 export function MFAInput({ onVerify, onCancel }: MFAInputProps) {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsVerifying(true);
 
     try {
       await onVerify(code);
     } catch (err) {
-      setError('Invalid authentication code. Please try again.');
+      setError("Invalid authentication code. Please try again.");
     } finally {
       setIsVerifying(false);
     }
@@ -51,7 +51,7 @@ export function MFAInput({ onVerify, onCancel }: MFAInputProps) {
             maxLength={6}
             placeholder="000000"
             value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
             className="text-center text-2xl tracking-widest"
             autoComplete="one-time-code"
             autoFocus
@@ -73,7 +73,7 @@ export function MFAInput({ onVerify, onCancel }: MFAInputProps) {
             className="flex-1"
             disabled={code.length !== 6 || isVerifying}
           >
-            {isVerifying ? 'Verifying...' : 'Verify'}
+            {isVerifying ? "Verifying..." : "Verify"}
           </Button>
         </div>
       </form>

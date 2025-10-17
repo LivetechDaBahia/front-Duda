@@ -1,10 +1,18 @@
-import { PurchaseOrder } from '@/types/order';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Calendar, DollarSign, Package, User, CheckCircle, XCircle, Info } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { PurchaseOrder } from "@/types/order";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Calendar,
+  DollarSign,
+  Package,
+  User,
+  CheckCircle,
+  XCircle,
+  Info,
+} from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface PendingOrderCardProps {
   order: PurchaseOrder;
@@ -13,7 +21,12 @@ interface PendingOrderCardProps {
   onViewDetails: (order: PurchaseOrder) => void;
 }
 
-export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }: PendingOrderCardProps) => {
+export const PendingOrderCard = ({
+  order,
+  onApprove,
+  onDecline,
+  onViewDetails,
+}: PendingOrderCardProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleApprove = async () => {
@@ -37,9 +50,10 @@ export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }:
   };
 
   const daysUntilDue = Math.ceil(
-    (new Date(order.dueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+    (new Date(order.dueDate).getTime() - new Date().getTime()) /
+      (1000 * 60 * 60 * 24),
   );
-  
+
   const isUrgent = daysUntilDue <= 7;
 
   return (
@@ -49,7 +63,9 @@ export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }:
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <p className="font-semibold text-foreground text-lg">{order.id}</p>
+              <p className="font-semibold text-foreground text-lg">
+                {order.id}
+              </p>
               {isUrgent && (
                 <Badge className="bg-warning/10 text-warning border-warning/20">
                   Urgent
@@ -69,7 +85,7 @@ export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }:
             <Info className="w-4 h-4" />
           </Button>
         </div>
-        
+
         {/* Order Info */}
         <div className="grid grid-cols-3 gap-3 text-sm">
           <div className="space-y-1">
@@ -81,7 +97,7 @@ export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }:
               ${order.value.toLocaleString()}
             </p>
           </div>
-          
+
           <div className="space-y-1">
             <div className="flex items-center gap-1 text-muted-foreground">
               <Package className="w-3 h-3" />
@@ -89,13 +105,15 @@ export const PendingOrderCard = ({ order, onApprove, onDecline, onViewDetails }:
             </div>
             <p className="font-semibold text-foreground">{order.items}</p>
           </div>
-          
+
           <div className="space-y-1">
             <div className="flex items-center gap-1 text-muted-foreground">
               <Calendar className="w-3 h-3" />
               <span className="text-xs">Due in</span>
             </div>
-            <p className={`font-semibold ${isUrgent ? 'text-warning' : 'text-foreground'}`}>
+            <p
+              className={`font-semibold ${isUrgent ? "text-warning" : "text-foreground"}`}
+            >
               {daysUntilDue} days
             </p>
           </div>
