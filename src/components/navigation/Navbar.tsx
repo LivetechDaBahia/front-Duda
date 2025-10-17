@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/home";
   const isDashboard = location.pathname === "/purchase-orders";
   const { t } = useLocale();
   const { user, logout } = useAuth();
@@ -36,7 +36,7 @@ export const Navbar = () => {
     <nav className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/home" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center transition-transform group-hover:scale-110">
               <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
@@ -47,7 +47,7 @@ export const Navbar = () => {
 
           <div className="flex items-center gap-2">
             <Button variant={isHome ? "default" : "ghost"} size="sm" asChild>
-              <Link to="/" className="flex items-center gap-2">
+              <Link to="/home" className="flex items-center gap-2">
                 <Home className="w-4 h-4" />
                 {t("nav.home")}
               </Link>

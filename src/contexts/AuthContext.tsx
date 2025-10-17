@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Logout failed:', error);
     } finally {
       setUser(null);
-      window.location.href = '/';
+      window.location.href = '/home';
     }
   };
 
