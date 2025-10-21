@@ -25,7 +25,7 @@ const Welcome = () => {
   };
 
   const handleDecline = (orderId: string) => {
-    declineOrder(orderId);
+    declineOrder(orderId, "Declined by user");
   };
 
   const handleViewDetails = (order: PurchaseOrder) => {

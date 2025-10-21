@@ -59,6 +59,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.value": "Value",
     "order.dueDate": "Due",
     "order.statusUpdated": "Order status updated to",
+    "order.approveSuccess": "Order approved successfully",
+    "order.declineSuccess": "Order declined successfully",
 
     // Order Details
     "orderDetail.title": "Purchase Order Details",
@@ -161,6 +163,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.value": "Valor",
     "order.dueDate": "Vencimento",
     "order.statusUpdated": "Status da ordem atualizado para",
+    "order.approveSuccess": "Pedido aprovado com sucesso",
+    "order.declineSuccess": "Pedido recusado com sucesso",
 
     // Order Details
     "orderDetail.title": "Detalhes da Ordem de Compra",
@@ -262,7 +266,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.items": "artículos",
     "order.value": "Valor",
     "order.dueDate": "Vencimiento",
-    "order.statusUpdated": "Estado de la orden actualizado a",
+    "order.statusUpdated": "Estado del pedido actualizado a",
+    "order.approveSuccess": "Pedido aprobado exitosamente",
+    "order.declineSuccess": "Pedido rechazado exitosamente",
 
     // Order Details
     "orderDetail.title": "Detalles de la Orden de Compra",

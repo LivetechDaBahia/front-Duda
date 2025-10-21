@@ -1,26 +1,39 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
-import { PurchaseOrder, UIOrderStatus } from "@/types/order";
+import { PurchaseOrder } from "@/types/order";
 import { mockOrders } from "@/data/mockOrders";
 import { toast } from "sonner";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { transformAPIToUIOrders } from "@/lib/orderTransformer";
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
+
+interface UseOrdersParams {
+  dateBegin?: string;
+  dateEnd?: string;
+  types?: string;
+  tenantId?: string;
+}
 
 interface UseOrdersReturn {
   orders: PurchaseOrder[];
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
-  updateStatus: (params: { orderId: string; status: UIOrderStatus }) => void;
   approveOrder: (orderId: string) => void;
-  declineOrder: (orderId: string) => void;
+  declineOrder: (orderId: string, reason: string) => void;
   isUpdating: boolean;
 }
 
-export const useOrders = (): UseOrdersReturn => {
+export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   const queryClient = useQueryClient();
   const { t } = useLocale();
+  const { user } = useAuth();
+
+  // Default date range: current month
+  const defaultDateBegin = params?.dateBegin || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+  const defaultDateEnd = params?.dateEnd || new Date().toISOString().split('T')[0];
 
   const {
     data: orders = [],
@@ -28,42 +41,29 @@ export const useOrders = (): UseOrdersReturn => {
     error,
     refetch,
   } = useQuery<PurchaseOrder[], Error>({
-    queryKey: ["orders"],
+    queryKey: ["orders", user?.email, defaultDateBegin, defaultDateEnd, params?.types, params?.tenantId],
     queryFn: async (): Promise<PurchaseOrder[]> => {
       if (USE_MOCK_DATA) {
         return new Promise<PurchaseOrder[]>((resolve) => {
           setTimeout(() => resolve(mockOrders), 500);
         });
       }
-      // TODO: Replace with actual API parameters
-      return orderService.getOrders("", "", "", "", "") as any;
-    },
-  });
-
-  const updateStatusMutation = useMutation({
-    mutationFn: ({
-      orderId,
-      status,
-    }: {
-      orderId: string;
-      status: UIOrderStatus;
-    }) => {
-      if (USE_MOCK_DATA) {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve({ orderId, status }), 300);
-        });
+      
+      if (!user?.email) {
+        throw new Error("User email not available");
       }
-      return orderService.updateOrderStatus(orderId, status as any);
-    },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
-      toast.success(
-        `${t("order.statusUpdated")} ${t(`status.${variables.status}`)}`,
+
+      const apiData = await orderService.getOrders(
+        user.email,
+        defaultDateBegin,
+        defaultDateEnd,
+        params?.types || "01,02,03,04,05,06,07",
+        params?.tenantId || "01"
       );
+      
+      return transformAPIToUIOrders(apiData);
     },
-    onError: (error) => {
-      toast.error(`Error: ${error.message}`);
-    },
+    enabled: USE_MOCK_DATA || !!user?.email,
   });
 
   const approveMutation = useMutation({
@@ -73,32 +73,55 @@ export const useOrders = (): UseOrdersReturn => {
           setTimeout(() => resolve({ orderId, status: "approved" }), 300);
         });
       }
-      return orderService.approveOrder(orderId);
+      
+      if (!user?.email) {
+        throw new Error("User email not available");
+      }
+
+      return orderService.approveOrder({
+        orderId,
+        type: "PC",
+        approvalUserCode: "",
+        systemUserCode: "",
+        email: user.email,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      toast.success(t("login.success"));
+      toast.success(t("order.approveSuccess") || "Order approved successfully");
     },
-    onError: (error) => {
-      toast.error(`Error: ${error.message}`);
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to approve order");
     },
   });
 
   const declineMutation = useMutation({
-    mutationFn: (orderId: string) => {
+    mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) => {
       if (USE_MOCK_DATA) {
         return new Promise((resolve) => {
           setTimeout(() => resolve({ orderId, status: "declined" }), 300);
         });
       }
-      return orderService.declineOrder(orderId);
+      
+      if (!user?.email) {
+        throw new Error("User email not available");
+      }
+
+      return orderService.rejectOrder({
+        orderId,
+        type: "PC",
+        approvalUserCode: "",
+        systemUserCode: "",
+        email: user.email,
+        reason,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      toast.success(t("login.success"));
+      toast.success(t("order.declineSuccess") || "Order declined successfully");
     },
-    onError: (error) => {
-      toast.error(`Error: ${error.message}`);
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to decline order");
     },
   });
 
@@ -107,11 +130,10 @@ export const useOrders = (): UseOrdersReturn => {
     isLoading,
     error,
     refetch,
-    updateStatus: updateStatusMutation.mutate,
     approveOrder: approveMutation.mutate,
-    declineOrder: declineMutation.mutate,
+    declineOrder: (orderId: string, reason: string = "Declined by user") => 
+      declineMutation.mutate({ orderId, reason }),
     isUpdating:
-      updateStatusMutation.isPending ||
       approveMutation.isPending ||
       declineMutation.isPending,
   };
