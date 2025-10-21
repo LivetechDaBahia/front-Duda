@@ -42,11 +42,38 @@ export interface PurchaseOrderAPI {
   name: string;
   count: number;
   interval: {
-    start: Date;
-    end: Date;
+    start: string | Date;
+    end: string | Date;
   };
   status: string;
   items: Issue[];
+}
+
+// Approve/Reject DTOs
+export interface ApprovePurchaseOrderDto {
+  orderId: string;
+  type: string;
+  approvalUserCode: string;
+  systemUserCode: string;
+  email: string;
+  reversion?: boolean;
+}
+
+export interface RejectPurchaseOrderDto {
+  orderId: string;
+  type: string;
+  approvalUserCode: string;
+  systemUserCode: string;
+  email: string;
+  reason: string;
+}
+
+export interface ApprovalActionResponse {
+  code: number;
+  status: string;
+  message: string;
+  detail: string;
+  date: Date;
 }
 
 // UI PurchaseOrder structure (for components and mock data)

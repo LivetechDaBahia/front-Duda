@@ -1,55 +1,48 @@
-import { PurchaseOrder, OrderStatus } from "@/types/order";
+import { 
+  PurchaseOrderAPI, 
+  DetailedPurchaseOrder,
+  ApprovePurchaseOrderDto,
+  RejectPurchaseOrderDto,
+  ApprovalActionResponse
+} from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
 export const orderService = {
-  // Fetch all orders
+  // Fetch all orders - seeds approval cache for approve/reject
   async getOrders(
     email: string,
     dateBegin: string,
     dateEnd: string,
-    status: string,
-    branch: string,
-  ): Promise<PurchaseOrder[]> {
+    types: string = "01,02,03,04,05,06,07",
+    tenantId: string = "01",
+  ): Promise<PurchaseOrderAPI> {
     const params = new URLSearchParams({
       userEmail: email,
       dateBegin: dateBegin,
       dateEnd: dateEnd,
-      types: status,
-      tenantId: branch,
+      types: types,
+      tenantId: tenantId,
     });
     return apiClient.get(`/purchaseOrders?${params}`);
   },
 
   // Fetch a single order by ID
-  async getOrderById(orderId: string): Promise<PurchaseOrder> {
+  async getOrderById(orderId: string): Promise<DetailedPurchaseOrder> {
     return apiClient.get(`/purchaseOrders/${orderId}`);
   },
 
-  // Update order status
-  async updateOrderStatus(
-    orderId: string,
-    status: OrderStatus,
-  ): Promise<PurchaseOrder> {
-    return apiClient.patch(`/orders/${orderId}/status`, { status });
-  },
-
   // Approve order
-  async approveOrder(orderId: string): Promise<PurchaseOrder> {
-    return this.updateOrderStatus(orderId, "approved");
+  async approveOrder(dto: ApprovePurchaseOrderDto): Promise<ApprovalActionResponse> {
+    return apiClient.post("/purchaseOrders/approve", dto);
   },
 
-  // Decline order
-  async declineOrder(orderId: string): Promise<PurchaseOrder> {
-    return this.updateOrderStatus(orderId, "declined");
+  // Reject order
+  async rejectOrder(dto: RejectPurchaseOrderDto): Promise<ApprovalActionResponse> {
+    return apiClient.post("/purchaseOrders/reject", dto);
   },
 
   // Create new order
-  async createOrder(order: Omit<PurchaseOrder, "id">): Promise<PurchaseOrder> {
-    return apiClient.post("/orders", order);
-  },
-
-  // Delete order
-  async deleteOrder(orderId: string): Promise<void> {
-    return apiClient.delete(`/orders/${orderId}`);
+  async createOrder(order: any): Promise<any> {
+    return apiClient.post("/purchaseOrders", order);
   },
 };

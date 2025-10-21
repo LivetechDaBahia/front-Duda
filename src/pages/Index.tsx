@@ -23,7 +23,7 @@ const Index = () => {
     dateTo: undefined,
   });
 
-  const { orders, isLoading, error, updateStatus } = useOrders();
+  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders();
 
   // Filter orders based on user filters
   const filteredOrders = useMemo(() => {
@@ -69,7 +69,12 @@ const Index = () => {
   };
 
   const handleStatusChange = (orderId: string, newStatus: UIOrderStatus) => {
-    updateStatus({ orderId, status: newStatus });
+    // Map UI status changes to approve/decline actions
+    if (newStatus === "approved" || newStatus === "completed") {
+      approveOrder(orderId);
+    } else if (newStatus === "declined" || newStatus === "cancelled") {
+      declineOrder(orderId, "Status changed to declined");
+    }
   };
 
   if (isLoading) {
