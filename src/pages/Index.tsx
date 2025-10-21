@@ -9,6 +9,15 @@ import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
 import { Loader2 } from "lucide-react";
 import { mapUIStatusToAPITypes, formatDateForAPI } from "@/lib/statusMapper";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const Index = () => {
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
@@ -16,6 +25,8 @@ const Index = () => {
     null,
   );
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
     status: "all",
@@ -69,6 +80,19 @@ const Index = () => {
       return true;
     });
   }, [orders, filters]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const paginatedOrders = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredOrders.slice(startIndex, endIndex);
+  }, [filteredOrders, currentPage, itemsPerPage]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   const handleOrderClick = (order: PurchaseOrder) => {
     setSelectedOrder(order);
@@ -129,16 +153,66 @@ const Index = () => {
 
         {viewMode === "kanban" ? (
           <KanbanView
-            orders={filteredOrders}
+            orders={paginatedOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
           />
         ) : (
           <TableView
-            orders={filteredOrders}
+            orders={paginatedOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
           />
+        )}
+
+        {totalPages > 1 && (
+          <div className="mt-8">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  // Show first page, last page, current page, and pages around current
+                  if (
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
+                  ) {
+                    return (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  } else if (page === currentPage - 2 || page === currentPage + 2) {
+                    return (
+                      <PaginationItem key={page}>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    );
+                  }
+                  return null;
+                })}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
         )}
       </main>
 
