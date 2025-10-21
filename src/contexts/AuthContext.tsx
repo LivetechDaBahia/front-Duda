@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       await fetch(`${API_BASE_URL}/auth/me`, {
-        method: 'DELETE',
+        method: 'GET',
         credentials: 'include',
       });
     } catch (error) {
