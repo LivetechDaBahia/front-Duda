@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Package } from "lucide-react";
+import { Package, Home } from "lucide-react";
 
 export default function Login() {
   const { user, isLoading, loginWithMicrosoft } = useAuth();
@@ -45,7 +45,7 @@ export default function Login() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <Button
             type="button"
             variant="outline"
@@ -61,6 +61,17 @@ export default function Login() {
               <path fill="#ffba08" d="M12 12h10v10H12z" />
             </svg>
             {isLoading ? "Signing in..." : "Sign in with Microsoft"}
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="w-full"
+            asChild
+          >
+            <Link to="/home" className="flex items-center justify-center gap-2">
+              <Home className="h-4 w-4" />
+              Back to Home
+            </Link>
           </Button>
         </CardContent>
       </Card>
