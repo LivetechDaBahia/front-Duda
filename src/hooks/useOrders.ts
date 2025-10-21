@@ -22,7 +22,7 @@ interface UseOrdersReturn {
   error: Error | null;
   refetch: () => void;
   approveOrder: (orderId: string) => void;
-  declineOrder: (orderId: string, reason: string) => void;
+  declineOrder: (orderId: string, reason?: string) => void;
   isUpdating: boolean;
 }
 

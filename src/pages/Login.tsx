@@ -11,7 +11,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useLocale } from "@/contexts/LocaleContext";
-import { Package, Home } from "lucide-react";
+import { Package } from "lucide-react";
 
 export default function Login() {
   const { user, isLoading, loginWithMicrosoft } = useAuth();
@@ -63,17 +63,6 @@ export default function Login() {
               <path fill="#ffba08" d="M12 12h10v10H12z" />
             </svg>
             {isLoading ? t("login.verifying") : t("login.signInMicrosoft")}
-          </Button>
-          
-          <Button
-            variant="ghost"
-            className="w-full"
-            asChild
-          >
-            <Link to="/home" className="flex items-center justify-center gap-2">
-              <Home className="h-4 w-4" />
-              {t("login.backToHome")}
-            </Link>
           </Button>
         </CardContent>
       </Card>

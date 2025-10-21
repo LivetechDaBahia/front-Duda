@@ -17,7 +17,14 @@ import NotFound from "./pages/NotFound";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/home" element={<Welcome />} />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Welcome />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
