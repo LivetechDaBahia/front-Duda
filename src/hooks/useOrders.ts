@@ -1,13 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
 import { PurchaseOrder } from "@/types/order";
-import { mockOrders } from "@/data/mockOrders";
 import { toast } from "sonner";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { transformAPIToUIOrders } from "@/lib/orderTransformer";
-
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
 
 interface UseOrdersParams {
   dateBegin?: string;
@@ -43,12 +40,6 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   } = useQuery<PurchaseOrder[], Error>({
     queryKey: ["orders", user?.email, defaultDateBegin, defaultDateEnd, params?.types, params?.tenantId],
     queryFn: async (): Promise<PurchaseOrder[]> => {
-      if (USE_MOCK_DATA) {
-        return new Promise<PurchaseOrder[]>((resolve) => {
-          setTimeout(() => resolve(mockOrders), 500);
-        });
-      }
-      
       if (!user?.email) {
         throw new Error("User email not available");
       }
@@ -63,17 +54,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       
       return transformAPIToUIOrders(apiData);
     },
-    enabled: USE_MOCK_DATA || !!user?.email,
+    enabled: !!user?.email,
   });
 
   const approveMutation = useMutation({
     mutationFn: (orderId: string) => {
-      if (USE_MOCK_DATA) {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve({ orderId, status: "approved" }), 300);
-        });
-      }
-      
       if (!user?.email) {
         throw new Error("User email not available");
       }
@@ -97,12 +82,6 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
   const declineMutation = useMutation({
     mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) => {
-      if (USE_MOCK_DATA) {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve({ orderId, status: "declined" }), 300);
-        });
-      }
-      
       if (!user?.email) {
         throw new Error("User email not available");
       }
