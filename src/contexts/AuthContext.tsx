@@ -62,15 +62,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await fetch(`${API_BASE_URL}/auth/logout`, {
-        method: 'POST',
+      await fetch(`${API_BASE_URL}/auth/me`, {
+        method: 'DELETE',
         credentials: 'include',
       });
     } catch (error) {
       console.error('Logout failed:', error);
     } finally {
       setUser(null);
-      window.location.href = '/home';
+      window.location.href = '/logout';
     }
   };
 

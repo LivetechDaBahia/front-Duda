@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
 import PhoneVerification from "./pages/PhoneVerification";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/home" element={<Welcome />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
         path="/verify-phone"
