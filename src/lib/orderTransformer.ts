@@ -1,5 +1,16 @@
 import { PurchaseOrderAPI, PurchaseOrder, Issue, UIOrderStatus } from "@/types/order";
 
+// Convert Brazilian date format (dd/MM/yyyy) to ISO format (yyyy-MM-dd)
+const convertBrazilianDateToISO = (dateStr: string): string => {
+  if (!dateStr) return new Date().toISOString().split('T')[0];
+  
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) return new Date().toISOString().split('T')[0];
+  
+  const [day, month, year] = parts;
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+};
+
 // Map API status codes to UI status
 export const mapStatusToUI = (statusCode: string): UIOrderStatus => {
   switch (statusCode) {
@@ -20,20 +31,21 @@ export const mapStatusToUI = (statusCode: string): UIOrderStatus => {
 
 // Transform API Issue to UI PurchaseOrder
 export const transformIssueToOrder = (issue: Issue, branch: string): PurchaseOrder => {
-  const uiStatus = mapStatusToUI(issue.statusCode);
+  const uiStatus = mapStatusToUI(issue.StatusCode);
+  const emissionDate = convertBrazilianDateToISO(issue.Emission);
   
   return {
-    id: issue.document,
-    supplierName: issue.supplier || "Unknown Supplier",
+    id: issue.Document,
+    supplierName: issue.Supplier || "Unknown Supplier",
     supplierEmail: "", // Not provided by API
-    value: issue.releaseValue || issue.coinValue || 0,
+    value: issue.ReleaseValue || issue.CoinValue || 0,
     status: uiStatus,
     items: 1, // Each issue is one item
-    createdAt: issue.emission || new Date().toISOString(),
-    dueDate: issue.emission || new Date().toISOString(), // Use emission as dueDate since it's not provided
-    description: issue.observation || `${issue.type || "Order"} - ${issue.statusDescription || ""}`,
+    createdAt: emissionDate,
+    dueDate: emissionDate, // Use emission as dueDate since it's not provided
+    description: issue.Observation || `${issue.Type || "Order"} - ${issue.StatusDescription || ""}`,
     branch: branch,
-    needsApproval: issue.statusCode === "01" || issue.statusCode === "02",
+    needsApproval: issue.StatusCode === "01" || issue.StatusCode === "02",
   };
 };
 

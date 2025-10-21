@@ -92,25 +92,25 @@ export interface PurchaseOrder {
 }
 
 export interface Issue {
-  document: string;
-  type: string;
-  supplier: string;
-  emission: string;
-  level: string;
-  statusCode: string;
-  statusDescription: string;
-  coin: number;
-  coinName: string;
-  amount: number;
-  userLiberation: string;
-  userLibName: string;
-  currencyRate: number;
-  coinSymbol: string;
-  coinValue: number;
-  releaseValue: number;
-  codeGroup: string;
-  nameGroup: string;
-  observation: string;
+  Document: string;
+  Type: string;
+  Supplier: string;
+  Emission: string;
+  Level: string;
+  StatusCode: string;
+  StatusDescription: string;
+  Coin: number;
+  CoinName: string;
+  Amount: number;
+  UserLiberation: string;
+  UserLibName: string;
+  CurrencyRate: number;
+  CoinSymbol: string;
+  CoinValue: number;
+  ReleaseValue: number;
+  CodeGroup: string;
+  NameGroup: string;
+  Observation: string;
 }
 
 // Extended PurchaseOrderItem for UI (matches Issue structure)
