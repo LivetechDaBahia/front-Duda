@@ -73,7 +73,7 @@ const Index = () => {
     if (newStatus === "approved" || newStatus === "completed") {
       approveOrder(orderId);
     } else if (newStatus === "declined" || newStatus === "cancelled") {
-      declineOrder(orderId, "Status changed to declined");
+      declineOrder(orderId);
     }
   };
 
