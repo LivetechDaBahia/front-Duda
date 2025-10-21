@@ -25,6 +25,13 @@ class ApiClient {
       throw new Error("Unauthorized - Please log in again");
     }
 
+    // Handle 403 - permissions issue
+    if (response.status === 403) {
+      throw new Error(
+        "Access Denied: Your account doesn't have the required permissions (purchase_orders:read). Please contact your system administrator."
+      );
+    }
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
