@@ -10,6 +10,7 @@ import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import AuthCallback from "./pages/AuthCallback";
+import PhoneVerification from "./pages/PhoneVerification";
 import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
@@ -18,6 +19,14 @@ const AppRoutes = () => {
       <Route path="/home" element={<Welcome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route
+        path="/verify-phone"
+        element={
+          <ProtectedRoute>
+            <PhoneVerification />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/purchase-orders"
         element={
