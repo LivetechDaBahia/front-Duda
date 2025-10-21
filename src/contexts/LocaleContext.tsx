@@ -115,8 +115,13 @@ const translations: Record<Locale, Record<string, string>> = {
   "pt-BR": {
     // Navigation
     "nav.home": "Início",
-    "nav.purchaseOrders": "Ordens de Compra",
+    "nav.purchaseOrders": "Pedidos de Compra",
     "nav.brandName": "WDC Net",
+
+      // Auth
+      "auth.login": "Entrar",
+      "auth.logout": "Sair",
+
 
     // Login
     "login.title": "Bem-vindo de Volta",
@@ -140,8 +145,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.backToHome": "Voltar ao Início",
 
     // Dashboard
-    "dashboard.title": "Ordens de Compra",
-    "dashboard.subtitle": "Gerencie e acompanhe todas as suas ordens de compra",
+    "dashboard.title": "Pedidos de Compra",
+    "dashboard.subtitle": "Gerencie e acompanhe todas os seus Pedidos de compra",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Tabela",
 
@@ -160,19 +165,19 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.items": "itens",
     "order.value": "Valor",
     "order.dueDate": "Vencimento",
-    "order.statusUpdated": "Status da ordem atualizado para",
+    "order.statusUpdated": "Status do Pedido atualizado para",
 
     // Order Details
-    "orderDetail.title": "Detalhes da Ordem de Compra",
+    "orderDetail.title": "Detalhes do Pedido de Compra",
     "orderDetail.clientInfo": "Informações do Cliente",
     "orderDetail.clientName": "Nome do Cliente",
     "orderDetail.email": "E-mail",
-    "orderDetail.orderDetails": "Detalhes da Ordem",
+    "orderDetail.orderDetails": "Detalhes do Pedido",
     "orderDetail.description": "Descrição",
     "orderDetail.addresses": "Endereços",
     "orderDetail.billingAddress": "Endereço de Cobrança",
     "orderDetail.shippingAddress": "Endereço de Entrega",
-    "orderDetail.orderNumber": "Número da Ordem",
+    "orderDetail.orderNumber": "Número do Pedido",
     "orderDetail.createdDate": "Data de Criação",
     "orderDetail.dueDate": "Data de Vencimento",
     "orderDetail.itemCount": "Quantidade de Itens",
@@ -184,11 +189,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.todayOverview": "Visão Geral de Hoje",
     "welcome.todayStats": "Estatísticas de Hoje",
     "welcome.pendingApprovals": "Aprovações Pendentes",
-    "welcome.urgentOrders": "Ordens Urgentes",
+    "welcome.urgentOrders": "Pedidos Urgentes",
     "welcome.totalValue": "Valor Total",
     "welcome.recentActivity": "Atividade Recente",
-    "welcome.viewAll": "Ver Todas as Ordens",
-    "welcome.noPendingOrders": "Nenhuma ordem pendente de aprovação",
+    "welcome.viewAll": "Ver Todas os Pedidos",
+    "welcome.noPendingOrders": "Nenhum pedido pendente de aprovação",
     "welcome.allCaughtUp": "Ótimo trabalho! Você está em dia.",
 
     // Profile
@@ -202,8 +207,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "actions.declining": "Recusando...",
 
     // Table
-    "table.orderID": "ID da Ordem",
-    "table.orderNumber": "Ordem Nº",
+    "table.orderID": "ID do Pedido",
+    "table.orderNumber": "Pedido Nº",
     "table.client": "Cliente",
     "table.status": "Status",
     "table.value": "Valor",
