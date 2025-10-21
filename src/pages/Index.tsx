@@ -8,6 +8,7 @@ import { OrderFilters, FilterValues } from "@/components/dashboard/OrderFilters"
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
 import { Loader2 } from "lucide-react";
+import { mapUIStatusToAPITypes, formatDateForAPI } from "@/lib/statusMapper";
 
 const Index = () => {
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
@@ -23,7 +24,13 @@ const Index = () => {
     dateTo: undefined,
   });
 
-  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders();
+  // Pass API-level filters to useOrders
+  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders({
+    dateBegin: formatDateForAPI(filters.dateFrom),
+    dateEnd: formatDateForAPI(filters.dateTo),
+    types: mapUIStatusToAPITypes(filters.status),
+    tenantId: "01",
+  });
 
   // Filter orders based on user filters
   const filteredOrders = useMemo(() => {

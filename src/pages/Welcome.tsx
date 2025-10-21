@@ -10,6 +10,7 @@ import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
 import { PurchaseOrder } from "@/types/order";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useOrders } from "@/hooks/useOrders";
+import { mapUIStatusToAPITypes } from "@/lib/statusMapper";
 
 const Welcome = () => {
   const { t } = useLocale();
@@ -18,7 +19,11 @@ const Welcome = () => {
   );
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders();
+  // Fetch only pending orders for the welcome page
+  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders({
+    types: mapUIStatusToAPITypes("pending"),
+    tenantId: "01",
+  });
 
   const handleApprove = (orderId: string) => {
     approveOrder(orderId);
