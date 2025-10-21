@@ -35,6 +35,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.success": "Login successful!",
     "login.mfaSuccess": "MFA verification successful!",
     "login.mfaError": "Invalid MFA code. Please try again.",
+    "login.backToHome": "Back to Home",
 
     // Dashboard
     "dashboard.title": "Purchase Orders",
@@ -136,6 +137,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.success": "Login realizado com sucesso!",
     "login.mfaSuccess": "Verificação MFA bem-sucedida!",
     "login.mfaError": "Código MFA inválido. Tente novamente.",
+    "login.backToHome": "Voltar ao Início",
 
     // Dashboard
     "dashboard.title": "Ordens de Compra",
@@ -237,6 +239,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.success": "¡Inicio de sesión exitoso!",
     "login.mfaSuccess": "¡Verificación MFA exitosa!",
     "login.mfaError": "Código MFA inválido. Por favor, inténtalo de nuevo.",
+    "login.backToHome": "Volver al Inicio",
 
     // Dashboard
     "dashboard.title": "Órdenes de Compra",

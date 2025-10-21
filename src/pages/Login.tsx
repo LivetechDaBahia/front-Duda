@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { useLocale } from "@/contexts/LocaleContext";
 import { Package, Home } from "lucide-react";
 
 export default function Login() {
   const { user, isLoading, loginWithMicrosoft } = useAuth();
   const { toast } = useToast();
+  const { t } = useLocale();
   const navigate = useNavigate();
 
   // Redirect if already logged in
@@ -39,9 +41,9 @@ export default function Login() {
             </div>
           </div>
           <div className="space-y-2 text-center">
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl">{t("login.title")}</CardTitle>
             <CardDescription>
-              Sign in with your Microsoft account to continue
+              {t("login.subtitle")}
             </CardDescription>
           </div>
         </CardHeader>
@@ -60,7 +62,7 @@ export default function Login() {
               <path fill="#05a6f0" d="M1 12h10v10H1z" />
               <path fill="#ffba08" d="M12 12h10v10H12z" />
             </svg>
-            {isLoading ? "Signing in..." : "Sign in with Microsoft"}
+            {isLoading ? t("login.verifying") : t("login.signInMicrosoft")}
           </Button>
           
           <Button
@@ -70,7 +72,7 @@ export default function Login() {
           >
             <Link to="/home" className="flex items-center justify-center gap-2">
               <Home className="h-4 w-4" />
-              Back to Home
+              {t("login.backToHome")}
             </Link>
           </Button>
         </CardContent>
