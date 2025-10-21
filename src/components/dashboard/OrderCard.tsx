@@ -58,7 +58,7 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              ${order.value.toLocaleString()}
+              ${(order.value || 0).toLocaleString()}
             </span>
           </div>
 

@@ -94,7 +94,7 @@ export const PendingOrderCard = ({
               <span className="text-xs">Value</span>
             </div>
             <p className="font-semibold text-foreground">
-              ${order.value.toLocaleString()}
+              ${(order.value || 0).toLocaleString()}
             </p>
           </div>
 

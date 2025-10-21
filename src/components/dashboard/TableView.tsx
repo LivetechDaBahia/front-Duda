@@ -75,7 +75,7 @@ export const TableView = ({
     const multiplier = sortDirection === "asc" ? 1 : -1;
 
     if (sortField === "value") {
-      return (a.value - b.value) * multiplier;
+      return ((a.value || 0) - (b.value || 0)) * multiplier;
     }
 
     if (sortField === "createdAt") {
@@ -168,7 +168,7 @@ export const TableView = ({
                 className="font-semibold cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                ${order.value.toLocaleString()}
+                ${(order.value || 0).toLocaleString()}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}

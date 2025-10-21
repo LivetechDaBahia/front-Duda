@@ -46,7 +46,7 @@ export const TodayStats = ({
           <div>
             <p className="text-sm text-muted-foreground">Total Value</p>
             <p className="text-2xl font-bold text-foreground">
-              ${totalValue.toLocaleString()}
+              ${(totalValue || 0).toLocaleString()}
             </p>
           </div>
         </div>

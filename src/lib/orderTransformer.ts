@@ -26,14 +26,14 @@ export const transformIssueToOrder = (issue: Issue, branch: string): PurchaseOrd
   
   return {
     id: issue.document,
-    supplierName: issue.supplier,
+    supplierName: issue.supplier || "Unknown Supplier",
     supplierEmail: "", // Not provided by API
-    value: issue.releaseValue || issue.coinValue,
+    value: issue.releaseValue || issue.coinValue || 0,
     status: uiStatus,
     items: 1, // Each issue is one item
-    createdAt: issue.emission,
-    dueDate: issue.emission, // Use emission as dueDate since it's not provided
-    description: issue.observation || `${issue.type} - ${issue.statusDescription}`,
+    createdAt: issue.emission || new Date().toISOString(),
+    dueDate: issue.emission || new Date().toISOString(), // Use emission as dueDate since it's not provided
+    description: issue.observation || `${issue.type || "Order"} - ${issue.statusDescription || ""}`,
     branch: branch,
     needsApproval: issue.statusCode === "01" || issue.statusCode === "02",
   };

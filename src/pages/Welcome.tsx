@@ -59,7 +59,7 @@ const Welcome = () => {
   );
 
   const totalValue = useMemo(
-    () => pendingOrders.reduce((sum, order) => sum + order.value, 0),
+    () => pendingOrders.reduce((sum, order) => sum + (order.value || 0), 0),
     [pendingOrders],
   );
 
