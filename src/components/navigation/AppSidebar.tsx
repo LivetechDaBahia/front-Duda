@@ -10,6 +10,7 @@ import {
   Sidebar,
   SidebarBody,
   SidebarLink,
+  useSidebar,
 } from "@/components/ui/aceternity-sidebar";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ export const AppSidebar = () => {
   const { t } = useLocale();
   const { user, logout } = useAuth();
   const { toast } = useToast();
+  const { open } = useSidebar();
 
   const handleLogout = async () => {
     try {
@@ -68,21 +70,16 @@ export const AppSidebar = () => {
       <SidebarBody className="justify-between gap-10">
         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           {/* Logo */}
-          <div className="mb-8">
+          <div className="mb-8 flex justify-center">
             <motion.div
-              className="flex items-center gap-2 cursor-pointer"
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.05 }}
+              className="cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <LayoutDashboard className="w-6 h-6 text-white" />
-              </div>
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-              >
-                {t("nav.brandName")}
-              </motion.span>
+              <img 
+                src="/favicon.svg" 
+                alt="Logo" 
+                className="w-10 h-10"
+              />
             </motion.div>
           </div>
 
@@ -96,9 +93,9 @@ export const AppSidebar = () => {
 
         {/* Bottom Section - Controls */}
         <div className="flex flex-col gap-2 border-t pt-4">
-          <div className="flex items-center gap-2 px-2">
-            <LanguageSwitcher />
-            <ThemeToggle />
+          <div className="flex items-center justify-center gap-2 px-2">
+            <LanguageSwitcher collapsed={!open} />
+            <ThemeToggle collapsed={!open} />
           </div>
           
           {user && (
@@ -109,7 +106,15 @@ export const AppSidebar = () => {
               className="flex items-center gap-2 justify-start w-full"
             >
               <LogOut className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
-              <span className="text-sm">{t("auth.logout") || "Logout"}</span>
+              <motion.span 
+                className="text-sm"
+                animate={{
+                  display: open ? "inline-block" : "none",
+                  opacity: open ? 1 : 0,
+                }}
+              >
+                {t("auth.logout") || "Logout"}
+              </motion.span>
             </Button>
           )}
         </div>

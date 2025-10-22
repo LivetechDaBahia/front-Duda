@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLocale } from "@/contexts/LocaleContext";
+import { cn } from "@/lib/utils";
 
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },
@@ -14,16 +15,16 @@ const languages = [
   { code: "es-ES", name: "Español (ES)", flag: "🇪🇸" },
 ] as const;
 
-export const LanguageSwitcher = () => {
+export const LanguageSwitcher = ({ collapsed = false }: { collapsed?: boolean }) => {
   const { locale, setLocale } = useLocale();
   const currentLanguage = languages.find((lang) => lang.code === locale);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" size="sm" className={cn("gap-2", collapsed && "w-9 px-0")}>
           <Globe className="w-4 h-4" />
-          <span className="hidden sm:inline">{currentLanguage?.flag}</span>
+          {!collapsed && <span className="hidden sm:inline">{currentLanguage?.flag}</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
