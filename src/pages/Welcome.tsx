@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Navbar } from "@/components/navigation/Navbar";
 import { UserProfile } from "@/components/welcome/UserProfile";
 import { TodayStats } from "@/components/welcome/TodayStats";
 import { PendingOrderCard } from "@/components/welcome/PendingOrderCard";
@@ -66,7 +65,6 @@ const Welcome = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <main className="container mx-auto px-6 py-8">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
@@ -82,7 +80,6 @@ const Welcome = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <main className="container mx-auto px-6 py-8">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
@@ -102,7 +99,6 @@ const Welcome = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
 
       <main className="container mx-auto px-6 py-8">
         {/* User Profile */}

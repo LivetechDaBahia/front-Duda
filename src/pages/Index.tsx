@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { Navbar } from "@/components/navigation/Navbar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { KanbanView } from "@/components/dashboard/KanbanView";
 import { TableView } from "@/components/dashboard/TableView";
@@ -111,7 +110,6 @@ const Index = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
         <main className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-center h-64">
@@ -125,7 +123,6 @@ const Index = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
         <main className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-center h-64">
@@ -143,7 +140,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
 
       <main className="container mx-auto px-6 py-8">
