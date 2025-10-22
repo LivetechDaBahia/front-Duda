@@ -8,6 +8,12 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, isLoading } = useAuth();
+  const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
+
+  // Bypass authentication if flag is enabled
+  if (bypassAuth) {
+    return <>{children}</>;
+  }
 
   if (isLoading) {
     return (
