@@ -33,12 +33,11 @@ export const CreditDetailPanel = ({
 }: CreditDetailPanelProps) => {
   const { t } = useLocale();
 
-  // For now, we'll use statusId as creditId since that's what the API expects
   const { elementDetails, documents, quoteDocuments, clientDocuments, clientDetails, clientHistory, isLoading } =
     useCreditDetails({
-      creditId: credit?.statusId || null,
-      clientBranch: undefined, // Would need to extract from element details
-      clientId: undefined, // Would need to extract from element details
+      creditId: credit?.key || null,
+      clientBranch: credit?.entity || undefined,
+      clientId: credit?.details.client || undefined,
     });
 
   const formatCurrency = (value: number, currency: string = "BRL") => {
