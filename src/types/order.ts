@@ -121,11 +121,66 @@ export interface PurchaseOrderItem extends Issue {
   items: number;
 }
 
+// API Response for GET /purchaseOrders/:id
+export interface ApiDetailedOrder {
+  branch: string;
+  orderNumber: string;
+  dateOfCreate: string;
+  supplierCode: string;
+  supplierBranch: string;
+  supplierName: string;
+  shortenedName: string;
+  paymentCode: string;
+  paymentDescription: string;
+  totalValue: number;
+  buyerCode: string;
+  buyerName: string;
+  itens: ApiProduct[];
+}
+
+export interface ApiProduct {
+  item: string;
+  productCode: string;
+  productDescription: string;
+  partNumber: string;
+  unit: string;
+  amount: number;
+  unitPrice: number;
+  totalPrice: number;
+  costCenter: string;
+  Accounting: string;
+}
+
+// API Response for GET /purchaseOrders/approvalLevels/:id/:branch
+export interface ApiApprovalLevelsResponse {
+  levels: ApiApprovalLevel[];
+}
+
+export interface ApiApprovalLevel {
+  role: string;
+  date: string | null;
+  level: number;
+  status: string;
+}
+
+// API Response for GET /purchaseOrders/costCenter/:id
+export interface ApiCostCenterResponse {
+  costCenters: ApiCostCenter[];
+}
+
+export interface ApiCostCenter {
+  id: string;
+  description: string;
+  totalValue: number;
+  percentage: number;
+}
+
 export interface DetailedPurchaseOrder {
   id: string;
   branch: string;
   createdAt: Date;
   supplierCode: string;
+  supplierBranch: string;
   supplierName: string;
   shortenedSupplierName: string;
   paymentCode: string;
@@ -147,4 +202,19 @@ export interface Product {
   totalValue: number;
   costCenter: string;
   accountingCode: string;
+}
+
+export interface ApprovalLevel {
+  role: string;
+  date: Date | null;
+  level: number;
+  status: string;
+  statusDescription?: string;
+}
+
+export interface CostCenter {
+  id: string;
+  description: string;
+  totalValue: number;
+  percentage: number;
 }
