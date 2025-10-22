@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/components/welcome/UserProfile";
 import { TodayStats } from "@/components/welcome/TodayStats";
 import { PendingOrderCard } from "@/components/welcome/PendingOrderCard";
+import { NotificationsSection } from "@/components/welcome/NotificationsSection";
 import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
 import { PurchaseOrder } from "@/types/order";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -119,6 +120,11 @@ const Welcome = () => {
             urgentCount={urgentOrders.length}
             totalValue={totalValue}
           />
+        </div>
+
+        {/* Notifications */}
+        <div className="mb-8">
+          <NotificationsSection />
         </div>
 
         {/* Pending Approvals */}

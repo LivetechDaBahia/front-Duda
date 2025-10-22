@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
-import { LayoutDashboard, Home, LogOut } from "lucide-react";
+import { LayoutDashboard, Home, LogOut, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -61,6 +62,26 @@ const SidebarContent = () => {
             location.pathname === "/purchase-orders" ? "text-primary" : "text-muted-foreground"
           )}
         />
+      ),
+    },
+    {
+      label: t("nav.notifications"),
+      href: "/notifications",
+      icon: (
+        <div className="relative">
+          <Bell
+            className={cn(
+              "w-5 h-5 flex-shrink-0",
+              location.pathname === "/notifications" ? "text-primary" : "text-muted-foreground"
+            )}
+          />
+          <Badge 
+            className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
+            variant="destructive"
+          >
+            3
+          </Badge>
+        </div>
       ),
     },
   ];
