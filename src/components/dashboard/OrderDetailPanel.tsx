@@ -286,7 +286,7 @@ export const OrderDetailPanel = ({
             ) : error ? (
               <ErrorAlert error={error} />
             ) : orderDetails?.items && orderDetails.items.length > 0 ? (
-              <ProductsTable products={orderDetails.items} t={t} />
+              <ProductsTable products={orderDetails.items} coinSymbol={orderDetails.coinSymbol} t={t} />
             ) : (
               <EmptyState message={t("orderDetail.noProducts")} />
             )}
@@ -312,7 +312,7 @@ export const OrderDetailPanel = ({
             ) : error ? (
               <ErrorAlert error={error} />
             ) : costCenters && costCenters.length > 0 ? (
-              <CostCentersGrid costCenters={costCenters} t={t} />
+              <CostCentersGrid costCenters={costCenters} coinSymbol={orderDetails?.coinSymbol || "$"} t={t} />
             ) : (
               <EmptyState message={t("orderDetail.noCostCenters")} />
             )}
@@ -324,7 +324,7 @@ export const OrderDetailPanel = ({
 };
 
 // Component for Products Table
-const ProductsTable = ({ products, t }: { products: Product[]; t: (key: string) => string }) => (
+const ProductsTable = ({ products, coinSymbol, t }: { products: Product[]; coinSymbol: string; t: (key: string) => string }) => (
   <div className="border rounded-lg overflow-hidden">
     <Table>
       <TableHeader>
@@ -347,8 +347,8 @@ const ProductsTable = ({ products, t }: { products: Product[]; t: (key: string) 
             <TableCell>{product.partNumber}</TableCell>
             <TableCell>{product.unit}</TableCell>
             <TableCell className="text-right">{product.amount}</TableCell>
-            <TableCell className="text-right">${product.unitValue.toLocaleString()}</TableCell>
-            <TableCell className="text-right font-semibold">${product.totalValue.toLocaleString()}</TableCell>
+            <TableCell className="text-right">{coinSymbol}{product.unitValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
+            <TableCell className="text-right font-semibold">{coinSymbol}{product.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
             <TableCell>{product.costCenter}</TableCell>
           </TableRow>
         ))}
@@ -388,7 +388,7 @@ const ApprovalsTimeline = ({ levels, t }: { levels: ApprovalLevel[]; t: (key: st
 );
 
 // Component for Cost Centers Grid
-const CostCentersGrid = ({ costCenters, t }: { costCenters: CostCenter[]; t: (key: string) => string }) => (
+const CostCentersGrid = ({ costCenters, coinSymbol, t }: { costCenters: CostCenter[]; coinSymbol: string; t: (key: string) => string }) => (
   <div className="grid gap-4">
     {costCenters.map((center, index) => (
       <Card key={index}>
@@ -402,7 +402,7 @@ const CostCentersGrid = ({ costCenters, t }: { costCenters: CostCenter[]; t: (ke
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-sm">{t("orderDetail.costCenter.totalValue")}:</span>
-              <span className="font-semibold">${center.totalValue.toLocaleString()}</span>
+              <span className="font-semibold">{coinSymbol}{center.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm">{t("orderDetail.costCenter.percentage")}:</span>

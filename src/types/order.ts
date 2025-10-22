@@ -133,6 +133,7 @@ export interface ApiDetailedOrder {
   paymentCode: string;
   paymentDescription: string;
   totalValue: number;
+  coinSymbol: string;
   buyerCode: string;
   buyerName: string;
   itens: ApiProduct[];
@@ -186,6 +187,7 @@ export interface DetailedPurchaseOrder {
   paymentCode: string;
   paymentDescription: string;
   totalValue: number;
+  coinSymbol: string;
   buyerCode: string;
   buyerName: string;
   items: Product[];

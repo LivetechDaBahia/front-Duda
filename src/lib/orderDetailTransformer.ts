@@ -50,6 +50,7 @@ export const transformApiDetailedOrder = (apiOrder: ApiDetailedOrder): DetailedP
     paymentCode: apiOrder.paymentCode,
     paymentDescription: apiOrder.paymentDescription,
     totalValue: apiOrder.totalValue || 0,
+    coinSymbol: apiOrder.coinSymbol || "$",
     buyerCode: apiOrder.buyerCode,
     buyerName: apiOrder.buyerName,
     items: transformApiProducts(apiOrder.itens || []),
