@@ -13,8 +13,16 @@ import {
   SidebarLink,
   useSidebar,
 } from "@/components/ui/aceternity-sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { NotificationsSection } from "@/components/welcome/NotificationsSection";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const SidebarContent = () => {
   const location = useLocation();
@@ -22,6 +30,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -64,52 +73,60 @@ const SidebarContent = () => {
         />
       ),
     },
-    {
-      label: t("nav.notifications"),
-      href: "/notifications",
-      icon: (
-        <div className="relative">
-          <Bell
-            className={cn(
-              "w-5 h-5 flex-shrink-0",
-              location.pathname === "/notifications" ? "text-primary" : "text-muted-foreground"
-            )}
-          />
-          <Badge 
-            className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
-            variant="destructive"
-          >
-            3
-          </Badge>
-        </div>
-      ),
-    },
   ];
 
   return (
-    <SidebarBody className="justify-between gap-10">
-      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/* Logo */}
-        <div className="mb-8 flex justify-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="cursor-pointer"
-          >
-            <img 
-              src="/favicon.svg" 
-              alt="Logo" 
-              className="w-10 h-10"
-            />
-          </motion.div>
-        </div>
+    <>
+      <SidebarBody className="justify-between gap-10">
+        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          {/* Logo */}
+          <div className="mb-8 flex justify-center">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="cursor-pointer"
+            >
+              <img 
+                src="/favicon.svg" 
+                alt="Logo" 
+                className="w-10 h-10"
+              />
+            </motion.div>
+          </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-col gap-2">
-          {links.map((link, idx) => (
-            <SidebarLink key={idx} link={link} />
-          ))}
+          {/* Navigation Links */}
+          <div className="flex flex-col gap-2">
+            {links.map((link, idx) => (
+              <SidebarLink key={idx} link={link} />
+            ))}
+            
+            {/* Notifications Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setNotificationsOpen(true)}
+              className="flex items-center gap-2 justify-start w-full relative"
+            >
+              <div className="relative">
+                <Bell className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
+                <Badge 
+                  className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
+                  variant="destructive"
+                >
+                  3
+                </Badge>
+              </div>
+              <motion.span 
+                className="text-sm"
+                animate={{
+                  display: open ? "inline-block" : "none",
+                  opacity: open ? 1 : 0,
+                }}
+              >
+                {t("nav.notifications")}
+              </motion.span>
+            </Button>
+          </div>
         </div>
-      </div>
 
       {/* Bottom Section - Controls */}
       <div className="flex flex-col gap-2 border-t pt-4">
@@ -139,6 +156,16 @@ const SidebarContent = () => {
         )}
       </div>
     </SidebarBody>
+
+    <Dialog open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{t("nav.notifications")}</DialogTitle>
+        </DialogHeader>
+        <NotificationsSection />
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
 

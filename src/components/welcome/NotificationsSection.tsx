@@ -66,19 +66,7 @@ export const NotificationsSection = () => {
   };
 
   return (
-    <div className="animate-fade-in" style={{ animationDelay: "150ms" }}>
-      <div className="flex items-center gap-2 mb-4">
-        <Bell className="w-6 h-6 text-foreground" />
-        <h2 className="text-2xl font-bold text-foreground">
-          {t("welcome.notifications")}
-        </h2>
-        {mockNotifications.filter(n => !n.read).length > 0 && (
-          <Badge variant="destructive" className="ml-2">
-            {mockNotifications.filter(n => !n.read).length} new
-          </Badge>
-        )}
-      </div>
-
+    <div>
       <div className="space-y-3">
         {mockNotifications.map((notification) => (
           <Card
