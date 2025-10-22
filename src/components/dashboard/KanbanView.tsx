@@ -1,6 +1,7 @@
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { OrderCard } from "./OrderCard";
 import { useState } from "react";
+import {useLocale} from "@/contexts/LocaleContext.tsx";
 
 interface KanbanViewProps {
   orders: PurchaseOrder[];
@@ -8,26 +9,19 @@ interface KanbanViewProps {
   onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
 }
 
-const columns: { status: UIOrderStatus; label: string; color: string }[] = [
-  { status: "processing", label: "Processing", color: "border-info" },
-  {
-    status: "approved",
-    label: "Approved",
-    color: "border-[hsl(var(--success))]",
-  },
-  {
-    status: "completed",
-    label: "Completed",
-    color: "border-[hsl(var(--success))]",
-  },
-  { status: "declined", label: "Declined", color: "border-destructive" },
-];
 
 export const KanbanView = ({
   orders,
   onOrderClick,
   onStatusChange,
 }: KanbanViewProps) => {
+  const { t } = useLocale();
+
+  const columns: { status: UIOrderStatus; label: string; color: string }[] = [
+    { status: "pending", label: t("status.pending"), color: "border-info" },
+    { status: "approved", label: t("status.approved"), color: "border-[hsl(var(--success))]" },
+    { status: "declined", label: t("status.declined"), color: "border-destructive" },
+  ];
   const [draggedOrderId, setDraggedOrderId] = useState<string | null>(null);
   const [dragOverColumn, setDragOverColumn] = useState<UIOrderStatus | null>(
     null,
@@ -63,7 +57,7 @@ export const KanbanView = ({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
       {columns.map(({ status, label, color }) => {
         const columnOrders = orders.filter(
           (order) => order.status === status,
@@ -103,7 +97,7 @@ export const KanbanView = ({
 
               {columnOrders.length === 0 && (
                 <div className="text-center text-muted-foreground text-sm py-8 bg-muted/30 rounded-lg border-2 border-dashed">
-                  No orders
+                  {t("kanban.noOrders")}
                 </div>
               )}
             </div>

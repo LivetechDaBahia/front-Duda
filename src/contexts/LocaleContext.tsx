@@ -139,6 +139,9 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgent",
+
+    // Kanban
+    "kanban.noOrders": "No orders",
   },
   "pt-BR": {
     // Navigation
@@ -146,9 +149,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.purchaseOrders": "Pedidos de Compra",
     "nav.brandName": "WDC Net",
 
-      // Auth
-      "auth.login": "Entrar",
-      "auth.logout": "Sair",
+    // Auth
+    "auth.login": "Entrar",
+    "auth.logout": "Sair",
 
 
     // Login
@@ -262,6 +265,18 @@ const translations: Record<Locale, Record<string, string>> = {
     "actions.approving": "Aprovando...",
     "actions.declining": "Recusando...",
 
+    // Filters
+    "filters.filters": "Filtros",
+    "filters.search": "Pesquisar",
+    "filters.searchPlaceholder": "Pesquisa por número do pedido ou fornecedor",
+    "filters.status": "Status",
+    "filters.allStatuses": "Todos os Status",
+    "filters.branch": "Filial",
+    "filters.branchAll": "Todas as Filiais",
+    "filters.dateFrom": "Data a partir",
+    "filters.dateTo": "Data até",
+    "filters.selectDate": "Selecionar Data",
+
     // Table
     "table.orderID": "ID do Pedido",
     "table.orderNumber": "Pedido Nº",
@@ -274,6 +289,9 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgente",
+
+    // Kanban
+    "kanban.noOrders": "Nenhum pedido",
   },
   "es-ES": {
     // Navigation
@@ -404,6 +422,9 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgente",
+
+    // Kanban
+    "kanban.noOrders": "No hay órdenes",
   },
 };
 
