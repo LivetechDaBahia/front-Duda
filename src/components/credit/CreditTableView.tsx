@@ -25,10 +25,24 @@ export const CreditTableView = ({
   const { t } = useLocale();
 
   const formatCurrency = (value: number, currency: string) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: currency || "BRL",
-    }).format(value);
+    // Map currency symbols to ISO codes
+    const currencyMap: Record<string, string> = {
+      "R$": "BRL",
+      "US$": "USD",
+      "€": "EUR",
+    };
+    
+    const currencyCode = currencyMap[currency] || currency || "BRL";
+    
+    try {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: currencyCode,
+      }).format(value);
+    } catch (error) {
+      // Fallback if currency code is invalid
+      return `${currency} ${value.toFixed(2)}`;
+    }
   };
 
   return (
@@ -60,7 +74,7 @@ export const CreditTableView = ({
               const status = getCreditStatusById(credit.statusId, statuses);
               return (
                 <TableRow
-                  key={credit.id}
+                  key={`credit-table-${credit.id}`}
                   className="cursor-pointer hover:bg-muted/50"
                   onClick={() => onCreditClick(credit)}
                 >

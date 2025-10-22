@@ -54,7 +54,7 @@ export const CreditKanbanView = ({
                   ) : (
                     statusCredits.map((credit) => (
                       <CreditCard
-                        key={credit.id}
+                        key={`credit-${credit.id}`}
                         credit={credit}
                         statuses={statuses}
                         onClick={() => onCreditClick(credit)}

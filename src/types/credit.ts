@@ -9,7 +9,7 @@ export interface CreditItemDetails {
 }
 
 export interface CreditElementItem {
-  id: string;
+  id: number;
   flowId: string;
   name: string;
   statusId: string;

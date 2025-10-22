@@ -10,6 +10,9 @@ const CREDIT_ELEMENT_COLOR_MAP = {
  * Maps color name from API to hex color
  */
 export const mapCreditColor = (colorName: string): string => {
+  if (!colorName || colorName.trim() === "") {
+    return "#98ff98"; // Default to VERDE color if no color provided
+  }
   const normalized = colorName.trim().toUpperCase();
   return CREDIT_ELEMENT_COLOR_MAP[normalized as keyof typeof CREDIT_ELEMENT_COLOR_MAP] || colorName.trim();
 };

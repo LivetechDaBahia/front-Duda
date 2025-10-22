@@ -13,10 +13,24 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
   
   const formatCurrency = (value: number, currency: string) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: currency || "BRL",
-    }).format(value);
+    // Map currency symbols to ISO codes
+    const currencyMap: Record<string, string> = {
+      "R$": "BRL",
+      "US$": "USD",
+      "€": "EUR",
+    };
+    
+    const currencyCode = currencyMap[currency] || currency || "BRL";
+    
+    try {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: currencyCode,
+      }).format(value);
+    } catch (error) {
+      // Fallback if currency code is invalid
+      return `${currency} ${value.toFixed(2)}`;
+    }
   };
 
   return (
