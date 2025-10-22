@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { LayoutDashboard, Home, LogOut, Bell } from "lucide-react";
+import { Home, LogOut, Bell, FileCheck} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -65,7 +65,7 @@ const SidebarContent = () => {
       label: t("nav.purchaseOrders"),
       href: "/purchase-orders",
       icon: (
-        <LayoutDashboard
+        <FileCheck
           className={cn(
             "w-5 h-5 flex-shrink-0",
             location.pathname === "/purchase-orders" ? "text-primary" : "text-muted-foreground"
