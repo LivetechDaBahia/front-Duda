@@ -15,6 +15,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Navigation
     "nav.home": "Home",
     "nav.purchaseOrders": "Purchase Orders",
+    "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
     // Login
@@ -109,6 +110,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.greeting": "Welcome back",
     "welcome.todayOverview": "Today's Overview",
     "welcome.todayStats": "Today's Statistics",
+    "welcome.notifications": "Notifications",
     "welcome.pendingApprovals": "Pending Approvals",
     "welcome.urgentOrders": "Urgent Orders",
     "welcome.totalValue": "Total Value",
@@ -144,6 +146,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Navigation
     "nav.home": "Início",
     "nav.purchaseOrders": "Pedidos de Compra",
+    "nav.notifications": "Notificações",
     "nav.brandName": "WDC Net",
 
       // Auth
@@ -244,6 +247,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.greeting": "Bem-vindo de volta",
     "welcome.todayOverview": "Visão Geral de Hoje",
     "welcome.todayStats": "Estatísticas de Hoje",
+    "welcome.notifications": "Notificações",
     "welcome.pendingApprovals": "Aprovações Pendentes",
     "welcome.urgentOrders": "Pedidos Urgentes",
     "welcome.totalValue": "Valor Total",
@@ -279,6 +283,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Navigation
     "nav.home": "Inicio",
     "nav.purchaseOrders": "Órdenes de Compra",
+    "nav.notifications": "Notificaciones",
     "nav.brandName": "WDC Net",
 
     // Login
@@ -374,6 +379,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.greeting": "Bienvenido de nuevo",
     "welcome.todayOverview": "Resumen de Hoy",
     "welcome.todayStats": "Estadísticas de Hoy",
+    "welcome.notifications": "Notificaciones",
     "welcome.pendingApprovals": "Aprobaciones Pendientes",
     "welcome.urgentOrders": "Órdenes Urgentes",
     "welcome.totalValue": "Valor Total",
