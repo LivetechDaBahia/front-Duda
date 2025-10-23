@@ -96,127 +96,139 @@ export const CreditFilters = ({
             </Button>
           </CollapsibleTrigger>
 
-          <CollapsibleContent className="mt-4 space-y-4 border rounded-lg p-4 bg-card">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold">{t("filters")}</h3>
-              {hasActiveFilters && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearFilters}
-                  className="h-8"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {t("clearFilters")}
-                </Button>
-              )}
-            </div>
+          <CollapsibleContent className="mt-4">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-4 animate-slide-in">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Status Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium block">
+                    {t("status")}
+                  </label>
+                  <Select
+                    value={filters.status}
+                    onValueChange={(value) => updateFilter("status", value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t("allStatuses")}</SelectItem>
+                      {statuses.map((status) => (
+                        <SelectItem key={status.id} value={status.id}>
+                          {status.description}
+                          {status.destructive && " ⚠️"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">
-                  {t("status")}
-                </label>
-                <Select
-                  value={filters.status}
-                  onValueChange={(value) => updateFilter("status", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">{t("allStatuses")}</SelectItem>
-                    {statuses.map((status) => (
-                      <SelectItem key={status.id} value={status.id}>
-                        {status.description}
-                        {status.destructive && " ⚠️"}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">
-                  {t("credit.dateRange")}
-                </label>
-                <div className="grid grid-cols-2 gap-2">
+                {/* Date From */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium block">
+                    {t("startDate")}
+                  </label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
-                          "justify-start text-left font-normal",
+                          "w-full justify-start text-left font-normal",
                           !filters.dateBegin && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {filters.dateBegin ? format(filters.dateBegin, "PPP") : t("startDate")}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={filters.dateBegin}
                         onSelect={(date) => updateFilter("dateBegin", date)}
+                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
+                </div>
 
+                {/* Date To */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium block">
+                    {t("endDate")}
+                  </label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
-                          "justify-start text-left font-normal",
+                          "w-full justify-start text-left font-normal",
                           !filters.dateEnd && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {filters.dateEnd ? format(filters.dateEnd, "PPP") : t("endDate")}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={filters.dateEnd}
                         onSelect={(date) => updateFilter("dateEnd", date)}
+                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
                 </div>
+
+                {/* Min Value */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium block">
+                    {t("credit.minValue")}
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    value={filters.minValue || ""}
+                    onChange={(e) =>
+                      updateFilter(
+                        "minValue",
+                        e.target.value ? parseFloat(e.target.value) : undefined
+                      )
+                    }
+                  />
+                </div>
+
+                {/* Max Value */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium block">
+                    {t("credit.maxValue")}
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    value={filters.maxValue || ""}
+                    onChange={(e) =>
+                      updateFilter(
+                        "maxValue",
+                        e.target.value ? parseFloat(e.target.value) : undefined
+                      )
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">
-                  {t("credit.minValue")}
-                </label>
-                <Input
-                  type="number"
-                  placeholder="0"
-                  value={filters.minValue || ""}
-                  onChange={(e) =>
-                    updateFilter(
-                      "minValue",
-                      e.target.value ? parseFloat(e.target.value) : undefined
-                    )
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">
-                  {t("credit.maxValue")}
-                </label>
-                <Input
-                  type="number"
-                  placeholder="0"
-                  value={filters.maxValue || ""}
-                  onChange={(e) =>
-                    updateFilter(
-                      "maxValue",
-                      e.target.value ? parseFloat(e.target.value) : undefined
-                    )
-                  }
-                />
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  onClick={clearFilters}
+                  className="gap-2"
+                  disabled={!hasActiveFilters}
+                >
+                  <X className="w-4 h-4" />
+                  {t("clearFilters")}
+                </Button>
               </div>
             </div>
           </CollapsibleContent>
