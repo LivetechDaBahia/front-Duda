@@ -112,8 +112,8 @@ const Credit = () => {
     <div className="min-h-screen bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
-      <main className="container mx-auto px-6 py-8">
-        <div className="mb-6">
+      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
+        <div className="mb-4 sm:mb-6">
           <CreditFilters
             filters={filters}
             statuses={statuses}

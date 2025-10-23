@@ -46,20 +46,20 @@ export const CreditTableView = ({
   };
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t("credit.offer")}</TableHead>
-            <TableHead>{t("credit.client")}</TableHead>
-            <TableHead>{t("credit.value")}</TableHead>
-            <TableHead>{t("credit.currency")}</TableHead>
-            <TableHead>{t("credit.seller")}</TableHead>
-            <TableHead>{t("credit.paymentConditions")}</TableHead>
-            <TableHead>{t("credit.type")}</TableHead>
-            <TableHead>{t("status")}</TableHead>
-            <TableHead>{t("credit.group")}</TableHead>
-            <TableHead>{t("credit.user")}</TableHead>
+            <TableHead className="whitespace-nowrap">{t("credit.offer")}</TableHead>
+            <TableHead className="whitespace-nowrap">{t("credit.client")}</TableHead>
+            <TableHead className="whitespace-nowrap">{t("credit.value")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden sm:table-cell">{t("credit.currency")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("credit.seller")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.paymentConditions")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("credit.type")}</TableHead>
+            <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.group")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.user")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -78,30 +78,31 @@ export const CreditTableView = ({
                   className="cursor-pointer hover:bg-muted/50"
                   onClick={() => onCreditClick(credit)}
                 >
-                  <TableCell className="font-medium">
+                  <TableCell className="font-medium whitespace-nowrap">
                     {credit.details.offer}
                   </TableCell>
-                  <TableCell>{credit.details.client}</TableCell>
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap">{credit.details.client}</TableCell>
+                  <TableCell className="whitespace-nowrap">
                     {formatCurrency(credit.details.value, credit.details.currency)}
                   </TableCell>
-                  <TableCell>{credit.details.currency}</TableCell>
-                  <TableCell>{credit.details.sellerName}</TableCell>
-                  <TableCell className="max-w-xs truncate">
+                  <TableCell className="whitespace-nowrap hidden sm:table-cell">{credit.details.currency}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden md:table-cell">{credit.details.sellerName}</TableCell>
+                  <TableCell className="max-w-xs truncate hidden lg:table-cell">
                     {credit.details.paymentConditions}
                   </TableCell>
-                  <TableCell>{credit.details.type}</TableCell>
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap hidden md:table-cell">{credit.details.type}</TableCell>
+                  <TableCell className="whitespace-nowrap">
                     {status && (
                       <Badge
                         variant={status.destructive ? "destructive" : "secondary"}
+                        className="text-xs"
                       >
                         {status.description}
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell>{credit.group}</TableCell>
-                  <TableCell>{credit.user || "-"}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{credit.group}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{credit.user || "-"}</TableCell>
                 </TableRow>
               );
             })

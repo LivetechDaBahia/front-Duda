@@ -39,10 +39,10 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
       style={{ borderLeftColor: credit.color }}
       onClick={onClick}
     >
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm truncate">{credit.details.offer}</h3>
+            <h3 className="font-semibold text-xs sm:text-sm truncate">{credit.details.offer}</h3>
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.client}
             </p>
@@ -50,15 +50,15 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
           {status && (
             <Badge
               variant={status.destructive ? "destructive" : "secondary"}
-              className="shrink-0"
+              className="shrink-0 text-xs"
             >
               {status.description}
             </Badge>
           )}
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-2">
-        <div className="flex items-center justify-between text-sm">
+      <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
+        <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">Value:</span>
           <span className="font-medium">
             {formatCurrency(credit.details.value, credit.details.currency)}
