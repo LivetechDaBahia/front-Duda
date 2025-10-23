@@ -6,9 +6,7 @@ import { CreditTableView } from "@/components/credit/CreditTableView";
 import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import type { CreditElementItem, CreditFilters as CreditFiltersType } from "@/types/credit";
 
 const Credit = () => {
@@ -79,25 +77,43 @@ const Credit = () => {
   const isLoading = isLoadingCredits || isLoadingStatuses;
   const error = creditsError || statusesError;
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <CreditHeader view={view} onViewChange={setView} />
+        <main className="container mx-auto px-6 py-8">
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   if (error) {
     return (
-      <div className="container mx-auto p-6">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error instanceof Error ? error.message : "Failed to load credit data"}
-          </AlertDescription>
-        </Alert>
+      <div className="min-h-screen bg-background">
+        <CreditHeader view={view} onViewChange={setView} />
+        <main className="container mx-auto px-6 py-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <p className="text-destructive mb-2">Error loading credit data</p>
+              <p className="text-sm text-muted-foreground">
+                {error instanceof Error ? error.message : "Unknown error"}
+              </p>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="min-h-screen bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-1">
+      <main className="container mx-auto px-6 py-8">
+        <div className="mb-6">
           <CreditFilters
             filters={filters}
             statuses={statuses}
@@ -105,28 +121,26 @@ const Credit = () => {
           />
         </div>
 
-        <div className="lg:col-span-3">
-          {isLoading ? (
-            <div className="space-y-4">
-              <Skeleton className="h-32 w-full" />
-              <Skeleton className="h-32 w-full" />
-              <Skeleton className="h-32 w-full" />
-            </div>
-          ) : view === "kanban" ? (
-            <CreditKanbanView
-              credits={filteredCredits}
-              statuses={statuses}
-              onCreditClick={setSelectedCredit}
-            />
-          ) : (
-            <CreditTableView
-              credits={filteredCredits}
-              statuses={statuses}
-              onCreditClick={setSelectedCredit}
-            />
-          )}
-        </div>
-      </div>
+        {isLoading ? (
+          <div className="space-y-4">
+            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+          </div>
+        ) : view === "kanban" ? (
+          <CreditKanbanView
+            credits={filteredCredits}
+            statuses={statuses}
+            onCreditClick={setSelectedCredit}
+          />
+        ) : (
+          <CreditTableView
+            credits={filteredCredits}
+            statuses={statuses}
+            onCreditClick={setSelectedCredit}
+          />
+        )}
+      </main>
 
       <CreditDetailPanel
         credit={selectedCredit}
