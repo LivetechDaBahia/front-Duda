@@ -1,4 +1,11 @@
-import type { CreditElementItem, CreditStatus } from "@/types/credit";
+import type {
+  CreditElementItem,
+  CreditStatus,
+  CreditElementDetails,
+  CreditDocument,
+  CreditClientDetails,
+  FinancialHistory,
+} from "@/types/credit";
 
 // Flag to enable/disable mock data - set to false to use real API data
 export const USE_MOCK_CREDIT_DATA = true;
@@ -243,3 +250,251 @@ export const mockCredits: CreditElementItem[] = [
     },
   },
 ];
+
+export const mockCreditElementDetails: Record<string, CreditElementDetails> = {
+  "1": {
+    branch: "01",
+    id: "1",
+    emissionDate: new Date("2025-03-15"),
+    value: 150000,
+    message1: "Payment terms: 30/60/90 days",
+    message2: "Standard credit analysis completed",
+    standardMessage: "Approved for industrial sector",
+    shippingType: "FOB",
+    shippingCost: 2500,
+  },
+  "2": {
+    branch: "01",
+    id: "2",
+    emissionDate: new Date("2025-03-16"),
+    value: 75000,
+    message1: "Express processing requested",
+    message2: "Documentation pending",
+    standardMessage: "Under review by credit team",
+    shippingType: "CIF",
+    shippingCost: 1800,
+  },
+};
+
+export const mockCreditDocuments: Record<string, CreditDocument[]> = {
+  "1": [
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "1",
+      docTitle: "Sales Order SO-2025-001",
+      docDescription: "Original sales order documentation",
+      docObject: "SALES_ORDER",
+      path: "/documents/sales/SO-2025-001.pdf",
+    },
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "1",
+      docTitle: "Credit Application Form",
+      docDescription: "Completed credit application",
+      docObject: "CREDIT_APP",
+      path: "/documents/sales/CA-2025-001.pdf",
+    },
+  ],
+  "2": [
+    {
+      branch: "01",
+      entity: "CLIENT-002",
+      entityId: "2",
+      docTitle: "Sales Order SO-2025-002",
+      docDescription: "Express order documentation",
+      docObject: "SALES_ORDER",
+      path: "/documents/sales/SO-2025-002.pdf",
+    },
+  ],
+};
+
+export const mockQuoteDocuments: Record<string, CreditDocument[]> = {
+  "1": [
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "1",
+      docTitle: "Quote OF-2025-0321",
+      docDescription: "Original quotation document",
+      docObject: "QUOTE",
+      path: "/documents/quotes/OF-2025-0321.pdf",
+    },
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "1",
+      docTitle: "Revised Quote OF-2025-0321-R1",
+      docDescription: "Revised pricing and terms",
+      docObject: "QUOTE",
+      path: "/documents/quotes/OF-2025-0321-R1.pdf",
+    },
+  ],
+  "2": [
+    {
+      branch: "01",
+      entity: "CLIENT-002",
+      entityId: "2",
+      docTitle: "Quote OF-2025-0322",
+      docDescription: "Express quote for tech solutions",
+      docObject: "QUOTE",
+      path: "/documents/quotes/OF-2025-0322.pdf",
+    },
+  ],
+};
+
+export const mockClientDocuments: Record<string, CreditDocument[]> = {
+  "CLIENT-001": [
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "CLIENT-001",
+      docTitle: "Company Registration",
+      docDescription: "Legal entity registration documents",
+      docObject: "REGISTRATION",
+      path: "/documents/clients/CLIENT-001-registration.pdf",
+    },
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "CLIENT-001",
+      docTitle: "Financial Statements 2024",
+      docDescription: "Annual financial statements",
+      docObject: "FINANCIAL",
+      path: "/documents/clients/CLIENT-001-financial-2024.pdf",
+    },
+    {
+      branch: "01",
+      entity: "CLIENT-001",
+      entityId: "CLIENT-001",
+      docTitle: "Tax Certificate",
+      docDescription: "Current tax compliance certificate",
+      docObject: "TAX",
+      path: "/documents/clients/CLIENT-001-tax.pdf",
+    },
+  ],
+  "CLIENT-002": [
+    {
+      branch: "01",
+      entity: "CLIENT-002",
+      entityId: "CLIENT-002",
+      docTitle: "Company Registration",
+      docDescription: "Legal entity registration documents",
+      docObject: "REGISTRATION",
+      path: "/documents/clients/CLIENT-002-registration.pdf",
+    },
+  ],
+};
+
+export const mockClientDetails: Record<string, CreditClientDetails> = {
+  "CLIENT-001": {
+    legalEntityType: "LTDA",
+    cgc: "12.345.678/0001-90",
+    susbcription: "123456789",
+    name: "ABC Industrial Ltda",
+    simplification: "ABC IND",
+    billingAddress: "Av. Industrial, 1000",
+    billingAddress2: "Distrito Industrial",
+    district: "Centro",
+    state: "SP",
+    zipCode: "01234-567",
+    risk: "LOW",
+    currency: "BRL",
+    lc: 500000,
+    lcExpiry: new Date("2025-12-31"),
+    group: "Industrial",
+    marketCode: "IND-001",
+  },
+  "CLIENT-002": {
+    legalEntityType: "SA",
+    cgc: "98.765.432/0001-10",
+    susbcription: "987654321",
+    name: "Tech Solutions SA",
+    simplification: "TECH SOL",
+    billingAddress: "Rua Tecnologia, 500",
+    billingAddress2: "Sala 1001",
+    district: "Itaim Bibi",
+    state: "SP",
+    zipCode: "04567-890",
+    risk: "MEDIUM",
+    currency: "USD",
+    lc: 250000,
+    lcExpiry: new Date("2025-09-30"),
+    group: "Retail",
+    marketCode: "RET-002",
+  },
+};
+
+export const mockClientHistory: Record<string, FinancialHistory[]> = {
+  "CLIENT-001": [
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2025001",
+      parcel: "1/3",
+      type: "INVOICE",
+      emission: new Date("2025-01-15"),
+      value: 50000,
+      expiration: new Date("2025-02-15"),
+      posted: new Date("2025-02-14"),
+    },
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2025001",
+      parcel: "2/3",
+      type: "INVOICE",
+      emission: new Date("2025-01-15"),
+      value: 50000,
+      expiration: new Date("2025-03-15"),
+      posted: new Date("2025-03-14"),
+    },
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2025001",
+      parcel: "3/3",
+      type: "INVOICE",
+      emission: new Date("2025-01-15"),
+      value: 50000,
+      expiration: new Date("2025-04-15"),
+      posted: null,
+    },
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2024089",
+      parcel: "1/1",
+      type: "INVOICE",
+      emission: new Date("2024-12-10"),
+      value: 75000,
+      expiration: new Date("2025-01-10"),
+      posted: new Date("2025-01-09"),
+    },
+  ],
+  "CLIENT-002": [
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2025002",
+      parcel: "1/1",
+      type: "INVOICE",
+      emission: new Date("2025-02-01"),
+      value: 25000,
+      expiration: new Date("2025-03-01"),
+      posted: new Date("2025-02-28"),
+    },
+    {
+      branch: "01",
+      prefix: "INV",
+      number: "2025003",
+      parcel: "1/1",
+      type: "INVOICE",
+      emission: new Date("2025-03-01"),
+      value: 30000,
+      expiration: new Date("2025-04-01"),
+      posted: null,
+    },
+  ],
+};

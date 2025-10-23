@@ -8,6 +8,15 @@ import type {
   CreditClientDetails,
   FinancialHistory,
 } from "@/types/credit";
+import {
+  USE_MOCK_CREDIT_DATA,
+  mockCreditElementDetails,
+  mockCreditDocuments,
+  mockQuoteDocuments,
+  mockClientDocuments,
+  mockClientDetails,
+  mockClientHistory,
+} from "@/data/mockCredits";
 
 interface UseCreditDetailsParams {
   creditId: string | null;
@@ -26,7 +35,13 @@ export const useCreditDetails = ({
     error: detailsError,
   } = useQuery<CreditElementDetails[]>({
     queryKey: ["creditDetails", creditId],
-    queryFn: () => creditService.getCreditElementDetails(creditId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        const detail = mockCreditElementDetails[creditId!];
+        return detail ? [detail] : [];
+      }
+      return creditService.getCreditElementDetails(creditId!);
+    },
     enabled: !!creditId,
   });
 
@@ -36,7 +51,12 @@ export const useCreditDetails = ({
     error: documentsError,
   } = useQuery<CreditDocument[]>({
     queryKey: ["creditDocuments", creditId],
-    queryFn: () => creditService.getCreditDocuments(creditId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockCreditDocuments[creditId!] || [];
+      }
+      return creditService.getCreditDocuments(creditId!);
+    },
     enabled: !!creditId,
   });
 
@@ -46,7 +66,12 @@ export const useCreditDetails = ({
     error: quoteDocsError,
   } = useQuery<CreditQuoteDocuments[]>({
     queryKey: ["creditQuoteDocuments", creditId],
-    queryFn: () => creditService.getQuoteDocuments(creditId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockQuoteDocuments[creditId!] || [];
+      }
+      return creditService.getQuoteDocuments(creditId!);
+    },
     enabled: !!creditId,
   });
 
@@ -56,7 +81,12 @@ export const useCreditDetails = ({
     error: clientDocsError,
   } = useQuery<CreditClientDocument[]>({
     queryKey: ["creditClientDocuments", creditId],
-    queryFn: () => creditService.getClientDocuments(creditId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockClientDocuments[creditId!] || [];
+      }
+      return creditService.getClientDocuments(creditId!);
+    },
     enabled: !!creditId,
   });
 
@@ -66,7 +96,12 @@ export const useCreditDetails = ({
     error: clientDetailsError,
   } = useQuery<CreditClientDetails>({
     queryKey: ["creditClientDetails", clientBranch, clientId],
-    queryFn: () => creditService.getClientDetails(clientBranch!, clientId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockClientDetails[clientId!] || null;
+      }
+      return creditService.getClientDetails(clientBranch!, clientId!);
+    },
     enabled: !!clientBranch && !!clientId,
   });
 
@@ -76,7 +111,12 @@ export const useCreditDetails = ({
     error: clientHistoryError,
   } = useQuery<FinancialHistory[]>({
     queryKey: ["creditClientHistory", clientBranch, clientId],
-    queryFn: () => creditService.getClientHistory(clientBranch!, clientId!),
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockClientHistory[clientId!] || [];
+      }
+      return creditService.getClientHistory(clientBranch!, clientId!);
+    },
     enabled: !!clientBranch && !!clientId,
   });
 
