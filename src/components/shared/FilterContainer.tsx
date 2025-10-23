@@ -43,7 +43,7 @@ export const FilterContainer = ({
   return (
     <div className="space-y-4">
       {/* Search Bar */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
           <Input
@@ -54,26 +54,30 @@ export const FilterContainer = ({
             className="pl-10"
           />
         </div>
-        <Collapsible open={showFilters} onOpenChange={onShowFiltersChange}>
-          <CollapsibleTrigger asChild>
-            <Button variant="outline" className="gap-2">
-              <Filter className="w-4 h-4" />
-              {filterButtonLabel}
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-transform",
-                  showFilters && "rotate-180"
-                )}
-              />
-            </Button>
-          </CollapsibleTrigger>
-          {onApplyFilters && (
-            <Button onClick={onApplyFilters} className="ml-2">
-              {applyButtonLabel}
-            </Button>
-          )}
+        <Button 
+          variant="outline" 
+          className="gap-2"
+          onClick={() => onShowFiltersChange(!showFilters)}
+        >
+          <Filter className="w-4 h-4" />
+          {filterButtonLabel}
+          <ChevronDown
+            className={cn(
+              "h-4 w-4 transition-transform",
+              showFilters && "rotate-180"
+            )}
+          />
+        </Button>
+        {onApplyFilters && (
+          <Button onClick={onApplyFilters}>
+            {applyButtonLabel}
+          </Button>
+        )}
+      </div>
 
-          <CollapsibleContent className="mt-4">
+      {/* Collapsible Filters */}
+      <Collapsible open={showFilters} onOpenChange={onShowFiltersChange}>
+        <CollapsibleContent className="mt-4">
             <div className="bg-muted/50 rounded-lg p-4 space-y-4 animate-slide-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {children}
@@ -95,9 +99,8 @@ export const FilterContainer = ({
                 )}
               </div>
             </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 };
