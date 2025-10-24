@@ -145,8 +145,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Kanban
     "kanban.noOrders": "No orders",
-    "kanbanView": "Kanban View",
-    "tableView": "Table View",
+    kanbanView: "Kanban View",
+    tableView: "Table View",
 
     // Credit
     "credit.title": "Credit Management",
@@ -195,13 +195,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.noClientInfo": "No client information available",
 
     // Filters
-    "filters": "Filters",
-    "clearFilters": "Clear Filters",
-    "search": "Search",
-    "status": "Status",
-    "allStatuses": "All Statuses",
-    "startDate": "Start Date",
-    "endDate": "End Date",
+    filters: "Filters",
+    clearFilters: "Clear Filters",
+    search: "Search",
+    status: "Status",
+    allStatuses: "All Statuses",
+    startDate: "Start Date",
+    endDate: "End Date",
   },
   "pt-BR": {
     // Navigation
@@ -214,7 +214,6 @@ const translations: Record<Locale, Record<string, string>> = {
     // Auth
     "auth.login": "Entrar",
     "auth.logout": "Sair",
-
 
     // Login
     "login.title": "Bem-vindo de Volta",
@@ -239,7 +238,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Pedidos de Compra",
-    "dashboard.subtitle": "Gerencie e acompanhe todas os seus Pedidos de compra",
+    "dashboard.subtitle":
+      "Gerencie e acompanhe todas os seus Pedidos de compra",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Tabela",
 
@@ -355,14 +355,15 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Kanban
     "kanban.noOrders": "Nenhum pedido",
-    "kanbanView": "Visualização Kanban",
-    "tableView": "Visualização em Tabela",
+    kanbanView: "Visualização Kanban",
+    tableView: "Visualização em Tabela",
 
     // Credit
     "credit.title": "Gestão de Crédito",
     "credit.subtitle": "Gerencie e acompanhe elementos de fluxo de crédito",
     "credit.offer": "Proposta",
     "credit.client": "Cliente",
+    "credit.linkedClients": "Clientes vinculados",
     "credit.value": "Valor",
     "credit.currency": "Moeda",
     "credit.seller": "Vendedor",
@@ -405,13 +406,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.noClientInfo": "Nenhuma informação do cliente disponível",
 
     // Filters
-    "filters": "Filtros",
-    "clearFilters": "Limpar Filtros",
-    "search": "Pesquisar",
-    "status": "Status",
-    "allStatuses": "Todos os Status",
-    "startDate": "Data Inicial",
-    "endDate": "Data Final",
+    filters: "Filtros",
+    clearFilters: "Limpar Filtros",
+    search: "Pesquisar",
+    status: "Status",
+    allStatuses: "Todos os Status",
+    startDate: "Data Inicial",
+    endDate: "Data Final",
   },
   "es-ES": {
     // Navigation
@@ -548,8 +549,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Kanban
     "kanban.noOrders": "No hay órdenes",
-    "kanbanView": "Vista Kanban",
-    "tableView": "Vista de Tabla",
+    kanbanView: "Vista Kanban",
+    tableView: "Vista de Tabla",
 
     // Credit
     "credit.title": "Gestión de Crédito",
@@ -598,13 +599,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.noClientInfo": "No hay información del cliente disponible",
 
     // Filters
-    "filters": "Filtros",
-    "clearFilters": "Limpiar Filtros",
-    "search": "Buscar",
-    "status": "Estado",
-    "allStatuses": "Todos los Estados",
-    "startDate": "Fecha Inicial",
-    "endDate": "Fecha Final",
+    filters: "Filtros",
+    clearFilters: "Limpiar Filtros",
+    search: "Buscar",
+    status: "Estado",
+    allStatuses: "Todos los Estados",
+    startDate: "Fecha Inicial",
+    endDate: "Fecha Final",
   },
 };
 

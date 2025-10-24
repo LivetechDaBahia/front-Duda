@@ -29,8 +29,13 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   const { user } = useAuth();
 
   // Default date range: current month
-  const defaultDateBegin = params?.dateBegin || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
-  const defaultDateEnd = params?.dateEnd || new Date().toISOString().split('T')[0];
+  const defaultDateBegin =
+    params?.dateBegin ||
+    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+      .toISOString()
+      .split("T")[0];
+  const defaultDateEnd =
+    params?.dateEnd || new Date().toISOString().split("T")[0];
 
   const {
     data: orders = [],
@@ -38,7 +43,14 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     error,
     refetch,
   } = useQuery<PurchaseOrder[], Error>({
-    queryKey: ["orders", user?.email, defaultDateBegin, defaultDateEnd, params?.types, params?.tenantId],
+    queryKey: [
+      "orders",
+      user?.email,
+      defaultDateBegin,
+      defaultDateEnd,
+      params?.types,
+      params?.tenantId,
+    ],
     queryFn: async (): Promise<PurchaseOrder[]> => {
       if (!user?.email) {
         throw new Error("User email not available");
@@ -49,9 +61,9 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         defaultDateBegin,
         defaultDateEnd,
         params?.types || "01,02,03,04,05,06,07",
-        params?.tenantId || "01"
+        params?.tenantId || "01",
       );
-      
+
       return transformAPIToUIOrders(apiData);
     },
     enabled: !!user?.email,
@@ -110,10 +122,8 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     error,
     refetch,
     approveOrder: approveMutation.mutate,
-    declineOrder: (orderId: string, reason: string = "Declined by user") => 
+    declineOrder: (orderId: string, reason: string = "Declined by user") =>
       declineMutation.mutate({ orderId, reason }),
-    isUpdating:
-      approveMutation.isPending ||
-      declineMutation.isPending,
+    isUpdating: approveMutation.isPending || declineMutation.isPending,
   };
 };

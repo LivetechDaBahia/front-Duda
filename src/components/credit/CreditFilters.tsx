@@ -9,7 +9,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocale } from "@/contexts/LocaleContext";
-import type { CreditFilters as CreditFiltersType, CreditStatus } from "@/types/credit";
+import type {
+  CreditFilters as CreditFiltersType,
+  CreditStatus,
+} from "@/types/credit";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { FilterDateRange } from "@/components/shared/FilterDateRange";
 
@@ -48,15 +51,15 @@ export const CreditFilters = ({
 
   const hasActiveFilters = Boolean(
     filters.search ||
-    filters.status !== "all" ||
-    filters.group ||
-    filters.user ||
-    filters.currency ||
-    filters.type ||
-    filters.dateBegin ||
-    filters.dateEnd ||
-    filters.minValue !== undefined ||
-    filters.maxValue !== undefined
+      filters.status !== "all" ||
+      filters.group ||
+      filters.user ||
+      filters.currency ||
+      filters.type ||
+      filters.dateBegin ||
+      filters.dateEnd ||
+      filters.minValue !== undefined ||
+      filters.maxValue !== undefined,
   );
 
   return (
@@ -66,7 +69,7 @@ export const CreditFilters = ({
       onSearchChange={(value) => updateFilter("search", value)}
       showFilters={showFilters}
       onShowFiltersChange={setShowFilters}
-      filterButtonLabel={showFilters ? t("hideFilters") : t("showFilters")}
+      filterButtonLabel={showFilters ? t("hideFilters") : t("filters.filters")}
       onClearFilters={clearFilters}
       clearButtonLabel={t("clearFilters")}
       hasActiveFilters={hasActiveFilters}
@@ -113,7 +116,7 @@ export const CreditFilters = ({
           onChange={(e) =>
             updateFilter(
               "minValue",
-              e.target.value ? parseFloat(e.target.value) : undefined
+              e.target.value ? parseFloat(e.target.value) : undefined,
             )
           }
         />
@@ -129,7 +132,7 @@ export const CreditFilters = ({
           onChange={(e) =>
             updateFilter(
               "maxValue",
-              e.target.value ? parseFloat(e.target.value) : undefined
+              e.target.value ? parseFloat(e.target.value) : undefined,
             )
           }
         />

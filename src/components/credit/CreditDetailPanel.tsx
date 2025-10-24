@@ -33,23 +33,30 @@ export const CreditDetailPanel = ({
 }: CreditDetailPanelProps) => {
   const { t } = useLocale();
 
-  const { elementDetails, documents, quoteDocuments, clientDocuments, clientDetails, clientHistory, isLoading } =
-    useCreditDetails({
-      creditId: credit?.key || null,
-      clientBranch: credit?.entity || undefined,
-      clientId: credit?.details.client || undefined,
-    });
+  const {
+    elementDetails,
+    documents,
+    quoteDocuments,
+    clientDocuments,
+    clientDetails,
+    clientHistory,
+    isLoading,
+  } = useCreditDetails({
+    creditId: credit?.key || null,
+    clientBranch: credit?.entity || undefined,
+    clientId: credit?.details.client || undefined,
+  });
 
   const formatCurrency = (value: number, currency: string = "BRL") => {
     // Map currency symbols to ISO codes
     const currencyMap: Record<string, string> = {
-      "R$": "BRL",
-      "US$": "USD",
+      R$: "BRL",
+      US$: "USD",
       "€": "EUR",
     };
-    
+
     const currencyCode = currencyMap[currency] || currency || "BRL";
-    
+
     try {
       return new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -77,10 +84,15 @@ export const CreditDetailPanel = ({
 
         {credit && (
           <Tabs defaultValue="overview" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview">{t("credit.overview")}</TabsTrigger>
-              <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
+              <TabsTrigger value="documents">
+                {t("credit.documents")}
+              </TabsTrigger>
               <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
+              <TabsTrigger value="linkedClients">
+                {t("credit.linkedClients")}
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4 mt-4">
@@ -88,33 +100,52 @@ export const CreditDetailPanel = ({
                 <h3 className="font-semibold">{t("credit.elementInfo")}</h3>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <span className="text-muted-foreground">{t("credit.offer")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.offer")}:
+                    </span>
                     <p className="font-medium">{credit.details.offer}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("credit.client")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.client")}:
+                    </span>
                     <p className="font-medium">{credit.details.client}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("credit.value")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.value")}:
+                    </span>
                     <p className="font-medium">
-                      {formatCurrency(credit.details.value, credit.details.currency)}
+                      {formatCurrency(
+                        credit.details.value,
+                        credit.details.currency,
+                      )}
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("credit.seller")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.seller")}:
+                    </span>
                     <p className="font-medium">{credit.details.sellerName}</p>
                   </div>
                   <div className="col-span-2">
-                    <span className="text-muted-foreground">{t("credit.paymentConditions")}:</span>
-                    <p className="font-medium">{credit.details.paymentConditions}</p>
+                    <span className="text-muted-foreground">
+                      {t("credit.paymentConditions")}:
+                    </span>
+                    <p className="font-medium">
+                      {credit.details.paymentConditions}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("credit.type")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.type")}:
+                    </span>
                     <p className="font-medium">{credit.details.type}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("credit.group")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("credit.group")}:
+                    </span>
                     <p className="font-medium">{credit.group}</p>
                   </div>
                 </div>
@@ -127,27 +158,45 @@ export const CreditDetailPanel = ({
                 </div>
               ) : elementDetails ? (
                 <div className="space-y-3">
-                  <h3 className="font-semibold">{t("credit.salesOrderDetails")}</h3>
+                  <h3 className="font-semibold">
+                    {t("credit.salesOrderDetails")}
+                  </h3>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <span className="text-muted-foreground">{t("credit.branch")}:</span>
+                      <span className="text-muted-foreground">
+                        {t("credit.branch")}:
+                      </span>
                       <p className="font-medium">{elementDetails.branch}</p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">{t("credit.emissionDate")}:</span>
-                      <p className="font-medium">{formatDate(elementDetails.emissionDate)}</p>
+                      <span className="text-muted-foreground">
+                        {t("credit.emissionDate")}:
+                      </span>
+                      <p className="font-medium">
+                        {formatDate(elementDetails.emissionDate)}
+                      </p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">{t("credit.shippingType")}:</span>
-                      <p className="font-medium">{elementDetails.shippingType}</p>
+                      <span className="text-muted-foreground">
+                        {t("credit.shippingType")}:
+                      </span>
+                      <p className="font-medium">
+                        {elementDetails.shippingType}
+                      </p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">{t("credit.shippingCost")}:</span>
-                      <p className="font-medium">{formatCurrency(elementDetails.shippingCost)}</p>
+                      <span className="text-muted-foreground">
+                        {t("credit.shippingCost")}:
+                      </span>
+                      <p className="font-medium">
+                        {formatCurrency(elementDetails.shippingCost)}
+                      </p>
                     </div>
                     {elementDetails.message1 && (
                       <div className="col-span-2">
-                        <span className="text-muted-foreground">{t("credit.message")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.message")}:
+                        </span>
                         <p className="font-medium">{elementDetails.message1}</p>
                       </div>
                     )}
@@ -269,32 +318,48 @@ export const CreditDetailPanel = ({
               ) : clientDetails ? (
                 <div className="space-y-4">
                   <div className="space-y-3">
-                    <h3 className="font-semibold">{t("credit.clientDetails")}</h3>
+                    <h3 className="font-semibold">
+                      {t("credit.clientDetails")}
+                    </h3>
                     <div className="grid grid-cols-2 gap-3 text-sm">
                       <div>
-                        <span className="text-muted-foreground">{t("credit.clientName")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.clientName")}:
+                        </span>
                         <p className="font-medium">{clientDetails.name}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">{t("credit.cgc")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.cgc")}:
+                        </span>
                         <p className="font-medium">{clientDetails.cgc}</p>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-muted-foreground">{t("credit.address")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.address")}:
+                        </span>
                         <p className="font-medium">
-                          {clientDetails.billingAddress}, {clientDetails.district}
+                          {clientDetails.billingAddress},{" "}
+                          {clientDetails.district}
                           <br />
                           {clientDetails.state} - {clientDetails.zipCode}
                         </p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">{t("credit.risk")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.risk")}:
+                        </span>
                         <Badge variant="outline">{clientDetails.risk}</Badge>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">{t("credit.lc")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("credit.lc")}:
+                        </span>
                         <p className="font-medium">
-                          {formatCurrency(clientDetails.lc, clientDetails.currency)}
+                          {formatCurrency(
+                            clientDetails.lc,
+                            clientDetails.currency,
+                          )}
                         </p>
                       </div>
                     </div>
@@ -302,7 +367,9 @@ export const CreditDetailPanel = ({
 
                   {clientHistory.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="font-semibold">{t("credit.financialHistory")}</h3>
+                      <h3 className="font-semibold">
+                        {t("credit.financialHistory")}
+                      </h3>
                       <Table>
                         <TableHeader>
                           <TableRow>
@@ -316,9 +383,13 @@ export const CreditDetailPanel = ({
                           {clientHistory.map((item, idx) => (
                             <TableRow key={idx}>
                               <TableCell>{item.number}</TableCell>
-                              <TableCell>{formatCurrency(item.value)}</TableCell>
+                              <TableCell>
+                                {formatCurrency(item.value)}
+                              </TableCell>
                               <TableCell>{formatDate(item.emission)}</TableCell>
-                              <TableCell>{formatDate(item.expiration)}</TableCell>
+                              <TableCell>
+                                {formatDate(item.expiration)}
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

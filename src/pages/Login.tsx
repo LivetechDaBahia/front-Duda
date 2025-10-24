@@ -42,9 +42,7 @@ export default function Login() {
           </div>
           <div className="space-y-2 text-center">
             <CardTitle className="text-2xl">{t("login.title")}</CardTitle>
-            <CardDescription>
-              {t("login.subtitle")}
-            </CardDescription>
+            <CardDescription>{t("login.subtitle")}</CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">

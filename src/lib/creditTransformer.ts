@@ -1,4 +1,8 @@
-import type { CreditElementItem, CreditStatus, UICreditStatus } from "@/types/credit";
+import type {
+  CreditElementItem,
+  CreditStatus,
+  UICreditStatus,
+} from "@/types/credit";
 
 const CREDIT_ELEMENT_COLOR_MAP = {
   AMARELO: "#fafa84",
@@ -14,7 +18,11 @@ export const mapCreditColor = (colorName: string): string => {
     return "#98ff98"; // Default to VERDE color if no color provided
   }
   const normalized = colorName.trim().toUpperCase();
-  return CREDIT_ELEMENT_COLOR_MAP[normalized as keyof typeof CREDIT_ELEMENT_COLOR_MAP] || colorName.trim();
+  return (
+    CREDIT_ELEMENT_COLOR_MAP[
+      normalized as keyof typeof CREDIT_ELEMENT_COLOR_MAP
+    ] || colorName.trim()
+  );
 };
 
 /**
@@ -22,16 +30,16 @@ export const mapCreditColor = (colorName: string): string => {
  */
 export const parseYYYYMMDD = (dateStr: string): Date | null => {
   if (!dateStr || dateStr.length !== 8) return null;
-  
+
   const year = parseInt(dateStr.substring(0, 4));
   const month = parseInt(dateStr.substring(4, 6)) - 1; // 0-indexed
   const day = parseInt(dateStr.substring(6, 8));
-  
+
   const date = new Date(year, month, day);
-  
+
   // Validate the date is valid
   if (isNaN(date.getTime())) return null;
-  
+
   return date;
 };
 
@@ -39,7 +47,7 @@ export const parseYYYYMMDD = (dateStr: string): Date | null => {
  * Transform credit elements from API to UI format
  */
 export const transformCreditElementsToUI = (
-  elements: CreditElementItem[]
+  elements: CreditElementItem[],
 ): CreditElementItem[] => {
   return elements.map((element) => ({
     ...element,
@@ -52,7 +60,7 @@ export const transformCreditElementsToUI = (
  */
 export const mapUICreditStatusToAPI = (
   status: UICreditStatus,
-  availableStatuses: CreditStatus[]
+  availableStatuses: CreditStatus[],
 ): string[] => {
   if (status === "all") {
     return availableStatuses.map((s) => s.id);
@@ -65,7 +73,7 @@ export const mapUICreditStatusToAPI = (
  */
 export const getCreditStatusById = (
   statusId: string,
-  statuses: CreditStatus[]
+  statuses: CreditStatus[],
 ): CreditStatus | undefined => {
   return statuses.find((s) => s.id === statusId);
 };
@@ -73,6 +81,8 @@ export const getCreditStatusById = (
 /**
  * Sort statuses by sequence
  */
-export const sortCreditStatuses = (statuses: CreditStatus[]): CreditStatus[] => {
+export const sortCreditStatuses = (
+  statuses: CreditStatus[],
+): CreditStatus[] => {
   return [...statuses].sort((a, b) => a.sequence - b.sequence);
 };

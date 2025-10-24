@@ -27,13 +27,13 @@ export const CreditTableView = ({
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
     const currencyMap: Record<string, string> = {
-      "R$": "BRL",
-      "US$": "USD",
+      R$: "BRL",
+      US$: "USD",
       "€": "EUR",
     };
-    
+
     const currencyCode = currencyMap[currency] || currency || "BRL";
-    
+
     try {
       return new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -50,16 +50,34 @@ export const CreditTableView = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="whitespace-nowrap">{t("credit.offer")}</TableHead>
-            <TableHead className="whitespace-nowrap">{t("credit.client")}</TableHead>
-            <TableHead className="whitespace-nowrap">{t("credit.value")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden sm:table-cell">{t("credit.currency")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("credit.seller")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.paymentConditions")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("credit.type")}</TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("credit.offer")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("credit.client")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("credit.value")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden sm:table-cell">
+              {t("credit.currency")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              {t("credit.seller")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">
+              {t("credit.paymentConditions")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              {t("credit.type")}
+            </TableHead>
             <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.group")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("credit.user")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">
+              {t("credit.group")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">
+              {t("credit.user")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -81,28 +99,45 @@ export const CreditTableView = ({
                   <TableCell className="font-medium whitespace-nowrap">
                     {credit.details.offer}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap">{credit.details.client}</TableCell>
                   <TableCell className="whitespace-nowrap">
-                    {formatCurrency(credit.details.value, credit.details.currency)}
+                    {credit.details.client}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap hidden sm:table-cell">{credit.details.currency}</TableCell>
-                  <TableCell className="whitespace-nowrap hidden md:table-cell">{credit.details.sellerName}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {formatCurrency(
+                      credit.details.value,
+                      credit.details.currency,
+                    )}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap hidden sm:table-cell">
+                    {credit.details.currency}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap hidden md:table-cell">
+                    {credit.details.sellerName}
+                  </TableCell>
                   <TableCell className="max-w-xs truncate hidden lg:table-cell">
                     {credit.details.paymentConditions}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap hidden md:table-cell">{credit.details.type}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden md:table-cell">
+                    {credit.details.type}
+                  </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {status && (
                       <Badge
-                        variant={status.destructive ? "destructive" : "secondary"}
+                        variant={
+                          status.destructive ? "destructive" : "secondary"
+                        }
                         className="text-xs"
                       >
                         {status.description}
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{credit.group}</TableCell>
-                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{credit.user || "-"}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden lg:table-cell">
+                    {credit.group}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap hidden lg:table-cell">
+                    {credit.user || "-"}
+                  </TableCell>
                 </TableRow>
               );
             })

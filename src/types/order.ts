@@ -12,7 +12,7 @@ export const ORDER_STATUS = {
 } as const;
 
 // UI OrderStatus (for components)
-export type UIOrderStatus = 
+export type UIOrderStatus =
   | "pending"
   | "processing"
   | "approved"

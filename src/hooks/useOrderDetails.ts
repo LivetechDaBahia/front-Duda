@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
-import { 
-  DetailedPurchaseOrder, 
-  ApprovalLevel, 
+import {
+  DetailedPurchaseOrder,
+  ApprovalLevel,
   CostCenter,
   ApiDetailedOrder,
   ApiApprovalLevelsResponse,
-  ApiCostCenterResponse
+  ApiCostCenterResponse,
 } from "@/types/order";
-import { 
-  transformApiDetailedOrder, 
+import {
+  transformApiDetailedOrder,
   transformApiApprovalLevels,
-  transformApiCostCenters 
+  transformApiCostCenters,
 } from "@/lib/orderDetailTransformer";
 
 interface UseOrderDetailsParams {
@@ -32,12 +32,11 @@ interface UseOrderDetailsReturn {
   refetch: () => void;
 }
 
-export const useOrderDetails = ({ 
-  orderId, 
-  branch, 
-  enabled 
+export const useOrderDetails = ({
+  orderId,
+  branch,
+  enabled,
 }: UseOrderDetailsParams): UseOrderDetailsReturn => {
-  
   // Fetch detailed order info
   const {
     data: rawOrderDetails,
@@ -78,16 +77,16 @@ export const useOrderDetails = ({
   });
 
   // Transform API data to UI format
-  const orderDetails = rawOrderDetails 
-    ? transformApiDetailedOrder(rawOrderDetails) 
+  const orderDetails = rawOrderDetails
+    ? transformApiDetailedOrder(rawOrderDetails)
     : undefined;
 
-  const approvalLevels = rawApprovalLevels?.levels 
-    ? transformApiApprovalLevels(rawApprovalLevels.levels) 
+  const approvalLevels = rawApprovalLevels?.levels
+    ? transformApiApprovalLevels(rawApprovalLevels.levels)
     : undefined;
 
-  const costCenters = rawCostCenters?.costCenters 
-    ? transformApiCostCenters(rawCostCenters.costCenters) 
+  const costCenters = rawCostCenters?.costCenters
+    ? transformApiCostCenters(rawCostCenters.costCenters)
     : undefined;
 
   // Combine refetch functions

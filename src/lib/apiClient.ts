@@ -16,7 +16,7 @@ class ApiClient {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
       headers,
-      credentials: 'include', // Send cookies with every request
+      credentials: "include", // Send cookies with every request
     });
 
     // Handle 401 - redirect to backend login
@@ -28,14 +28,14 @@ class ApiClient {
     // Handle 403 - permissions issue
     if (response.status === 403) {
       throw new Error(
-        "Access Denied: Your account doesn't have the required permissions (purchase_orders:read). Please contact your system administrator."
+        "Access Denied: Your account doesn't have the required permissions (purchase_orders:read). Please contact your system administrator.",
       );
     }
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        errorText || `API Error: ${response.status} ${response.statusText}`
+        errorText || `API Error: ${response.status} ${response.statusText}`,
       );
     }
 

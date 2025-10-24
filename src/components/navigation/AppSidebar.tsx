@@ -56,7 +56,9 @@ const SidebarContent = () => {
         <Home
           className={cn(
             "w-5 h-5 flex-shrink-0",
-            location.pathname === "/home" ? "text-primary" : "text-muted-foreground"
+            location.pathname === "/home"
+              ? "text-primary"
+              : "text-muted-foreground",
           )}
         />
       ),
@@ -68,7 +70,9 @@ const SidebarContent = () => {
         <FileCheck
           className={cn(
             "w-5 h-5 flex-shrink-0",
-            location.pathname === "/purchase-orders" ? "text-primary" : "text-muted-foreground"
+            location.pathname === "/purchase-orders"
+              ? "text-primary"
+              : "text-muted-foreground",
           )}
         />
       ),
@@ -80,7 +84,9 @@ const SidebarContent = () => {
         <Banknote
           className={cn(
             "w-5 h-5 flex-shrink-0",
-            location.pathname === "/credit" ? "text-primary" : "text-muted-foreground"
+            location.pathname === "/credit"
+              ? "text-primary"
+              : "text-muted-foreground",
           )}
         />
       ),
@@ -93,15 +99,8 @@ const SidebarContent = () => {
         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="cursor-pointer"
-            >
-              <img 
-                src="/favicon.svg" 
-                alt="Logo" 
-                className="w-10 h-10"
-              />
+            <motion.div whileHover={{ scale: 1.05 }} className="cursor-pointer">
+              <img src="/favicon.svg" alt="Logo" className="w-10 h-10" />
             </motion.div>
           </div>
 
@@ -110,7 +109,7 @@ const SidebarContent = () => {
             {links.map((link, idx) => (
               <SidebarLink key={idx} link={link} />
             ))}
-            
+
             {/* Notifications Button */}
             <Button
               variant="ghost"
@@ -120,14 +119,14 @@ const SidebarContent = () => {
             >
               <div className="relative">
                 <Bell className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
-                <Badge 
+                <Badge
                   className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
                   variant="destructive"
                 >
                   3
                 </Badge>
               </div>
-              <motion.span 
+              <motion.span
                 className="text-sm"
                 animate={{
                   display: open ? "inline-block" : "none",
@@ -140,43 +139,43 @@ const SidebarContent = () => {
           </div>
         </div>
 
-      {/* Bottom Section - Controls */}
-      <div className="flex flex-col gap-2 border-t pt-4">
-        <div className="flex items-center justify-center gap-2 px-2">
-          <LanguageSwitcher collapsed={!open} />
-          <ThemeToggle collapsed={!open} />
-        </div>
-        
-        {user && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLogout}
-            className="flex items-center gap-2 justify-start w-full"
-          >
-            <LogOut className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
-            <motion.span 
-              className="text-sm"
-              animate={{
-                display: open ? "inline-block" : "none",
-                opacity: open ? 1 : 0,
-              }}
-            >
-              {t("auth.logout") || "Logout"}
-            </motion.span>
-          </Button>
-        )}
-      </div>
-    </SidebarBody>
+        {/* Bottom Section - Controls */}
+        <div className="flex flex-col gap-2 border-t pt-4">
+          <div className="flex items-center justify-center gap-2 px-2">
+            <LanguageSwitcher collapsed={!open} />
+            <ThemeToggle collapsed={!open} />
+          </div>
 
-    <Dialog open={notificationsOpen} onOpenChange={setNotificationsOpen}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{t("nav.notifications")}</DialogTitle>
-        </DialogHeader>
-        <NotificationsSection />
-      </DialogContent>
-    </Dialog>
+          {user && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="flex items-center gap-2 justify-start w-full"
+            >
+              <LogOut className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
+              <motion.span
+                className="text-sm"
+                animate={{
+                  display: open ? "inline-block" : "none",
+                  opacity: open ? 1 : 0,
+                }}
+              >
+                {t("auth.logout") || "Logout"}
+              </motion.span>
+            </Button>
+          )}
+        </div>
+      </SidebarBody>
+
+      <Dialog open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("nav.notifications")}</DialogTitle>
+          </DialogHeader>
+          <NotificationsSection />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

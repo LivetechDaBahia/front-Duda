@@ -40,7 +40,7 @@ export const FilterDateRange = ({
               variant="outline"
               className={cn(
                 "w-full justify-start text-left font-normal",
-                !dateFrom && "text-muted-foreground"
+                !dateFrom && "text-muted-foreground",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -67,7 +67,7 @@ export const FilterDateRange = ({
               variant="outline"
               className={cn(
                 "w-full justify-start text-left font-normal",
-                !dateTo && "text-muted-foreground"
+                !dateTo && "text-muted-foreground",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />

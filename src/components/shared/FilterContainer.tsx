@@ -54,8 +54,8 @@ export const FilterContainer = ({
             className="pl-10"
           />
         </div>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="gap-2"
           onClick={() => onShowFiltersChange(!showFilters)}
         >
@@ -64,41 +64,39 @@ export const FilterContainer = ({
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform",
-              showFilters && "rotate-180"
+              showFilters && "rotate-180",
             )}
           />
         </Button>
         {onApplyFilters && (
-          <Button onClick={onApplyFilters}>
-            {applyButtonLabel}
-          </Button>
+          <Button onClick={onApplyFilters}>{applyButtonLabel}</Button>
         )}
       </div>
 
       {/* Collapsible Filters */}
       <Collapsible open={showFilters} onOpenChange={onShowFiltersChange}>
         <CollapsibleContent className="mt-4">
-            <div className="bg-muted/50 rounded-lg p-4 space-y-4 animate-slide-in">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {children}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  onClick={onClearFilters}
-                  className="gap-2"
-                  disabled={!hasActiveFilters}
-                >
-                  <X className="w-4 h-4" />
-                  {clearButtonLabel}
-                </Button>
-                {onApplyFilters && (
-                  <Button onClick={onApplyFilters}>{applyButtonLabel}</Button>
-                )}
-              </div>
+          <div className="bg-muted/50 rounded-lg p-4 space-y-4 animate-slide-in">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {children}
             </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={onClearFilters}
+                className="gap-2"
+                disabled={!hasActiveFilters}
+              >
+                <X className="w-4 h-4" />
+                {clearButtonLabel}
+              </Button>
+              {onApplyFilters && (
+                <Button onClick={onApplyFilters}>{applyButtonLabel}</Button>
+              )}
+            </div>
+          </div>
         </CollapsibleContent>
       </Collapsible>
     </div>

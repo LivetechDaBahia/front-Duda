@@ -19,7 +19,7 @@ interface SidebarContextProps {
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const useSidebar = () => {
@@ -76,7 +76,9 @@ export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
   return (
     <>
       <DesktopSidebar {...props} />
-      <MobileSidebar className={typeof className === 'string' ? className : undefined}>
+      <MobileSidebar
+        className={typeof className === "string" ? className : undefined}
+      >
         {children as React.ReactNode}
       </MobileSidebar>
     </>
@@ -93,7 +95,7 @@ export const DesktopSidebar = ({
     <motion.div
       className={cn(
         "h-screen px-4 py-4 hidden md:flex md:flex-col bg-card border-r flex-shrink-0 sticky top-0",
-        className
+        className,
       )}
       animate={{
         width: animate ? (open ? "300px" : "80px") : "300px",
@@ -119,7 +121,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-16 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-card border-b w-full sticky top-0 z-40"
+          "h-16 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-card border-b w-full sticky top-0 z-40",
         )}
       >
         <div className="flex justify-between items-center z-20 w-full">
@@ -145,7 +147,7 @@ export const MobileSidebar = ({
               }}
               className={cn(
                 "fixed h-full w-full inset-0 bg-background p-10 z-[100] flex flex-col justify-between",
-                className
+                className,
               )}
             >
               <div
@@ -178,7 +180,7 @@ export const SidebarLink = ({
       to={link.href}
       className={cn(
         "flex items-center justify-start gap-2 group/sidebar py-2 px-2 rounded-md hover:bg-accent transition-colors",
-        className
+        className,
       )}
       {...props}
     >

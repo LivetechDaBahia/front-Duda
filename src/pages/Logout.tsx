@@ -33,7 +33,7 @@ export default function Logout() {
                 <LogIn className="w-4 h-4 mr-2" />
                 Sign In Again
               </Button>
-              
+
               <Button
                 onClick={() => navigate("/home")}
                 variant="outline"

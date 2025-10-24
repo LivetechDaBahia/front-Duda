@@ -3,7 +3,10 @@ import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { KanbanView } from "@/components/dashboard/KanbanView";
 import { TableView } from "@/components/dashboard/TableView";
 import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
-import { OrderFilters, FilterValues } from "@/components/dashboard/OrderFilters";
+import {
+  OrderFilters,
+  FilterValues,
+} from "@/components/dashboard/OrderFilters";
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
 import { Loader2 } from "lucide-react";
@@ -49,7 +52,9 @@ const Index = () => {
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         const matchesId = order.id.toLowerCase().includes(searchLower);
-        const matchesSupplier = order.supplierName.toLowerCase().includes(searchLower);
+        const matchesSupplier = order.supplierName
+          .toLowerCase()
+          .includes(searchLower);
         if (!matchesId && !matchesSupplier) return false;
       }
 
@@ -59,7 +64,10 @@ const Index = () => {
       }
 
       // Branch filter
-      if (filters.branch && !order.branch.toLowerCase().includes(filters.branch.toLowerCase())) {
+      if (
+        filters.branch &&
+        !order.branch.toLowerCase().includes(filters.branch.toLowerCase())
+      ) {
         return false;
       }
 
@@ -168,42 +176,57 @@ const Index = () => {
                 <PaginationItem>
                   <PaginationPrevious
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    className={
+                      currentPage === 1
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
                   />
                 </PaginationItem>
-                
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                  // Show first page, last page, current page, and pages around current
-                  if (
-                    page === 1 ||
-                    page === totalPages ||
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  ) {
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          onClick={() => setCurrentPage(page)}
-                          isActive={currentPage === page}
-                          className="cursor-pointer"
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  } else if (page === currentPage - 2 || page === currentPage + 2) {
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
-                  return null;
-                })}
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => {
+                    // Show first page, last page, current page, and pages around current
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => setCurrentPage(page)}
+                            isActive={currentPage === page}
+                            className="cursor-pointer"
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    } else if (
+                      page === currentPage - 2 ||
+                      page === currentPage + 2
+                    ) {
+                      return (
+                        <PaginationItem key={page}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      );
+                    }
+                    return null;
+                  },
+                )}
 
                 <PaginationItem>
                   <PaginationNext
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
+                    className={
+                      currentPage === totalPages
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
                   />
                 </PaginationItem>
               </PaginationContent>

@@ -3,7 +3,9 @@ import { UIOrderStatus, ORDER_STATUS } from "@/types/order";
 /**
  * Maps UI status filter to API types parameter (comma-separated status codes)
  */
-export const mapUIStatusToAPITypes = (status: UIOrderStatus | "all"): string => {
+export const mapUIStatusToAPITypes = (
+  status: UIOrderStatus | "all",
+): string => {
   if (status === "all") {
     return "01,02,03,04,05,06,07";
   }
@@ -30,7 +32,9 @@ export const mapUIStatusToAPITypes = (status: UIOrderStatus | "all"): string => 
 /**
  * Formats Date to YYYY-MM-DD string for API
  */
-export const formatDateForAPI = (date: Date | undefined): string | undefined => {
+export const formatDateForAPI = (
+  date: Date | undefined,
+): string | undefined => {
   if (!date) return undefined;
-  return date.toISOString().split('T')[0];
+  return date.toISOString().split("T")[0];
 };

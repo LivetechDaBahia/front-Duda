@@ -20,6 +20,7 @@ export const creditService = {
   },
 
   async getCreditElementDetails(id: string): Promise<CreditElementDetails[]> {
+    console.log("getCreditElementDetails", id);
     return apiClient.get(`/credit/creditElement/${id}`);
   },
 
@@ -37,14 +38,14 @@ export const creditService = {
 
   async getClientDetails(
     branch: string,
-    id: string
+    id: string,
   ): Promise<CreditClientDetails> {
     return apiClient.get(`/credit/creditElement/clientDetails/${branch}/${id}`);
   },
 
   async getClientHistory(
     branch: string,
-    id: string
+    id: string,
   ): Promise<FinancialHistory[]> {
     return apiClient.get(`/credit/creditElement/history/${branch}/${id}`);
   },

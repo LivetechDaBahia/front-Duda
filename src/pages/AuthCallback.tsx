@@ -15,12 +15,12 @@ export default function AuthCallback() {
         // Backend has already set the session cookie
         // Just refresh user data and redirect
         await refreshUser();
-        
+
         toast({
           title: "Login successful",
           description: "Welcome back!",
         });
-        
+
         navigate("/purchase-orders", { replace: true });
       } catch (error) {
         console.error("Auth callback error:", error);

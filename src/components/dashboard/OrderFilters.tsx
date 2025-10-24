@@ -60,11 +60,7 @@ export const OrderFilters = ({ onFilterChange }: OrderFiltersProps) => {
   };
 
   const hasActiveFilters = Boolean(
-    search || 
-    status !== "all" || 
-    branch || 
-    dateFrom || 
-    dateTo
+    search || status !== "all" || branch || dateFrom || dateTo,
   );
 
   return (

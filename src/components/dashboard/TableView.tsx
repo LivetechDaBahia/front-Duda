@@ -37,12 +37,7 @@ const statusColors = {
   declined: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
-type SortField =
-  | "id"
-  | "supplierName"
-  | "value"
-  | "status"
-  | "createdAt";
+type SortField = "id" | "supplierName" | "value" | "status" | "createdAt";
 
 const allStatuses: UIOrderStatus[] = [
   "pending",
@@ -180,7 +175,11 @@ export const TableView = ({
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                <Badge className={statusColors[order.status as keyof typeof statusColors]}>
+                <Badge
+                  className={
+                    statusColors[order.status as keyof typeof statusColors]
+                  }
+                >
                   {t(`status.${order.status}`)}
                 </Badge>
               </TableCell>

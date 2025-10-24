@@ -25,7 +25,10 @@ const phoneSchema = z.object({
     .trim()
     .min(10, "Phone number must be at least 10 digits")
     .max(15, "Phone number must be less than 15 digits")
-    .regex(/^\+?[1-9]\d{9,14}$/, "Enter a valid international phone number (e.g., +1234567890)"),
+    .regex(
+      /^\+?[1-9]\d{9,14}$/,
+      "Enter a valid international phone number (e.g., +1234567890)",
+    ),
 });
 
 const codeSchema = z.object({
@@ -70,7 +73,7 @@ export default function PhoneVerification() {
 
       setPhoneNumber(data.phone);
       setStep("code");
-      
+
       toast({
         title: "Verification code sent",
         description: "Check your WhatsApp for the verification code",
@@ -95,7 +98,7 @@ export default function PhoneVerification() {
       });
 
       await refreshUser();
-      
+
       toast({
         title: "Phone verified successfully",
         description: "You can now receive WhatsApp notifications",
@@ -119,7 +122,7 @@ export default function PhoneVerification() {
       await apiClient.post("/auth/send-verification-code", {
         phone: phoneNumber,
       });
-      
+
       toast({
         title: "Code resent",
         description: "Check your WhatsApp for a new code",
@@ -153,7 +156,10 @@ export default function PhoneVerification() {
         <div className="bg-card border rounded-lg shadow-lg p-6 space-y-6">
           {step === "phone" ? (
             <Form {...phoneForm}>
-              <form onSubmit={phoneForm.handleSubmit(onPhoneSubmit)} className="space-y-4">
+              <form
+                onSubmit={phoneForm.handleSubmit(onPhoneSubmit)}
+                className="space-y-4"
+              >
                 <FormField
                   control={phoneForm.control}
                   name="phone"
@@ -186,11 +192,12 @@ export default function PhoneVerification() {
             </Form>
           ) : (
             <Form {...codeForm}>
-              <form onSubmit={codeForm.handleSubmit(onCodeSubmit)} className="space-y-4">
+              <form
+                onSubmit={codeForm.handleSubmit(onCodeSubmit)}
+                className="space-y-4"
+              >
                 <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                  <p className="text-sm text-muted-foreground">
-                    Code sent to:
-                  </p>
+                  <p className="text-sm text-muted-foreground">Code sent to:</p>
                   <p className="font-semibold">{phoneNumber}</p>
                   <Button
                     type="button"

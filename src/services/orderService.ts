@@ -1,11 +1,11 @@
-import { 
-  PurchaseOrderAPI, 
+import {
+  PurchaseOrderAPI,
   ApiDetailedOrder,
   ApiApprovalLevelsResponse,
   ApiCostCenterResponse,
   ApprovePurchaseOrderDto,
   RejectPurchaseOrderDto,
-  ApprovalActionResponse
+  ApprovalActionResponse,
 } from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
@@ -35,8 +35,8 @@ export const orderService = {
 
   // Fetch approval levels for an order
   async getApprovalLevels(
-    orderId: string, 
-    branch: string
+    orderId: string,
+    branch: string,
   ): Promise<ApiApprovalLevelsResponse> {
     return apiClient.get(`/purchaseOrders/approvalLevels/${orderId}/${branch}`);
   },
@@ -47,12 +47,16 @@ export const orderService = {
   },
 
   // Approve order
-  async approveOrder(dto: ApprovePurchaseOrderDto): Promise<ApprovalActionResponse> {
+  async approveOrder(
+    dto: ApprovePurchaseOrderDto,
+  ): Promise<ApprovalActionResponse> {
     return apiClient.post("/purchaseOrders/approve", dto);
   },
 
   // Reject order
-  async rejectOrder(dto: RejectPurchaseOrderDto): Promise<ApprovalActionResponse> {
+  async rejectOrder(
+    dto: RejectPurchaseOrderDto,
+  ): Promise<ApprovalActionResponse> {
     return apiClient.post("/purchaseOrders/reject", dto);
   },
 

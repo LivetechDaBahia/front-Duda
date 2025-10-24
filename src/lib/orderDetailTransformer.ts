@@ -1,24 +1,24 @@
-import { 
-  ApiDetailedOrder, 
-  ApiProduct, 
+import {
+  ApiDetailedOrder,
+  ApiProduct,
   ApiApprovalLevel,
   ApiCostCenter,
-  DetailedPurchaseOrder, 
+  DetailedPurchaseOrder,
   Product,
   ApprovalLevel,
-  CostCenter
+  CostCenter,
 } from "@/types/order";
 
 // Convert date string to Date object
 const convertStringToDate = (dateStr: string): Date => {
   if (!dateStr) return new Date();
-  
+
   // Handle dd/MM/yyyy format
-  if (dateStr.includes('/')) {
-    const [day, month, year] = dateStr.split('/');
+  if (dateStr.includes("/")) {
+    const [day, month, year] = dateStr.split("/");
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   }
-  
+
   // Handle ISO format
   return new Date(dateStr);
 };
@@ -26,19 +26,29 @@ const convertStringToDate = (dateStr: string): Date => {
 // Get status description from status code
 const getStatusDescription = (statusCode: string): string => {
   switch (statusCode) {
-    case '01': return 'Waiting Previous Level';
-    case '02': return 'Pending';
-    case '03': return 'Approved';
-    case '04': return 'Blocked';
-    case '05': return 'Approved by Other Approver';
-    case '06': return 'Rejected';
-    case '07': return 'Rejected/Blocked by Other Approver';
-    default: return 'Unknown';
+    case "01":
+      return "Waiting Previous Level";
+    case "02":
+      return "Pending";
+    case "03":
+      return "Approved";
+    case "04":
+      return "Blocked";
+    case "05":
+      return "Approved by Other Approver";
+    case "06":
+      return "Rejected";
+    case "07":
+      return "Rejected/Blocked by Other Approver";
+    default:
+      return "Unknown";
   }
 };
 
 // Transform API detailed order to UI format
-export const transformApiDetailedOrder = (apiOrder: ApiDetailedOrder): DetailedPurchaseOrder => {
+export const transformApiDetailedOrder = (
+  apiOrder: ApiDetailedOrder,
+): DetailedPurchaseOrder => {
   return {
     id: apiOrder.orderNumber,
     branch: apiOrder.branch,
@@ -74,7 +84,9 @@ export const transformApiProducts = (apiProducts: ApiProduct[]): Product[] => {
 };
 
 // Transform API approval levels to UI format
-export const transformApiApprovalLevels = (apiLevels: ApiApprovalLevel[]): ApprovalLevel[] => {
+export const transformApiApprovalLevels = (
+  apiLevels: ApiApprovalLevel[],
+): ApprovalLevel[] => {
   return apiLevels.map((apiLevel) => ({
     role: apiLevel.role || "Unknown",
     date: apiLevel.date ? convertStringToDate(apiLevel.date) : null,
@@ -85,7 +97,9 @@ export const transformApiApprovalLevels = (apiLevels: ApiApprovalLevel[]): Appro
 };
 
 // Transform API cost centers to UI format
-export const transformApiCostCenters = (apiCostCenters: ApiCostCenter[]): CostCenter[] => {
+export const transformApiCostCenters = (
+  apiCostCenters: ApiCostCenter[],
+): CostCenter[] => {
   return apiCostCenters.map((apiCenter) => ({
     id: apiCenter.id || "",
     description: apiCenter.description || "",

@@ -38,9 +38,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/me`, {
-        credentials: 'include',
+        credentials: "include",
       });
-      
+
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error("Auth check failed:", error);
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -63,14 +63,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       await fetch(`${API_BASE_URL}/auth/me`, {
-        method: 'GET',
-        credentials: 'include',
+        method: "GET",
+        credentials: "include",
       });
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     } finally {
       setUser(null);
-      window.location.href = '/logout';
+      window.location.href = "/logout";
     }
   };
 
@@ -80,12 +80,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ 
-        user, 
+      value={{
+        user,
         isLoading,
-        loginWithMicrosoft, 
-        logout, 
-        refreshUser 
+        loginWithMicrosoft,
+        logout,
+        refreshUser,
       }}
     >
       {children}

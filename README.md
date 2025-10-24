@@ -9,16 +9,17 @@ A fast, modern dashboard to visualize and manage Purchase Orders (POs). Built wi
 ## Quick start
 
 Prerequisites
+
 - Node.js 18+ (Node 20+ recommended)
 - npm 9+ (or use pnpm/yarn if you prefer)
 
-1) Install dependencies
+1. Install dependencies
 
 ```bash
 npm install
 ```
 
-2) Configure environment
+2. Configure environment
 
 ```bash
 cp .env.example .env
@@ -26,11 +27,12 @@ cp .env.example .env
 ```
 
 Available variables (see .env.example):
+
 - VITE_API_URL: Base URL of your backend API (default: http://localhost:3000/api)
 - VITE_USE_MOCK_DATA: true to use mock data, false to call a real API
 - VITE_BYPASS_AUTH: development helper to bypass auth flows (use with caution)
 
-3) Start the app
+3. Start the app
 
 ```bash
 npm run dev
@@ -73,9 +75,10 @@ The app is designed to work with a real API or with mocked data during developme
 - API integration guide: ./API_INTEGRATION.md
 
 Key points
+
 - When VITE_USE_MOCK_DATA=true, the UI uses local mock data and does not call a backend
 - To connect to a real API, set VITE_API_URL and VITE_USE_MOCK_DATA=false and restart the dev server
-- Environment variables must be prefixed with VITE_ to be exposed to the client in Vite
+- Environment variables must be prefixed with VITE\_ to be exposed to the client in Vite
 
 ## Project structure (high level)
 
@@ -107,7 +110,7 @@ po-flow-vista/
   - Ensure VITE_API_URL is correct if VITE_USE_MOCK_DATA=false
   - Check browser console and network tab for failed requests
 - Env variables not applied:
-  - Variables must start with VITE_
+  - Variables must start with VITE\_
   - Restart the dev server after changing .env
 - Port already in use:
   - Change the dev server port in vite.config.ts or stop the other process

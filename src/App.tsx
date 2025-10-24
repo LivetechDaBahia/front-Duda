@@ -18,10 +18,16 @@ import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
   const location = useLocation();
-  
+
   // Pages that should not show the sidebar
-  const noSidebarRoutes = ['/login', '/logout', '/auth/callback', '/verify-phone'];
-  const showSidebar = !noSidebarRoutes.includes(location.pathname) && location.pathname !== '*';
+  const noSidebarRoutes = [
+    "/login",
+    "/logout",
+    "/auth/callback",
+    "/verify-phone",
+  ];
+  const showSidebar =
+    !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 
   return (
     <div className="flex w-full min-h-screen">

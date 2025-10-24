@@ -57,11 +57,26 @@ export const NotificationsSection = () => {
   const getNotificationBadge = (type: Notification["type"]) => {
     switch (type) {
       case "urgent":
-        return <Badge variant="destructive" className="text-xs">Urgent</Badge>;
+        return (
+          <Badge variant="destructive" className="text-xs">
+            Urgent
+          </Badge>
+        );
       case "warning":
-        return <Badge variant="outline" className="text-xs border-warning text-warning">Warning</Badge>;
+        return (
+          <Badge
+            variant="outline"
+            className="text-xs border-warning text-warning"
+          >
+            Warning
+          </Badge>
+        );
       case "info":
-        return <Badge variant="secondary" className="text-xs">Info</Badge>;
+        return (
+          <Badge variant="secondary" className="text-xs">
+            Info
+          </Badge>
+        );
     }
   };
 
@@ -81,12 +96,16 @@ export const NotificationsSection = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className={`font-semibold text-sm ${!notification.read ? "text-foreground" : "text-muted-foreground"}`}>
+                  <h3
+                    className={`font-semibold text-sm ${!notification.read ? "text-foreground" : "text-muted-foreground"}`}
+                  >
                     {notification.title}
                   </h3>
                   {getNotificationBadge(notification.type)}
                 </div>
-                <p className={`text-sm ${!notification.read ? "text-foreground" : "text-muted-foreground"}`}>
+                <p
+                  className={`text-sm ${!notification.read ? "text-foreground" : "text-muted-foreground"}`}
+                >
                   {notification.message}
                 </p>
                 <p className="text-xs text-muted-foreground mt-2">

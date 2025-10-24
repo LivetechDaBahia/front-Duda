@@ -7,11 +7,15 @@ import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { Loader2 } from "lucide-react";
-import type { CreditElementItem, CreditFilters as CreditFiltersType } from "@/types/credit";
+import type {
+  CreditElementItem,
+  CreditFilters as CreditFiltersType,
+} from "@/types/credit";
 
 const Credit = () => {
   const [view, setView] = useState<"kanban" | "table">("kanban");
-  const [selectedCredit, setSelectedCredit] = useState<CreditElementItem | null>(null);
+  const [selectedCredit, setSelectedCredit] =
+    useState<CreditElementItem | null>(null);
   const [filters, setFilters] = useState<CreditFiltersType>({
     search: "",
     status: "all",
@@ -21,8 +25,16 @@ const Credit = () => {
     type: "",
   });
 
-  const { credits, isLoading: isLoadingCredits, error: creditsError } = useCredits();
-  const { statuses, isLoading: isLoadingStatuses, error: statusesError } = useCreditStatuses();
+  const {
+    credits,
+    isLoading: isLoadingCredits,
+    error: creditsError,
+  } = useCredits();
+  const {
+    statuses,
+    isLoading: isLoadingStatuses,
+    error: statusesError,
+  } = useCreditStatuses();
 
   const filteredCredits = useMemo(() => {
     return credits.filter((credit) => {
@@ -63,10 +75,16 @@ const Credit = () => {
       }
 
       // Value range filters
-      if (filters.minValue !== undefined && credit.details.value < filters.minValue) {
+      if (
+        filters.minValue !== undefined &&
+        credit.details.value < filters.minValue
+      ) {
         return false;
       }
-      if (filters.maxValue !== undefined && credit.details.value > filters.maxValue) {
+      if (
+        filters.maxValue !== undefined &&
+        credit.details.value > filters.maxValue
+      ) {
         return false;
       }
 

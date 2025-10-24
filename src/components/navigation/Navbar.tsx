@@ -66,7 +66,7 @@ export const Navbar = () => {
 
             <LanguageSwitcher />
             <ThemeToggle />
-            
+
             {user && (
               <Button
                 variant="ghost"
@@ -75,7 +75,9 @@ export const Navbar = () => {
                 className="flex items-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">{t("auth.logout") || "Logout"}</span>
+                <span className="hidden sm:inline">
+                  {t("auth.logout") || "Logout"}
+                </span>
               </Button>
             )}
           </div>

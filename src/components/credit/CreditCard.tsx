@@ -11,17 +11,17 @@ interface CreditCardProps {
 
 export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
-  
+
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
     const currencyMap: Record<string, string> = {
-      "R$": "BRL",
-      "US$": "USD",
+      R$: "BRL",
+      US$: "USD",
       "€": "EUR",
     };
-    
+
     const currencyCode = currencyMap[currency] || currency || "BRL";
-    
+
     try {
       return new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -42,7 +42,9 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
       <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-xs sm:text-sm truncate">{credit.details.offer}</h3>
+            <h3 className="font-semibold text-xs sm:text-sm truncate">
+              {credit.details.offer}
+            </h3>
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.client}
             </p>

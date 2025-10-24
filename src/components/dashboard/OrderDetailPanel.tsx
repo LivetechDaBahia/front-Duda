@@ -1,4 +1,9 @@
-import { PurchaseOrder, ApprovalLevel, CostCenter, Product } from "@/types/order";
+import {
+  PurchaseOrder,
+  ApprovalLevel,
+  CostCenter,
+  Product,
+} from "@/types/order";
 import {
   Sheet,
   SheetContent,
@@ -56,14 +61,14 @@ const statusColors = {
 
 const getApprovalIcon = (status: string) => {
   switch (status) {
-    case '03':
-    case '05':
+    case "03":
+    case "05":
       return <CheckCircle className="h-6 w-6 text-[hsl(var(--success))]" />;
-    case '06':
-    case '07':
+    case "06":
+    case "07":
       return <XCircle className="h-6 w-6 text-destructive" />;
-    case '01':
-    case '02':
+    case "01":
+    case "02":
       return <Clock className="h-6 w-6 text-warning" />;
     default:
       return <AlertCircle className="h-6 w-6 text-muted-foreground" />;
@@ -76,7 +81,7 @@ export const OrderDetailPanel = ({
   onClose,
 }: OrderDetailPanelProps) => {
   const { t } = useLocale();
-  
+
   const {
     orderDetails,
     approvalLevels,
@@ -104,7 +109,11 @@ export const OrderDetailPanel = ({
                 {t("orderDetail.title")}
               </p>
             </div>
-            <Badge className={statusColors[order.status as keyof typeof statusColors]}>
+            <Badge
+              className={
+                statusColors[order.status as keyof typeof statusColors]
+              }
+            >
               {t(`status.${order.status}`)}
             </Badge>
           </div>
@@ -112,10 +121,18 @@ export const OrderDetailPanel = ({
 
         <Tabs defaultValue="overview" className="mt-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">{t("orderDetail.tabs.overview")}</TabsTrigger>
-            <TabsTrigger value="products">{t("orderDetail.tabs.products")}</TabsTrigger>
-            <TabsTrigger value="approvals">{t("orderDetail.tabs.approvals")}</TabsTrigger>
-            <TabsTrigger value="costCenters">{t("orderDetail.tabs.costCenters")}</TabsTrigger>
+            <TabsTrigger value="overview">
+              {t("orderDetail.tabs.overview")}
+            </TabsTrigger>
+            <TabsTrigger value="products">
+              {t("orderDetail.tabs.products")}
+            </TabsTrigger>
+            <TabsTrigger value="approvals">
+              {t("orderDetail.tabs.approvals")}
+            </TabsTrigger>
+            <TabsTrigger value="costCenters">
+              {t("orderDetail.tabs.costCenters")}
+            </TabsTrigger>
           </TabsList>
 
           {/* Tab 1: Overview */}
@@ -160,7 +177,9 @@ export const OrderDetailPanel = ({
                 <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg p-4 border border-primary/20">
                   <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <DollarSign className="w-4 h-4" />
-                    <span className="text-sm">{t("orderDetail.totalValue")}</span>
+                    <span className="text-sm">
+                      {t("orderDetail.totalValue")}
+                    </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
                     ${order.value.toLocaleString()}
@@ -170,7 +189,9 @@ export const OrderDetailPanel = ({
                 <div className="bg-muted/50 rounded-lg p-4 border">
                   <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Package className="w-4 h-4" />
-                    <span className="text-sm">{t("orderDetail.totalItems")}</span>
+                    <span className="text-sm">
+                      {t("orderDetail.totalItems")}
+                    </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
                     {order.items}
@@ -270,7 +291,9 @@ export const OrderDetailPanel = ({
                         <p className="text-sm text-muted-foreground">
                           {t("orderDetail.payment")}
                         </p>
-                        <p className="font-medium">{orderDetails.paymentDescription}</p>
+                        <p className="font-medium">
+                          {orderDetails.paymentDescription}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -286,7 +309,11 @@ export const OrderDetailPanel = ({
             ) : error ? (
               <ErrorAlert error={error} />
             ) : orderDetails?.items && orderDetails.items.length > 0 ? (
-              <ProductsTable products={orderDetails.items} coinSymbol={orderDetails.coinSymbol} t={t} />
+              <ProductsTable
+                products={orderDetails.items}
+                coinSymbol={orderDetails.coinSymbol}
+                t={t}
+              />
             ) : (
               <EmptyState message={t("orderDetail.noProducts")} />
             )}
@@ -312,7 +339,11 @@ export const OrderDetailPanel = ({
             ) : error ? (
               <ErrorAlert error={error} />
             ) : costCenters && costCenters.length > 0 ? (
-              <CostCentersGrid costCenters={costCenters} coinSymbol={orderDetails?.coinSymbol || "$"} t={t} />
+              <CostCentersGrid
+                costCenters={costCenters}
+                coinSymbol={orderDetails?.coinSymbol || "$"}
+                t={t}
+              />
             ) : (
               <EmptyState message={t("orderDetail.noCostCenters")} />
             )}
@@ -324,7 +355,15 @@ export const OrderDetailPanel = ({
 };
 
 // Component for Products Table
-const ProductsTable = ({ products, coinSymbol, t }: { products: Product[]; coinSymbol: string; t: (key: string) => string }) => (
+const ProductsTable = ({
+  products,
+  coinSymbol,
+  t,
+}: {
+  products: Product[];
+  coinSymbol: string;
+  t: (key: string) => string;
+}) => (
   <div className="border rounded-lg overflow-hidden">
     <Table>
       <TableHeader>
@@ -333,9 +372,15 @@ const ProductsTable = ({ products, coinSymbol, t }: { products: Product[]; coinS
           <TableHead>{t("orderDetail.product.description")}</TableHead>
           <TableHead>{t("orderDetail.product.partNumber")}</TableHead>
           <TableHead>{t("orderDetail.product.unit")}</TableHead>
-          <TableHead className="text-right">{t("orderDetail.product.quantity")}</TableHead>
-          <TableHead className="text-right">{t("orderDetail.product.unitPrice")}</TableHead>
-          <TableHead className="text-right">{t("orderDetail.product.total")}</TableHead>
+          <TableHead className="text-right">
+            {t("orderDetail.product.quantity")}
+          </TableHead>
+          <TableHead className="text-right">
+            {t("orderDetail.product.unitPrice")}
+          </TableHead>
+          <TableHead className="text-right">
+            {t("orderDetail.product.total")}
+          </TableHead>
           <TableHead>{t("orderDetail.product.costCenter")}</TableHead>
         </TableRow>
       </TableHeader>
@@ -343,12 +388,26 @@ const ProductsTable = ({ products, coinSymbol, t }: { products: Product[]; coinS
         {products.map((product, index) => (
           <TableRow key={index}>
             <TableCell className="font-medium">{product.item}</TableCell>
-            <TableCell className="max-w-[200px] truncate">{product.description}</TableCell>
+            <TableCell className="max-w-[200px] truncate">
+              {product.description}
+            </TableCell>
             <TableCell>{product.partNumber}</TableCell>
             <TableCell>{product.unit}</TableCell>
             <TableCell className="text-right">{product.amount}</TableCell>
-            <TableCell className="text-right">{coinSymbol}{product.unitValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
-            <TableCell className="text-right font-semibold">{coinSymbol}{product.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
+            <TableCell className="text-right">
+              {coinSymbol}
+              {product.unitValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </TableCell>
+            <TableCell className="text-right font-semibold">
+              {coinSymbol}
+              {product.totalValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </TableCell>
             <TableCell>{product.costCenter}</TableCell>
           </TableRow>
         ))}
@@ -358,15 +417,19 @@ const ProductsTable = ({ products, coinSymbol, t }: { products: Product[]; coinS
 );
 
 // Component for Approval Timeline
-const ApprovalsTimeline = ({ levels, t }: { levels: ApprovalLevel[]; t: (key: string) => string }) => (
+const ApprovalsTimeline = ({
+  levels,
+  t,
+}: {
+  levels: ApprovalLevel[];
+  t: (key: string) => string;
+}) => (
   <div className="space-y-4">
     {levels.map((level, index) => (
       <Card key={index}>
         <CardContent className="pt-6">
           <div className="flex items-start gap-4">
-            <div className="mt-1">
-              {getApprovalIcon(level.status)}
-            </div>
+            <div className="mt-1">{getApprovalIcon(level.status)}</div>
             <div className="flex-1">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <h4 className="font-semibold">
@@ -388,7 +451,15 @@ const ApprovalsTimeline = ({ levels, t }: { levels: ApprovalLevel[]; t: (key: st
 );
 
 // Component for Cost Centers Grid
-const CostCentersGrid = ({ costCenters, coinSymbol, t }: { costCenters: CostCenter[]; coinSymbol: string; t: (key: string) => string }) => (
+const CostCentersGrid = ({
+  costCenters,
+  coinSymbol,
+  t,
+}: {
+  costCenters: CostCenter[];
+  coinSymbol: string;
+  t: (key: string) => string;
+}) => (
   <div className="grid gap-4">
     {costCenters.map((center, index) => (
       <Card key={index}>
@@ -401,12 +472,24 @@ const CostCentersGrid = ({ costCenters, coinSymbol, t }: { costCenters: CostCent
         <CardContent>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-sm">{t("orderDetail.costCenter.totalValue")}:</span>
-              <span className="font-semibold">{coinSymbol}{center.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              <span className="text-sm">
+                {t("orderDetail.costCenter.totalValue")}:
+              </span>
+              <span className="font-semibold">
+                {coinSymbol}
+                {center.totalValue.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm">{t("orderDetail.costCenter.percentage")}:</span>
-              <span className="font-semibold">{center.percentage.toFixed(2)}%</span>
+              <span className="text-sm">
+                {t("orderDetail.costCenter.percentage")}:
+              </span>
+              <span className="font-semibold">
+                {center.percentage.toFixed(2)}%
+              </span>
             </div>
             <Progress value={center.percentage} className="mt-2" />
           </div>
