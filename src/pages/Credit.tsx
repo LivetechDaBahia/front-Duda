@@ -97,9 +97,9 @@ const Credit = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-full bg-background">
+      <div className="min-h-full max-w-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="w-full">
+        <main className="max-w-full">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -110,9 +110,9 @@ const Credit = () => {
 
   if (error) {
     return (
-      <div className="min-h-full bg-background">
+      <div className="min-h-full max-w-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="w-full">
+        <main className="max-w-full">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-destructive mb-2">Error loading credit data</p>
@@ -127,11 +127,11 @@ const Credit = () => {
   }
 
   return (
-    <div className="min-h-full bg-background">
+    <div className="min-h-full max-w-full bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
-      <main className="w-full">
-        <div className="w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
+      <main className="max-w-full">
+        <div className="max-w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
           <CreditFilters
             filters={filters}
             statuses={statuses}
