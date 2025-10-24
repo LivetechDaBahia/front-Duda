@@ -11,11 +11,23 @@ import type {
   CreditElementItem,
   CreditFilters as CreditFiltersType,
 } from "@/types/credit";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 
 const Credit = () => {
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<CreditFiltersType>({
     search: "",
     status: "all",
@@ -92,6 +104,19 @@ const Credit = () => {
     });
   }, [credits, filters]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCredits.length / itemsPerPage);
+  const paginatedCredits = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredCredits.slice(startIndex, endIndex);
+  }, [filteredCredits, currentPage, itemsPerPage]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
   const isLoading = isLoadingCredits || isLoadingStatuses;
   const error = creditsError || statusesError;
 
@@ -148,17 +173,89 @@ const Credit = () => {
           </div>
           ) : view === "kanban" ? (
             <CreditKanbanView
-              credits={filteredCredits}
+              credits={paginatedCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
             />
           ) : (
             <CreditTableView
-              credits={filteredCredits}
+              credits={paginatedCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
             />
           )}
+
+          <div className="mt-8 flex items-center justify-between pb-4">
+            <ItemsPerPageSelector
+              value={itemsPerPage}
+              onChange={(value) => {
+                setItemsPerPage(value);
+                setCurrentPage(1);
+              }}
+            />
+
+            {totalPages > 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={currentPage === page}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    },
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </div>
         </div>
       </main>
 

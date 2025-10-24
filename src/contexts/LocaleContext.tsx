@@ -131,6 +131,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "profile.errorLoading": "Unable to load profile details",
     "profile.notSpecified": "Not specified",
 
+    // Pagination
+    "pagination.itemsPerPage": "Items per page:",
+
     // Actions
     "actions.approve": "Approve",
     "actions.decline": "Decline",
@@ -347,6 +350,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "profile.errorLoading": "Não foi possível carregar os detalhes do perfil",
     "profile.notSpecified": "Não especificado",
 
+    // Pagination
+    "pagination.itemsPerPage": "Itens por página:",
+
     // Actions
     "actions.approve": "Aprovar",
     "actions.decline": "Recusar",
@@ -561,6 +567,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "profile.loadingProfile": "Cargando perfil...",
     "profile.errorLoading": "No se pudo cargar los detalles del perfil",
     "profile.notSpecified": "No especificado",
+
+    // Pagination
+    "pagination.itemsPerPage": "Elementos por página:",
 
     // Actions
     "actions.approve": "Aprobar",
