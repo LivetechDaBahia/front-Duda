@@ -20,6 +20,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 
 const Index = () => {
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
@@ -28,7 +29,7 @@ const Index = () => {
   );
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
     status: "all",
@@ -117,9 +118,9 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -130,9 +131,9 @@ const Index = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-destructive mb-2">Error loading orders</p>
@@ -147,10 +148,10 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-background">
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
 
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto">
         <div className="mb-6">
           <OrderFilters onFilterChange={setFilters} />
         </div>
@@ -169,8 +170,16 @@ const Index = () => {
           />
         )}
 
-        {totalPages > 1 && (
-          <div className="mt-8">
+        <div className="mt-8 flex items-center justify-between">
+          <ItemsPerPageSelector
+            value={itemsPerPage}
+            onChange={(value) => {
+              setItemsPerPage(value);
+              setCurrentPage(1);
+            }}
+          />
+
+          {totalPages > 1 && (
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -231,8 +240,8 @@ const Index = () => {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
-        )}
+          )}
+        </div>
       </main>
 
       <OrderDetailPanel

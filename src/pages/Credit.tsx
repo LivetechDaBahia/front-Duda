@@ -11,11 +11,23 @@ import type {
   CreditElementItem,
   CreditFilters as CreditFiltersType,
 } from "@/types/credit";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 
 const Credit = () => {
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<CreditFiltersType>({
     search: "",
     status: "all",
@@ -92,14 +104,27 @@ const Credit = () => {
     });
   }, [credits, filters]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCredits.length / itemsPerPage);
+  const paginatedCredits = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredCredits.slice(startIndex, endIndex);
+  }, [filteredCredits, currentPage, itemsPerPage]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
   const isLoading = isLoadingCredits || isLoadingStatuses;
   const error = creditsError || statusesError;
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full max-w-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="max-w-full">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -110,9 +135,9 @@ const Credit = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full max-w-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="max-w-full">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-destructive mb-2">Error loading credit data</p>
@@ -127,11 +152,11 @@ const Credit = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full max-w-full bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
-      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
-        <div className="mb-4 sm:mb-6">
+      <main className="max-w-full">
+        <div className="max-w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
           <CreditFilters
             filters={filters}
             statuses={statuses}
@@ -139,25 +164,99 @@ const Credit = () => {
           />
         </div>
 
-        {isLoading ? (
+        <div className="px-4 sm:px-6 pt-4">
+          {isLoading ? (
           <div className="space-y-4">
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
           </div>
-        ) : view === "kanban" ? (
-          <CreditKanbanView
-            credits={filteredCredits}
-            statuses={statuses}
-            onCreditClick={setSelectedCredit}
-          />
-        ) : (
-          <CreditTableView
-            credits={filteredCredits}
-            statuses={statuses}
-            onCreditClick={setSelectedCredit}
-          />
-        )}
+          ) : view === "kanban" ? (
+            <CreditKanbanView
+              credits={paginatedCredits}
+              statuses={statuses}
+              onCreditClick={setSelectedCredit}
+            />
+          ) : (
+            <CreditTableView
+              credits={paginatedCredits}
+              statuses={statuses}
+              onCreditClick={setSelectedCredit}
+            />
+          )}
+
+          <div className="mt-8 flex items-center justify-between pb-4">
+            <ItemsPerPageSelector
+              value={itemsPerPage}
+              onChange={(value) => {
+                setItemsPerPage(value);
+                setCurrentPage(1);
+              }}
+            />
+
+            {totalPages > 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={currentPage === page}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    },
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </div>
+        </div>
       </main>
 
       <CreditDetailPanel

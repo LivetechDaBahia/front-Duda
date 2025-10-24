@@ -7,7 +7,7 @@ export default function Logout() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-accent/5">
+    <div className="min-h-full flex items-center justify-center bg-gradient-to-br from-background via-background to-accent/5">
       <div className="container mx-auto px-6">
         <div className="max-w-md mx-auto">
           <div className="bg-card/80 backdrop-blur-sm border rounded-xl shadow-lg p-8 text-center space-y-6">

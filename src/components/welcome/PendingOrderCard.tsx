@@ -57,7 +57,7 @@ export const PendingOrderCard = ({
   const isUrgent = daysUntilDue <= 7;
 
   return (
-    <Card className="p-5 hover:shadow-md transition-all animate-scale-in bg-gradient-to-br from-card to-card/50">
+    <Card className="p-5 hover:shadow-md transition-all animate-scale-in bg-gradient-to-br from-card to-card/50 w-full">
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between">

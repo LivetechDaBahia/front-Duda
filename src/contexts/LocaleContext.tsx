@@ -126,6 +126,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Profile
     "profile.role": "Purchase Manager",
+    "profile.department": "Department",
+    "profile.loadingProfile": "Loading profile...",
+    "profile.errorLoading": "Unable to load profile details",
+    "profile.notSpecified": "Not specified",
+
+    // Pagination
+    "pagination.itemsPerPage": "Items per page:",
 
     // Actions
     "actions.approve": "Approve",
@@ -338,6 +345,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Profile
     "profile.role": "Gerente de Compras",
+    "profile.department": "Departamento",
+    "profile.loadingProfile": "Carregando perfil...",
+    "profile.errorLoading": "Não foi possível carregar os detalhes do perfil",
+    "profile.notSpecified": "Não especificado",
+
+    // Pagination
+    "pagination.itemsPerPage": "Itens por página:",
 
     // Actions
     "actions.approve": "Aprovar",
@@ -549,6 +563,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Profile
     "profile.role": "Gerente de Compras",
+    "profile.department": "Departamento",
+    "profile.loadingProfile": "Cargando perfil...",
+    "profile.errorLoading": "No se pudo cargar los detalles del perfil",
+    "profile.notSpecified": "No especificado",
+
+    // Pagination
+    "pagination.itemsPerPage": "Elementos por página:",
 
     // Actions
     "actions.approve": "Aprobar",

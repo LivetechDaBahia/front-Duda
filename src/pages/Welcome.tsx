@@ -65,8 +65,8 @@ const Welcome = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-6 py-8">
+      <div className="min-h-full bg-background">
+        <main className="container mx-auto">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
           </div>
@@ -80,8 +80,8 @@ const Welcome = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-6 py-8">
+      <div className="min-h-full bg-background">
+        <main className="container mx-auto">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
           </div>
@@ -99,8 +99,8 @@ const Welcome = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-6 py-8">
+    <div className="min-h-full bg-background">
+      <main className="container mx-auto">
         {/* User Profile */}
         <div className="mb-8 animate-fade-in">
           <UserProfile />
@@ -142,7 +142,7 @@ const Welcome = () => {
           </div>
 
           {pendingOrders.length > 0 ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
               {pendingOrders.map((order) => (
                 <PendingOrderCard
                   key={order.id}

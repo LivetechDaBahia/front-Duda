@@ -19,10 +19,11 @@ export default function Login() {
   const { t } = useLocale();
   const navigate = useNavigate();
 
-  // Redirect if already logged in
+  // Redirect if already logged in or auth is bypassed
   useEffect(() => {
-    if (user) {
-      navigate("/purchase-orders", { replace: true });
+    const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
+    if (user || bypassAuth) {
+      navigate("/home", { replace: true });
     }
   }, [user, navigate]);
 
@@ -32,7 +33,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-full items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <div className="flex justify-center">

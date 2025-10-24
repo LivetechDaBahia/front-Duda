@@ -47,7 +47,7 @@ export const CreditTableView = ({
 
   return (
     <div className="rounded-md border overflow-x-auto">
-      <Table>
+      <Table className="w-full min-w-max">
         <TableHeader>
           <TableRow>
             <TableHead className="whitespace-nowrap">

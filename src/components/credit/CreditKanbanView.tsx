@@ -1,4 +1,3 @@
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CreditCard } from "./CreditCard";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -21,12 +20,13 @@ export const CreditKanbanView = ({
   };
 
   return (
-    <ScrollArea className="w-full">
-      <div className="flex gap-3 sm:gap-4 pb-4">
+    <div className="w-full">
+      <div className="overflow-x-auto">
+        <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max">
         {statuses.map((status) => {
           const statusCredits = getCreditsByStatus(status.id);
           return (
-            <div key={status.id} className="flex-shrink-0 w-72 sm:w-80">
+            <div key={status.id} className="flex-shrink-0 w-[360px]">
               <div
                 className={`rounded-lg border p-3 sm:p-4 bg-card ${
                   status.destructive ? "border-destructive/50" : ""
@@ -64,7 +64,7 @@ export const CreditKanbanView = ({
           );
         })}
       </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    </div>
+  </div>
   );
 };

@@ -64,7 +64,7 @@ export const KanbanView = ({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+    <div className="grid gap-6 animate-fade-in" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))' }}>
       {columns.map(({ status, label, color }) => {
         const columnOrders = orders.filter((order) => order.status === status);
 

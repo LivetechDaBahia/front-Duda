@@ -36,49 +36,51 @@ const AppRoutes = () => {
     !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex w-full min-h-[100dvh]">
       {showSidebar && <AppSidebar />}
-      <div className="flex-1 w-full">
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Welcome />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route
-            path="/verify-phone"
-            element={
-              <ProtectedRoute>
-                <PhoneVerification />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/purchase-orders"
-            element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/credit"
-            element={
-              <ProtectedRoute>
-                <Credit />
-              </ProtectedRoute>
-            }
-          />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <div className="flex-1 min-w-0 flex flex-col">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Welcome />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route
+              path="/verify-phone"
+              element={
+                <ProtectedRoute>
+                  <PhoneVerification />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/purchase-orders"
+              element={
+                <ProtectedRoute>
+                  <Index />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/credit"
+              element={
+                <ProtectedRoute>
+                  <Credit />
+                </ProtectedRoute>
+              }
+            />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

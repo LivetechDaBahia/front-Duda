@@ -13,6 +13,7 @@ interface User {
   name: string;
   provider: "microsoft";
   role?: string;
+  department?: string;
 }
 
 interface AuthContextType {
