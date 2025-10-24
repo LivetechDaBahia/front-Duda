@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { LocaleProvider } from "./contexts/LocaleContext";
@@ -34,6 +34,7 @@ const AppRoutes = () => {
       {showSidebar && <AppSidebar />}
       <div className="flex-1 w-full">
         <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route
             path="/home"
             element={
