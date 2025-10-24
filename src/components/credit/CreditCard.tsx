@@ -35,7 +35,7 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-md transition-shadow border-l-4"
+      className="cursor-pointer hover:shadow-md transition-shadow border-l-4 w-full"
       style={{ borderLeftColor: credit.color }}
       onClick={onClick}
     >

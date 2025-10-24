@@ -88,8 +88,8 @@ export const TableView = ({
   });
 
   return (
-    <div className="bg-card rounded-lg border shadow-sm animate-fade-in overflow-hidden">
-      <Table>
+    <div className="bg-card rounded-lg border shadow-sm animate-fade-in overflow-x-auto">
+      <Table className="w-full min-w-max">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             <TableHead>

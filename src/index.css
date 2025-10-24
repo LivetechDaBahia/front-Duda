@@ -59,6 +59,13 @@ All colors MUST be HSL.
 
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    /* Fluid spacing that responds to viewport */
+    --spacing-fluid-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --spacing-fluid-sm: clamp(0.75rem, 1.5vw, 1rem);
+    --spacing-fluid-md: clamp(1rem, 2vw, 1.5rem);
+    --spacing-fluid-lg: clamp(1.5rem, 3vw, 2.5rem);
+    --spacing-fluid-xl: clamp(2rem, 4vw, 4rem);
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -137,5 +144,17 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  }
+
+  h3 {
+    font-size: clamp(1rem, 2vw, 1.5rem);
   }
 }

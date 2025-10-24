@@ -26,7 +26,7 @@ export const CreditKanbanView = ({
         {statuses.map((status) => {
           const statusCredits = getCreditsByStatus(status.id);
           return (
-            <div key={status.id} className="flex-shrink-0 w-72 sm:w-80">
+            <div key={status.id} className="flex-shrink-0" style={{ width: 'clamp(280px, 25vw, 400px)' }}>
               <div
                 className={`rounded-lg border p-3 sm:p-4 bg-card ${
                   status.destructive ? "border-destructive/50" : ""

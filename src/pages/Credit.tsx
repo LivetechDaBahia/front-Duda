@@ -99,7 +99,7 @@ const Credit = () => {
     return (
       <div className="min-h-screen bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -112,7 +112,7 @@ const Credit = () => {
     return (
       <div className="min-h-screen bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-destructive mb-2">Error loading credit data</p>
@@ -130,7 +130,7 @@ const Credit = () => {
     <div className="min-h-screen bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
-      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
+      <main className="container mx-auto">
         <div className="mb-4 sm:mb-6">
           <CreditFilters
             filters={filters}

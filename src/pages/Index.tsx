@@ -119,7 +119,7 @@ const Index = () => {
     return (
       <div className="min-h-screen bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -132,7 +132,7 @@ const Index = () => {
     return (
       <div className="min-h-screen bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
-        <main className="container mx-auto px-6 py-8">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-destructive mb-2">Error loading orders</p>
@@ -150,7 +150,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
 
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto">
         <div className="mb-6">
           <OrderFilters onFilterChange={setFilters} />
         </div>
