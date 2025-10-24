@@ -142,7 +142,13 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
   body {
+    margin: 0;
+    overflow-y: auto;
     @apply bg-background text-foreground;
   }
 

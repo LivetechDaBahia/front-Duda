@@ -97,9 +97,9 @@ const Credit = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
-      <main className="container mx-auto">
+        <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -110,7 +110,7 @@ const Credit = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <CreditHeader view={view} onViewChange={setView} />
         <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
@@ -127,7 +127,7 @@ const Credit = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-background">
       <CreditHeader view={view} onViewChange={setView} />
 
       <main className="container mx-auto">

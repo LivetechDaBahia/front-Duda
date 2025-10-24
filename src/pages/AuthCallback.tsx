@@ -37,7 +37,7 @@ export default function AuthCallback() {
   }, [navigate, refreshUser, toast]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
+    <div className="flex min-h-full items-center justify-center bg-background">
       <div className="text-center space-y-4">
         <div className="flex justify-center">
           <div className="rounded-full bg-primary/10 p-3 animate-pulse">

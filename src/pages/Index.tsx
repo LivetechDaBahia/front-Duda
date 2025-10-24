@@ -117,7 +117,7 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
         <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
@@ -130,7 +130,7 @@ const Index = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-full bg-background">
         <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
         <main className="container mx-auto">
           <div className="flex items-center justify-center h-64">
@@ -147,7 +147,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-background">
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
 
       <main className="container mx-auto">

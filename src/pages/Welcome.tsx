@@ -65,8 +65,8 @@ const Welcome = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-      <main className="container mx-auto">
+      <div className="min-h-full bg-background">
+        <main className="container mx-auto">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
           </div>
@@ -80,8 +80,8 @@ const Welcome = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
-      <main className="container mx-auto">
+      <div className="min-h-full bg-background">
+        <main className="container mx-auto">
           <div className="mb-8 animate-fade-in">
             <UserProfile />
           </div>
@@ -99,7 +99,7 @@ const Welcome = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-background">
       <main className="container mx-auto">
         {/* User Profile */}
         <div className="mb-8 animate-fade-in">
