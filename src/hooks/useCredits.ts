@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
 import { transformCreditElementsToUI } from "@/lib/creditTransformer";
 import type { CreditElementItem } from "@/types/credit";
-import { USE_MOCK_CREDIT_DATA, mockCredits } from "@/data/mockCredits";
 
 export const useCredits = () => {
   const {
@@ -13,10 +12,6 @@ export const useCredits = () => {
   } = useQuery<CreditElementItem[]>({
     queryKey: ["credits"],
     queryFn: async () => {
-      // Use mock data if flag is enabled
-      if (USE_MOCK_CREDIT_DATA) {
-        return transformCreditElementsToUI(mockCredits);
-      }
       const elements = await creditService.getCreditElements();
       return transformCreditElementsToUI(elements);
     },
