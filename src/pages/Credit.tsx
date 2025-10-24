@@ -132,13 +132,11 @@ const Credit = () => {
 
       <main className="w-full">
         <div className="w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
-          <div className="max-w-4xl">
-            <CreditFilters
-              filters={filters}
-              statuses={statuses}
-              onFiltersChange={setFilters}
-            />
-          </div>
+          <CreditFilters
+            filters={filters}
+            statuses={statuses}
+            onFiltersChange={setFilters}
+          />
         </div>
 
         <div className="px-4 sm:px-6 pt-4">

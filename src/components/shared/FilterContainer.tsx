@@ -44,7 +44,7 @@ export const FilterContainer = ({
     <div className="space-y-4">
       {/* Search Bar */}
       <div className="flex gap-2 items-center flex-wrap">
-        <div className="relative flex-1 min-w-[250px] max-w-md">
+        <div className="relative flex-1 min-w-[250px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
           <Input
             placeholder={searchPlaceholder}
