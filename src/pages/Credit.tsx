@@ -131,33 +131,37 @@ const Credit = () => {
       <CreditHeader view={view} onViewChange={setView} />
 
       <main className="w-full">
-        <div className="mb-4 sm:mb-6">
-          <CreditFilters
-            filters={filters}
-            statuses={statuses}
-            onFiltersChange={setFilters}
-          />
+        <div className="w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
+          <div className="max-w-4xl">
+            <CreditFilters
+              filters={filters}
+              statuses={statuses}
+              onFiltersChange={setFilters}
+            />
+          </div>
         </div>
 
-        {isLoading ? (
+        <div className="px-4 sm:px-6 pt-4">
+          {isLoading ? (
           <div className="space-y-4">
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
             <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
           </div>
-        ) : view === "kanban" ? (
-          <CreditKanbanView
-            credits={filteredCredits}
-            statuses={statuses}
-            onCreditClick={setSelectedCredit}
-          />
-        ) : (
-          <CreditTableView
-            credits={filteredCredits}
-            statuses={statuses}
-            onCreditClick={setSelectedCredit}
-          />
-        )}
+          ) : view === "kanban" ? (
+            <CreditKanbanView
+              credits={filteredCredits}
+              statuses={statuses}
+              onCreditClick={setSelectedCredit}
+            />
+          ) : (
+            <CreditTableView
+              credits={filteredCredits}
+              statuses={statuses}
+              onCreditClick={setSelectedCredit}
+            />
+          )}
+        </div>
       </main>
 
       <CreditDetailPanel
