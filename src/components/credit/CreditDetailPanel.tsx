@@ -433,9 +433,7 @@ export const CreditDetailPanel = ({
                       {linkedClients.map((client, idx) => (
                         <TableRow key={idx}>
                           <TableCell>{client.branch}</TableCell>
-                          <TableCell>
-                            {formatCurrency(client.lc)}
-                          </TableCell>
+                          <TableCell>{formatCurrency(client.lc)}</TableCell>
                           <TableCell>{formatDate(client.dueDate)}</TableCell>
                           <TableCell>
                             <Badge variant="outline">{client.risk}</Badge>

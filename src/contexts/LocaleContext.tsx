@@ -19,6 +19,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
+    // Auth
+    "auth.login": "Login",
+    "auth.logout": "Logout",
+
     // Login
     "login.title": "Welcome Back",
     "login.subtitle": "Sign in to your account to continue",
@@ -130,6 +134,18 @@ const translations: Record<Locale, Record<string, string>> = {
     "actions.approving": "Approving...",
     "actions.declining": "Declining...",
 
+    // Filters
+    "filters.filters": "Filters",
+    "filters.search": "Search",
+    "filters.searchPlaceholder": "Search by order number or supplier",
+    "filters.status": "Status",
+    "filters.allStatuses": "All Statuses",
+    "filters.branch": "Branch",
+    "filters.branchAll": "All Branches",
+    "filters.dateFrom": "Date from",
+    "filters.dateTo": "Date to",
+    "filters.selectDate": "Select Date",
+
     // Table
     "table.orderID": "Order ID",
     "table.orderNumber": "Order #",
@@ -153,6 +169,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.subtitle": "Manage and track credit flow elements",
     "credit.offer": "Offer",
     "credit.client": "Client",
+    "credit.linkedClients": "Linked Clients",
     "credit.value": "Value",
     "credit.currency": "Currency",
     "credit.seller": "Seller",
@@ -162,6 +179,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.user": "User",
     "credit.noCredits": "No credit elements found",
     "credit.noCreditsInStatus": "No items in this status",
+    "credit.noLinkedClients": "No linked clients",
     "credit.searchPlaceholder": "Search by offer, client, or key",
     "credit.dateRange": "Date Range",
     "credit.minValue": "Min Value",
@@ -373,6 +391,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.user": "Usuário",
     "credit.noCredits": "Nenhum elemento de crédito encontrado",
     "credit.noCreditsInStatus": "Nenhum item neste status",
+    "credit.noLinkedClients": "Nenhum cliente vinculado",
     "credit.searchPlaceholder": "Pesquisar por proposta, cliente ou chave",
     "credit.dateRange": "Período",
     "credit.minValue": "Valor Mín.",
@@ -421,6 +440,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.credit": "Crédito",
     "nav.notifications": "Notificaciones",
     "nav.brandName": "WDC Net",
+
+    // Auth
+    "auth.login": "Iniciar Sesión",
+    "auth.logout": "Cerrar Sesión",
 
     // Login
     "login.title": "Bienvenido de Nuevo",
@@ -534,6 +557,18 @@ const translations: Record<Locale, Record<string, string>> = {
     "actions.approving": "Aprobando...",
     "actions.declining": "Rechazando...",
 
+    // Filters
+    "filters.filters": "Filtros",
+    "filters.search": "Buscar",
+    "filters.searchPlaceholder": "Buscar por número de orden o proveedor",
+    "filters.status": "Estado",
+    "filters.allStatuses": "Todos los Estados",
+    "filters.branch": "Sucursal",
+    "filters.branchAll": "Todas las Sucursales",
+    "filters.dateFrom": "Fecha desde",
+    "filters.dateTo": "Fecha hasta",
+    "filters.selectDate": "Seleccionar Fecha",
+
     // Table
     "table.orderID": "ID de Orden",
     "table.orderNumber": "Orden Nº",
@@ -557,6 +592,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.subtitle": "Gestione y rastree elementos de flujo de crédito",
     "credit.offer": "Oferta",
     "credit.client": "Cliente",
+    "credit.linkedClients": "Clientes Vinculados",
     "credit.value": "Valor",
     "credit.currency": "Moneda",
     "credit.seller": "Vendedor",
@@ -566,6 +602,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.user": "Usuario",
     "credit.noCredits": "No se encontraron elementos de crédito",
     "credit.noCreditsInStatus": "No hay elementos en este estado",
+    "credit.noLinkedClients": "No hay clientes vinculados",
     "credit.searchPlaceholder": "Buscar por oferta, cliente o clave",
     "credit.dateRange": "Rango de Fechas",
     "credit.minValue": "Valor Mín.",
