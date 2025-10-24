@@ -18,14 +18,14 @@ export default function Login() {
   const { toast } = useToast();
   const { t } = useLocale();
   const navigate = useNavigate();
-  const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
 
   // Redirect if already logged in or auth is bypassed
   useEffect(() => {
+    const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
     if (user || bypassAuth) {
       navigate("/home", { replace: true });
     }
-  }, [user, bypassAuth, navigate]);
+  }, [user, navigate]);
 
   const handleMicrosoftLogin = () => {
     // Redirect to backend login endpoint
