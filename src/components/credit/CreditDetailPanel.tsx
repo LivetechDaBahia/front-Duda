@@ -40,6 +40,7 @@ export const CreditDetailPanel = ({
     clientDocuments,
     clientDetails,
     clientHistory,
+    linkedClients,
     isLoading,
   } = useCreditDetails({
     creditId: credit?.key || null,
@@ -401,6 +402,49 @@ export const CreditDetailPanel = ({
                 <p className="text-sm text-muted-foreground text-center py-8">
                   {t("credit.noClientInfo")}
                 </p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="linkedClients" className="space-y-4 mt-4">
+              {isLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              ) : linkedClients.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  {t("credit.noLinkedClients")}
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  <h3 className="font-semibold">
+                    {t("credit.linkedClientsInfo")}
+                  </h3>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>{t("credit.branch")}</TableHead>
+                        <TableHead>{t("credit.lc")}</TableHead>
+                        <TableHead>{t("credit.dueDate")}</TableHead>
+                        <TableHead>{t("credit.risk")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {linkedClients.map((client, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{client.branch}</TableCell>
+                          <TableCell>
+                            {formatCurrency(client.lc)}
+                          </TableCell>
+                          <TableCell>{formatDate(client.dueDate)}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{client.risk}</Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </TabsContent>
           </Tabs>

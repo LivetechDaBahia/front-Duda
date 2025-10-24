@@ -7,6 +7,7 @@ import type {
   CreditClientDocument,
   CreditClientDetails,
   FinancialHistory,
+  CreditLinkedClient,
 } from "@/types/credit";
 import {
   USE_MOCK_CREDIT_DATA,
@@ -16,6 +17,7 @@ import {
   mockClientDocuments,
   mockClientDetails,
   mockClientHistory,
+  mockLinkedClients,
 } from "@/data/mockCredits";
 
 interface UseCreditDetailsParams {
@@ -120,13 +122,29 @@ export const useCreditDetails = ({
     enabled: !!clientBranch && !!clientId,
   });
 
+  const {
+    data: linkedClients,
+    isLoading: isLoadingLinkedClients,
+    error: linkedClientsError,
+  } = useQuery<CreditLinkedClient[]>({
+    queryKey: ["creditLinkedClients", clientBranch, clientId],
+    queryFn: async () => {
+      if (USE_MOCK_CREDIT_DATA) {
+        return mockLinkedClients[clientId!] || [];
+      }
+      return creditService.getLinkedClients(clientId!, clientBranch!);
+    },
+    enabled: !!clientBranch && !!clientId,
+  });
+
   const isLoading =
     isLoadingDetails ||
     isLoadingDocuments ||
     isLoadingQuoteDocs ||
     isLoadingClientDocs ||
     isLoadingClientDetails ||
-    isLoadingClientHistory;
+    isLoadingClientHistory ||
+    isLoadingLinkedClients;
 
   const error =
     detailsError ||
@@ -134,7 +152,8 @@ export const useCreditDetails = ({
     quoteDocsError ||
     clientDocsError ||
     clientDetailsError ||
-    clientHistoryError;
+    clientHistoryError ||
+    linkedClientsError;
 
   return {
     elementDetails: elementDetails?.[0] || null,
@@ -143,6 +162,7 @@ export const useCreditDetails = ({
     clientDocuments: clientDocuments || [],
     clientDetails: clientDetails || null,
     clientHistory: clientHistory || [],
+    linkedClients: linkedClients || [],
     isLoading,
     error,
   };

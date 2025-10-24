@@ -8,6 +8,7 @@ import type {
   CreditClientDocument,
   CreditClientDetails,
   FinancialHistory,
+  CreditLinkedClient,
 } from "@/types/credit";
 
 export const creditService = {
@@ -48,5 +49,12 @@ export const creditService = {
     id: string,
   ): Promise<FinancialHistory[]> {
     return apiClient.get(`/credit/creditElement/history/${branch}/${id}`);
+  },
+
+  async getLinkedClients(
+    id: string,
+    branch: string,
+  ): Promise<CreditLinkedClient[]> {
+    return apiClient.get(`/credit/creditElement/linkedClients/${branch}/${id}`);
   },
 };

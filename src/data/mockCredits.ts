@@ -5,6 +5,7 @@ import type {
   CreditDocument,
   CreditClientDetails,
   FinancialHistory,
+  CreditLinkedClient,
 } from "@/types/credit";
 
 // Flag to enable/disable mock data - set to false to use real API data
@@ -495,6 +496,53 @@ export const mockClientHistory: Record<string, FinancialHistory[]> = {
       value: 30000,
       expiration: new Date("2025-04-01"),
       posted: null,
+    },
+  ],
+};
+
+export const mockLinkedClients: Record<string, CreditLinkedClient[]> = {
+  "CLIENT-001": [
+    {
+      id: "CLIENT-001-LC1",
+      branch: "01",
+      lc: 500000,
+      dueDate: new Date("2025-12-31"),
+      risk: "LOW",
+      currency: 1,
+    },
+    {
+      id: "CLIENT-001-LC2",
+      branch: "02",
+      lc: 250000,
+      dueDate: new Date("2025-10-31"),
+      risk: "LOW",
+      currency: 1,
+    },
+    {
+      id: "CLIENT-001-LC3",
+      branch: "03",
+      lc: 150000,
+      dueDate: new Date("2025-08-31"),
+      risk: "MEDIUM",
+      currency: 2,
+    },
+  ],
+  "CLIENT-002": [
+    {
+      id: "CLIENT-002-LC1",
+      branch: "01",
+      lc: 250000,
+      dueDate: new Date("2025-09-30"),
+      risk: "MEDIUM",
+      currency: 2,
+    },
+    {
+      id: "CLIENT-002-LC2",
+      branch: "02",
+      lc: 100000,
+      dueDate: new Date("2025-06-30"),
+      risk: "HIGH",
+      currency: 2,
     },
   ],
 };

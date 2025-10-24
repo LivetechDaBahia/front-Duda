@@ -85,6 +85,15 @@ export interface FinancialHistory {
   posted: Date | null;
 }
 
+export interface CreditLinkedClient {
+  id: string;
+  branch: string;
+  lc: number;
+  dueDate: Date | null;
+  risk: string;
+  currency: number;
+}
+
 export type UICreditStatus = "all" | string;
 
 export interface CreditFilters {
