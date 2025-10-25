@@ -35,11 +35,6 @@ import {
 } from "@/services/phoneVerificationService";
 
 const phoneSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Name is required")
-    .max(100, "Name must be less than 100 characters"),
   phone: z
     .string()
     .trim()
@@ -86,7 +81,6 @@ export function PhoneVerificationModal({
   const phoneForm = useForm<PhoneFormData>({
     resolver: zodResolver(phoneSchema),
     defaultValues: {
-      name: user?.name || "",
       phone: "",
     },
   });
@@ -148,10 +142,11 @@ export function PhoneVerificationModal({
   const onPhoneSubmit = async (data: PhoneFormData) => {
     setIsLoading(true);
     try {
-      const response = await sendPhoneCode(data.phone, data.name);
+      const userName = user?.name || "";
+      const response = await sendPhoneCode(data.phone, userName);
 
       setPhoneNumber(data.phone);
-      setUserName(data.name);
+      setUserName(userName);
       setStep("code");
 
       // Start countdown timers
@@ -262,28 +257,6 @@ export function PhoneVerificationModal({
                 onSubmit={phoneForm.handleSubmit(onPhoneSubmit)}
                 className="space-y-4"
               >
-                <FormField
-                  control={phoneForm.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("phoneVerification.nameLabel")}</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            placeholder={t("phoneVerification.namePlaceholder")}
-                            className="pl-10"
-                            {...field}
-                            disabled={isLoading}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
                 <FormField
                   control={phoneForm.control}
                   name="phone"
