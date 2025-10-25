@@ -9,9 +9,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { LocaleProvider } from "./contexts/LocaleContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { PhoneVerificationModal } from "./components/auth/PhoneVerificationModal";
 import { AppSidebar } from "./components/navigation/AppSidebar";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
@@ -19,19 +20,13 @@ import Credit from "./pages/Credit";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
-import PhoneVerification from "./pages/PhoneVerification";
 import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
   const location = useLocation();
 
   // Pages that should not show the sidebar
-  const noSidebarRoutes = [
-    "/login",
-    "/logout",
-    "/auth/callback",
-    "/verify-phone",
-  ];
+  const noSidebarRoutes = ["/login", "/logout", "/auth/callback"];
   const showSidebar =
     !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 
@@ -53,14 +48,6 @@ const AppRoutes = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route
-              path="/verify-phone"
-              element={
-                <ProtectedRoute>
-                  <PhoneVerification />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path="/purchase-orders"
               element={
@@ -86,6 +73,17 @@ const AppRoutes = () => {
   );
 };
 
+function PhoneVerificationModalWrapper() {
+  const { showPhoneVerificationModal, setPhoneVerified } = useAuth();
+
+  return (
+    <PhoneVerificationModal
+      open={showPhoneVerificationModal}
+      onVerificationComplete={setPhoneVerified}
+    />
+  );
+}
+
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
     <LocaleProvider>
@@ -96,6 +94,7 @@ const App = () => (
           <BrowserRouter>
             <AppRoutes />
           </BrowserRouter>
+          <PhoneVerificationModalWrapper />
         </TooltipProvider>
       </AuthProvider>
     </LocaleProvider>
