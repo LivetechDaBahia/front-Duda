@@ -12,28 +12,40 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
+        console.log("[AuthCallback] Starting authentication callback...");
+        
         // Backend has already set the session cookie
         // Refresh user data first
         await refreshUser();
+        console.log("[AuthCallback] User data refreshed");
 
         // Check if user needs to complete first access (phone verification)
         const API_BASE =
           import.meta.env.VITE_API_URL || "http://localhost:3000";
+        console.log("[AuthCallback] Checking first access at:", API_BASE);
+        
         const firstAccessRes = await fetch(`${API_BASE}/auth/first-access`, {
           credentials: "include",
         });
 
+        console.log("[AuthCallback] First access response status:", firstAccessRes.status);
+
         if (firstAccessRes.ok) {
           const { firstAccess } = await firstAccessRes.json();
+          console.log("[AuthCallback] First access value:", firstAccess);
 
           if (firstAccess) {
             // User needs phone verification
+            console.log("[AuthCallback] Redirecting to phone verification...");
             navigate("/verify-phone", { replace: true });
             return;
           }
+        } else {
+          console.warn("[AuthCallback] First access check failed with status:", firstAccessRes.status);
         }
 
         // First access check passed or not available, proceed to home
+        console.log("[AuthCallback] Proceeding to home page");
         toast({
           title: "Login successful",
           description: "Welcome back!",
@@ -41,7 +53,7 @@ export default function AuthCallback() {
 
         navigate("/home", { replace: true });
       } catch (error) {
-        console.error("Auth callback error:", error);
+        console.error("[AuthCallback] Auth callback error:", error);
         toast({
           variant: "destructive",
           title: "Authentication failed",
