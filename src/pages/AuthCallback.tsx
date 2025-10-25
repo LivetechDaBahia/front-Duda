@@ -13,15 +13,33 @@ export default function AuthCallback() {
     const handleCallback = async () => {
       try {
         // Backend has already set the session cookie
-        // Just refresh user data and redirect
+        // Refresh user data first
         await refreshUser();
 
+        // Check if user needs to complete first access (phone verification)
+        const API_BASE =
+          import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const firstAccessRes = await fetch(`${API_BASE}/auth/first-access`, {
+          credentials: "include",
+        });
+
+        if (firstAccessRes.ok) {
+          const { firstAccess } = await firstAccessRes.json();
+
+          if (firstAccess) {
+            // User needs phone verification
+            navigate("/verify-phone", { replace: true });
+            return;
+          }
+        }
+
+        // First access check passed or not available, proceed to home
         toast({
           title: "Login successful",
           description: "Welcome back!",
         });
 
-        navigate("/purchase-orders", { replace: true });
+        navigate("/home", { replace: true });
       } catch (error) {
         console.error("Auth callback error:", error);
         toast({

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MessageSquare, Phone, Check } from "lucide-react";
+import { MessageSquare, Phone, Check, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,18 +16,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/apiClient";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useCountdown } from "@/hooks/useCountdown";
+import {
+  sendPhoneCode,
+  verifyPhoneCode,
+  maskPhone,
+  formatCountdown,
+  toDigits,
+  type ApiError,
+} from "@/services/phoneVerificationService";
 
 const phoneSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters"),
   phone: z
     .string()
     .trim()
-    .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number must be less than 15 digits")
-    .regex(
-      /^\+?[1-9]\d{9,14}$/,
-      "Enter a valid international phone number (e.g., +1234567890)",
+    .refine(
+      (val) => {
+        const digits = toDigits(val);
+        return digits.length >= 10 && digits.length <= 15;
+      },
+      { message: "Phone number must be 10-15 digits" },
     ),
 });
 
@@ -45,14 +60,20 @@ type CodeFormData = z.infer<typeof codeSchema>;
 export default function PhoneVerification() {
   const [step, setStep] = useState<"phone" | "code">("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { refreshUser } = useAuth();
+  const { user, refreshUser } = useAuth();
+  const { t } = useLocale();
+
+  const ttlCountdown = useCountdown();
+  const cooldownCountdown = useCountdown();
 
   const phoneForm = useForm<PhoneFormData>({
     resolver: zodResolver(phoneSchema),
     defaultValues: {
+      name: user?.name || "",
       phone: "",
     },
   });
@@ -64,25 +85,75 @@ export default function PhoneVerification() {
     },
   });
 
+  const getErrorMessage = (error: ApiError): string => {
+    if (error.status === 401) {
+      return t("phoneVerification.error.unauthorized");
+    }
+
+    if (error.status === 400) {
+      const errorCode = error.error;
+      if (errorCode === "phone_required" || errorCode === "invalid_phone") {
+        return t("phoneVerification.error.invalidPhone");
+      }
+      if (errorCode === "name_required") {
+        return t("phoneVerification.error.nameRequired");
+      }
+      if (errorCode === "invalid_code_format") {
+        return t("phoneVerification.error.invalidCodeFormat");
+      }
+      if (errorCode === "code_expired_or_not_found") {
+        return t("phoneVerification.error.codeExpired");
+      }
+      if (errorCode === "invalid_code") {
+        const attemptsMsg = error.attemptsLeft
+          ? ` ${error.attemptsLeft} ${t("phoneVerification.error.attemptsLeft")}`
+          : "";
+        return t("phoneVerification.error.invalidCode") + attemptsMsg;
+      }
+    }
+
+    if (error.status === 429) {
+      const errorCode = error.error;
+      if (errorCode === "cooldown" && error.retryAfter) {
+        return t("phoneVerification.error.cooldown").replace(
+          "{seconds}",
+          error.retryAfter.toString(),
+        );
+      }
+      if (errorCode === "too_many_attempts") {
+        return t("phoneVerification.error.tooManyAttempts");
+      }
+    }
+
+    if (error.status === 502) {
+      return t("phoneVerification.error.failedToSend");
+    }
+
+    return error.message || t("phoneVerification.error.generic");
+  };
+
   const onPhoneSubmit = async (data: PhoneFormData) => {
     setIsLoading(true);
     try {
-      await apiClient.post("/auth/send-verification-code", {
-        phone: data.phone,
-      });
+      const response = await sendPhoneCode(data.phone, data.name);
 
       setPhoneNumber(data.phone);
+      setUserName(data.name);
       setStep("code");
 
+      // Start countdown timers
+      ttlCountdown.start(response.ttl);
+      cooldownCountdown.start(response.cooldown);
+
       toast({
-        title: "Verification code sent",
-        description: "Check your WhatsApp for the verification code",
+        title: t("phoneVerification.codeSentTitle"),
+        description: t("phoneVerification.codeSentDesc"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Failed to send code",
-        description: error.message || "Please try again",
+        title: t("phoneVerification.error.sendFailed"),
+        description: getErrorMessage(error),
       });
     } finally {
       setIsLoading(false);
@@ -92,24 +163,20 @@ export default function PhoneVerification() {
   const onCodeSubmit = async (data: CodeFormData) => {
     setIsLoading(true);
     try {
-      await apiClient.post("/auth/verify-phone", {
-        phone: phoneNumber,
-        code: data.code,
-      });
-
+      await verifyPhoneCode(phoneNumber, data.code);
       await refreshUser();
 
       toast({
-        title: "Phone verified successfully",
-        description: "You can now receive WhatsApp notifications",
+        title: t("phoneVerification.success"),
+        description: t("phoneVerification.successDesc"),
       });
 
-      navigate("/purchase-orders");
+      navigate("/home", { replace: true });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Verification failed",
-        description: error.message || "Invalid code. Please try again",
+        title: t("phoneVerification.error.verifyFailed"),
+        description: getErrorMessage(error),
       });
     } finally {
       setIsLoading(false);
@@ -117,21 +184,34 @@ export default function PhoneVerification() {
   };
 
   const handleResendCode = async () => {
+    if (cooldownCountdown.isRunning) {
+      return;
+    }
+
     setIsLoading(true);
     try {
-      await apiClient.post("/auth/send-verification-code", {
-        phone: phoneNumber,
-      });
+      const response = await sendPhoneCode(phoneNumber, userName);
+
+      // Reset countdown timers
+      ttlCountdown.start(response.ttl);
+      cooldownCountdown.start(response.cooldown);
 
       toast({
-        title: "Code resent",
-        description: "Check your WhatsApp for a new code",
+        title: t("phoneVerification.codeResentTitle"),
+        description: t("phoneVerification.codeResentDesc"),
       });
     } catch (error: any) {
+      const apiError = error as ApiError;
+
+      // Handle cooldown error specially
+      if (apiError.status === 429 && apiError.retryAfter) {
+        cooldownCountdown.start(apiError.retryAfter);
+      }
+
       toast({
         variant: "destructive",
-        title: "Failed to resend code",
-        description: error.message || "Please try again",
+        title: t("phoneVerification.error.resendFailed"),
+        description: getErrorMessage(apiError),
       });
     } finally {
       setIsLoading(false);
@@ -145,11 +225,13 @@ export default function PhoneVerification() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
             <MessageSquare className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Welcome!</h1>
+          <h1 className="text-3xl font-bold mb-2">
+            {t("phoneVerification.title")}
+          </h1>
           <p className="text-muted-foreground">
             {step === "phone"
-              ? "Let's set up WhatsApp notifications for your purchase orders"
-              : "Enter the verification code sent to your WhatsApp"}
+              ? t("phoneVerification.subtitle")
+              : t("phoneVerification.subtitleCode")}
           </p>
         </div>
 
@@ -162,15 +244,41 @@ export default function PhoneVerification() {
               >
                 <FormField
                   control={phoneForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("phoneVerification.nameLabel")}</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            placeholder={t(
+                              "phoneVerification.namePlaceholder",
+                            )}
+                            className="pl-10"
+                            {...field}
+                            disabled={isLoading}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={phoneForm.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>WhatsApp Phone Number</FormLabel>
+                      <FormLabel>
+                        {t("phoneVerification.phoneLabel")}
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                           <Input
-                            placeholder="+1234567890"
+                            placeholder="+5511987654321"
                             className="pl-10"
                             {...field}
                             disabled={isLoading}
@@ -178,7 +286,7 @@ export default function PhoneVerification() {
                         </div>
                       </FormControl>
                       <FormDescription>
-                        Include country code (e.g., +1 for US, +55 for Brazil)
+                        {t("phoneVerification.phoneHelper")}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -186,7 +294,9 @@ export default function PhoneVerification() {
                 />
 
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Send Verification Code"}
+                  {isLoading
+                    ? t("phoneVerification.sending")
+                    : t("phoneVerification.sendButton")}
                 </Button>
               </form>
             </Form>
@@ -197,8 +307,10 @@ export default function PhoneVerification() {
                 className="space-y-4"
               >
                 <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                  <p className="text-sm text-muted-foreground">Code sent to:</p>
-                  <p className="font-semibold">{phoneNumber}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("phoneVerification.codeSent")}
+                  </p>
+                  <p className="font-semibold">{maskPhone(phoneNumber)}</p>
                   <Button
                     type="button"
                     variant="link"
@@ -207,23 +319,35 @@ export default function PhoneVerification() {
                     onClick={() => {
                       setStep("phone");
                       codeForm.reset();
+                      ttlCountdown.stop();
+                      cooldownCountdown.stop();
                     }}
                   >
-                    Change number
+                    {t("phoneVerification.changePhone")}
                   </Button>
                 </div>
+
+                {ttlCountdown.seconds > 0 && (
+                  <div className="text-sm text-center text-muted-foreground">
+                    {t("phoneVerification.codeValid")}{" "}
+                    <span className="font-semibold text-foreground">
+                      {formatCountdown(ttlCountdown.seconds)}
+                    </span>
+                  </div>
+                )}
 
                 <FormField
                   control={codeForm.control}
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Verification Code</FormLabel>
+                      <FormLabel>{t("phoneVerification.codeLabel")}</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="123456"
                           maxLength={6}
                           className="text-center text-2xl tracking-widest"
+                          autoFocus
                           {...field}
                           disabled={isLoading}
                         />
@@ -236,11 +360,11 @@ export default function PhoneVerification() {
                 <div className="space-y-2">
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? (
-                      "Verifying..."
+                      t("phoneVerification.verifying")
                     ) : (
                       <>
                         <Check className="w-4 h-4 mr-2" />
-                        Verify Phone Number
+                        {t("phoneVerification.verifyButton")}
                       </>
                     )}
                   </Button>
@@ -250,9 +374,11 @@ export default function PhoneVerification() {
                     variant="ghost"
                     className="w-full"
                     onClick={handleResendCode}
-                    disabled={isLoading}
+                    disabled={isLoading || cooldownCountdown.isRunning}
                   >
-                    Resend Code
+                    {cooldownCountdown.isRunning
+                      ? `${t("phoneVerification.resendIn")} ${formatCountdown(cooldownCountdown.seconds)}`
+                      : t("phoneVerification.resendButton")}
                   </Button>
                 </div>
               </form>
@@ -261,7 +387,7 @@ export default function PhoneVerification() {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-4">
-          You'll receive important notifications about your purchase orders
+          {t("phoneVerification.footer")}
         </p>
       </div>
     </div>
