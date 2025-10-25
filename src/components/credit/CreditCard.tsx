@@ -35,8 +35,12 @@ export const CreditCard = ({ credit, statuses, onClick }: CreditCardProps) => {
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-md transition-shadow border-l-4 w-full"
-      style={{ borderLeftColor: credit.color }}
+      className="cursor-pointer hover:shadow-md transition-shadow border-l-4 border-r-4 w-full"
+      style={{
+        borderLeftColor: credit.borders.left,
+        borderRightColor: credit.borders.right,
+        ...(credit.background && { backgroundColor: credit.background }),
+      }}
       onClick={onClick}
     >
       <CardHeader className="pb-2 sm:pb-3">

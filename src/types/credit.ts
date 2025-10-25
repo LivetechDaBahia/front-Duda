@@ -17,7 +17,11 @@ export interface CreditElementItem {
   user: string | null;
   key: string;
   entity: string;
-  color: string;
+  background: string;
+  borders: {
+    left: string;
+    right: string;
+  };
   details: CreditItemDetails;
 }
 
