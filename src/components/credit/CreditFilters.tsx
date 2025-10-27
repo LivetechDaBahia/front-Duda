@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -9,9 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocale } from "@/contexts/LocaleContext";
+import { X } from "lucide-react";
 import type {
   CreditFilters as CreditFiltersType,
   CreditStatus,
+  CreditElementItem,
+  CreditBadge,
 } from "@/types/credit";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { FilterDateRange } from "@/components/shared/FilterDateRange";
@@ -19,16 +23,30 @@ import { FilterDateRange } from "@/components/shared/FilterDateRange";
 interface CreditFiltersProps {
   filters: CreditFiltersType;
   statuses: CreditStatus[];
+  credits?: CreditElementItem[];
   onFiltersChange: (filters: CreditFiltersType) => void;
 }
 
 export const CreditFilters = ({
   filters,
   statuses,
+  credits = [],
   onFiltersChange,
 }: CreditFiltersProps) => {
   const { t } = useLocale();
   const [showFilters, setShowFilters] = useState(false);
+
+  const availableBadges = useMemo(() => {
+    const badgeMap = new Map<string, CreditBadge>();
+    credits.forEach((credit) => {
+      credit.badges?.forEach((badge) => {
+        if (!badgeMap.has(badge.id)) {
+          badgeMap.set(badge.id, badge);
+        }
+      });
+    });
+    return Array.from(badgeMap.values());
+  }, [credits]);
 
   const updateFilter = (key: keyof CreditFiltersType, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
@@ -46,6 +64,7 @@ export const CreditFilters = ({
       dateEnd: undefined,
       minValue: undefined,
       maxValue: undefined,
+      badges: undefined,
     });
   };
 
@@ -59,7 +78,8 @@ export const CreditFilters = ({
       filters.dateBegin ||
       filters.dateEnd ||
       filters.minValue !== undefined ||
-      filters.maxValue !== undefined,
+      filters.maxValue !== undefined ||
+      (filters.badges && filters.badges.length > 0),
   );
 
   return (
@@ -137,6 +157,35 @@ export const CreditFilters = ({
           }
         />
       </div>
+
+      {/* Badge Filter */}
+      {availableBadges.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("credit.filterByBadges") || "Filter by Tags"}</Label>
+          <div className="flex flex-wrap gap-2">
+            {availableBadges.map((badge) => {
+              const isSelected = filters.badges?.includes(badge.id);
+              return (
+                <Badge
+                  key={badge.id}
+                  variant={isSelected ? "default" : "outline"}
+                  className="cursor-pointer transition-all hover:scale-105"
+                  onClick={() => {
+                    const current = filters.badges || [];
+                    const updated = isSelected
+                      ? current.filter((id) => id !== badge.id)
+                      : [...current, badge.id];
+                    updateFilter("badges", updated.length > 0 ? updated : undefined);
+                  }}
+                >
+                  {badge.label}
+                  {isSelected && <X className="ml-1 h-3 w-3" />}
+                </Badge>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </FilterContainer>
   );
 };

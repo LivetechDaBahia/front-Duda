@@ -23,6 +23,7 @@ export interface CreditElementItem {
     right: string;
   };
   details: CreditItemDetails;
+  badges?: CreditBadge[];
 }
 
 export interface CreditStatus {
@@ -98,6 +99,24 @@ export interface CreditLinkedClient {
   currency: number;
 }
 
+export interface CreditBadge {
+  id: string;
+  label: string;
+  color?: string;
+  variant?: "default" | "secondary" | "destructive" | "outline";
+}
+
+export interface CreditLog {
+  id: string;
+  creditId: number;
+  action: string;
+  description: string;
+  user: string;
+  timestamp: Date;
+  oldStatus?: string;
+  newStatus?: string;
+}
+
 export type UICreditStatus = "all" | string;
 
 export interface CreditFilters {
@@ -111,4 +130,5 @@ export interface CreditFilters {
   dateEnd?: Date;
   minValue?: number;
   maxValue?: number;
+  badges?: string[];
 }
