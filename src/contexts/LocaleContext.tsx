@@ -787,12 +787,46 @@ const translations: Record<Locale, Record<string, string>> = {
   },
 };
 
+const detectBrowserLocale = (): Locale => {
+  // Get browser language(s)
+  const browserLang = navigator.language || navigator.languages?.[0] || "";
+  
+  // Normalize to lowercase for comparison
+  const normalizedLang = browserLang.toLowerCase();
+  
+  // Map browser language codes to our supported locales
+  // Check for exact matches first
+  if (normalizedLang === "en" || normalizedLang.startsWith("en-")) {
+    return "en";
+  }
+  
+  if (normalizedLang === "pt-br" || normalizedLang === "pt") {
+    return "pt-BR";
+  }
+  
+  if (normalizedLang === "es-es" || normalizedLang === "es") {
+    return "es-ES";
+  }
+  
+  // Fallback to pt-BR if no match
+  return "pt-BR";
+};
+
 export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [locale, setLocaleState] = useState<Locale>(() => {
+    // Priority 1: Check for user's saved preference
     const stored = localStorage.getItem("locale");
-    return (stored as Locale) || "en";
+    if (stored && ["en", "pt-BR", "es-ES"].includes(stored)) {
+      console.log("[LocaleProvider] Using saved locale:", stored);
+      return stored as Locale;
+    }
+    
+    // Priority 2: Auto-detect from browser
+    const detected = detectBrowserLocale();
+    console.log("[LocaleProvider] Auto-detected locale:", detected, "from browser language:", navigator.language);
+    return detected;
   });
 
   useEffect(() => {
