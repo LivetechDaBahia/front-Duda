@@ -14,6 +14,8 @@ interface User {
   provider: "microsoft";
   role?: string;
   department?: string;
+  permissions?: string[]; // Array of permission strings (e.g., ["users:read", "users:update"])
+  level?: string; // Permission level (e.g., "Viewer", "Editor", "Administrator")
 }
 
 interface AuthContextType {

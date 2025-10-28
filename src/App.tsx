@@ -17,6 +17,7 @@ import { AppSidebar } from "./components/navigation/AppSidebar";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Credit from "./pages/Credit";
+import Users from "./pages/Users";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
@@ -61,6 +62,14 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <Credit />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <Users />
                 </ProtectedRoute>
               }
             />

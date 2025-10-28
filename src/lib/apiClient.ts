@@ -60,6 +60,13 @@ class ApiClient {
     });
   }
 
+  async put(endpoint: string, data?: any) {
+    return this.request(endpoint, {
+      method: "PUT",
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
   async delete(endpoint: string) {
     return this.request(endpoint, { method: "DELETE" });
   }
