@@ -4,8 +4,11 @@ import { CreditFilters } from "@/components/credit/CreditFilters";
 import { CreditKanbanView } from "@/components/credit/CreditKanbanView";
 import { CreditTableView } from "@/components/credit/CreditTableView";
 import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
+import { CreditLogsDialog } from "@/components/credit/CreditLogsDialog";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
+import { creditService } from "@/services/creditService";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
@@ -26,6 +29,9 @@ const Credit = () => {
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
+  const [logsDialogCreditId, setLogsDialogCreditId] = useState<number | null>(
+    null,
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<CreditFiltersType>({
@@ -37,10 +43,13 @@ const Credit = () => {
     type: "",
   });
 
+  const { toast } = useToast();
+
   const {
     credits,
     isLoading: isLoadingCredits,
     error: creditsError,
+    refetch: refetchCredits,
   } = useCredits();
   const {
     statuses,
@@ -100,6 +109,14 @@ const Credit = () => {
         return false;
       }
 
+      // Badge filter
+      if (filters.badges && filters.badges.length > 0) {
+        const hasBadge = credit.badges?.some((badge) =>
+          filters.badges!.includes(badge.id),
+        );
+        if (!hasBadge) return false;
+      }
+
       return true;
     });
   }, [credits, filters]);
@@ -116,6 +133,31 @@ const Credit = () => {
   useMemo(() => {
     setCurrentPage(1);
   }, [filters]);
+
+  const handleStatusChange = async (creditId: number, newStatusId: string) => {
+    try {
+      await creditService.updateCreditStatus(creditId, newStatusId);
+
+      toast({
+        title: "Status updated",
+        description: "Credit status has been successfully updated.",
+      });
+
+      refetchCredits();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update credit status.",
+      });
+    }
+  };
+
+  const handleActionsClick = (credit: CreditElementItem, action: string) => {
+    if (action === "view-logs") {
+      setLogsDialogCreditId(credit.id);
+    }
+  };
 
   const isLoading = isLoadingCredits || isLoadingStatuses;
   const error = creditsError || statusesError;
@@ -160,6 +202,7 @@ const Credit = () => {
           <CreditFilters
             filters={filters}
             statuses={statuses}
+            credits={credits}
             onFiltersChange={setFilters}
           />
         </div>
@@ -176,6 +219,8 @@ const Credit = () => {
               credits={paginatedCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
+              onStatusChange={handleStatusChange}
+              onActionsClick={handleActionsClick}
             />
           ) : (
             <CreditTableView
@@ -263,6 +308,12 @@ const Credit = () => {
         credit={selectedCredit}
         isOpen={!!selectedCredit}
         onClose={() => setSelectedCredit(null)}
+      />
+
+      <CreditLogsDialog
+        creditId={logsDialogCreditId}
+        isOpen={!!logsDialogCreditId}
+        onClose={() => setLogsDialogCreditId(null)}
       />
     </div>
   );

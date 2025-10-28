@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Home, LogOut, Bell, FileCheck, Banknote } from "lucide-react";
+import { Home, LogOut, Bell, FileCheck, Banknote, Users as UsersIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { usePermissions } from "@/hooks/usePermissions";
 import {
   Sidebar,
   SidebarBody,
@@ -30,6 +31,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
+  const { isAdmin } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -91,6 +93,24 @@ const SidebarContent = () => {
         />
       ),
     },
+    ...(isAdmin
+      ? [
+          {
+            label: t("nav.users"),
+            href: "/users",
+            icon: (
+              <UsersIcon
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/users"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (

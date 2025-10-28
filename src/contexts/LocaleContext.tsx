@@ -16,6 +16,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.home": "Home",
     "nav.purchaseOrders": "Purchase Orders",
     "nav.credit": "Credit",
+    "nav.users": "Users",
     "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
@@ -42,6 +43,46 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.mfaSuccess": "MFA verification successful!",
     "login.mfaError": "Invalid MFA code. Please try again.",
     "login.backToHome": "Back to Home",
+
+    // Phone Verification
+    "phoneVerification.title": "Welcome!",
+    "phoneVerification.subtitle": "Let's verify your phone number",
+    "phoneVerification.subtitleCode": "Enter the verification code sent to your WhatsApp",
+    "phoneVerification.nameLabel": "Your Name",
+    "phoneVerification.namePlaceholder": "Enter your name",
+    "phoneVerification.phoneLabel": "WhatsApp Phone Number",
+    "phoneVerification.phoneHelper": "Include country code (e.g., +1 for US, +55 for Brazil)",
+    "phoneVerification.sendButton": "Send Verification Code",
+    "phoneVerification.sending": "Sending...",
+    "phoneVerification.codeSent": "Code sent to:",
+    "phoneVerification.codeSentTitle": "Verification code sent",
+    "phoneVerification.codeSentDesc": "Check your WhatsApp for the verification code",
+    "phoneVerification.changePhone": "Change number",
+    "phoneVerification.codeLabel": "Verification Code",
+    "phoneVerification.codeValid": "Code valid for",
+    "phoneVerification.verifyButton": "Verify Phone Number",
+    "phoneVerification.verifying": "Verifying...",
+    "phoneVerification.resendButton": "Resend Code",
+    "phoneVerification.resendIn": "Resend available in",
+    "phoneVerification.codeResentTitle": "Code resent",
+    "phoneVerification.codeResentDesc": "Check your WhatsApp for a new code",
+    "phoneVerification.success": "Phone verified successfully",
+    "phoneVerification.successDesc": "You can now receive WhatsApp notifications",
+    "phoneVerification.footer": "You'll receive important notifications about your purchase orders",
+    "phoneVerification.error.unauthorized": "Session expired. Please log in again",
+    "phoneVerification.error.invalidPhone": "Please enter a valid phone number (10-15 digits)",
+    "phoneVerification.error.nameRequired": "Please enter your name",
+    "phoneVerification.error.invalidCodeFormat": "Code must be 6 digits",
+    "phoneVerification.error.codeExpired": "Code expired. Please request a new one",
+    "phoneVerification.error.invalidCode": "Invalid code.",
+    "phoneVerification.error.attemptsLeft": "attempts remaining",
+    "phoneVerification.error.cooldown": "Please wait {seconds} seconds before resending",
+    "phoneVerification.error.tooManyAttempts": "Too many attempts. Please request a new code",
+    "phoneVerification.error.failedToSend": "Failed to send code. Please try again",
+    "phoneVerification.error.generic": "An error occurred. Please try again",
+    "phoneVerification.error.sendFailed": "Failed to send code",
+    "phoneVerification.error.verifyFailed": "Verification failed",
+    "phoneVerification.error.resendFailed": "Failed to resend code",
 
     // Dashboard
     "dashboard.title": "Purchase Orders",
@@ -227,12 +268,36 @@ const translations: Record<Locale, Record<string, string>> = {
     allStatuses: "All Statuses",
     startDate: "Start Date",
     endDate: "End Date",
+
+    // Users Management
+    "users.title": "Users Management",
+    "users.description": "Manage user accounts and permissions",
+    "users.createUser": "Create User",
+    "users.editUser": "Edit User",
+    "users.deleteUser": "Delete User",
+    "users.searchPlaceholder": "Search users...",
+    "users.noUsers": "No users found",
+    "users.name": "Name",
+    "users.email": "Email",
+    "users.department": "Department",
+    "users.position": "Position",
+    "users.role": "Role",
+    "users.actions": "Actions",
+    "users.created": "User created successfully",
+    "users.updated": "User updated successfully",
+    "users.deleted": "User deleted successfully",
+    "users.createError": "Failed to create user",
+    "users.updateError": "Failed to update user",
+    "users.deleteError": "Failed to delete user",
+    "users.deleteConfirm": "Are you sure you want to delete this user?",
+    "users.permissionDenied": "You don't have permission to access this page",
   },
   "pt-BR": {
     // Navigation
     "nav.home": "Início",
     "nav.purchaseOrders": "Pedidos de Compra",
     "nav.credit": "Crédito",
+    "nav.users": "Usuários",
     "nav.notifications": "Notificações",
     "nav.brandName": "WDC Net",
 
@@ -260,6 +325,46 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.mfaSuccess": "Verificação MFA bem-sucedida!",
     "login.mfaError": "Código MFA inválido. Tente novamente.",
     "login.backToHome": "Voltar ao Início",
+
+    // Phone Verification
+    "phoneVerification.title": "Bem-vindo!",
+    "phoneVerification.subtitle": "Vamos verificar seu número de telefone",
+    "phoneVerification.subtitleCode": "Digite o código de verificação enviado para seu WhatsApp",
+    "phoneVerification.nameLabel": "Seu Nome",
+    "phoneVerification.namePlaceholder": "Digite seu nome",
+    "phoneVerification.phoneLabel": "Número do WhatsApp",
+    "phoneVerification.phoneHelper": "Inclua o código do país (ex: +55 para Brasil)",
+    "phoneVerification.sendButton": "Enviar Código de Verificação",
+    "phoneVerification.sending": "Enviando...",
+    "phoneVerification.codeSent": "Código enviado para:",
+    "phoneVerification.codeSentTitle": "Código de verificação enviado",
+    "phoneVerification.codeSentDesc": "Verifique seu WhatsApp para o código de verificação",
+    "phoneVerification.changePhone": "Alterar número",
+    "phoneVerification.codeLabel": "Código de Verificação",
+    "phoneVerification.codeValid": "Código válido por",
+    "phoneVerification.verifyButton": "Verificar Número de Telefone",
+    "phoneVerification.verifying": "Verificando...",
+    "phoneVerification.resendButton": "Reenviar Código",
+    "phoneVerification.resendIn": "Reenviar disponível em",
+    "phoneVerification.codeResentTitle": "Código reenviado",
+    "phoneVerification.codeResentDesc": "Verifique seu WhatsApp para um novo código",
+    "phoneVerification.success": "Telefone verificado com sucesso",
+    "phoneVerification.successDesc": "Agora você pode receber notificações do WhatsApp",
+    "phoneVerification.footer": "Você receberá notificações importantes sobre seus pedidos de compra",
+    "phoneVerification.error.unauthorized": "Sessão expirada. Por favor, faça login novamente",
+    "phoneVerification.error.invalidPhone": "Por favor, insira um número de telefone válido (10-15 dígitos)",
+    "phoneVerification.error.nameRequired": "Por favor, insira seu nome",
+    "phoneVerification.error.invalidCodeFormat": "O código deve ter 6 dígitos",
+    "phoneVerification.error.codeExpired": "Código expirado. Por favor, solicite um novo",
+    "phoneVerification.error.invalidCode": "Código inválido.",
+    "phoneVerification.error.attemptsLeft": "tentativas restantes",
+    "phoneVerification.error.cooldown": "Por favor, aguarde {seconds} segundos antes de reenviar",
+    "phoneVerification.error.tooManyAttempts": "Muitas tentativas. Por favor, solicite um novo código",
+    "phoneVerification.error.failedToSend": "Falha ao enviar código. Por favor, tente novamente",
+    "phoneVerification.error.generic": "Ocorreu um erro. Por favor, tente novamente",
+    "phoneVerification.error.sendFailed": "Falha ao enviar código",
+    "phoneVerification.error.verifyFailed": "Falha na verificação",
+    "phoneVerification.error.resendFailed": "Falha ao reenviar código",
 
     // Dashboard
     "dashboard.title": "Pedidos de Compra",
@@ -446,12 +551,36 @@ const translations: Record<Locale, Record<string, string>> = {
     allStatuses: "Todos os Status",
     startDate: "Data Inicial",
     endDate: "Data Final",
+
+    // Users Management
+    "users.title": "Gerenciamento de Usuários",
+    "users.description": "Gerencie contas e permissões de usuários",
+    "users.createUser": "Criar Usuário",
+    "users.editUser": "Editar Usuário",
+    "users.deleteUser": "Excluir Usuário",
+    "users.searchPlaceholder": "Buscar usuários...",
+    "users.noUsers": "Nenhum usuário encontrado",
+    "users.name": "Nome",
+    "users.email": "E-mail",
+    "users.department": "Departamento",
+    "users.position": "Cargo",
+    "users.role": "Função",
+    "users.actions": "Ações",
+    "users.created": "Usuário criado com sucesso",
+    "users.updated": "Usuário atualizado com sucesso",
+    "users.deleted": "Usuário excluído com sucesso",
+    "users.createError": "Falha ao criar usuário",
+    "users.updateError": "Falha ao atualizar usuário",
+    "users.deleteError": "Falha ao excluir usuário",
+    "users.deleteConfirm": "Tem certeza que deseja excluir este usuário?",
+    "users.permissionDenied": "Você não tem permissão para acessar esta página",
   },
   "es-ES": {
     // Navigation
     "nav.home": "Inicio",
     "nav.purchaseOrders": "Órdenes de Compra",
     "nav.credit": "Crédito",
+    "nav.users": "Usuarios",
     "nav.notifications": "Notificaciones",
     "nav.brandName": "WDC Net",
 
@@ -479,6 +608,46 @@ const translations: Record<Locale, Record<string, string>> = {
     "login.mfaSuccess": "¡Verificación MFA exitosa!",
     "login.mfaError": "Código MFA inválido. Por favor, inténtalo de nuevo.",
     "login.backToHome": "Volver al Inicio",
+
+    // Phone Verification
+    "phoneVerification.title": "¡Bienvenido!",
+    "phoneVerification.subtitle": "Vamos a verificar tu número de teléfono",
+    "phoneVerification.subtitleCode": "Ingresa el código de verificación enviado a tu WhatsApp",
+    "phoneVerification.nameLabel": "Tu Nombre",
+    "phoneVerification.namePlaceholder": "Ingresa tu nombre",
+    "phoneVerification.phoneLabel": "Número de WhatsApp",
+    "phoneVerification.phoneHelper": "Incluye el código de país (ej: +1 para EE.UU., +55 para Brasil)",
+    "phoneVerification.sendButton": "Enviar Código de Verificación",
+    "phoneVerification.sending": "Enviando...",
+    "phoneVerification.codeSent": "Código enviado a:",
+    "phoneVerification.codeSentTitle": "Código de verificación enviado",
+    "phoneVerification.codeSentDesc": "Revisa tu WhatsApp para el código de verificación",
+    "phoneVerification.changePhone": "Cambiar número",
+    "phoneVerification.codeLabel": "Código de Verificación",
+    "phoneVerification.codeValid": "Código válido por",
+    "phoneVerification.verifyButton": "Verificar Número de Teléfono",
+    "phoneVerification.verifying": "Verificando...",
+    "phoneVerification.resendButton": "Reenviar Código",
+    "phoneVerification.resendIn": "Reenviar disponible en",
+    "phoneVerification.codeResentTitle": "Código reenviado",
+    "phoneVerification.codeResentDesc": "Revisa tu WhatsApp para un nuevo código",
+    "phoneVerification.success": "Teléfono verificado exitosamente",
+    "phoneVerification.successDesc": "Ahora puedes recibir notificaciones de WhatsApp",
+    "phoneVerification.footer": "Recibirás notificaciones importantes sobre tus órdenes de compra",
+    "phoneVerification.error.unauthorized": "Sesión expirada. Por favor, inicia sesión nuevamente",
+    "phoneVerification.error.invalidPhone": "Por favor, ingresa un número de teléfono válido (10-15 dígitos)",
+    "phoneVerification.error.nameRequired": "Por favor, ingresa tu nombre",
+    "phoneVerification.error.invalidCodeFormat": "El código debe tener 6 dígitos",
+    "phoneVerification.error.codeExpired": "Código expirado. Por favor, solicita uno nuevo",
+    "phoneVerification.error.invalidCode": "Código inválido.",
+    "phoneVerification.error.attemptsLeft": "intentos restantes",
+    "phoneVerification.error.cooldown": "Por favor, espera {seconds} segundos antes de reenviar",
+    "phoneVerification.error.tooManyAttempts": "Demasiados intentos. Por favor, solicita un nuevo código",
+    "phoneVerification.error.failedToSend": "Error al enviar código. Por favor, intenta de nuevo",
+    "phoneVerification.error.generic": "Ocurrió un error. Por favor, intenta de nuevo",
+    "phoneVerification.error.sendFailed": "Error al enviar código",
+    "phoneVerification.error.verifyFailed": "Fallo en la verificación",
+    "phoneVerification.error.resendFailed": "Error al reenviar código",
 
     // Dashboard
     "dashboard.title": "Órdenes de Compra",
@@ -664,15 +833,72 @@ const translations: Record<Locale, Record<string, string>> = {
     allStatuses: "Todos los Estados",
     startDate: "Fecha Inicial",
     endDate: "Fecha Final",
+
+    // Users Management
+    "users.title": "Gestión de Usuarios",
+    "users.description": "Administre cuentas y permisos de usuarios",
+    "users.createUser": "Crear Usuario",
+    "users.editUser": "Editar Usuario",
+    "users.deleteUser": "Eliminar Usuario",
+    "users.searchPlaceholder": "Buscar usuarios...",
+    "users.noUsers": "No se encontraron usuarios",
+    "users.name": "Nombre",
+    "users.email": "Correo",
+    "users.department": "Departamento",
+    "users.position": "Posición",
+    "users.role": "Rol",
+    "users.actions": "Acciones",
+    "users.created": "Usuario creado exitosamente",
+    "users.updated": "Usuario actualizado exitosamente",
+    "users.deleted": "Usuario eliminado exitosamente",
+    "users.createError": "Error al crear usuario",
+    "users.updateError": "Error al actualizar usuario",
+    "users.deleteError": "Error al eliminar usuario",
+    "users.deleteConfirm": "¿Está seguro de que desea eliminar este usuario?",
+    "users.permissionDenied": "No tiene permiso para acceder a esta página",
   },
+};
+
+const detectBrowserLocale = (): Locale => {
+  // Get browser language(s)
+  const browserLang = navigator.language || navigator.languages?.[0] || "";
+  
+  // Normalize to lowercase for comparison
+  const normalizedLang = browserLang.toLowerCase();
+  
+  // Map browser language codes to our supported locales
+  // Check for exact matches first
+  if (normalizedLang === "en" || normalizedLang.startsWith("en-")) {
+    return "en";
+  }
+  
+  if (normalizedLang === "pt-br" || normalizedLang === "pt") {
+    return "pt-BR";
+  }
+  
+  if (normalizedLang === "es-es" || normalizedLang === "es") {
+    return "es-ES";
+  }
+  
+  // Fallback to pt-BR if no match
+  return "pt-BR";
 };
 
 export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [locale, setLocaleState] = useState<Locale>(() => {
+    // Priority 1: Check for user's saved preference
     const stored = localStorage.getItem("locale");
-    return (stored as Locale) || "en";
+    if (stored && ["en", "pt-BR", "es-ES"].includes(stored)) {
+      console.log("[LocaleProvider] Using saved locale:", stored);
+      return stored as Locale;
+    }
+    
+    // Priority 2: Auto-detect from browser
+    const detected = detectBrowserLocale();
+    console.log("[LocaleProvider] Auto-detected locale:", detected, "from browser language:", navigator.language);
+    return detected;
   });
 
   useEffect(() => {

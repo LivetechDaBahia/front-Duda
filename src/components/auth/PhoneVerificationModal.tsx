@@ -1,10 +1,16 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MessageSquare, Phone, Check, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -29,11 +35,6 @@ import {
 } from "@/services/phoneVerificationService";
 
 const phoneSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Name is required")
-    .max(100, "Name must be less than 100 characters"),
   phone: z
     .string()
     .trim()
@@ -42,7 +43,7 @@ const phoneSchema = z.object({
         const digits = toDigits(val);
         return digits.length >= 10 && digits.length <= 15;
       },
-      { message: "Phone number must be 10-15 digits" },
+      { message: "Phone number must be 10-15 digits" }
     ),
 });
 
@@ -57,13 +58,20 @@ const codeSchema = z.object({
 type PhoneFormData = z.infer<typeof phoneSchema>;
 type CodeFormData = z.infer<typeof codeSchema>;
 
-export default function PhoneVerification() {
+interface PhoneVerificationModalProps {
+  open: boolean;
+  onVerificationComplete: () => void;
+}
+
+export function PhoneVerificationModal({
+  open,
+  onVerificationComplete,
+}: PhoneVerificationModalProps) {
   const [step, setStep] = useState<"phone" | "code">("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
   const { user, refreshUser } = useAuth();
   const { t } = useLocale();
 
@@ -73,7 +81,6 @@ export default function PhoneVerification() {
   const phoneForm = useForm<PhoneFormData>({
     resolver: zodResolver(phoneSchema),
     defaultValues: {
-      name: user?.name || "",
       phone: "",
     },
   });
@@ -117,7 +124,7 @@ export default function PhoneVerification() {
       if (errorCode === "cooldown" && error.retryAfter) {
         return t("phoneVerification.error.cooldown").replace(
           "{seconds}",
-          error.retryAfter.toString(),
+          error.retryAfter.toString()
         );
       }
       if (errorCode === "too_many_attempts") {
@@ -135,10 +142,11 @@ export default function PhoneVerification() {
   const onPhoneSubmit = async (data: PhoneFormData) => {
     setIsLoading(true);
     try {
-      const response = await sendPhoneCode(data.phone, data.name);
+      const userName = user?.name || "";
+      const response = await sendPhoneCode(data.phone, userName);
 
       setPhoneNumber(data.phone);
-      setUserName(data.name);
+      setUserName(userName);
       setStep("code");
 
       // Start countdown timers
@@ -171,7 +179,8 @@ export default function PhoneVerification() {
         description: t("phoneVerification.successDesc"),
       });
 
-      navigate("/home", { replace: true });
+      // Call the completion callback to close modal and update state
+      onVerificationComplete();
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -219,23 +228,29 @@ export default function PhoneVerification() {
   };
 
   return (
-    <div className="min-h-full flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <MessageSquare className="w-8 h-8 text-primary" />
+    <Dialog open={open} modal={true}>
+      <DialogContent
+        className="sm:max-w-[500px]"
+        onInteractOutside={(e) => e.preventDefault()}
+        hideClose={true}
+      >
+        <DialogHeader>
+          <div className="flex justify-center mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
+              <MessageSquare className="w-8 h-8 text-primary" />
+            </div>
           </div>
-          <h1 className="text-3xl font-bold mb-2">
+          <DialogTitle className="text-center text-2xl">
             {t("phoneVerification.title")}
-          </h1>
-          <p className="text-muted-foreground">
+          </DialogTitle>
+          <DialogDescription className="text-center">
             {step === "phone"
               ? t("phoneVerification.subtitle")
               : t("phoneVerification.subtitleCode")}
-          </p>
-        </div>
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="bg-card border rounded-lg shadow-lg p-6 space-y-6">
+        <div className="space-y-6 mt-4">
           {step === "phone" ? (
             <Form {...phoneForm}>
               <form
@@ -244,36 +259,10 @@ export default function PhoneVerification() {
               >
                 <FormField
                   control={phoneForm.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("phoneVerification.nameLabel")}</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            placeholder={t(
-                              "phoneVerification.namePlaceholder",
-                            )}
-                            className="pl-10"
-                            {...field}
-                            disabled={isLoading}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={phoneForm.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        {t("phoneVerification.phoneLabel")}
-                      </FormLabel>
+                      <FormLabel>{t("phoneVerification.phoneLabel")}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -389,7 +378,7 @@ export default function PhoneVerification() {
         <p className="text-center text-sm text-muted-foreground mt-4">
           {t("phoneVerification.footer")}
         </p>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

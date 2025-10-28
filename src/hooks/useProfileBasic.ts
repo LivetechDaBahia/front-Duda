@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 interface BasicProfile {
+  position: string | null;
   name: string | null;
   role: string | null;
   department: string | null;

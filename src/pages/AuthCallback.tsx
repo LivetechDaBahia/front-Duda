@@ -13,7 +13,7 @@ export default function AuthCallback() {
     const handleCallback = async () => {
       try {
         // Backend has already set the session cookie
-        // Just refresh user data and redirect
+        // Refresh user data (this will also check first access in AuthContext)
         await refreshUser();
 
         toast({
@@ -21,14 +21,16 @@ export default function AuthCallback() {
           description: "Welcome back!",
         });
 
-        navigate("/purchase-orders", { replace: true });
+        // Navigate to home - modal will show if first access is needed
+        navigate("/home", { replace: true });
       } catch (error) {
         console.error("Auth callback error:", error);
         toast({
           variant: "destructive",
           title: "Authentication failed",
-          description: "Please try again",
+          description: "Please try logging in again.",
         });
+
         navigate("/login", { replace: true });
       }
     };

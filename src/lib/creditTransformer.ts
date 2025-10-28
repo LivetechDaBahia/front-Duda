@@ -4,26 +4,7 @@ import type {
   UICreditStatus,
 } from "@/types/credit";
 
-const CREDIT_ELEMENT_COLOR_MAP = {
-  AMARELO: "#fafa84",
-  VERDE: "#98ff98",
-  VERMELHO: "#ff6c6c",
-} as const;
-
-/**
- * Maps color name from API to hex color
- */
-export const mapCreditColor = (colorName: string): string => {
-  if (!colorName || colorName.trim() === "") {
-    return "#98ff98"; // Default to VERDE color if no color provided
-  }
-  const normalized = colorName.trim().toUpperCase();
-  return (
-    CREDIT_ELEMENT_COLOR_MAP[
-      normalized as keyof typeof CREDIT_ELEMENT_COLOR_MAP
-    ] || colorName.trim()
-  );
-};
+const DEFAULT_BORDER_COLOR = "hsl(120, 100%, 80%)"; // Default green color
 
 /**
  * Parse YYYYMMDD date string to Date object
@@ -51,7 +32,11 @@ export const transformCreditElementsToUI = (
 ): CreditElementItem[] => {
   return elements.map((element) => ({
     ...element,
-    color: mapCreditColor(element.color),
+    // Provide fallbacks if borders are empty
+    borders: {
+      left: element.borders?.left || DEFAULT_BORDER_COLOR,
+      right: element.borders?.right || DEFAULT_BORDER_COLOR,
+    },
   }));
 };
 
