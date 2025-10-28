@@ -22,7 +22,7 @@ const Welcome = () => {
   // Fetch only pending orders for the welcome page
   const { orders, isLoading, error, approveOrder, declineOrder } = useOrders({
     types: mapUIStatusToAPITypes("pending"),
-    tenantId: "01",
+    tenantId: "01,01,02,05,06,08,09,13",
   });
 
   const handleApprove = (orderId: string) => {

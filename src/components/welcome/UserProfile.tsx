@@ -22,9 +22,12 @@ export const UserProfile = () => {
       .slice(0, 2);
   };
 
+  console.log(profile)
+
   const displayName = profile?.name || authUser?.name || "User";
   const displayRole = profile?.role || t("profile.notSpecified");
   const displayDepartment = profile?.department || t("profile.notSpecified");
+  const displayPosition = profile?.position || t("profile.notSpecified");
   const displayEmail = authUser?.email || "";
   const initials = displayName ? getInitials(displayName) : "U";
 
