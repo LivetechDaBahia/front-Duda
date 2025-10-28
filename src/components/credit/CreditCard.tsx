@@ -54,14 +54,37 @@ export const CreditCard = ({
     }
   };
 
+  // Normalize colors from API, e.g., "25, 90%, 55%" -> "hsl(25, 90%, 55%)"
+  const toCssColor = (input?: string) => {
+    if (!input) return input as any;
+    const value = input.trim();
+
+    // If already a valid CSS function or hex/var, leave as is
+    if (/^(hsl|hsla|rgb|rgba)\(/i.test(value) || value.startsWith("#") || value.startsWith("var(")) {
+      return value;
+    }
+
+    // Detect raw HSL tuple like "25, 90%, 55%" or with slash alpha
+    if (/^\d+(?:\.\d+)?\s*,\s*\d+%\s*,\s*\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) {
+      return `hsl(${value})`;
+    }
+
+    // Also support space-separated HSL tuples: "25 90% 55%" or with slash alpha
+    if (/^\d+(?:\.\d+)?\s+\d+%\s+\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) {
+      return `hsl(${value.replace(/\s+/g, " ")})`;
+    }
+
+    return value;
+  };
+
   return (
     <Card
       className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
       } ${isDragging ? "opacity-50 scale-95" : ""}`}
       style={{
-        borderLeftColor: credit.borders.left,
-        borderRightColor: credit.borders.right,
+        borderLeftColor: toCssColor(credit.borders.left),
+        borderRightColor: toCssColor(credit.borders.right),
         ...(credit.background && { backgroundColor: credit.background }),
       }}
       onClick={onClick}

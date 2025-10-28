@@ -1,6 +1,7 @@
 export interface CreditItemDetails {
   offer: string;
   client: string;
+  clientBranch: string;
   currency: string;
   value: number;
   sellerName: string;
@@ -60,34 +61,35 @@ export type CreditQuoteDocuments = CreditDocument;
 export type CreditClientDocument = CreditDocument;
 
 export interface CreditClientDetails {
-  legalEntityType: string;
-  cgc: string;
-  susbcription: string;
-  name: string;
-  simplification: string;
-  billingAddress: string;
-  billingAddress2: string;
-  district: string;
-  state: string;
-  zipCode: string;
-  risk: string;
-  currency: string;
-  lc: number;
-  lcExpiry: Date | null;
-  group: string;
-  marketCode: string;
+    name: string;
+    cpfCnpj: string;
+    risk: string;
+    billingAddress: string;
+    billingAddress2: string;
+    district: string;
+    state: string;
+    zipCode: string;
+    foundationDate: Date | null;
+    lastPurchase: Date | null;
+    isSN: boolean
+    comments: string;
 }
 
 export interface FinancialHistory {
+  status: string;
   branch: string;
   prefix: string;
   number: string;
   parcel: string;
   type: string;
   emission: Date | null;
+  dueDate: Date | null;
+  realDueDate: Date | null;
+  lastPaymentDate: Date | null;
+  currency: string;
   value: number;
-  expiration: Date | null;
-  posted: Date | null;
+  balance: number;
+  renegotiation: string;
 }
 
 export interface CreditLinkedClient {
