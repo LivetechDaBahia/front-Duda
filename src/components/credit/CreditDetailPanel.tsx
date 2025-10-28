@@ -44,7 +44,7 @@ export const CreditDetailPanel = ({
     isLoading,
   } = useCreditDetails({
     creditId: credit?.key || null,
-    clientBranch: credit?.entity || undefined,
+    clientBranch: credit?.details.clientBranch || undefined,
     clientId: credit?.details.client || undefined,
   });
 
@@ -331,9 +331,9 @@ export const CreditDetailPanel = ({
                       </div>
                       <div>
                         <span className="text-muted-foreground">
-                          {t("credit.cgc")}:
+                          {t("credit.cpfCnpj")}:
                         </span>
-                        <p className="font-medium">{clientDetails.cgc}</p>
+                        <p className="font-medium">{clientDetails.cpfCnpj}</p>
                       </div>
                       <div className="col-span-2">
                         <span className="text-muted-foreground">
@@ -353,15 +353,6 @@ export const CreditDetailPanel = ({
                         <Badge variant="outline">{clientDetails.risk}</Badge>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.lc")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatCurrency(
-                            clientDetails.lc,
-                            clientDetails.currency,
-                          )}
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -389,7 +380,7 @@ export const CreditDetailPanel = ({
                               </TableCell>
                               <TableCell>{formatDate(item.emission)}</TableCell>
                               <TableCell>
-                                {formatDate(item.expiration)}
+                                {formatDate(item.dueDate)}
                               </TableCell>
                             </TableRow>
                           ))}

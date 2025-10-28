@@ -7,6 +7,9 @@ import {
 } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL
+const DISABLE_PHONE_VERIFICATION_MODAL =
+  String(import.meta.env.VITE_DISABLE_PHONE_VERIFICATION_MODAL || "false") ===
+  "true";
 
 interface User {
   email: string;
@@ -56,22 +59,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // Check first access immediately after getting user data
         try {
-          const firstAccessRes = await fetch(
-            `${API_BASE_URL}/auth/first-access`,
-            {
-              credentials: "include",
-            }
-          );
-
-          if (firstAccessRes.ok) {
-            const { firstAccess: needsVerification } =
-              await firstAccessRes.json();
-            setFirstAccess(needsVerification);
-            setShowPhoneVerificationModal(needsVerification);
-          } else {
-            // If first access check fails, assume verified to not block user
+          if (DISABLE_PHONE_VERIFICATION_MODAL) {
+            // Temporarily disable phone verification modal
             setFirstAccess(false);
             setShowPhoneVerificationModal(false);
+          } else {
+            const firstAccessRes = await fetch(
+              `${API_BASE_URL}/auth/first-access`,
+              {
+                credentials: "include",
+              }
+            );
+
+            if (firstAccessRes.ok) {
+              const { firstAccess: needsVerification } =
+                await firstAccessRes.json();
+              setFirstAccess(needsVerification);
+              setShowPhoneVerificationModal(needsVerification);
+            } else {
+              // If first access check fails, assume verified to not block user
+              setFirstAccess(false);
+              setShowPhoneVerificationModal(false);
+            }
           }
         } catch (firstAccessError) {
           console.error("First access check failed:", firstAccessError);
