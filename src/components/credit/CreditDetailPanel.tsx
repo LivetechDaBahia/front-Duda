@@ -14,11 +14,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useCreditDetails } from "@/hooks/useCreditDetails";
 import { useLocale } from "@/contexts/LocaleContext";
 import type { CreditElementItem } from "@/types/credit";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { FinancialHistoryFilters } from "@/components/credit/FinancialHistoryFilters";
+import { FinancialHistorySummary } from "@/components/credit/FinancialHistorySummary";
+import { FinancialHistoryTable } from "@/components/credit/FinancialHistoryTable";
+import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
+import React, { useState, useMemo } from "react";
 
 interface CreditDetailPanelProps {
   credit: CreditElementItem | null;
@@ -47,6 +60,84 @@ export const CreditDetailPanel = ({
     clientBranch: credit?.details.clientBranch || undefined,
     clientId: credit?.details.client || undefined,
   });
+
+  // Financial history filters and pagination state
+  const [financialFilters, setFinancialFilters] = useState<{
+    statuses: string[];
+    types: string[];
+  }>({ statuses: [], types: [] });
+
+  const [financialPage, setFinancialPage] = useState(1);
+  const [financialItemsPerPage, setFinancialItemsPerPage] = useState(10);
+
+  // Extract unique statuses and types
+  const availableStatuses = useMemo(() => {
+    const statuses = new Set(clientHistory.map((item) => item.status));
+    return Array.from(statuses).sort();
+  }, [clientHistory]);
+
+  const availableTypes = useMemo(() => {
+    const types = new Set(clientHistory.map((item) => item.type));
+    return Array.from(types).sort();
+  }, [clientHistory]);
+
+  // Filter data
+  const filteredFinancialHistory = useMemo(() => {
+    let filtered = [...clientHistory];
+
+    // Status filter (multi-select OR logic)
+    if (financialFilters.statuses.length > 0) {
+      filtered = filtered.filter((item) =>
+        financialFilters.statuses.includes(item.status)
+      );
+    }
+
+    // Type filter (multi-select OR logic)
+    if (financialFilters.types.length > 0) {
+      filtered = filtered.filter((item) =>
+        financialFilters.types.includes(item.type)
+      );
+    }
+
+    return filtered;
+  }, [clientHistory, financialFilters]);
+
+  // Calculate totals
+  const financialTotals = useMemo(() => {
+    const totalValue = filteredFinancialHistory.reduce(
+      (sum, item) => sum + item.value,
+      0
+    );
+    const totalBalance = filteredFinancialHistory.reduce(
+      (sum, item) => sum + item.balance,
+      0
+    );
+    return { totalValue, totalBalance };
+  }, [filteredFinancialHistory]);
+
+  // Paginate
+  const paginatedFinancialHistory = useMemo(() => {
+    const start = (financialPage - 1) * financialItemsPerPage;
+    const end = start + financialItemsPerPage;
+    return filteredFinancialHistory.slice(start, end);
+  }, [filteredFinancialHistory, financialPage, financialItemsPerPage]);
+
+  const totalPages = Math.ceil(
+    filteredFinancialHistory.length / financialItemsPerPage
+  );
+
+  // Reset page when filters change
+  const handleFiltersChange = (
+    newFilters: typeof financialFilters
+  ) => {
+    setFinancialFilters(newFilters);
+    setFinancialPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setFinancialFilters({ statuses: [], types: [] });
+    setFinancialPage(1);
+  };
 
   const formatCurrency = (value: number, currency: string = "BRL") => {
     // Map currency symbols to ISO codes
@@ -358,34 +449,127 @@ export const CreditDetailPanel = ({
                   </div>
 
                   {clientHistory.length > 0 && (
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <h3 className="font-semibold">
                         {t("credit.financialHistory")}
                       </h3>
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>{t("credit.number")}</TableHead>
-                            <TableHead>{t("credit.value")}</TableHead>
-                            <TableHead>{t("credit.emission")}</TableHead>
-                            <TableHead>{t("credit.expiration")}</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {clientHistory.map((item, idx) => (
-                            <TableRow key={idx}>
-                              <TableCell>{item.number}</TableCell>
-                              <TableCell>
-                                {formatCurrency(item.value)}
-                              </TableCell>
-                              <TableCell>{formatDate(item.emission)}</TableCell>
-                              <TableCell>
-                                {formatDate(item.dueDate)}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
+
+                      {/* Filters */}
+                      <FinancialHistoryFilters
+                        availableStatuses={availableStatuses}
+                        availableTypes={availableTypes}
+                        selectedStatuses={financialFilters.statuses}
+                        selectedTypes={financialFilters.types}
+                        onStatusChange={(statuses) =>
+                          handleFiltersChange({ ...financialFilters, statuses })
+                        }
+                        onTypeChange={(types) =>
+                          handleFiltersChange({ ...financialFilters, types })
+                        }
+                        onClearFilters={handleClearFilters}
+                      />
+
+                      {/* Summary Cards */}
+                      <FinancialHistorySummary
+                        totalValue={financialTotals.totalValue}
+                        totalBalance={financialTotals.totalBalance}
+                        currency={clientHistory[0]?.currency || "R$"}
+                        itemCount={filteredFinancialHistory.length}
+                      />
+
+                      {/* Table */}
+                      <FinancialHistoryTable
+                        data={paginatedFinancialHistory}
+                        isLoading={isLoading}
+                      />
+
+                      {/* Pagination Controls */}
+                      {filteredFinancialHistory.length > 0 && (
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                          <div className="text-sm text-muted-foreground">
+                            {t("credit.showingItems")}{" "}
+                            {(financialPage - 1) * financialItemsPerPage + 1} {t("credit.toItems")}{" "}
+                            {Math.min(
+                              financialPage * financialItemsPerPage,
+                              filteredFinancialHistory.length
+                            )}{" "}
+                            {t("credit.ofItems")} {filteredFinancialHistory.length}
+                          </div>
+
+                          <div className="flex items-center gap-4">
+                            <ItemsPerPageSelector
+                              value={financialItemsPerPage}
+                              onChange={setFinancialItemsPerPage}
+                              options={[5, 10, 20, 50]}
+                            />
+
+                            <Pagination>
+                              <PaginationContent>
+                                <PaginationItem>
+                                  <PaginationPrevious
+                                    onClick={() =>
+                                      setFinancialPage(
+                                        Math.max(1, financialPage - 1)
+                                      )
+                                    }
+                                    className={
+                                      financialPage === 1
+                                        ? "pointer-events-none opacity-50"
+                                        : "cursor-pointer"
+                                    }
+                                  />
+                                </PaginationItem>
+
+                                {Array.from(
+                                  { length: totalPages },
+                                  (_, i) => i + 1
+                                )
+                                  .filter((page) => {
+                                    // Show first, last, current, and neighbors
+                                    return (
+                                      page === 1 ||
+                                      page === totalPages ||
+                                      Math.abs(page - financialPage) <= 1
+                                    );
+                                  })
+                                  .map((page, idx, array) => (
+                                    <React.Fragment key={page}>
+                                      {idx > 0 && array[idx - 1] !== page - 1 && (
+                                        <PaginationItem>
+                                          <span className="px-2">...</span>
+                                        </PaginationItem>
+                                      )}
+                                      <PaginationItem>
+                                        <PaginationLink
+                                          onClick={() => setFinancialPage(page)}
+                                          isActive={page === financialPage}
+                                          className="cursor-pointer"
+                                        >
+                                          {page}
+                                        </PaginationLink>
+                                      </PaginationItem>
+                                    </React.Fragment>
+                                  ))}
+
+                                <PaginationItem>
+                                  <PaginationNext
+                                    onClick={() =>
+                                      setFinancialPage(
+                                        Math.min(totalPages, financialPage + 1)
+                                      )
+                                    }
+                                    className={
+                                      financialPage === totalPages
+                                        ? "pointer-events-none opacity-50"
+                                        : "cursor-pointer"
+                                    }
+                                  />
+                                </PaginationItem>
+                              </PaginationContent>
+                            </Pagination>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
