@@ -155,7 +155,7 @@ const Credit = () => {
 
   const handleActionsClick = (credit: CreditElementItem, action: string) => {
     if (action === "view-logs") {
-      setLogsDialogCreditId(credit.id);
+      setLogsDialogCreditId(parseInt(credit.key));
     }
   };
 

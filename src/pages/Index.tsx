@@ -151,7 +151,7 @@ const Index = () => {
     <div className="min-h-full bg-background">
       <DashboardHeader viewMode={viewMode} onViewChange={setViewMode} />
 
-      <main className="container mx-auto">
+      <main className="container mt-3 mx-auto">
         <div className="mb-6">
           <OrderFilters onFilterChange={setFilters} />
         </div>

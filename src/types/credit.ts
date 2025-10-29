@@ -1,4 +1,8 @@
 export interface CreditItemDetails {
+    date: Date;
+    sellerGroup: string;
+    operation: string;
+    financial: string;
   offer: string;
   client: string;
   clientBranch: string;
