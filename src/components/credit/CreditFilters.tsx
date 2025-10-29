@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -48,6 +49,38 @@ export const CreditFilters = ({
     return Array.from(badgeMap.values());
   }, [credits]);
 
+  // Calculate min/max values from all credits for slider bounds
+  const valueRange = useMemo(() => {
+    if (credits.length === 0) return { min: 0, max: 100000 };
+    
+    const values = credits.map(c => c.details.value);
+    const min = Math.floor(Math.min(...values));
+    const max = Math.ceil(Math.max(...values));
+    
+    return { min, max };
+  }, [credits]);
+
+  // Extract unique types from details
+  const availableTypes = useMemo(() => {
+    const types = new Set(credits.map(c => c.details.type).filter(Boolean));
+    return Array.from(types).sort();
+  }, [credits]);
+
+  // Extract unique financial statuses from details
+  const availableFinancials = useMemo(() => {
+    const financials = new Set(credits.map(c => c.details.financial).filter(Boolean));
+    return Array.from(financials).sort();
+  }, [credits]);
+
+  // Extract unique operations from details
+  const availableOperations = useMemo(() => {
+    const operations = new Set(credits.map(c => c.details.operation).filter(Boolean));
+    return Array.from(operations).sort();
+  }, [credits]);
+
+  // Initialize slider value range
+  const sliderValue = filters.valueRange || [valueRange.min, valueRange.max];
+
   const updateFilter = (key: keyof CreditFiltersType, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
   };
@@ -62,9 +95,10 @@ export const CreditFilters = ({
       type: "",
       dateBegin: undefined,
       dateEnd: undefined,
-      minValue: undefined,
-      maxValue: undefined,
+      valueRange: undefined,
       badges: undefined,
+      financial: undefined,
+      operation: undefined,
     });
   };
 
@@ -77,9 +111,10 @@ export const CreditFilters = ({
       filters.type ||
       filters.dateBegin ||
       filters.dateEnd ||
-      filters.minValue !== undefined ||
-      filters.maxValue !== undefined ||
-      (filters.badges && filters.badges.length > 0),
+      filters.valueRange !== undefined ||
+      (filters.badges && filters.badges.length > 0) ||
+      filters.financial ||
+      filters.operation,
   );
 
   return (
@@ -116,6 +151,81 @@ export const CreditFilters = ({
         </Select>
       </div>
 
+      {/* Type Filter */}
+      {availableTypes.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("credit.filterByType")}</Label>
+          <Select
+            value={filters.type || "all"}
+            onValueChange={(value) => 
+              updateFilter("type", value === "all" ? "" : value)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={t("credit.selectType")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("credit.allTypes")}</SelectItem>
+              {availableTypes.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* Financial Filter */}
+      {availableFinancials.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("credit.filterByFinancial")}</Label>
+          <Select
+            value={filters.financial || "all"}
+            onValueChange={(value) => 
+              updateFilter("financial", value === "all" ? undefined : value)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={t("credit.selectFinancial")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("credit.allFinancials")}</SelectItem>
+              {availableFinancials.map((financial) => (
+                <SelectItem key={financial} value={financial}>
+                  {financial}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* Operation Filter */}
+      {availableOperations.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("credit.filterByOperation")}</Label>
+          <Select
+            value={filters.operation || "all"}
+            onValueChange={(value) => 
+              updateFilter("operation", value === "all" ? undefined : value)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={t("credit.selectOperation")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("credit.allOperations")}</SelectItem>
+              {availableOperations.map((operation) => (
+                <SelectItem key={operation} value={operation}>
+                  {operation}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       <FilterDateRange
         dateFrom={filters.dateBegin}
         dateTo={filters.dateEnd}
@@ -126,36 +236,46 @@ export const CreditFilters = ({
         selectDateLabel={t("startDate")}
       />
 
-      {/* Min Value */}
-      <div className="space-y-2">
-        <Label>{t("credit.minValue")}</Label>
-        <Input
-          type="number"
-          placeholder="0"
-          value={filters.minValue || ""}
-          onChange={(e) =>
-            updateFilter(
-              "minValue",
-              e.target.value ? parseFloat(e.target.value) : undefined,
-            )
-          }
-        />
-      </div>
-
-      {/* Max Value */}
-      <div className="space-y-2">
-        <Label>{t("credit.maxValue")}</Label>
-        <Input
-          type="number"
-          placeholder="0"
-          value={filters.maxValue || ""}
-          onChange={(e) =>
-            updateFilter(
-              "maxValue",
-              e.target.value ? parseFloat(e.target.value) : undefined,
-            )
-          }
-        />
+      {/* Value Range Slider */}
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>{t("credit.valueRange")}</Label>
+          <div className="pt-2">
+            <Slider
+              value={sliderValue}
+              onValueChange={(value) => {
+                // Only update if the value changed from default range
+                const isDefaultRange = 
+                  value[0] === valueRange.min && 
+                  value[1] === valueRange.max;
+                
+                updateFilter(
+                  "valueRange", 
+                  isDefaultRange ? undefined : value as [number, number]
+                );
+              }}
+              min={valueRange.min}
+              max={valueRange.max}
+              step={Math.max(1, Math.floor((valueRange.max - valueRange.min) / 1000))}
+              className="w-full"
+            />
+          </div>
+          {/* Display current range values */}
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>
+              {new Intl.NumberFormat('pt-BR', { 
+                style: 'currency', 
+                currency: 'BRL' 
+              }).format(sliderValue[0])}
+            </span>
+            <span>
+              {new Intl.NumberFormat('pt-BR', { 
+                style: 'currency', 
+                currency: 'BRL' 
+              }).format(sliderValue[1])}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Badge Filter */}

@@ -41,6 +41,9 @@ const Credit = () => {
     user: "",
     currency: "",
     type: "",
+    valueRange: undefined,
+    financial: undefined,
+    operation: undefined,
   });
 
   const { toast } = useToast();
@@ -95,17 +98,21 @@ const Credit = () => {
         return false;
       }
 
-      // Value range filters
-      if (
-        filters.minValue !== undefined &&
-        credit.details.value < filters.minValue
-      ) {
+      // Value range filter (using slider range)
+      if (filters.valueRange) {
+        const [min, max] = filters.valueRange;
+        if (credit.details.value < min || credit.details.value > max) {
+          return false;
+        }
+      }
+
+      // Financial filter
+      if (filters.financial && credit.details.financial !== filters.financial) {
         return false;
       }
-      if (
-        filters.maxValue !== undefined &&
-        credit.details.value > filters.maxValue
-      ) {
+
+      // Operation filter
+      if (filters.operation && credit.details.operation !== filters.operation) {
         return false;
       }
 

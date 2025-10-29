@@ -134,7 +134,8 @@ export interface CreditFilters {
   type: string;
   dateBegin?: Date;
   dateEnd?: Date;
-  minValue?: number;
-  maxValue?: number;
+  valueRange?: [number, number];
   badges?: string[];
+  financial?: string;
+  operation?: string;
 }
