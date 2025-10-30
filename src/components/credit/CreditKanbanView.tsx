@@ -7,7 +7,7 @@ interface CreditKanbanViewProps {
   credits: CreditElementItem[];
   statuses: CreditStatus[];
   onCreditClick: (credit: CreditElementItem) => void;
-  onStatusChange?: (creditId: number, newStatusId: string) => void;
+  onStatusChange?: (creditId: number, offerId:string, newStatusId: string) => void;
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
 }
 
@@ -46,7 +46,7 @@ export const CreditKanbanView = ({
     if (draggedCreditId && onStatusChange) {
       const draggedCredit = credits.find((c) => c.id === draggedCreditId);
       if (draggedCredit && draggedCredit.statusId !== newStatusId) {
-        onStatusChange(draggedCreditId, newStatusId);
+        onStatusChange(draggedCredit.id, draggedCredit.details.offer, newStatusId);
       }
     }
     setDraggedCreditId(null);

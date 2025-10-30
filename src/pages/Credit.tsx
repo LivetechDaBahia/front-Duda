@@ -26,6 +26,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
+import { formatOfferId } from "@/utils/offer";
 
 const Credit = () => {
   const [view, setView] = useState<"kanban" | "table">("kanban");
@@ -161,7 +162,14 @@ const Credit = () => {
       const branchVal = current.details.clientBranch ?? "";
       const clientIdVal = current.details.client ?? "";
       const sellerNameVal = current.details.sellerName ?? "";
-      const sellerIdVal = current.user ?? user?.email ?? "";
+      // Seller ID must be parsed from sellerName (format: "000817 - Full Name")
+      const sellerIdVal = (() => {
+        const match = sellerNameVal.match(/^\s*(\d+)\s*-/);
+        return match ? match[1] : "";
+      })();
+
+      // Offer ID comes masked like "01-801185/00"; we must send digits only
+      const offerIdVal = formatOfferId(current.details.offer);
 
       // Validate required values before sending
       const missingFields: string[] = [];
@@ -170,6 +178,7 @@ const Credit = () => {
       if (!clientIdVal) missingFields.push("item.clientId");
       if (!sellerNameVal) missingFields.push("item.sellerName");
       if (!sellerIdVal) missingFields.push("item.sellerId");
+      if (!offerIdVal) missingFields.push("item.id (offer)");
 
       if (missingFields.length > 0) {
         toast({
@@ -186,7 +195,7 @@ const Credit = () => {
         email: emailVal,
         branch: branchVal,
         item: {
-          id: String(creditId),
+          id: offerIdVal,
           clientId: clientIdVal,
           sellerName: sellerNameVal,
           sellerId: sellerIdVal,
