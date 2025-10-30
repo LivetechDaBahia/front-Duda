@@ -77,6 +77,7 @@ export const usePermissions = () => {
     hasMinimumLevel,
     isAdmin: hasMinimumLevel("Administrator"),
     canManageUsers: hasPermission("users:update") || hasMinimumLevel("Editor"),
-    canDeleteUsers: hasPermission("users:delete") || hasMinimumLevel("Administrator"),
+    canDeleteUsers:
+      hasPermission("users:delete") || hasMinimumLevel("Administrator"),
   };
 };

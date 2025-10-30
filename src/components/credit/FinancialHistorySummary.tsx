@@ -19,8 +19,8 @@ export function FinancialHistorySummary({
 
   const formatCurrency = (value: number) => {
     const currencyMap: Record<string, string> = {
-      "R$": "BRL",
-      "US$": "USD",
+      R$: "BRL",
+      US$: "USD",
       "€": "EUR",
     };
 
@@ -47,9 +47,7 @@ export function FinancialHistorySummary({
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {formatCurrency(totalValue)}
-          </div>
+          <div className="text-2xl font-bold">{formatCurrency(totalValue)}</div>
           <p className="text-xs text-muted-foreground mt-1">
             {itemCount} {itemCount === 1 ? t("credit.item") : t("credit.items")}
           </p>

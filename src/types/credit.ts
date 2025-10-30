@@ -1,8 +1,8 @@
 export interface CreditItemDetails {
-    date: Date;
-    sellerGroup: string;
-    operation: string;
-    financial: string;
+  date: Date;
+  sellerGroup: string;
+  operation: string;
+  financial: string;
   offer: string;
   client: string;
   clientBranch: string;
@@ -65,18 +65,18 @@ export type CreditQuoteDocuments = CreditDocument;
 export type CreditClientDocument = CreditDocument;
 
 export interface CreditClientDetails {
-    name: string;
-    cpfCnpj: string;
-    risk: string;
-    billingAddress: string;
-    billingAddress2: string;
-    district: string;
-    state: string;
-    zipCode: string;
-    foundationDate: Date | null;
-    lastPurchase: Date | null;
-    isSN: boolean
-    comments: string;
+  name: string;
+  cpfCnpj: string;
+  risk: string;
+  billingAddress: string;
+  billingAddress2: string;
+  district: string;
+  state: string;
+  zipCode: string;
+  foundationDate: Date | null;
+  lastPurchase: Date | null;
+  isSN: boolean;
+  comments: string;
 }
 
 export interface FinancialHistory {
@@ -138,4 +138,17 @@ export interface CreditFilters {
   badges?: string[];
   financial?: string;
   operation?: string;
+}
+
+export interface UpdateCreditStatusDto {
+  status: string;
+  oldStatus: string;
+  email: string;
+  branch: string;
+  item: {
+    id: string;
+    clientId: string;
+    sellerName: string;
+    sellerId: string;
+  };
 }

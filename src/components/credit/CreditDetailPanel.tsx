@@ -88,14 +88,14 @@ export const CreditDetailPanel = ({
     // Status filter (multi-select OR logic)
     if (financialFilters.statuses.length > 0) {
       filtered = filtered.filter((item) =>
-        financialFilters.statuses.includes(item.status)
+        financialFilters.statuses.includes(item.status),
       );
     }
 
     // Type filter (multi-select OR logic)
     if (financialFilters.types.length > 0) {
       filtered = filtered.filter((item) =>
-        financialFilters.types.includes(item.type)
+        financialFilters.types.includes(item.type),
       );
     }
 
@@ -106,11 +106,11 @@ export const CreditDetailPanel = ({
   const financialTotals = useMemo(() => {
     const totalValue = filteredFinancialHistory.reduce(
       (sum, item) => sum + item.value,
-      0
+      0,
     );
     const totalBalance = filteredFinancialHistory.reduce(
       (sum, item) => sum + item.balance,
-      0
+      0,
     );
     return { totalValue, totalBalance };
   }, [filteredFinancialHistory]);
@@ -123,13 +123,11 @@ export const CreditDetailPanel = ({
   }, [filteredFinancialHistory, financialPage, financialItemsPerPage]);
 
   const totalPages = Math.ceil(
-    filteredFinancialHistory.length / financialItemsPerPage
+    filteredFinancialHistory.length / financialItemsPerPage,
   );
 
   // Reset page when filters change
-  const handleFiltersChange = (
-    newFilters: typeof financialFilters
-  ) => {
+  const handleFiltersChange = (newFilters: typeof financialFilters) => {
     setFinancialFilters(newFilters);
     setFinancialPage(1);
   };
@@ -443,8 +441,7 @@ export const CreditDetailPanel = ({
                         </span>
                         <Badge variant="outline">{clientDetails.risk}</Badge>
                       </div>
-                      <div>
-                      </div>
+                      <div></div>
                     </div>
                   </div>
 
@@ -488,12 +485,14 @@ export const CreditDetailPanel = ({
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                           <div className="text-sm text-muted-foreground">
                             {t("credit.showingItems")}{" "}
-                            {(financialPage - 1) * financialItemsPerPage + 1} {t("credit.toItems")}{" "}
+                            {(financialPage - 1) * financialItemsPerPage + 1}{" "}
+                            {t("credit.toItems")}{" "}
                             {Math.min(
                               financialPage * financialItemsPerPage,
-                              filteredFinancialHistory.length
+                              filteredFinancialHistory.length,
                             )}{" "}
-                            {t("credit.ofItems")} {filteredFinancialHistory.length}
+                            {t("credit.ofItems")}{" "}
+                            {filteredFinancialHistory.length}
                           </div>
 
                           <div className="flex items-center gap-4">
@@ -509,7 +508,7 @@ export const CreditDetailPanel = ({
                                   <PaginationPrevious
                                     onClick={() =>
                                       setFinancialPage(
-                                        Math.max(1, financialPage - 1)
+                                        Math.max(1, financialPage - 1),
                                       )
                                     }
                                     className={
@@ -522,7 +521,7 @@ export const CreditDetailPanel = ({
 
                                 {Array.from(
                                   { length: totalPages },
-                                  (_, i) => i + 1
+                                  (_, i) => i + 1,
                                 )
                                   .filter((page) => {
                                     // Show first, last, current, and neighbors
@@ -534,11 +533,12 @@ export const CreditDetailPanel = ({
                                   })
                                   .map((page, idx, array) => (
                                     <React.Fragment key={page}>
-                                      {idx > 0 && array[idx - 1] !== page - 1 && (
-                                        <PaginationItem>
-                                          <span className="px-2">...</span>
-                                        </PaginationItem>
-                                      )}
+                                      {idx > 0 &&
+                                        array[idx - 1] !== page - 1 && (
+                                          <PaginationItem>
+                                            <span className="px-2">...</span>
+                                          </PaginationItem>
+                                        )}
                                       <PaginationItem>
                                         <PaginationLink
                                           onClick={() => setFinancialPage(page)}
@@ -555,7 +555,7 @@ export const CreditDetailPanel = ({
                                   <PaginationNext
                                     onClick={() =>
                                       setFinancialPage(
-                                        Math.min(totalPages, financialPage + 1)
+                                        Math.min(totalPages, financialPage + 1),
                                       )
                                     }
                                     className={

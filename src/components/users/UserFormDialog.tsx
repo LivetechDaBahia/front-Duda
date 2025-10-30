@@ -33,8 +33,14 @@ const userFormSchema = z.object({
     .trim()
     .email("Invalid email address")
     .max(255, "Email must be less than 255 characters"),
-  department: z.string().max(100, "Department must be less than 100 characters").optional(),
-  position: z.string().max(100, "Position must be less than 100 characters").optional(),
+  department: z
+    .string()
+    .max(100, "Department must be less than 100 characters")
+    .optional(),
+  position: z
+    .string()
+    .max(100, "Position must be less than 100 characters")
+    .optional(),
   role: z.string().max(100, "Role must be less than 100 characters").optional(),
 });
 

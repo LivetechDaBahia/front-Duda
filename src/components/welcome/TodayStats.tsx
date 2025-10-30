@@ -13,7 +13,12 @@ export const TodayStats = ({
   totalValue,
 }: TodayStatsProps) => {
   return (
-    <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
+    <div
+      className="grid gap-4"
+      style={{
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))",
+      }}
+    >
       <Card className="p-5 bg-gradient-to-br from-warning/5 to-warning/10 border-warning/20">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-lg bg-warning/20 flex items-center justify-center">

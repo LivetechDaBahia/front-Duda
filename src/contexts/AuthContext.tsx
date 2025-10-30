@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from "react";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const DISABLE_PHONE_VERIFICATION_MODAL =
   String(import.meta.env.VITE_DISABLE_PHONE_VERIFICATION_MODAL || "false") ===
   "true";
@@ -68,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               `${API_BASE_URL}/auth/first-access`,
               {
                 credentials: "include",
-              }
+              },
             );
 
             if (firstAccessRes.ok) {

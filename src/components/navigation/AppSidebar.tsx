@@ -1,5 +1,12 @@
 import { useLocation } from "react-router-dom";
-import { Home, LogOut, Bell, FileCheck, Banknote, Users as UsersIcon } from "lucide-react";
+import {
+  Home,
+  LogOut,
+  Bell,
+  FileCheck,
+  Banknote,
+  Users as UsersIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";

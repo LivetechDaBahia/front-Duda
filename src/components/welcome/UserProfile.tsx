@@ -22,7 +22,7 @@ export const UserProfile = () => {
       .slice(0, 2);
   };
 
-  console.log(profile)
+  console.log(profile);
 
   const displayName = profile?.name || authUser?.name || "User";
   const displayRole = profile?.role || t("profile.notSpecified");
@@ -58,9 +58,13 @@ export const UserProfile = () => {
           </Avatar>
 
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-foreground">{displayName}</h2>
+            <h2 className="text-2xl font-bold text-foreground">
+              {displayName}
+            </h2>
             <p className="text-muted-foreground">{displayEmail}</p>
-            <p className="text-sm text-destructive mt-1">{t("profile.errorLoading")}</p>
+            <p className="text-sm text-destructive mt-1">
+              {t("profile.errorLoading")}
+            </p>
           </div>
         </div>
       </Card>

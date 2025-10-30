@@ -142,7 +142,13 @@ const Welcome = () => {
           </div>
 
           {pendingOrders.length > 0 ? (
-            <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
+            <div
+              className="grid gap-4"
+              style={{
+                gridTemplateColumns:
+                  "repeat(auto-fit, minmax(min(100%, 400px), 1fr))",
+              }}
+            >
               {pendingOrders.map((order) => (
                 <PendingOrderCard
                   key={order.id}

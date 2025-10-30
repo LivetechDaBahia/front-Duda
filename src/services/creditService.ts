@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/apiClient";
-import type {
+import {
   CreditElementItem,
   CreditStatus,
   CreditElementDetails,
@@ -10,6 +10,7 @@ import type {
   FinancialHistory,
   CreditLinkedClient,
   CreditLog,
+  UpdateCreditStatusDto,
 } from "@/types/credit";
 
 export const creditService = {
@@ -59,9 +60,9 @@ export const creditService = {
     return apiClient.get(`/credit/creditElement/linkedClients/${branch}/${id}`);
   },
 
-  async updateCreditStatus(id: number, newStatusId: string): Promise<void> {
-    return apiClient.patch(`/credit/creditElement/${id}/status`, {
-      statusId: newStatusId,
+  async updateCreditStatus(payload: UpdateCreditStatusDto): Promise<void> {
+    return apiClient.patch(`/credit/creditElement/${payload.item.id}/status`, {
+      payload,
     });
   },
 

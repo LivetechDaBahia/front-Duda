@@ -142,7 +142,9 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  html, body, #root {
+  html,
+  body,
+  #root {
     height: 100%;
   }
 

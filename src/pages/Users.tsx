@@ -47,7 +47,7 @@ export default function Users() {
         user.name.toLowerCase().includes(query) ||
         user.email.toLowerCase().includes(query) ||
         user.department?.toLowerCase().includes(query) ||
-        user.role?.toLowerCase().includes(query)
+        user.role?.toLowerCase().includes(query),
     );
   }, [users, searchQuery]);
 

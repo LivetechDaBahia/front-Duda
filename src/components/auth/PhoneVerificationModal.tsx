@@ -43,7 +43,7 @@ const phoneSchema = z.object({
         const digits = toDigits(val);
         return digits.length >= 10 && digits.length <= 15;
       },
-      { message: "Phone number must be 10-15 digits" }
+      { message: "Phone number must be 10-15 digits" },
     ),
 });
 
@@ -124,7 +124,7 @@ export function PhoneVerificationModal({
       if (errorCode === "cooldown" && error.retryAfter) {
         return t("phoneVerification.error.cooldown").replace(
           "{seconds}",
-          error.retryAfter.toString()
+          error.retryAfter.toString(),
         );
       }
       if (errorCode === "too_many_attempts") {

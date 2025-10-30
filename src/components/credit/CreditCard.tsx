@@ -11,8 +11,8 @@ import {
 import { MoreHorizontal, History } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
-import { format } from 'date-fns';
-import {useLocale} from "@/contexts/LocaleContext.tsx";
+import { format } from "date-fns";
+import { useLocale } from "@/contexts/LocaleContext.tsx";
 
 interface CreditCardProps {
   credit: CreditElementItem;
@@ -62,12 +62,18 @@ export const CreditCard = ({
     const value = input.trim();
 
     // If already a valid CSS function or hex/var, leave as is
-    if (/^(hsl|hsla|rgb|rgba)\(/i.test(value) || value.startsWith("#") || value.startsWith("var(")) {
+    if (
+      /^(hsl|hsla|rgb|rgba)\(/i.test(value) ||
+      value.startsWith("#") ||
+      value.startsWith("var(")
+    ) {
       return value;
     }
 
     // Detect raw HSL tuple like "25, 90%, 55%" or with slash alpha
-    if (/^\d+(?:\.\d+)?\s*,\s*\d+%\s*,\s*\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) {
+    if (
+      /^\d+(?:\.\d+)?\s*,\s*\d+%\s*,\s*\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)
+    ) {
       return `hsl(${value})`;
     }
 
@@ -79,7 +85,7 @@ export const CreditCard = ({
     return value;
   };
 
-    const { t } = useLocale();
+  const { t } = useLocale();
 
   return (
     <Card
@@ -105,9 +111,9 @@ export const CreditCard = ({
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.client}/{credit.details.clientBranch}
             </p>
-              <p className="text-xs text-muted-foreground truncate mt-1">
-                  {credit.details.type} • {credit.details.financial}
-              </p>
+            <p className="text-xs text-muted-foreground truncate mt-1">
+              {credit.details.type} • {credit.details.financial}
+            </p>
           </div>
           <div className="flex items-center gap-1 shrink-0">
             {status && (
@@ -151,29 +157,30 @@ export const CreditCard = ({
       </CardHeader>
       <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
         <div className="flex items-center justify-between text-xs sm:text-sm">
-          <span className="text-muted-foreground">{t('credit.value')}</span>
+          <span className="text-muted-foreground">{t("credit.value")}</span>
           <span className="font-medium">
             {formatCurrency(credit.details.value, credit.details.currency)}
           </span>
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">{t('credit.seller')}</span>
+          <span className="text-muted-foreground">{t("credit.seller")}</span>
           <span className="truncate ml-2">{credit.details.sellerName}</span>
         </div>
-          <div className="flex items-center justify-between text-xs">
-              <span className="text-muted-foreground">{t('credit.group')}</span>
-              <span className="truncate ml-2">{credit.details.sellerGroup}</span>
-          </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-muted-foreground">{t("credit.group")}</span>
+          <span className="truncate ml-2">{credit.details.sellerGroup}</span>
+        </div>
         {credit.details.paymentConditions && (
           <div className="text-xs text-muted-foreground truncate">
             {credit.details.paymentConditions}
           </div>
         )}
-          {credit.details.date && (
-              <div className="text-xs text-muted-foreground truncate">
-                  {format(new Date(credit.details.date), 'dd/MM/yyyy hh:mm')} • {credit.details.operation}
-              </div>
-          )}
+        {credit.details.date && (
+          <div className="text-xs text-muted-foreground truncate">
+            {format(new Date(credit.details.date), "dd/MM/yyyy hh:mm")} •{" "}
+            {credit.details.operation}
+          </div>
+        )}
         {credit.badges && credit.badges.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {credit.badges.map((badge) => (

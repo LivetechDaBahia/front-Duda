@@ -25,8 +25,8 @@ export function FinancialHistoryTable({
 
   const formatCurrency = (value: number, currency: string) => {
     const currencyMap: Record<string, string> = {
-      "R$": "BRL",
-      "US$": "USD",
+      R$: "BRL",
+      US$: "USD",
       "€": "EUR",
     };
 
@@ -52,7 +52,7 @@ export function FinancialHistoryTable({
   };
 
   const getStatusVariant = (
-    status: string
+    status: string,
   ): "default" | "secondary" | "destructive" | "outline" => {
     const statusLower = status.toLowerCase();
     if (statusLower.includes("baixado") || statusLower.includes("paid")) {

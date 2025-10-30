@@ -52,29 +52,33 @@ export const CreditFilters = ({
   // Calculate min/max values from all credits for slider bounds
   const valueRange = useMemo(() => {
     if (credits.length === 0) return { min: 0, max: 100000 };
-    
-    const values = credits.map(c => c.details.value);
+
+    const values = credits.map((c) => c.details.value);
     const min = Math.floor(Math.min(...values));
     const max = Math.ceil(Math.max(...values));
-    
+
     return { min, max };
   }, [credits]);
 
   // Extract unique types from details
   const availableTypes = useMemo(() => {
-    const types = new Set(credits.map(c => c.details.type).filter(Boolean));
+    const types = new Set(credits.map((c) => c.details.type).filter(Boolean));
     return Array.from(types).sort();
   }, [credits]);
 
   // Extract unique financial statuses from details
   const availableFinancials = useMemo(() => {
-    const financials = new Set(credits.map(c => c.details.financial).filter(Boolean));
+    const financials = new Set(
+      credits.map((c) => c.details.financial).filter(Boolean),
+    );
     return Array.from(financials).sort();
   }, [credits]);
 
   // Extract unique operations from details
   const availableOperations = useMemo(() => {
-    const operations = new Set(credits.map(c => c.details.operation).filter(Boolean));
+    const operations = new Set(
+      credits.map((c) => c.details.operation).filter(Boolean),
+    );
     return Array.from(operations).sort();
   }, [credits]);
 
@@ -157,7 +161,7 @@ export const CreditFilters = ({
           <Label>{t("credit.filterByType")}</Label>
           <Select
             value={filters.type || "all"}
-            onValueChange={(value) => 
+            onValueChange={(value) =>
               updateFilter("type", value === "all" ? "" : value)
             }
           >
@@ -182,7 +186,7 @@ export const CreditFilters = ({
           <Label>{t("credit.filterByFinancial")}</Label>
           <Select
             value={filters.financial || "all"}
-            onValueChange={(value) => 
+            onValueChange={(value) =>
               updateFilter("financial", value === "all" ? undefined : value)
             }
           >
@@ -207,7 +211,7 @@ export const CreditFilters = ({
           <Label>{t("credit.filterByOperation")}</Label>
           <Select
             value={filters.operation || "all"}
-            onValueChange={(value) => 
+            onValueChange={(value) =>
               updateFilter("operation", value === "all" ? undefined : value)
             }
           >
@@ -245,33 +249,35 @@ export const CreditFilters = ({
               value={sliderValue}
               onValueChange={(value) => {
                 // Only update if the value changed from default range
-                const isDefaultRange = 
-                  value[0] === valueRange.min && 
-                  value[1] === valueRange.max;
-                
+                const isDefaultRange =
+                  value[0] === valueRange.min && value[1] === valueRange.max;
+
                 updateFilter(
-                  "valueRange", 
-                  isDefaultRange ? undefined : value as [number, number]
+                  "valueRange",
+                  isDefaultRange ? undefined : (value as [number, number]),
                 );
               }}
               min={valueRange.min}
               max={valueRange.max}
-              step={Math.max(1, Math.floor((valueRange.max - valueRange.min) / 1000))}
+              step={Math.max(
+                1,
+                Math.floor((valueRange.max - valueRange.min) / 1000),
+              )}
               className="w-full"
             />
           </div>
           {/* Display current range values */}
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>
-              {new Intl.NumberFormat('pt-BR', { 
-                style: 'currency', 
-                currency: 'BRL' 
+              {new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
               }).format(sliderValue[0])}
             </span>
             <span>
-              {new Intl.NumberFormat('pt-BR', { 
-                style: 'currency', 
-                currency: 'BRL' 
+              {new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
               }).format(sliderValue[1])}
             </span>
           </div>
@@ -295,7 +301,10 @@ export const CreditFilters = ({
                     const updated = isSelected
                       ? current.filter((id) => id !== badge.id)
                       : [...current, badge.id];
-                    updateFilter("badges", updated.length > 0 ? updated : undefined);
+                    updateFilter(
+                      "badges",
+                      updated.length > 0 ? updated : undefined,
+                    );
                   }}
                 >
                   {badge.label}

@@ -62,56 +62,58 @@ export const CreditKanbanView = ({
     <div className="w-full">
       <div className="overflow-x-auto">
         <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max">
-        {statuses.map((status) => {
-          const statusCredits = getCreditsByStatus(status.id);
-          const isDragOver = dragOverColumn === status.id;
-          return (
-            <div key={status.id} className="flex-shrink-0 w-[360px]">
-              <div
-                className={`rounded-lg border p-3 sm:p-4 bg-card transition-colors ${
-                  status.destructive ? "border-destructive/50" : ""
-                } ${isDragOver ? "border-primary bg-accent/50" : ""}`}
-                onDragOver={(e) => handleDragOver(e, status.id)}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, status.id)}
-              >
-                <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h3 className="font-semibold text-sm sm:text-base">
-                    {status.description}
-                    {status.destructive && (
-                      <span className="ml-2 text-destructive">⚠️</span>
+          {statuses.map((status) => {
+            const statusCredits = getCreditsByStatus(status.id);
+            const isDragOver = dragOverColumn === status.id;
+            return (
+              <div key={status.id} className="flex-shrink-0 w-[360px]">
+                <div
+                  className={`rounded-lg border p-3 sm:p-4 bg-card transition-colors ${
+                    status.destructive ? "border-destructive/50" : ""
+                  } ${isDragOver ? "border-primary bg-accent/50" : ""}`}
+                  onDragOver={(e) => handleDragOver(e, status.id)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, status.id)}
+                >
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <h3 className="font-semibold text-sm sm:text-base">
+                      {status.description}
+                      {status.destructive && (
+                        <span className="ml-2 text-destructive">⚠️</span>
+                      )}
+                    </h3>
+                    <span className="text-xs sm:text-sm text-muted-foreground">
+                      {statusCredits.length}
+                    </span>
+                  </div>
+                  <div className="space-y-2 sm:space-y-3">
+                    {statusCredits.length === 0 ? (
+                      <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
+                        {t("credit.noCreditsInStatus")}
+                      </p>
+                    ) : (
+                      statusCredits.map((credit) => (
+                        <CreditCard
+                          key={`credit-${credit.id}`}
+                          credit={credit}
+                          statuses={statuses}
+                          onClick={() => onCreditClick(credit)}
+                          onDragStart={
+                            onStatusChange ? handleDragStart : undefined
+                          }
+                          onDragEnd={handleDragEnd}
+                          onActionsClick={onActionsClick}
+                          isDragging={draggedCreditId === credit.id}
+                        />
+                      ))
                     )}
-                  </h3>
-                  <span className="text-xs sm:text-sm text-muted-foreground">
-                    {statusCredits.length}
-                  </span>
-                </div>
-                <div className="space-y-2 sm:space-y-3">
-                  {statusCredits.length === 0 ? (
-                    <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
-                      {t("credit.noCreditsInStatus")}
-                    </p>
-                  ) : (
-                    statusCredits.map((credit) => (
-                      <CreditCard
-                        key={`credit-${credit.id}`}
-                        credit={credit}
-                        statuses={statuses}
-                        onClick={() => onCreditClick(credit)}
-                        onDragStart={onStatusChange ? handleDragStart : undefined}
-                        onDragEnd={handleDragEnd}
-                        onActionsClick={onActionsClick}
-                        isDragging={draggedCreditId === credit.id}
-                      />
-                    ))
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
   );
 };

@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0",
     port: 8080,
-    allowedHosts: ['dudadev.wdcnet.com.br']
+    allowedHosts: ["dudadev.intranet.wdcnet"],
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(
     Boolean,

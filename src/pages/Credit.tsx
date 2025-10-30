@@ -9,10 +9,12 @@ import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
   CreditFilters as CreditFiltersType,
+  UpdateCreditStatusDto,
 } from "@/types/credit";
 import {
   Pagination,
@@ -47,6 +49,7 @@ const Credit = () => {
   });
 
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const {
     credits,
@@ -143,7 +146,54 @@ const Credit = () => {
 
   const handleStatusChange = async (creditId: number, newStatusId: string) => {
     try {
-      await creditService.updateCreditStatus(creditId, newStatusId);
+      const current = credits.find((c) => c.id === creditId);
+      if (!current) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Credit not found to update status.",
+        });
+        return;
+      }
+
+      // Extract required values
+      const emailVal = user?.email ?? "";
+      const branchVal = current.details.clientBranch ?? "";
+      const clientIdVal = current.details.client ?? "";
+      const sellerNameVal = current.details.sellerName ?? "";
+      const sellerIdVal = current.user ?? user?.email ?? "";
+
+      // Validate required values before sending
+      const missingFields: string[] = [];
+      if (!emailVal) missingFields.push("email");
+      if (!branchVal) missingFields.push("branch");
+      if (!clientIdVal) missingFields.push("item.clientId");
+      if (!sellerNameVal) missingFields.push("item.sellerName");
+      if (!sellerIdVal) missingFields.push("item.sellerId");
+
+      if (missingFields.length > 0) {
+        toast({
+          variant: "destructive",
+          title: "Missing data",
+          description: `Cannot update status. Missing: ${missingFields.join(", ")}`,
+        });
+        return;
+      }
+
+      const payload: UpdateCreditStatusDto = {
+        status: newStatusId,
+        oldStatus: current.statusId,
+        email: emailVal,
+        branch: branchVal,
+        item: {
+          id: String(creditId),
+          clientId: clientIdVal,
+          sellerName: sellerNameVal,
+          sellerId: sellerIdVal,
+        },
+      };
+
+      await creditService.updateCreditStatus(payload);
 
       toast({
         title: "Status updated",
@@ -216,11 +266,11 @@ const Credit = () => {
 
         <div className="px-4 sm:px-6 pt-4">
           {isLoading ? (
-          <div className="space-y-4">
-            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
-            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
-            <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
-          </div>
+            <div className="space-y-4">
+              <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+              <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+              <div className="h-32 w-full animate-pulse bg-muted rounded-lg" />
+            </div>
           ) : view === "kanban" ? (
             <CreditKanbanView
               credits={paginatedCredits}

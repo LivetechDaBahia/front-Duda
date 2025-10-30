@@ -71,9 +71,7 @@ export function CreditLogsDialog({
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{log.user}</span>
                         <span>•</span>
-                        <span>
-                          {format(new Date(log.timestamp), "PPp")}
-                        </span>
+                        <span>{format(new Date(log.timestamp), "PPp")}</span>
                       </div>
                     </div>
                   </div>

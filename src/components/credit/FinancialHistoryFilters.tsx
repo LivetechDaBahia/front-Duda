@@ -25,7 +25,8 @@ export function FinancialHistoryFilters({
   onClearFilters,
 }: FinancialHistoryFiltersProps) {
   const { t } = useLocale();
-  const hasActiveFilters = selectedStatuses.length > 0 || selectedTypes.length > 0;
+  const hasActiveFilters =
+    selectedStatuses.length > 0 || selectedTypes.length > 0;
 
   const toggleStatus = (status: string) => {
     if (selectedStatuses.includes(status)) {
@@ -47,7 +48,9 @@ export function FinancialHistoryFilters({
     <div className="space-y-3 p-4 border rounded-lg bg-muted/30">
       {/* Status Filter */}
       <div className="space-y-2">
-        <Label className="text-sm font-semibold">{t("credit.filterByStatus")}</Label>
+        <Label className="text-sm font-semibold">
+          {t("credit.filterByStatus")}
+        </Label>
         <div className="flex flex-wrap gap-2">
           {availableStatuses.map((status) => {
             const isSelected = selectedStatuses.includes(status);
@@ -68,7 +71,9 @@ export function FinancialHistoryFilters({
 
       {/* Type Filter */}
       <div className="space-y-2">
-        <Label className="text-sm font-semibold">{t("credit.filterByType")}</Label>
+        <Label className="text-sm font-semibold">
+          {t("credit.filterByType")}
+        </Label>
         <div className="flex flex-wrap gap-2">
           {availableTypes.map((type) => {
             const isSelected = selectedTypes.includes(type);

@@ -252,9 +252,7 @@ export default function PhoneVerification() {
                         <div className="relative">
                           <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                           <Input
-                            placeholder={t(
-                              "phoneVerification.namePlaceholder",
-                            )}
+                            placeholder={t("phoneVerification.namePlaceholder")}
                             className="pl-10"
                             {...field}
                             disabled={isLoading}
@@ -271,9 +269,7 @@ export default function PhoneVerification() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        {t("phoneVerification.phoneLabel")}
-                      </FormLabel>
+                      <FormLabel>{t("phoneVerification.phoneLabel")}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
