@@ -145,7 +145,7 @@ const Credit = () => {
     setCurrentPage(1);
   }, [filters]);
 
-  const handleStatusChange = async (creditId: number, newStatusId: string) => {
+  const handleStatusChange = async (creditId: number, offerId: string, newStatusId: string) => {
     try {
       const current = credits.find((c) => c.id === creditId);
       if (!current) {
