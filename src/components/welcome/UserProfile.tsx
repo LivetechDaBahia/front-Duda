@@ -87,10 +87,10 @@ export const UserProfile = () => {
           )}
         </div>
 
-        {displayRole !== t("profile.notSpecified") && (
+        {displayPosition !== t("profile.notSpecified") && (
           <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
             <User className="w-3 h-3 mr-1" />
-            {displayRole}
+            {displayPosition}
           </Badge>
         )}
       </div>
