@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
 import {
@@ -24,14 +24,11 @@ interface TableViewProps {
   orders: PurchaseOrder[];
   onOrderClick: (order: PurchaseOrder) => void;
   onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
+  onRevertOrder: (orderId: string) => void;
 }
 
 const statusColors = {
   pending: "bg-warning/10 text-warning border-warning/20",
-  processing: "bg-info/10 text-info border-info/20",
-  completed:
-    "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
-  cancelled: "bg-destructive/10 text-destructive border-destructive/20",
   approved:
     "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
   declined: "bg-destructive/10 text-destructive border-destructive/20",
@@ -39,19 +36,11 @@ const statusColors = {
 
 type SortField = "id" | "supplierName" | "value" | "status" | "createdAt";
 
-const allStatuses: UIOrderStatus[] = [
-  "pending",
-  "processing",
-  "approved",
-  "completed",
-  "declined",
-  "cancelled",
-];
-
 export const TableView = ({
   orders,
   onOrderClick,
   onStatusChange,
+  onRevertOrder,
 }: TableViewProps) => {
   const { t } = useLocale();
   const [sortField, setSortField] = useState<SortField>("id");
@@ -192,28 +181,55 @@ export const TableView = ({
                       className="h-8"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {t("status.changeStatus")}
+                      {t("table.actions")}
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    {allStatuses
-                      .filter((s) => s !== order.status)
-                      .map((statusOption) => (
-                        <DropdownMenuItem
-                          key={statusOption}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onStatusChange(order.id, statusOption);
-                          }}
-                        >
-                          <Badge
-                            className={`${statusColors[statusOption]} mr-2`}
-                          >
-                            {t(`status.${statusOption}`)}
-                          </Badge>
-                        </DropdownMenuItem>
-                      ))}
+                    {/* Show revert option for approved/declined orders */}
+                    {(order.status === "approved" ||
+                      order.status === "declined") && (
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRevertOrder(order.id);
+                        }}
+                        className="text-warning"
+                      >
+                        <RotateCcw className="mr-2 h-4 w-4" />
+                        {t("order.revertToPending")}
+                      </DropdownMenuItem>
+                    )}
+
+                    {/* Show approve option for pending/declined orders */}
+                    {(order.status === "pending" ||
+                      order.status === "declined") && (
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onStatusChange(order.id, "approved");
+                        }}
+                        className="text-[hsl(var(--success))]"
+                      >
+                        <CheckCircle className="mr-2 h-4 w-4" />
+                        {t("order.approve")}
+                      </DropdownMenuItem>
+                    )}
+
+                    {/* Show decline option for pending/approved orders */}
+                    {(order.status === "pending" ||
+                      order.status === "approved") && (
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onStatusChange(order.id, "declined");
+                        }}
+                        className="text-destructive"
+                      >
+                        <XCircle className="mr-2 h-4 w-4" />
+                        {t("order.decline")}
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

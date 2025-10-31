@@ -20,6 +20,7 @@ interface UseOrdersReturn {
   refetch: () => void;
   approveOrder: (orderId: string) => void;
   declineOrder: (orderId: string, reason?: string) => void;
+  revertOrder: (orderId: string) => void;
   isUpdating: boolean;
 }
 
@@ -116,6 +117,30 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     },
   });
 
+  const revertMutation = useMutation({
+    mutationFn: (orderId: string) => {
+      if (!user?.email) {
+        throw new Error("User email not available");
+      }
+
+      return orderService.revertOrder({
+        orderId,
+        type: "PC",
+        approvalUserCode: "",
+        systemUserCode: "",
+        email: user.email,
+        reversion: true,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast.success(t("order.revertSuccess") || "Order reverted to pending successfully");
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to revert order");
+    },
+  });
+
   return {
     orders,
     isLoading,
@@ -124,6 +149,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     approveOrder: approveMutation.mutate,
     declineOrder: (orderId: string, reason: string = "Declined by user") =>
       declineMutation.mutate({ orderId, reason }),
-    isUpdating: approveMutation.isPending || declineMutation.isPending,
+    revertOrder: revertMutation.mutate,
+    isUpdating: approveMutation.isPending || declineMutation.isPending || revertMutation.isPending,
   };
 };

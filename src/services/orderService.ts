@@ -61,6 +61,16 @@ export const orderService = {
     return apiClient.post("/purchaseOrders/reject", dto);
   },
 
+  // Revert order (undo approval/rejection)
+  async revertOrder(
+    dto: ApprovePurchaseOrderDto,
+  ): Promise<ApprovalActionResponse> {
+    return apiClient.post("/purchaseOrders/approve", {
+      ...dto,
+      reversion: true, // Flag to indicate reversion
+    });
+  },
+
   // Create new order
   async createOrder(order: any): Promise<any> {
     return apiClient.post("/purchaseOrders", order);

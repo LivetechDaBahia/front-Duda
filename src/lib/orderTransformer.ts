@@ -23,7 +23,6 @@ export const mapStatusToUI = (statusCode: string): UIOrderStatus => {
     case "02": // PENDING
       return "pending";
     case "03": // APPROVED
-    case "04": // BLOCKED
     case "05": // APPROVED_OTHER_APPROVER
       return "approved";
     case "06": // REJECTED

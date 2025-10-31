@@ -1,27 +1,30 @@
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, DollarSign, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, DollarSign, User, RotateCcw } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
 interface OrderCardProps {
   order: PurchaseOrder;
   onClick: () => void;
   onDragStart?: (e: React.DragEvent, orderId: string) => void;
+  onRevertOrder?: (orderId: string) => void;
 }
 
 const statusColors = {
   pending: "bg-warning/10 text-warning border-warning/20",
-  processing: "bg-info/10 text-info border-info/20",
-  completed:
-    "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
-  cancelled: "bg-destructive/10 text-destructive border-destructive/20",
   approved:
     "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
   declined: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
-export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
+export const OrderCard = ({
+  order,
+  onClick,
+  onDragStart,
+  onRevertOrder,
+}: OrderCardProps) => {
   const { t } = useLocale();
 
   const handleDragStart = (e: React.DragEvent) => {
@@ -72,6 +75,23 @@ export const OrderCard = ({ order, onClick, onDragStart }: OrderCardProps) => {
             </span>
           </div>
         </div>
+
+        {/* Revert button for approved/declined orders */}
+        {(order.status === "approved" || order.status === "declined") &&
+          onRevertOrder && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-2 w-full text-warning hover:text-warning hover:bg-warning/10"
+              onClick={(e) => {
+                e.stopPropagation();
+                onRevertOrder(order.id);
+              }}
+            >
+              <RotateCcw className="w-3 h-3 mr-1" />
+              {t("order.revertToPending")}
+            </Button>
+          )}
       </div>
     </Card>
   );

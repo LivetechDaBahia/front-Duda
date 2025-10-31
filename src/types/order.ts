@@ -5,20 +5,14 @@ export const ORDER_STATUS = {
   WAITING_PREVIOUS_LEVEL: "01",
   PENDING: "02",
   APPROVED: "03",
-  BLOCKED: "04",
+  // BLOCKED: "04", // Removed - no longer used in UI
   APPROVED_OTHER_APPROVER: "05",
   REJECTED: "06",
   REJECTED_BLOCKED_OTHER_APPROVER: "07",
 } as const;
 
-// UI OrderStatus (for components)
-export type UIOrderStatus =
-  | "pending"
-  | "processing"
-  | "approved"
-  | "completed"
-  | "declined"
-  | "cancelled";
+// UI OrderStatus (for components) - Simplified to 3 statuses
+export type UIOrderStatus = "pending" | "approved" | "declined";
 
 export const isPendingStatus = (status: OrderStatus | string): boolean => {
   // Handle string status values from Order.status

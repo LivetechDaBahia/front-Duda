@@ -50,10 +50,6 @@ interface OrderDetailPanelProps {
 
 const statusColors = {
   pending: "bg-warning/10 text-warning border-warning/20",
-  processing: "bg-info/10 text-info border-info/20",
-  completed:
-    "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
-  cancelled: "bg-destructive/10 text-destructive border-destructive/20",
   approved:
     "bg-[hsl(var(--success))]/10 text-[hsl(var(--success))] border-[hsl(var(--success))]/20",
   declined: "bg-destructive/10 text-destructive border-destructive/20",

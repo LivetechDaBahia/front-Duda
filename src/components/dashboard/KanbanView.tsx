@@ -7,17 +7,19 @@ interface KanbanViewProps {
   orders: PurchaseOrder[];
   onOrderClick: (order: PurchaseOrder) => void;
   onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
+  onRevertOrder: (orderId: string) => void;
 }
 
 export const KanbanView = ({
   orders,
   onOrderClick,
   onStatusChange,
+  onRevertOrder,
 }: KanbanViewProps) => {
   const { t } = useLocale();
 
   const columns: { status: UIOrderStatus; label: string; color: string }[] = [
-    { status: "pending", label: t("status.pending"), color: "border-info" },
+    { status: "pending", label: t("status.pending"), color: "border-warning" },
     {
       status: "approved",
       label: t("status.approved"),
@@ -102,6 +104,7 @@ export const KanbanView = ({
                   order={order}
                   onClick={() => onOrderClick(order)}
                   onDragStart={handleDragStart}
+                  onRevertOrder={onRevertOrder}
                 />
               ))}
 

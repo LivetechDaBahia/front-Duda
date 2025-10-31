@@ -40,7 +40,14 @@ const Index = () => {
   });
 
   // Pass API-level filters to useOrders
-  const { orders, isLoading, error, approveOrder, declineOrder } = useOrders({
+  const {
+    orders,
+    isLoading,
+    error,
+    approveOrder,
+    declineOrder,
+    revertOrder,
+  } = useOrders({
     dateBegin: formatDateForAPI(filters.dateFrom),
     dateEnd: formatDateForAPI(filters.dateTo),
     types: mapUIStatusToAPITypes(filters.status),
@@ -111,12 +118,15 @@ const Index = () => {
   };
 
   const handleStatusChange = (orderId: string, newStatus: UIOrderStatus) => {
-    // Map UI status changes to approve/decline actions
-    if (newStatus === "approved" || newStatus === "completed") {
+    if (newStatus === "approved") {
       approveOrder(orderId);
-    } else if (newStatus === "declined" || newStatus === "cancelled") {
+    } else if (newStatus === "declined") {
       declineOrder(orderId);
     }
+  };
+
+  const handleRevertOrder = (orderId: string) => {
+    revertOrder(orderId);
   };
 
   if (isLoading) {
@@ -168,12 +178,14 @@ const Index = () => {
             orders={paginatedOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
+            onRevertOrder={handleRevertOrder}
           />
         ) : (
           <TableView
             orders={paginatedOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
+            onRevertOrder={handleRevertOrder}
           />
         )}
 

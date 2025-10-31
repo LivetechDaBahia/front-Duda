@@ -103,11 +103,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Order Status
     "status.pending": "Pending",
-    "status.processing": "Processing",
     "status.approved": "Approved",
-    "status.inProgress": "In Progress",
-    "status.completed": "Completed",
-    "status.cancelled": "Cancelled",
     "status.declined": "Declined",
     "status.changeStatus": "Change Status",
 
@@ -119,6 +115,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.statusUpdated": "Order status updated to",
     "order.approveSuccess": "Order approved successfully",
     "order.declineSuccess": "Order declined successfully",
+    "order.revertSuccess": "Order reverted to pending successfully",
+    "order.revertToPending": "Revert to Pending",
+    "order.approve": "Approve",
+    "order.decline": "Decline",
 
     // Order Details
     "orderDetail.title": "Purchase Order Details",
@@ -433,11 +433,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Order Status
     "status.pending": "Pendente",
-    "status.processing": "Processando",
     "status.approved": "Aprovado",
-    "status.inProgress": "Em Progresso",
-    "status.completed": "Concluído",
-    "status.cancelled": "Cancelado",
     "status.declined": "Recusado",
     "status.changeStatus": "Alterar Status",
 
@@ -449,6 +445,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.approveSuccess": "Pedido aprovado com sucesso",
     "order.declineSuccess": "Pedido recusado com sucesso",
     "order.statusUpdated": "Status do Pedido atualizado para",
+    "order.revertSuccess": "Pedido revertido para pendente com sucesso",
+    "order.revertToPending": "Reverter para Pendente",
+    "order.approve": "Aprovar",
+    "order.decline": "Recusar",
 
     // Order Details
     "orderDetail.title": "Detalhes do Pedido de Compra",
@@ -762,11 +762,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Order Status
     "status.pending": "Pendiente",
-    "status.processing": "Procesando",
     "status.approved": "Aprobado",
-    "status.inProgress": "En Progreso",
-    "status.completed": "Completado",
-    "status.cancelled": "Cancelado",
     "status.declined": "Rechazado",
     "status.changeStatus": "Cambiar Estado",
 
@@ -778,6 +774,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.statusUpdated": "Estado del pedido actualizado a",
     "order.approveSuccess": "Pedido aprobado exitosamente",
     "order.declineSuccess": "Pedido rechazado exitosamente",
+    "order.revertSuccess": "Pedido revertido a pendiente exitosamente",
+    "order.revertToPending": "Revertir a Pendiente",
+    "order.approve": "Aprobar",
+    "order.decline": "Rechazar",
 
     // Order Details
     "orderDetail.title": "Detalles de la Orden de Compra",
