@@ -100,6 +100,7 @@ export const TableView = ({
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
+            <TableHead>{t("table.branch")}</TableHead>
             <TableHead>
               <button
                 onClick={() => handleSort("value")}
@@ -150,10 +151,17 @@ export const TableView = ({
                 {order.supplierName}
               </TableCell>
               <TableCell
+                onClick={() => onOrderClick(order)}
+                className="cursor-pointer"
+              >
+                {order.branch}
+              </TableCell>
+              <TableCell
                 className="font-semibold cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                {order.coinSymbol}{(order.value || 0).toLocaleString()}
+                {order.coinSymbol}
+                {(order.value || 0).toLocaleString()}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}
