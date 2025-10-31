@@ -46,6 +46,7 @@ export const transformIssueToOrder = (
     supplierName: issue.Supplier || "Unknown Supplier",
     supplierEmail: "", // Not provided by API
     value: issue.ReleaseValue || issue.CoinValue || 0,
+    coinSymbol: issue.CoinSymbol || "$",
     status: uiStatus,
     items: 1, // Each issue is one item
     createdAt: emissionDate,

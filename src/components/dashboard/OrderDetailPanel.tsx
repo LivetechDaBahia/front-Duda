@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useOrderDetails } from "@/hooks/useOrderDetails";
+import { formatDateDDMMYYYY } from "@/lib/utils";
 
 interface OrderDetailPanelProps {
   order: PurchaseOrder | null;
@@ -178,7 +179,7 @@ export const OrderDetailPanel = ({
                     </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
-                    ${order.value.toLocaleString()}
+                    {order.coinSymbol}{order.value.toLocaleString()}
                   </p>
                 </div>
 
@@ -203,11 +204,7 @@ export const OrderDetailPanel = ({
                       {t("orderDetail.createdDate")}
                     </p>
                     <p className="font-medium">
-                      {new Date(order.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {formatDateDDMMYYYY(order.createdAt)}
                     </p>
                   </div>
                 </div>
@@ -218,11 +215,7 @@ export const OrderDetailPanel = ({
                       {t("orderDetail.dueDate")}
                     </p>
                     <p className="font-medium">
-                      {new Date(order.dueDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {formatDateDDMMYYYY(order.dueDate)}
                     </p>
                   </div>
                 </div>
@@ -435,7 +428,7 @@ const ApprovalsTimeline = ({
               </div>
               {level.date && (
                 <p className="text-sm text-muted-foreground mt-1">
-                  {new Date(level.date).toLocaleString()}
+                  {formatDateDDMMYYYY(level.date)}
                 </p>
               )}
             </div>

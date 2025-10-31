@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, DollarSign, User, RotateCcw } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { formatDateDDMMYYYY } from "@/lib/utils";
 
 interface OrderCardProps {
   order: PurchaseOrder;
@@ -61,7 +62,7 @@ export const OrderCard = ({
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              ${(order.value || 0).toLocaleString()}
+              {order.coinSymbol}{(order.value || 0).toLocaleString()}
             </span>
           </div>
 
@@ -71,7 +72,7 @@ export const OrderCard = ({
               {t("order.dueDate")}
             </span>
             <span className="font-medium text-foreground">
-              {new Date(order.createdAt).toLocaleDateString()}
+              {formatDateDDMMYYYY(order.createdAt)}
             </span>
           </div>
         </div>

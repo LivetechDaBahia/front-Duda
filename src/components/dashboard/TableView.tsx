@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { formatDateDDMMYYYY } from "@/lib/utils";
 
 interface TableViewProps {
   orders: PurchaseOrder[];
@@ -152,7 +153,7 @@ export const TableView = ({
                 className="font-semibold cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                ${(order.value || 0).toLocaleString()}
+                {order.coinSymbol}{(order.value || 0).toLocaleString()}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}
@@ -237,7 +238,7 @@ export const TableView = ({
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                {new Date(order.dueDate).toLocaleDateString()}
+                {formatDateDDMMYYYY(order.dueDate)}
               </TableCell>
             </TableRow>
           ))}
