@@ -441,7 +441,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.client": "Cliente",
     "order.items": "itens",
     "order.value": "Valor",
-    "order.dueDate": "Vencimento",
+    "order.dueDate": "Criação",
     "order.approveSuccess": "Pedido aprovado com sucesso",
     "order.declineSuccess": "Pedido recusado com sucesso",
     "order.statusUpdated": "Status do Pedido atualizado para",
@@ -527,6 +527,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.filters": "Filtros",
     "filters.search": "Pesquisar",
     "filters.apply": "Aplicar",
+    "filters.clear": "Limpar",
     "filters.searchPlaceholder": "Pesquisa por número do pedido ou fornecedor",
     "filters.status": "Status",
     "filters.allStatuses": "Todos os Status",
@@ -549,7 +550,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "table.value": "Valor",
     "table.items": "Itens",
     "table.dueDate": "Vencimento",
+    "table.creationDate": "Data de criação",
     "table.actions": "Ações",
+    "table.supplier": "Fornecedor",
 
     // Common
     "common.urgent": "Urgente",

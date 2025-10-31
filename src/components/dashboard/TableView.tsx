@@ -125,7 +125,7 @@ export const TableView = ({
                 onClick={() => handleSort("createdAt")}
                 className="flex items-center gap-1 font-semibold hover:text-primary transition-colors"
               >
-                {t("table.dueDate")}
+                {t("table.creationDate")}
                 <ArrowUpDown className="w-4 h-4" />
               </button>
             </TableHead>
