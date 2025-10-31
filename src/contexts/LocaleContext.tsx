@@ -556,7 +556,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "table.dueDate": "Vencimento",
     "table.creationDate": "Data de criação",
     "table.actions": "Ações",
-    "table.supplier": "Fornecedor",
 
     // Common
     "common.urgent": "Urgente",

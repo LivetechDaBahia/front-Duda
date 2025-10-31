@@ -99,11 +99,8 @@ export const OrderFilters = ({
           <SelectContent>
             <SelectItem value="all">{t("filters.allStatuses")}</SelectItem>
             <SelectItem value="pending">{t("status.pending")}</SelectItem>
-            <SelectItem value="processing">{t("status.processing")}</SelectItem>
             <SelectItem value="approved">{t("status.approved")}</SelectItem>
-            <SelectItem value="completed">{t("status.completed")}</SelectItem>
             <SelectItem value="declined">{t("status.declined")}</SelectItem>
-            <SelectItem value="cancelled">{t("status.cancelled")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
