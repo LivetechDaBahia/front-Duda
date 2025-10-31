@@ -76,6 +76,14 @@ export interface ApprovalActionResponse {
   date: Date;
 }
 
+// Branch structure
+export interface Branch {
+  id: string;
+  name: string;
+  code: string;
+  country: string;
+}
+
 // UI PurchaseOrder structure (for components and mock data)
 export interface PurchaseOrder {
   id: string;

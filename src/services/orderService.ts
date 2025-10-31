@@ -6,6 +6,7 @@ import {
   ApprovePurchaseOrderDto,
   RejectPurchaseOrderDto,
   ApprovalActionResponse,
+  Branch,
 } from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
@@ -63,5 +64,10 @@ export const orderService = {
   // Create new order
   async createOrder(order: any): Promise<any> {
     return apiClient.post("/purchaseOrders", order);
+  },
+
+  // Fetch branches
+  async getBranches(): Promise<Branch[]> {
+    return apiClient.get("/purchaseOrders/branches");
   },
 };

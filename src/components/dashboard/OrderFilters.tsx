@@ -9,12 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocale } from "@/contexts/LocaleContext";
-import { UIOrderStatus } from "@/types/order";
+import { UIOrderStatus, Branch } from "@/types/order";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { FilterDateRange } from "@/components/shared/FilterDateRange";
 
 interface OrderFiltersProps {
   onFilterChange: (filters: FilterValues) => void;
+  branches: Branch[];
+  isLoadingBranches?: boolean;
 }
 
 export interface FilterValues {
@@ -25,7 +27,11 @@ export interface FilterValues {
   dateTo: Date | undefined;
 }
 
-export const OrderFilters = ({ onFilterChange }: OrderFiltersProps) => {
+export const OrderFilters = ({ 
+  onFilterChange, 
+  branches,
+  isLoadingBranches = false 
+}: OrderFiltersProps) => {
   const { t } = useLocale();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<UIOrderStatus | "all">("all");
@@ -104,12 +110,24 @@ export const OrderFilters = ({ onFilterChange }: OrderFiltersProps) => {
 
       {/* Branch Filter */}
       <div className="space-y-2">
-        <Label>{t("filters.branch")}</Label>
-        <Input
-          placeholder={t("filters.branchPlaceholder")}
-          value={branch}
-          onChange={(e) => setBranch(e.target.value)}
-        />
+        <Label>{t("order.branch")}</Label>
+        <Select
+          value={branch || "all"}
+          onValueChange={(value) => setBranch(value === "all" ? "" : value)}
+          disabled={isLoadingBranches}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={t("order.filterByBranch")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("order.allBranches")}</SelectItem>
+            {branches.map((b) => (
+              <SelectItem key={b.id} value={b.code}>
+                {b.name} ({b.code})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <FilterDateRange

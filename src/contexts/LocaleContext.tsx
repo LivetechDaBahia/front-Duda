@@ -197,6 +197,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.filters": "Filters",
     "filters.search": "Search",
     "filters.apply": "Apply",
+    "filters.clear": "Clear Filters",
     "filters.searchPlaceholder": "Search by order number or supplier",
     "filters.status": "Status",
     "filters.allStatuses": "All Statuses",
@@ -205,6 +206,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Date from",
     "filters.dateTo": "Date to",
     "filters.selectDate": "Select Date",
+    
+    // Order
+    "order.branch": "Branch",
+    "order.filterByBranch": "Filter by branch",
+    "order.allBranches": "All Branches",
 
     // Table
     "table.orderID": "Order ID",
@@ -300,13 +306,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.ofItems": "of",
 
     // Filters
-    filters: "Filters",
-    clearFilters: "Clear Filters",
-    search: "Search",
+    filters: "Filtros",
+    clearFilters: "Limpar Filtros",
+    search: "Pesquisar",
     status: "Status",
-    allStatuses: "All Statuses",
-    startDate: "Start Date",
-    endDate: "End Date",
+    allStatuses: "Todos os Status",
+    startDate: "Data Inicial",
+    endDate: "Data Final",
 
     // Users Management
     "users.title": "Users Management",
@@ -529,6 +535,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Data a partir",
     "filters.dateTo": "Data até",
     "filters.selectDate": "Selecionar Data",
+    
+    // Order
+    "order.branch": "Filial",
+    "order.filterByBranch": "Filtrar por filial",
+    "order.allBranches": "Todas as Filiais",
 
     // Table
     "table.orderID": "ID do Pedido",
@@ -844,6 +855,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Filters
     "filters.filters": "Filtros",
     "filters.search": "Buscar",
+    "filters.apply": "Aplicar",
+    "filters.clear": "Limpiar Filtros",
     "filters.searchPlaceholder": "Buscar por número de orden o proveedor",
     "filters.status": "Estado",
     "filters.allStatuses": "Todos los Estados",
@@ -852,6 +865,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Fecha desde",
     "filters.dateTo": "Fecha hasta",
     "filters.selectDate": "Seleccionar Fecha",
+    
+    // Order
+    "order.branch": "Sucursal",
+    "order.filterByBranch": "Filtrar por sucursal",
+    "order.allBranches": "Todas las Sucursales",
 
     // Table
     "table.orderID": "ID de Orden",

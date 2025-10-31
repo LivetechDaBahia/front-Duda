@@ -9,6 +9,7 @@ import {
 } from "@/components/dashboard/OrderFilters";
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
+import { useBranches } from "@/hooks/useBranches";
 import { Loader2 } from "lucide-react";
 import { mapUIStatusToAPITypes, formatDateForAPI } from "@/lib/statusMapper";
 import {
@@ -45,6 +46,8 @@ const Index = () => {
     types: mapUIStatusToAPITypes(filters.status),
     tenantId: "01",
   });
+  
+  const { branches, isLoading: isLoadingBranches } = useBranches();
 
   // Filter orders based on user filters
   const filteredOrders = useMemo(() => {
@@ -153,7 +156,11 @@ const Index = () => {
 
       <main className="container mt-3 mx-auto">
         <div className="mb-6">
-          <OrderFilters onFilterChange={setFilters} />
+          <OrderFilters 
+            onFilterChange={setFilters}
+            branches={branches}
+            isLoadingBranches={isLoadingBranches}
+          />
         </div>
 
         {viewMode === "kanban" ? (
