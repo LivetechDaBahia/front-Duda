@@ -215,6 +215,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Table
     "table.orderID": "Order ID",
     "table.orderNumber": "Order #",
+    "table.supplier": "Supplier",
+    "table.branch": "Branch",
     "table.client": "Client",
     "table.status": "Status",
     "table.value": "Value",
@@ -544,6 +546,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Table
     "table.orderID": "ID do Pedido",
     "table.orderNumber": "Pedido Nº",
+    "table.supplier": "Fornecedor",
+    "table.branch": "Filial",
     "table.client": "Cliente",
     "table.status": "Status",
     "table.value": "Valor",
@@ -874,6 +878,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Table
     "table.orderID": "ID de Orden",
     "table.orderNumber": "Orden Nº",
+    "table.supplier": "Proveedor",
+    "table.branch": "Sucursal",
     "table.client": "Cliente",
     "table.status": "Estado",
     "table.value": "Valor",
