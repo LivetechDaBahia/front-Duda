@@ -1,13 +1,16 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,38 +20,33 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
-import { useEffect } from "react";
+import { useDepartments } from "@/hooks/useDepartments";
+import { useRoles } from "@/hooks/useRoles";
+import { usePositions } from "@/hooks/usePositions";
 
-// Validation schema
-const userFormSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be less than 100 characters"),
-  email: z
-    .string()
-    .trim()
-    .email("Invalid email address")
-    .max(255, "Email must be less than 255 characters"),
-  department: z
-    .string()
-    .max(100, "Department must be less than 100 characters")
-    .optional(),
-  position: z
-    .string()
-    .max(100, "Position must be less than 100 characters")
-    .optional(),
-  role: z.string().max(100, "Role must be less than 100 characters").optional(),
+const userSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  departmentId: z.string().optional(),
+  positionId: z.string().optional(),
+  roleId: z.string().optional(),
 });
+
+type UserFormData = z.infer<typeof userSchema>;
 
 interface UserFormDialogProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: CreateUserDto | UpdateUserDto) => Promise<void>;
-  user?: User; // If provided, we're editing; otherwise creating
+  user?: User;
   isSubmitting?: boolean;
 }
 
@@ -57,60 +55,71 @@ export function UserFormDialog({
   onClose,
   onSubmit,
   user,
-  isSubmitting,
+  isSubmitting = false,
 }: UserFormDialogProps) {
-  const form = useForm({
-    resolver: zodResolver(userFormSchema),
+  const isEditing = !!user;
+  const { departments, isLoading: deptLoading } = useDepartments();
+  const { roles, isLoading: rolesLoading } = useRoles();
+  const { positions, isLoading: positionsLoading } = usePositions();
+
+  const form = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
     defaultValues: {
       name: "",
       email: "",
-      department: "",
-      position: "",
-      role: "",
+      departmentId: "",
+      positionId: "",
+      roleId: "",
     },
   });
 
-  // Reset form when user changes or dialog opens/closes
+  // Reset form when dialog opens/closes or user changes
   useEffect(() => {
     if (open) {
       form.reset({
         name: user?.name || "",
         email: user?.email || "",
-        department: user?.department || "",
-        position: user?.position || "",
-        role: user?.role || "",
+        departmentId: user?.department || "",
+        positionId: user?.positionId || "",
+        roleId: user?.role || "",
       });
     }
   }, [open, user, form]);
 
-  const handleSubmit = async (data: z.infer<typeof userFormSchema>) => {
-    await onSubmit(data);
-    form.reset();
-  };
+  const handleSubmit = async (data: UserFormData) => {
+    // Map IDs back to legacy string fields for backward compatibility
+    const submitData = {
+      name: data.name,
+      email: data.email,
+      positionId: data.positionId,
+      // Legacy fields (populate from selections)
+      department: data.departmentId
+        ? departments.find((d) => d.id === data.departmentId)?.name
+        : undefined,
+      position: data.positionId
+        ? positions.find((p) => p.id === data.positionId)?.name
+        : undefined,
+      role: data.roleId ? roles.find((r) => r.id === data.roleId)?.name : undefined,
+    };
 
-  const handleClose = () => {
+    await onSubmit(submitData);
     form.reset();
-    onClose();
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{user ? "Edit User" : "Create New User"}</DialogTitle>
+          <DialogTitle>{isEditing ? "Edit User" : "Create New User"}</DialogTitle>
           <DialogDescription>
-            {user
+            {isEditing
               ? "Update the user's information below."
               : "Fill in the details to create a new user account."}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
-          >
-            {/* Name Field */}
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -127,7 +136,6 @@ export function UserFormDialog({
               )}
             />
 
-            {/* Email Field */}
             <FormField
               control={form.control}
               name="email"
@@ -148,65 +156,135 @@ export function UserFormDialog({
               )}
             />
 
-            {/* Department Field */}
             <FormField
               control={form.control}
-              name="department"
+              name="departmentId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Department</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., IT" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={deptLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Select department" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-popover z-50">
+                      {departments.length === 0 ? (
+                        <div className="p-2 text-sm text-muted-foreground">
+                          No departments available
+                        </div>
+                      ) : (
+                        departments.map((dept) => (
+                          <SelectItem key={dept.id} value={dept.id}>
+                            {dept.name}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Position Field */}
             <FormField
               control={form.control}
-              name="position"
+              name="positionId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Position</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Manager" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={positionsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Select position" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-popover z-50 max-h-[300px]">
+                      {positions.length === 0 ? (
+                        <div className="p-2 text-sm text-muted-foreground">
+                          No positions available
+                        </div>
+                      ) : (
+                        positions.map((pos) => {
+                          const dept = departments.find(
+                            (d) => d.id === pos.departmentId
+                          );
+                          const role = roles.find((r) => r.id === pos.roleId);
+                          return (
+                            <SelectItem key={pos.id} value={pos.id}>
+                              {pos.name}
+                              {dept && role && (
+                                <span className="text-muted-foreground ml-2">
+                                  ({dept.name} - {role.name})
+                                </span>
+                              )}
+                            </SelectItem>
+                          );
+                        })
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Role Field */}
             <FormField
               control={form.control}
-              name="role"
+              name="roleId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Administrator" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={rolesLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-popover z-50">
+                      {roles.length === 0 ? (
+                        <div className="p-2 text-sm text-muted-foreground">
+                          No roles available
+                        </div>
+                      ) : (
+                        roles.map((role) => (
+                          <SelectItem key={role.id} value={role.id}>
+                            {role.name}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Actions */}
-            <div className="flex justify-end gap-2 pt-4">
+            <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
-                onClick={handleClose}
+                onClick={onClose}
                 disabled={isSubmitting}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : user ? "Update" : "Create"}
+                {isSubmitting ? "Saving..." : isEditing ? "Update" : "Create"}
               </Button>
-            </div>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
