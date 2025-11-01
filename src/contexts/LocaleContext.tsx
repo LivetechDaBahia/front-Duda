@@ -239,6 +239,15 @@ const translations: Record<Locale, Record<string, string>> = {
     kanbanView: "Kanban View",
     tableView: "Table View",
 
+    // Filters
+    "filters": "Filters",
+    "clearFilters": "Clean filters",
+    "search": "Search",
+    "status": "Status",
+    "allStatuses": "All Statuses",
+    "startDate": "Initial Date",
+    "endDate": "Final Data",
+
     // Credit
     "credit.title": "Credit Management",
     "credit.subtitle": "Manage and track credit flow elements",
@@ -313,15 +322,15 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.showingItems": "Showing",
     "credit.toItems": "to",
     "credit.ofItems": "of",
+    "credit.activityLogs": "Activity Logs",
+    "credit.noLogs": "No activity logs found",
+    "credit.activityLogsDescription": "View activity logs for this element",
+    "credit.viewLogs": "View Logs",
 
-    // Filters
-    filters: "Filtros",
-    clearFilters: "Limpar Filtros",
-    search: "Pesquisar",
-    status: "Status",
-    allStatuses: "Todos os Status",
-    startDate: "Data Inicial",
-    endDate: "Data Final",
+    // Home Page
+    "home.pending": "Pending",
+    "home.urgent": "Urgent",
+    "home.value": "Total Value",
 
     // Users Management
     "users.title": "Users Management",
@@ -601,9 +610,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.filterByType": "Filtrar por Tipo",
     "credit.selectType": "Selecione o tipo",
     "credit.allTypes": "Todos os Tipos",
-    "credit.filterByFinancial": "Filtrar por Status Financeiro",
-    "credit.selectFinancial": "Selecione o status financeiro",
-    "credit.allFinancials": "Todos os Status Financeiros",
+    "credit.filterByFinancial": "Filtrar por Financeira",
+    "credit.selectFinancial": "Selecione a financeira",
+    "credit.allFinancials": "Todas as Financeiras",
     "credit.filterByOperation": "Filtrar por Operação",
     "credit.selectOperation": "Selecione a operação",
     "credit.allOperations": "Todas as Operações",
@@ -653,15 +662,24 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.showingItems": "Mostrando",
     "credit.toItems": "até",
     "credit.ofItems": "de",
+    "credit.activityLogs": "Registros de Atividade",
+    "credit.noLogs": "Nenhum registro de atividade encontrado",
+    "credit.activityLogsDescription": "Veja os registros de atividade deste item",
+    "credit.viewLogs": "Ver Registros",
+
+    // Home Page
+    "home.pending": "Pendente",
+    "home.urgent": "Urgente",
+    "home.value": "Valor Total",
 
     // Filters
-    filters: "Filtros",
-    clearFilters: "Limpar Filtros",
-    search: "Pesquisar",
-    status: "Status",
-    allStatuses: "Todos os Status",
-    startDate: "Data Inicial",
-    endDate: "Data Final",
+    "filters": "Filtros",
+    "clearFilters": "Limpar Filtros",
+    "search": "Pesquisar",
+    "status": "Status",
+    "allStatuses": "Todos os Status",
+    "startDate": "Data Inicial",
+    "endDate": "Data Final",
 
     // Users Management
     "users.title": "Gerenciamento de Usuários",
@@ -918,6 +936,15 @@ const translations: Record<Locale, Record<string, string>> = {
     kanbanView: "Vista Kanban",
     tableView: "Vista de Tabla",
 
+    // Filters
+    "filters": "Filtros",
+    "clearFilters": "Limpar Filtros",
+    "search": "Pesquisar",
+    "status": "Status",
+    "allStatuses": "Todos os Status",
+    "startDate": "Data Inicial",
+    "endDate": "Data Final",
+
     // Credit
     "credit.title": "Gestión de Crédito",
     "credit.subtitle": "Gestione y rastree elementos de flujo de crédito",
@@ -992,15 +1019,15 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.showingItems": "Mostrando",
     "credit.toItems": "a",
     "credit.ofItems": "de",
+    "credit.activityLogs": "Registros de actividad",
+    "credit.noLogs": "No se encontraron registros de actividad",
+    "credit.activityLogsDescription": "Consulte los registros de actividad de este elemento",
+    "credit.viewLogs": "Ver Registros",
 
-    // Filters
-    filters: "Filtros",
-    clearFilters: "Limpiar Filtros",
-    search: "Buscar",
-    status: "Estado",
-    allStatuses: "Todos los Estados",
-    startDate: "Fecha Inicial",
-    endDate: "Fecha Final",
+    // Home Page
+    "home.pending": "Pendiente",
+    "home.urgent": "Urgente",
+    "home.value": "Valor Total",
 
     // Users Management
     "users.title": "Gestión de Usuarios",

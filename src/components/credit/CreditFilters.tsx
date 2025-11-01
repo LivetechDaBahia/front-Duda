@@ -144,7 +144,7 @@ export const CreditFilters = ({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t("allStatuses")}</SelectItem>
+            <SelectItem value="all">{t("filters.allStatuses")}</SelectItem>
             {statuses.map((status) => (
               <SelectItem key={status.id} value={status.id}>
                 {status.description}
