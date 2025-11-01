@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { AlertCircle, Clock, TrendingUp } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface TodayStatsProps {
   pendingCount: number;
@@ -12,6 +13,8 @@ export const TodayStats = ({
   urgentCount,
   totalValue,
 }: TodayStatsProps) => {
+  const { t } = useLocale();
+
   return (
     <div
       className="grid gap-4"
@@ -25,7 +28,9 @@ export const TodayStats = ({
             <AlertCircle className="w-6 h-6 text-warning" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Needs Approval</p>
+            <p className="text-sm text-muted-foreground">
+              {t("welcome.needsApproval")}
+            </p>
             <p className="text-2xl font-bold text-foreground">{pendingCount}</p>
           </div>
         </div>
@@ -37,7 +42,9 @@ export const TodayStats = ({
             <Clock className="w-6 h-6 text-destructive" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Urgent Orders</p>
+            <p className="text-sm text-muted-foreground">
+              {t("welcome.urgentItems")}
+            </p>
             <p className="text-2xl font-bold text-foreground">{urgentCount}</p>
           </div>
         </div>
@@ -49,7 +56,9 @@ export const TodayStats = ({
             <TrendingUp className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Value</p>
+            <p className="text-sm text-muted-foreground">
+              {t("welcome.totalValue")}
+            </p>
             <p className="text-2xl font-bold text-foreground">
               ${(totalValue || 0).toLocaleString()}
             </p>

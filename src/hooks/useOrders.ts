@@ -11,6 +11,7 @@ interface UseOrdersParams {
   dateEnd?: string;
   types?: string;
   tenantId?: string;
+  enabled?: boolean; // Allow conditional fetching
 }
 
 interface UseOrdersReturn {
@@ -67,7 +68,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       return transformAPIToUIOrders(apiData);
     },
-    enabled: !!user?.email,
+    enabled: params?.enabled !== false && !!user?.email, // Respect enabled flag
   });
 
   const approveMutation = useMutation({

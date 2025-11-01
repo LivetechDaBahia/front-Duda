@@ -94,6 +94,25 @@ export interface PurchaseOrder {
   needsApproval?: boolean;
 }
 
+// Unified type for pending items (can be purchase order or credit)
+export type PendingItemType = "purchase_order" | "credit";
+
+export interface PendingItem {
+  id: string;
+  type: PendingItemType;
+  title: string;
+  supplierOrClient: string;
+  value: number;
+  coinSymbol: string;
+  createdAt: string;
+  description: string;
+  status: string;
+  branch?: string;
+  needsApproval: boolean;
+  // Store original data for detail panel
+  originalData: PurchaseOrder | any; // 'any' for credit items
+}
+
 export interface Issue {
   Document: string;
   Type: string;

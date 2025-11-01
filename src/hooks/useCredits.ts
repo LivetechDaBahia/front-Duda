@@ -3,7 +3,11 @@ import { creditService } from "@/services/creditService";
 import { transformCreditElementsToUI } from "@/lib/creditTransformer";
 import type { CreditElementItem } from "@/types/credit";
 
-export const useCredits = () => {
+interface UseCreditsOptions {
+  enabled?: boolean;
+}
+
+export const useCredits = (options?: UseCreditsOptions) => {
   const {
     data: credits,
     isLoading,
@@ -15,6 +19,7 @@ export const useCredits = () => {
       const elements = await creditService.getCreditElements();
       return transformCreditElementsToUI(elements);
     },
+    enabled: options?.enabled !== false, // Respect enabled flag
   });
 
   return {

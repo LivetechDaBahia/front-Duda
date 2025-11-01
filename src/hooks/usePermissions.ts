@@ -72,6 +72,19 @@ export const usePermissions = () => {
     return LEVEL_RANK[userLevel] >= LEVEL_RANK[minimumLevel];
   };
 
+  // Check if user can view and update purchase orders
+  const canManagePurchaseOrders = (): boolean => {
+    return (
+      hasPermission("purchase_orders:read") &&
+      hasPermission("purchase_orders:update")
+    );
+  };
+
+  // Check if user can view and update credit
+  const canManageCredit = (): boolean => {
+    return hasPermission("credit:read") && hasPermission("credit:update");
+  };
+
   return {
     hasPermission,
     hasMinimumLevel,
@@ -79,5 +92,7 @@ export const usePermissions = () => {
     canManageUsers: hasPermission("users:update") || hasMinimumLevel("Editor"),
     canDeleteUsers:
       hasPermission("users:delete") || hasMinimumLevel("Administrator"),
+    canManagePurchaseOrders: canManagePurchaseOrders(),
+    canManageCredit: canManageCredit(),
   };
 };
