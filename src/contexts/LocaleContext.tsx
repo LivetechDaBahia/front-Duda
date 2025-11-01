@@ -183,6 +183,43 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.noPendingItems": "No pending items",
     "welcome.allCaughtUp": "Great job! You're all caught up.",
 
+    // Admin Dashboard
+    "admin.title": "Admin Dashboard",
+    "admin.description": "Manage users, departments, roles, and positions",
+    "admin.users": "Users",
+    "admin.departments": "Departments",
+    "admin.roles": "Roles",
+    "admin.positions": "Positions",
+    "admin.noPermission": "You don't have permission to access the admin dashboard.",
+
+    // Departments
+    "department.title": "Departments",
+    "department.create": "Create Department",
+    "department.edit": "Edit Department",
+    "department.delete": "Delete Department",
+    "department.name": "Department Name",
+
+    // Roles
+    "role.title": "Roles",
+    "role.create": "Create Role",
+    "role.edit": "Edit Role",
+    "role.delete": "Delete Role",
+    "role.name": "Role Name",
+    "role.accessLevel": "Access Level",
+
+    // Positions
+    "position.title": "Positions",
+    "position.create": "Create Position",
+    "position.edit": "Edit Position",
+    "position.delete": "Delete Position",
+    "position.name": "Position Name",
+    "position.description": "Description",
+    "position.role": "Role",
+    "position.department": "Department",
+
+    // Navigation
+    "nav.admin": "Admin",
+
     // Profile
     "profile.role": "Purchase Manager",
     "profile.department": "Department",
@@ -530,6 +567,43 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.noPendingOrders": "Nenhum pedido pendente de aprovação",
     "welcome.noPendingItems": "Nenhum item pendente",
     "welcome.allCaughtUp": "Ótimo trabalho! Você está em dia.",
+
+    // Admin Dashboard
+    "admin.title": "Painel Administrativo",
+    "admin.description": "Gerenciar usuários, departamentos, funções e cargos",
+    "admin.users": "Usuários",
+    "admin.departments": "Departamentos",
+    "admin.roles": "Funções",
+    "admin.positions": "Cargos",
+    "admin.noPermission": "Você não tem permissão para acessar o painel administrativo.",
+
+    // Departments
+    "department.title": "Departamentos",
+    "department.create": "Criar Departamento",
+    "department.edit": "Editar Departamento",
+    "department.delete": "Excluir Departamento",
+    "department.name": "Nome do Departamento",
+
+    // Roles
+    "role.title": "Funções",
+    "role.create": "Criar Função",
+    "role.edit": "Editar Função",
+    "role.delete": "Excluir Função",
+    "role.name": "Nome da Função",
+    "role.accessLevel": "Nível de Acesso",
+
+    // Positions
+    "position.title": "Cargos",
+    "position.create": "Criar Cargo",
+    "position.edit": "Editar Cargo",
+    "position.delete": "Excluir Cargo",
+    "position.name": "Nome do Cargo",
+    "position.description": "Descrição",
+    "position.role": "Função",
+    "position.department": "Departamento",
+
+    // Navigation
+    "nav.admin": "Admin",
 
     // Profile
     "profile.role": "Gerente de Compras",
@@ -879,6 +953,43 @@ const translations: Record<Locale, Record<string, string>> = {
     "welcome.noPendingOrders": "No hay órdenes pendientes de aprobación",
     "welcome.noPendingItems": "No hay elementos pendientes",
     "welcome.allCaughtUp": "¡Buen trabajo! Estás al día.",
+
+    // Admin Dashboard
+    "admin.title": "Panel Administrativo",
+    "admin.description": "Gestionar usuarios, departamentos, roles y posiciones",
+    "admin.users": "Usuarios",
+    "admin.departments": "Departamentos",
+    "admin.roles": "Roles",
+    "admin.positions": "Posiciones",
+    "admin.noPermission": "No tienes permiso para acceder al panel administrativo.",
+
+    // Departments
+    "department.title": "Departamentos",
+    "department.create": "Crear Departamento",
+    "department.edit": "Editar Departamento",
+    "department.delete": "Eliminar Departamento",
+    "department.name": "Nombre del Departamento",
+
+    // Roles
+    "role.title": "Roles",
+    "role.create": "Crear Role",
+    "role.edit": "Editar Role",
+    "role.delete": "Eliminar Role",
+    "role.name": "Nombre del Role",
+    "role.accessLevel": "Nivel de Acceso",
+
+    // Positions
+    "position.title": "Posiciones",
+    "position.create": "Crear Posición",
+    "position.edit": "Editar Posición",
+    "position.delete": "Eliminar Posición",
+    "position.name": "Nombre de la Posición",
+    "position.description": "Descripción",
+    "position.role": "Role",
+    "position.department": "Departamento",
+
+    // Navigation
+    "nav.admin": "Admin",
 
     // Profile
     "profile.role": "Gerente de Compras",

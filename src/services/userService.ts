@@ -8,7 +8,7 @@ class UserService {
   }
 
   // GET /users/:id - Get single user
-  async getUserById(id: number): Promise<User> {
+  async getUserById(id: string): Promise<User> {
     return apiClient.get(`/users/${id}`);
   }
 
@@ -18,12 +18,12 @@ class UserService {
   }
 
   // PUT /users/:id - Update user
-  async updateUser(id: number, data: UpdateUserDto): Promise<User> {
+  async updateUser(id: string, data: UpdateUserDto): Promise<User> {
     return apiClient.put(`/users/${id}`, data);
   }
 
   // DELETE /users/:id - Delete user
-  async deleteUser(id: number): Promise<void> {
+  async deleteUser(id: string): Promise<void> {
     return apiClient.delete(`/users/${id}`);
   }
 }

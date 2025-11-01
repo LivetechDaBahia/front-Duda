@@ -103,7 +103,7 @@ const SidebarContent = () => {
     ...(isAdmin
       ? [
           {
-            label: t("nav.users"),
+            label: t("nav.admin"),
             href: "/users",
             icon: (
               <UsersIcon
