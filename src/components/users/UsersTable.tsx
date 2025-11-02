@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2, Mail, Building, Users } from "lucide-react";
+import { Pencil, Trash2, Mail, Building, Users, Briefcase } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -70,6 +70,7 @@ export function UsersTable({
           <TableRow>
             <TableHead>User</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Position</TableHead>
             <TableHead>Department</TableHead>
             <TableHead>Role</TableHead>
             {(canManageUsers || canDeleteUsers) && (
@@ -100,6 +101,16 @@ export function UsersTable({
                   <Mail className="h-4 w-4" />
                   <span className="text-sm">{user.email}</span>
                 </div>
+              </TableCell>
+              <TableCell>
+                {user.position ? (
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{user.position}</span>
+                  </div>
+                ) : (
+                  <span className="text-sm text-muted-foreground">—</span>
+                )}
               </TableCell>
               <TableCell>
                 {user.department ? (

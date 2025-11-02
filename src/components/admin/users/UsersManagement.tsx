@@ -5,14 +5,17 @@ import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, Search, Users as UsersIcon } from "lucide-react";
 import { UsersTable } from "@/components/users/UsersTable";
 import { UserFormDialog } from "@/components/users/UserFormDialog";
 import { DeleteUserDialog } from "@/components/users/DeleteUserDialog";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export function UsersManagement() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { t } = useLocale();
 
   // State
   const [searchQuery, setSearchQuery] = useState("");
@@ -121,13 +124,32 @@ export function UsersManagement() {
   };
 
   return (
-    <div className="space-y-4 p-6">
+    <div className="space-y-6 p-6">
+      {/* Stats Card */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t("user.totalUsers") || "Total Users"}
+            </CardTitle>
+            <UsersIcon className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{users.length}</div>
+            <p className="text-xs text-muted-foreground">
+              {filteredUsers.length !== users.length && 
+                `${filteredUsers.length} matching search`}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search users..."
+            placeholder={t("user.searchUsers") || "Search users..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -135,7 +157,7 @@ export function UsersManagement() {
         </div>
         <Button onClick={() => setIsCreateDialogOpen(true)}>
           <Plus className="w-4 h-4 mr-2" />
-          Add User
+          {t("user.addUser") || "Add User"}
         </Button>
       </div>
 

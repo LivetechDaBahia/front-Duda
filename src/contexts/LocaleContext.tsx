@@ -217,6 +217,14 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.role": "Role",
     "position.department": "Department",
 
+    // Users
+    "user.position": "Position",
+    "user.selectPosition": "Select a position",
+    "user.noPosition": "No position assigned",
+    "user.totalUsers": "Total Users",
+    "user.searchUsers": "Search users...",
+    "user.addUser": "Add User",
+
     // Navigation
     "nav.admin": "Admin",
 
@@ -601,6 +609,14 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.description": "Descrição",
     "position.role": "Função",
     "position.department": "Departamento",
+
+    // Users
+    "user.position": "Cargo",
+    "user.selectPosition": "Selecione um cargo",
+    "user.noPosition": "Nenhum cargo atribuído",
+    "user.totalUsers": "Total de Usuários",
+    "user.searchUsers": "Pesquisar usuários...",
+    "user.addUser": "Adicionar Usuário",
 
     // Navigation
     "nav.admin": "Admin",
@@ -987,6 +1003,14 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.description": "Descripción",
     "position.role": "Role",
     "position.department": "Departamento",
+
+    // Users
+    "user.position": "Posición",
+    "user.selectPosition": "Seleccione una posición",
+    "user.noPosition": "Sin posición asignada",
+    "user.totalUsers": "Total de Usuarios",
+    "user.searchUsers": "Buscar usuarios...",
+    "user.addUser": "Agregar Usuario",
 
     // Navigation
     "nav.admin": "Admin",
