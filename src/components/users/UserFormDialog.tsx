@@ -33,11 +33,15 @@ import { useRoles } from "@/hooks/useRoles";
 import { usePositions } from "@/hooks/usePositions";
 
 const userSchema = z.object({
+  aadId: z.string().min(1, "Azure AD ID is required"),
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
-  departmentId: z.string().optional(),
-  positionId: z.string().optional(),
-  roleId: z.string().optional(),
+  departmentId: z.string().min(1, "Department is required"),
+  positionId: z.string().min(1, "Position is required"),
+  roleId: z.string().min(1, "Role is required"),
+  phone: z.string().optional(),
+  phoneVerified: z.boolean().optional(),
+  firstAccess: z.boolean().optional(),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -65,11 +69,15 @@ export function UserFormDialog({
   const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
+      aadId: "",
       name: "",
       email: "",
       departmentId: "",
       positionId: "",
       roleId: "",
+      phone: "",
+      phoneVerified: false,
+      firstAccess: true,
     },
   });
 
@@ -77,29 +85,30 @@ export function UserFormDialog({
   useEffect(() => {
     if (open) {
       form.reset({
+        aadId: user?.aadId || "",
         name: user?.name || "",
         email: user?.email || "",
-        departmentId: user?.department || "",
+        departmentId: user?.departmentId || "",
         positionId: user?.positionId || "",
-        roleId: user?.role || "",
+        roleId: user?.roleId || "",
+        phone: user?.phone || "",
+        phoneVerified: user?.phoneVerified || false,
+        firstAccess: user?.firstAccess ?? true,
       });
     }
   }, [open, user, form]);
 
   const handleSubmit = async (data: UserFormData) => {
-    // Map IDs back to legacy string fields for backward compatibility
-    const submitData = {
+    const submitData: CreateUserDto | UpdateUserDto = {
+      aadId: data.aadId,
       name: data.name,
       email: data.email,
+      departmentId: data.departmentId,
       positionId: data.positionId,
-      // Legacy fields (populate from selections)
-      department: data.departmentId
-        ? departments.find((d) => d.id === data.departmentId)?.name
-        : undefined,
-      position: data.positionId
-        ? positions.find((p) => p.id === data.positionId)?.name
-        : undefined,
-      role: data.roleId ? roles.find((r) => r.id === data.roleId)?.name : undefined,
+      roleId: data.roleId,
+      phone: data.phone || null,
+      phoneVerified: data.phoneVerified,
+      firstAccess: data.firstAccess,
     };
 
     await onSubmit(submitData);
@@ -120,6 +129,22 @@ export function UserFormDialog({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="aadId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Azure AD ID <span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="e8d1d1fe-..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="name"
@@ -161,7 +186,9 @@ export function UserFormDialog({
               name="departmentId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Department</FormLabel>
+                  <FormLabel>
+                    Department <span className="text-destructive">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -196,7 +223,9 @@ export function UserFormDialog({
               name="positionId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Position</FormLabel>
+                  <FormLabel>
+                    Position <span className="text-destructive">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -242,7 +271,9 @@ export function UserFormDialog({
               name="roleId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>
+                    Role <span className="text-destructive">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -267,6 +298,20 @@ export function UserFormDialog({
                       )}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <Input placeholder="+1 555 123 4567" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

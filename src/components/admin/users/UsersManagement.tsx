@@ -23,29 +23,24 @@ export function UsersManagement() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
 
-  // Fetch users
+  // Fetch users with pagination
   const {
-    data: users = [],
+    data: usersResponse,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["users"],
-    queryFn: userService.getUsers,
+    queryKey: ["users", { search: searchQuery }],
+    queryFn: () => userService.getUsers({ 
+      search: searchQuery || undefined,
+      limit: 100 // Get more records for client-side operations
+    }),
   });
 
-  // Filter users based on search
-  const filteredUsers = useMemo(() => {
-    if (!searchQuery.trim()) return users;
+  const users = usersResponse?.data || [];
+  const total = usersResponse?.total || 0;
 
-    const query = searchQuery.toLowerCase();
-    return users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query) ||
-        user.department?.toLowerCase().includes(query) ||
-        user.role?.toLowerCase().includes(query)
-    );
-  }, [users, searchQuery]);
+  // Users are already filtered by the API search
+  const filteredUsers = users;
 
   // Create user mutation
   const createMutation = useMutation({
@@ -135,10 +130,9 @@ export function UsersManagement() {
             <UsersIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{users.length}</div>
+            <div className="text-2xl font-bold">{total}</div>
             <p className="text-xs text-muted-foreground">
-              {filteredUsers.length !== users.length && 
-                `${filteredUsers.length} matching search`}
+              {searchQuery && `${users.length} matching search`}
             </p>
           </CardContent>
         </Card>

@@ -218,7 +218,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.department": "Department",
 
     // Users
+    "user.name": "Name",
+    "user.email": "Email",
+    "user.phone": "Phone",
     "user.position": "Position",
+    "user.department": "Department",
+    "user.role": "Role",
+    "user.firstAccess": "First Access",
     "user.selectPosition": "Select a position",
     "user.noPosition": "No position assigned",
     "user.totalUsers": "Total Users",
@@ -611,7 +617,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.department": "Departamento",
 
     // Users
+    "user.name": "Nome",
+    "user.email": "Email",
+    "user.phone": "Telefone",
     "user.position": "Cargo",
+    "user.department": "Departamento",
+    "user.role": "Função",
+    "user.firstAccess": "Primeiro Acesso",
     "user.selectPosition": "Selecione um cargo",
     "user.noPosition": "Nenhum cargo atribuído",
     "user.totalUsers": "Total de Usuários",
@@ -1005,7 +1017,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "position.department": "Departamento",
 
     // Users
+    "user.name": "Nombre",
+    "user.email": "Correo electrónico",
+    "user.phone": "Teléfono",
     "user.position": "Posición",
+    "user.department": "Departamento",
+    "user.role": "Rol",
+    "user.firstAccess": "Primer Acceso",
     "user.selectPosition": "Seleccione una posición",
     "user.noPosition": "Sin posición asignada",
     "user.totalUsers": "Total de Usuarios",

@@ -1,19 +1,17 @@
 import { PositionWithRelations } from "./position";
 
-// Backend User entity shape
+// Backend User entity shape (matches UserDto from API)
 export interface User {
   id: string; // UUID
+  aadId: string;
   name: string;
   email: string;
-  positionId?: string; // Link to Position
-  department?: string; // Keep for backward compatibility
-  position?: string; // Keep for backward compatibility
-  role?: string; // Keep for backward compatibility
-  aadId?: string;
-  phone?: string;
-  phoneVerified?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+  phone: string | null;
+  phoneVerified: boolean;
+  firstAccess: boolean;
+  departmentId: string;
+  positionId: string;
+  roleId: string;
 }
 
 // Extended user with related data
@@ -23,27 +21,53 @@ export interface UserWithRelations extends User {
 
 // DTO for creating users
 export interface CreateUserDto {
+  aadId: string;
   name: string;
   email: string;
-  positionId?: string; // Use position instead of individual fields
-  department?: string; // Keep for backward compatibility
-  position?: string; // Keep for backward compatibility
-  role?: string; // Keep for backward compatibility
+  departmentId: string;
+  positionId: string;
+  roleId: string;
+  phone?: string | null;
+  phoneVerified?: boolean; // default false
+  firstAccess?: boolean;   // default true
 }
 
 // DTO for updating users (all fields optional)
 export interface UpdateUserDto {
+  aadId?: string;
   name?: string;
   email?: string;
-  positionId?: string; // Use position instead of individual fields
-  department?: string; // Keep for backward compatibility
-  position?: string; // Keep for backward compatibility
-  role?: string; // Keep for backward compatibility
+  departmentId?: string;
+  positionId?: string;
+  roleId?: string;
+  phone?: string | null;
+  phoneVerified?: boolean;
+  firstAccess?: boolean;
 }
 
-// Filters for user list
-export interface UserFilters {
+// Query params for listing users
+export type SortDirection = 'asc' | 'desc';
+
+export interface ListUsersQueryDto {
+  page?: number;
+  limit?: number;
+  sortBy?: 'id' | 'aadId' | 'name' | 'email' | 'phoneVerified' | 'firstAccess' | 'departmentId' | 'positionId' | 'roleId';
+  sortDir?: SortDirection;
   search?: string;
-  department?: string;
-  role?: string;
+  departmentId?: string;
+  positionId?: string;
+  roleId?: string;
+  phoneVerified?: boolean;
+  firstAccess?: boolean;
+}
+
+// Paginated response envelope
+export interface PaginatedUsersDto<T> {
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  sortBy: string;
+  sortDir: 'asc' | 'desc';
 }

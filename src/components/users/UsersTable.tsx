@@ -1,5 +1,8 @@
 import { User } from "@/types/user";
 import { usePermissions } from "@/hooks/usePermissions";
+import { useDepartments } from "@/hooks/useDepartments";
+import { useRoles } from "@/hooks/useRoles";
+import { usePositions } from "@/hooks/usePositions";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2, Mail, Building, Users, Briefcase } from "lucide-react";
+import { Pencil, Trash2, Mail, Building, Users, Briefcase, Phone, CheckCircle } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -28,6 +31,14 @@ export function UsersTable({
   isLoading,
 }: UsersTableProps) {
   const { canManageUsers, canDeleteUsers } = usePermissions();
+  const { departments } = useDepartments();
+  const { roles } = useRoles();
+  const { positions } = usePositions();
+
+  // Helper to get names from IDs
+  const getDepartmentName = (id: string) => departments.find(d => d.id === id)?.name || id;
+  const getRoleName = (id: string) => roles.find(r => r.id === id)?.name || id;
+  const getPositionName = (id: string) => positions.find(p => p.id === id)?.name || id;
 
   if (isLoading) {
     return (
@@ -70,9 +81,11 @@ export function UsersTable({
           <TableRow>
             <TableHead>User</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Phone</TableHead>
             <TableHead>Position</TableHead>
             <TableHead>Department</TableHead>
             <TableHead>Role</TableHead>
+            <TableHead>First Access</TableHead>
             {(canManageUsers || canDeleteUsers) && (
               <TableHead className="text-right">Actions</TableHead>
             )}
@@ -103,31 +116,33 @@ export function UsersTable({
                 </div>
               </TableCell>
               <TableCell>
-                {user.position ? (
-                  <div className="flex items-center gap-2">
-                    <Briefcase className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{user.position}</span>
-                  </div>
-                ) : (
-                  <span className="text-sm text-muted-foreground">—</span>
-                )}
+                <div className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">{user.phone || "—"}</span>
+                  {user.phoneVerified && (
+                    <CheckCircle className="h-3 w-3 text-green-500" />
+                  )}
+                </div>
               </TableCell>
               <TableCell>
-                {user.department ? (
-                  <div className="flex items-center gap-2">
-                    <Building className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{user.department}</span>
-                  </div>
-                ) : (
-                  <span className="text-sm text-muted-foreground">—</span>
-                )}
+                <div className="flex items-center gap-2">
+                  <Briefcase className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">{getPositionName(user.positionId)}</span>
+                </div>
               </TableCell>
               <TableCell>
-                {user.role ? (
-                  <Badge variant="outline">{user.role}</Badge>
-                ) : (
-                  <span className="text-sm text-muted-foreground">—</span>
-                )}
+                <div className="flex items-center gap-2">
+                  <Building className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">{getDepartmentName(user.departmentId)}</span>
+                </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="outline">{getRoleName(user.roleId)}</Badge>
+              </TableCell>
+              <TableCell>
+                <Badge variant={user.firstAccess ? "secondary" : "outline"}>
+                  {user.firstAccess ? "Yes" : "No"}
+                </Badge>
               </TableCell>
               {(canManageUsers || canDeleteUsers) && (
                 <TableCell className="text-right">

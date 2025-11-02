@@ -1,10 +1,24 @@
 import { apiClient } from "@/lib/apiClient";
-import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
+import { User, CreateUserDto, UpdateUserDto, ListUsersQueryDto, PaginatedUsersDto } from "@/types/user";
 
 class UserService {
-  // GET /users - List all users
-  async getUsers(): Promise<User[]> {
-    return apiClient.get("/users");
+  // Helper to build query string
+  private toQuery(params: Record<string, any>): string {
+    const usp = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && String(v).length) {
+        // Convert booleans to 'true' | 'false' for API
+        const value = typeof v === 'boolean' ? String(v) : String(v);
+        usp.append(k, value);
+      }
+    });
+    const query = usp.toString();
+    return query ? `?${query}` : '';
+  }
+
+  // GET /users - List users with pagination, filtering, sorting
+  async getUsers(query: ListUsersQueryDto = {}): Promise<PaginatedUsersDto<User>> {
+    return apiClient.get(`/users${this.toQuery(query)}`);
   }
 
   // GET /users/:id - Get single user
