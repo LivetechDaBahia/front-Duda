@@ -598,7 +598,8 @@ export const CreditDetailPanel = ({
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>{t("credit.branch")}</TableHead>
+                        <TableHead>{t("credit.id")}</TableHead>
+                        <TableHead>{t("credit.store")}</TableHead>
                         <TableHead>{t("credit.lc")}</TableHead>
                         <TableHead>{t("credit.dueDate")}</TableHead>
                         <TableHead>{t("credit.risk")}</TableHead>
