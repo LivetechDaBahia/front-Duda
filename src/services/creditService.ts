@@ -67,6 +67,6 @@ export const creditService = {
   },
 
   async getCreditLogs(id: number): Promise<CreditLog[]> {
-    return apiClient.get(`/credit/creditElement/${id}/logs`);
+    return apiClient.get(`/credit/creditElement/logs/${id}`);
   },
 };
