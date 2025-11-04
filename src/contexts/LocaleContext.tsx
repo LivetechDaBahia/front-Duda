@@ -20,6 +20,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
+    "common.confirm": "Confirm",
+    "common.cancel": "Cancel",
+
     // Auth
     "auth.login": "Login",
     "auth.logout": "Logout",
@@ -692,6 +695,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgente",
+    "common.cancel": "Cancelar",
+    "common.confirm": "Confirmar",
 
     // Kanban
     "kanban.noOrders": "Nenhum pedido",
@@ -762,7 +767,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.outstandingAmount": "Valor pendente",
     "credit.item": "item",
     "credit.store": "Loja",
-    "credit.id": "Identificador",
+    "credit.id": "Código",
     "credit.justifyStatusChange": "Justificar Mudança de Status",
     "credit.justifyStatusChangeDescription": "Por favor, explique por que você está movendo este crédito para",
     "credit.justification": "Justificativa",
