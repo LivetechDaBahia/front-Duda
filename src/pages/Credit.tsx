@@ -5,6 +5,7 @@ import { CreditKanbanView } from "@/components/credit/CreditKanbanView";
 import { CreditTableView } from "@/components/credit/CreditTableView";
 import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
 import { CreditLogsDialog } from "@/components/credit/CreditLogsDialog";
+import { CreditJustificationDialog } from "@/components/credit/CreditJustificationDialog";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { creditService } from "@/services/creditService";
@@ -36,6 +37,12 @@ const Credit = () => {
     null,
   );
   const [loadingCreditId, setLoadingCreditId] = useState<number | null>(null);
+  const [justificationDialog, setJustificationDialog] = useState<{
+    creditId: number;
+    offerId: string;
+    newStatusId: string;
+    statusName: string;
+  } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<CreditFiltersType>({
@@ -151,6 +158,28 @@ const Credit = () => {
     offerId: string,
     newStatusId: string,
   ) => {
+    // If moving to success status (S004), skip justification
+    if (newStatusId === "S004") {
+      await executeStatusChange(creditId, offerId, newStatusId, "");
+      return;
+    }
+
+    // For other statuses, show justification dialog
+    const status = statuses.find((s) => s.id === newStatusId);
+    setJustificationDialog({
+      creditId,
+      offerId,
+      newStatusId,
+      statusName: status?.description || newStatusId,
+    });
+  };
+
+  const executeStatusChange = async (
+    creditId: number,
+    offerId: string,
+    newStatusId: string,
+    justification: string,
+  ) => {
     try {
       setLoadingCreditId(creditId);
 
@@ -207,6 +236,7 @@ const Credit = () => {
           sellerName: sellerNameVal,
           sellerId: sellerIdVal,
         },
+        ...(justification && { justification }),
       };
 
       await creditService.updateCreditStatus(payload);
@@ -391,6 +421,23 @@ const Credit = () => {
         creditId={logsDialogCreditId}
         isOpen={!!logsDialogCreditId}
         onClose={() => setLogsDialogCreditId(null)}
+      />
+
+      <CreditJustificationDialog
+        isOpen={!!justificationDialog}
+        statusName={justificationDialog?.statusName || ""}
+        onConfirm={(justification) => {
+          if (justificationDialog) {
+            executeStatusChange(
+              justificationDialog.creditId,
+              justificationDialog.offerId,
+              justificationDialog.newStatusId,
+              justification,
+            );
+            setJustificationDialog(null);
+          }
+        }}
+        onCancel={() => setJustificationDialog(null)}
       />
     </div>
   );
