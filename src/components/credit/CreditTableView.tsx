@@ -131,7 +131,11 @@ export const CreditTableView = ({
                     {status && (
                       <Badge
                         variant={
-                          status.destructive ? "destructive" : "secondary"
+                          credit.statusId === "S004"
+                            ? "success"
+                            : status.destructive
+                              ? "destructive"
+                              : "secondary"
                         }
                         className="text-xs"
                       >

@@ -125,7 +125,13 @@ export const CreditCard = ({
           <div className="flex items-center gap-1 shrink-0">
             {status && (
               <Badge
-                variant={status.destructive ? "destructive" : "secondary"}
+                variant={
+                  credit.statusId === "S004"
+                    ? "success"
+                    : status.destructive
+                      ? "destructive"
+                      : "secondary"
+                }
                 className="text-xs"
               >
                 {status.description}
