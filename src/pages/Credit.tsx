@@ -35,6 +35,7 @@ const Credit = () => {
   const [logsDialogCreditId, setLogsDialogCreditId] = useState<number | null>(
     null,
   );
+  const [loadingCreditId, setLoadingCreditId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<CreditFiltersType>({
@@ -147,6 +148,8 @@ const Credit = () => {
 
   const handleStatusChange = async (creditId: number, offerId: string, newStatusId: string) => {
     try {
+      setLoadingCreditId(creditId);
+      
       const current = credits.find((c) => c.id === creditId);
       if (!current) {
         toast({
@@ -209,13 +212,15 @@ const Credit = () => {
         description: "Credit status has been successfully updated.",
       });
 
-      refetchCredits();
+      await refetchCredits();
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to update credit status.",
       });
+    } finally {
+      setLoadingCreditId(null);
     }
   };
 
@@ -287,14 +292,17 @@ const Credit = () => {
               onCreditClick={setSelectedCredit}
               onStatusChange={handleStatusChange}
               onActionsClick={handleActionsClick}
+              loadingCreditId={loadingCreditId}
             />
           ) : (
             <CreditTableView
               credits={paginatedCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
+              loadingCreditId={loadingCreditId}
             />
           )}
+
 
           <div className="mt-8 flex items-center justify-between pb-4">
             <ItemsPerPageSelector

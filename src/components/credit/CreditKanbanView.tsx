@@ -10,6 +10,7 @@ interface CreditKanbanViewProps {
   onCreditClick: (credit: CreditElementItem) => void;
   onStatusChange?: (creditId: number, offerId:string, newStatusId: string) => void;
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
+  loadingCreditId?: number | null;
 }
 
 export const CreditKanbanView = ({
@@ -18,6 +19,7 @@ export const CreditKanbanView = ({
   onCreditClick,
   onStatusChange,
   onActionsClick,
+  loadingCreditId,
 }: CreditKanbanViewProps) => {
   const { t } = useLocale();
   const [draggedCreditId, setDraggedCreditId] = useState<number | null>(null);
@@ -109,6 +111,7 @@ export const CreditKanbanView = ({
                           onDragEnd={handleDragEnd}
                           onActionsClick={onActionsClick}
                           isDragging={draggedCreditId === credit.id}
+                          isLoading={loadingCreditId === credit.id}
                         />
                       ))
                     )}

@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, History } from "lucide-react";
+import { MoreHorizontal, History, Loader2 } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { format } from "date-fns";
@@ -22,6 +22,7 @@ interface CreditCardProps {
   onDragEnd?: () => void;
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
   isDragging?: boolean;
+  isLoading?: boolean;
 }
 
 export const CreditCard = ({
@@ -32,6 +33,7 @@ export const CreditCard = ({
   onDragEnd,
   onActionsClick,
   isDragging,
+  isLoading,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
 
@@ -89,19 +91,24 @@ export const CreditCard = ({
 
   return (
     <Card
-      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full ${
+      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
-      } ${isDragging ? "opacity-50 scale-95" : ""}`}
+      } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""}`}
       style={{
         borderLeftColor: toCssColor(credit.borders.left),
         borderRightColor: toCssColor(credit.borders.right),
         ...(credit.background && { backgroundColor: credit.background }),
       }}
       onClick={onClick}
-      draggable={!!onDragStart}
+      draggable={!!onDragStart && !isLoading}
       onDragStart={onDragStart ? (e) => onDragStart(e, credit.id) : undefined}
       onDragEnd={onDragEnd}
     >
+      {isLoading && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg z-10">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      )}
       <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">

@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -15,12 +16,14 @@ interface CreditTableViewProps {
   credits: CreditElementItem[];
   statuses: CreditStatus[];
   onCreditClick: (credit: CreditElementItem) => void;
+  loadingCreditId?: number | null;
 }
 
 export const CreditTableView = ({
   credits,
   statuses,
   onCreditClick,
+  loadingCreditId,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
 
@@ -90,13 +93,17 @@ export const CreditTableView = ({
           ) : (
             credits.map((credit) => {
               const status = getCreditStatusById(credit.statusId, statuses);
+              const isLoading = loadingCreditId === credit.id;
               return (
                 <TableRow
                   key={`credit-table-${credit.id}`}
-                  className="cursor-pointer hover:bg-muted/50"
+                  className={`cursor-pointer hover:bg-muted/50 relative ${isLoading ? "pointer-events-none opacity-60" : ""}`}
                   onClick={() => onCreditClick(credit)}
                 >
                   <TableCell className="font-medium whitespace-nowrap">
+                    {isLoading && (
+                      <Loader2 className="h-4 w-4 animate-spin text-primary inline-block mr-2" />
+                    )}
                     {credit.details.offer}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
