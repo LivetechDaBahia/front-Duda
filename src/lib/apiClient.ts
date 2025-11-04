@@ -39,7 +39,22 @@ class ApiClient {
       );
     }
 
-    return response.json();
+    // Handle empty responses (204 No Content or empty body)
+    const contentType = response.headers.get("content-type");
+    const contentLength = response.headers.get("content-length");
+    
+    if (contentLength === "0" || response.status === 204) {
+      return null;
+    }
+
+    // Only parse JSON if content-type indicates JSON
+    if (contentType && contentType.includes("application/json")) {
+      const text = await response.text();
+      return text ? JSON.parse(text) : null;
+    }
+
+    // For non-JSON responses, return text
+    return response.text();
   }
 
   async get(endpoint: string) {
