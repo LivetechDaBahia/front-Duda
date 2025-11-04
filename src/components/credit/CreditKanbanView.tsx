@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CreditCard } from "./CreditCard";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 interface CreditKanbanViewProps {
   credits: CreditElementItem[];
@@ -21,6 +22,10 @@ export const CreditKanbanView = ({
   const { t } = useLocale();
   const [draggedCreditId, setDraggedCreditId] = useState<number | null>(null);
   const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Enable auto-scroll when dragging
+  useAutoScroll(scrollContainerRef, draggedCreditId !== null);
 
   const getCreditsByStatus = (statusId: string) => {
     return credits.filter((credit) => credit.statusId === statusId);
@@ -60,7 +65,7 @@ export const CreditKanbanView = ({
 
   return (
     <div className="w-full">
-      <div className="overflow-x-auto">
+      <div ref={scrollContainerRef} className="overflow-x-auto">
         <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max">
           {statuses.map((status) => {
             const statusCredits = getCreditsByStatus(status.id);
