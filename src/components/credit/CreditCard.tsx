@@ -160,7 +160,7 @@ export const CreditCard = ({
                     }}
                   >
                     <History className="mr-2 h-4 w-4" />
-                      {t("credit.viewLogs")}
+                    {t("credit.viewLogs")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

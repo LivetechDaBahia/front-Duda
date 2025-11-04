@@ -179,7 +179,8 @@ export const OrderDetailPanel = ({
                     </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
-                    {order.coinSymbol}{order.value.toLocaleString()}
+                    {order.coinSymbol}
+                    {order.value.toLocaleString()}
                   </p>
                 </div>
 

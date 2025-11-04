@@ -24,7 +24,7 @@ class DepartmentService {
   // PUT /departments/:id - Update department
   async updateDepartment(
     id: string,
-    data: UpdateDepartmentDto
+    data: UpdateDepartmentDto,
   ): Promise<Department> {
     return apiClient.put(`/departments/${id}`, data);
   }

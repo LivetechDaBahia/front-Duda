@@ -27,10 +27,10 @@ export interface FilterValues {
   dateTo: Date | undefined;
 }
 
-export const OrderFilters = ({ 
-  onFilterChange, 
+export const OrderFilters = ({
+  onFilterChange,
   branches,
-  isLoadingBranches = false 
+  isLoadingBranches = false,
 }: OrderFiltersProps) => {
   const { t } = useLocale();
   const [search, setSearch] = useState("");

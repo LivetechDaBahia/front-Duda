@@ -13,7 +13,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2, Mail, Building, Users, Briefcase, Phone, CheckCircle } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Mail,
+  Building,
+  Users,
+  Briefcase,
+  Phone,
+  CheckCircle,
+} from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -36,9 +45,12 @@ export function UsersTable({
   const { positions } = usePositions();
 
   // Helper to get names from IDs
-  const getDepartmentName = (id: string) => departments.find(d => d.id === id)?.name || id;
-  const getRoleName = (id: string) => roles.find(r => r.id === id)?.name || id;
-  const getPositionName = (id: string) => positions.find(p => p.id === id)?.name || id;
+  const getDepartmentName = (id: string) =>
+    departments.find((d) => d.id === id)?.name || id;
+  const getRoleName = (id: string) =>
+    roles.find((r) => r.id === id)?.name || id;
+  const getPositionName = (id: string) =>
+    positions.find((p) => p.id === id)?.name || id;
 
   if (isLoading) {
     return (
@@ -127,13 +139,17 @@ export function UsersTable({
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Briefcase className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{getPositionName(user.positionId)}</span>
+                  <span className="text-sm">
+                    {getPositionName(user.positionId)}
+                  </span>
                 </div>
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Building className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{getDepartmentName(user.departmentId)}</span>
+                  <span className="text-sm">
+                    {getDepartmentName(user.departmentId)}
+                  </span>
                 </div>
               </TableCell>
               <TableCell>

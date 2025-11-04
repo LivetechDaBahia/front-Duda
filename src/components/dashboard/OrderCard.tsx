@@ -62,7 +62,8 @@ export const OrderCard = ({
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              {order.coinSymbol}{(order.value || 0).toLocaleString()}
+              {order.coinSymbol}
+              {(order.value || 0).toLocaleString()}
             </span>
           </div>
 

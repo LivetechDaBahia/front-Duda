@@ -31,8 +31,9 @@ export function DepartmentsManagement() {
   } = useDepartments();
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [editingDepartment, setEditingDepartment] =
-    useState<Department | null>(null);
+  const [editingDepartment, setEditingDepartment] = useState<Department | null>(
+    null,
+  );
   const [deletingDepartment, setDeletingDepartment] =
     useState<Department | null>(null);
 

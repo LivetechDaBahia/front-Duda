@@ -135,7 +135,9 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      toast.success(t("order.revertSuccess") || "Order reverted to pending successfully");
+      toast.success(
+        t("order.revertSuccess") || "Order reverted to pending successfully",
+      );
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to revert order");
@@ -151,6 +153,9 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     declineOrder: (orderId: string, reason: string = "Declined by user") =>
       declineMutation.mutate({ orderId, reason }),
     revertOrder: revertMutation.mutate,
-    isUpdating: approveMutation.isPending || declineMutation.isPending || revertMutation.isPending,
+    isUpdating:
+      approveMutation.isPending ||
+      declineMutation.isPending ||
+      revertMutation.isPending,
   };
 };

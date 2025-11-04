@@ -23,10 +23,7 @@ class PositionService {
   }
 
   // PUT /positions/:id - Update position
-  async updatePosition(
-    id: string,
-    data: UpdatePositionDto
-  ): Promise<Position> {
+  async updatePosition(id: string, data: UpdatePositionDto): Promise<Position> {
     return apiClient.put(`/positions/${id}`, data);
   }
 

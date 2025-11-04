@@ -42,7 +42,7 @@ class ApiClient {
     // Handle empty responses (204 No Content or empty body)
     const contentType = response.headers.get("content-type");
     const contentLength = response.headers.get("content-length");
-    
+
     if (contentLength === "0" || response.status === 204) {
       return null;
     }

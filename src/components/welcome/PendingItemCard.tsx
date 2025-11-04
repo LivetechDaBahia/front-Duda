@@ -36,7 +36,7 @@ export const PendingItemCard = ({
     setTimeout(() => {
       onApprove(item.id);
       toast.success(
-        `${item.type === "purchase_order" ? "Order" : "Credit"} ${item.title} approved successfully`
+        `${item.type === "purchase_order" ? "Order" : "Credit"} ${item.title} approved successfully`,
       );
       setIsProcessing(false);
     }, 500);
@@ -48,7 +48,7 @@ export const PendingItemCard = ({
     setTimeout(() => {
       onDecline(item.id);
       toast.error(
-        `${item.type === "purchase_order" ? "Order" : "Credit"} ${item.title} declined`
+        `${item.type === "purchase_order" ? "Order" : "Credit"} ${item.title} declined`,
       );
       setIsProcessing(false);
     }, 500);
@@ -56,7 +56,7 @@ export const PendingItemCard = ({
 
   const daysSinceCreation = Math.floor(
     (new Date().getTime() - new Date(item.createdAt).getTime()) /
-      (1000 * 60 * 60 * 24)
+      (1000 * 60 * 60 * 24),
   );
 
   const isUrgent = daysSinceCreation > 3;
@@ -88,11 +88,7 @@ export const PendingItemCard = ({
               {item.supplierOrClient}
             </p>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onViewDetails(item)}
-          >
+          <Button variant="ghost" size="sm" onClick={() => onViewDetails(item)}>
             <Info className="w-4 h-4" />
           </Button>
         </div>

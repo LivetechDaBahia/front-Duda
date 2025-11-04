@@ -1,5 +1,11 @@
 import { apiClient } from "@/lib/apiClient";
-import { User, CreateUserDto, UpdateUserDto, ListUsersQueryDto, PaginatedUsersDto } from "@/types/user";
+import {
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  ListUsersQueryDto,
+  PaginatedUsersDto,
+} from "@/types/user";
 
 class UserService {
   // Helper to build query string
@@ -8,16 +14,18 @@ class UserService {
     Object.entries(params).forEach(([k, v]) => {
       if (v !== undefined && v !== null && String(v).length) {
         // Convert booleans to 'true' | 'false' for API
-        const value = typeof v === 'boolean' ? String(v) : String(v);
+        const value = typeof v === "boolean" ? String(v) : String(v);
         usp.append(k, value);
       }
     });
     const query = usp.toString();
-    return query ? `?${query}` : '';
+    return query ? `?${query}` : "";
   }
 
   // GET /users - List users with pagination, filtering, sorting
-  async getUsers(query: ListUsersQueryDto = {}): Promise<PaginatedUsersDto<User>> {
+  async getUsers(
+    query: ListUsersQueryDto = {},
+  ): Promise<PaginatedUsersDto<User>> {
     return apiClient.get(`/users${this.toQuery(query)}`);
   }
 

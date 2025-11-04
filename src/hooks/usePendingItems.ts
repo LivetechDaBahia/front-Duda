@@ -37,7 +37,7 @@ export const usePendingItems = () => {
     // Add purchase orders if user has permissions
     if (canManagePurchaseOrders) {
       const pendingOrders = orders.filter(
-        (order) => order.needsApproval && order.status === "pending"
+        (order) => order.needsApproval && order.status === "pending",
       );
 
       items.push(
@@ -54,7 +54,7 @@ export const usePendingItems = () => {
           branch: order.branch,
           needsApproval: order.needsApproval,
           originalData: order,
-        }))
+        })),
       );
     }
 
@@ -62,7 +62,7 @@ export const usePendingItems = () => {
     if (canManageCredit) {
       // Filter credits that need approval (adjust status check based on your credit workflow)
       const pendingCredits = credits.filter(
-        (credit) => credit.statusId === "pending" || credit.statusId === "01"
+        (credit) => credit.statusId === "pending" || credit.statusId === "01",
       );
 
       items.push(
@@ -79,14 +79,14 @@ export const usePendingItems = () => {
           branch: credit.details.clientBranch,
           needsApproval: true,
           originalData: credit,
-        }))
+        })),
       );
     }
 
     // Sort by creation date (newest first)
     return items.sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
   }, [canManagePurchaseOrders, canManageCredit, orders, credits]);
 
@@ -95,7 +95,7 @@ export const usePendingItems = () => {
     return pendingItems.filter((item) => {
       const daysSinceCreation = Math.floor(
         (new Date().getTime() - new Date(item.createdAt).getTime()) /
-          (1000 * 60 * 60 * 24)
+          (1000 * 60 * 60 * 24),
       );
       return daysSinceCreation > 3;
     });

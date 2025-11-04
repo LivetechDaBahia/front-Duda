@@ -190,7 +190,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "admin.departments": "Departments",
     "admin.roles": "Roles",
     "admin.positions": "Positions",
-    "admin.noPermission": "You don't have permission to access the admin dashboard.",
+    "admin.noPermission":
+      "You don't have permission to access the admin dashboard.",
 
     // Departments
     "department.title": "Departments",
@@ -264,7 +265,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Date from",
     "filters.dateTo": "Date to",
     "filters.selectDate": "Select Date",
-    
+
     // Order
     "order.branch": "Branch",
     "order.filterByBranch": "Filter by branch",
@@ -291,13 +292,13 @@ const translations: Record<Locale, Record<string, string>> = {
     tableView: "Table View",
 
     // Filters
-    "filters": "Filters",
-    "clearFilters": "Clean filters",
-    "search": "Search",
-    "status": "Status",
-    "allStatuses": "All Statuses",
-    "startDate": "Initial Date",
-    "endDate": "Final Data",
+    filters: "Filters",
+    clearFilters: "Clean filters",
+    search: "Search",
+    status: "Status",
+    allStatuses: "All Statuses",
+    startDate: "Initial Date",
+    endDate: "Final Data",
 
     // Credit
     "credit.title": "Credit Management",
@@ -589,7 +590,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "admin.departments": "Departamentos",
     "admin.roles": "Funções",
     "admin.positions": "Cargos",
-    "admin.noPermission": "Você não tem permissão para acessar o painel administrativo.",
+    "admin.noPermission":
+      "Você não tem permissão para acessar o painel administrativo.",
 
     // Departments
     "department.title": "Departamentos",
@@ -663,7 +665,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Data a partir",
     "filters.dateTo": "Data até",
     "filters.selectDate": "Selecionar Data",
-    
+
     // Order
     "order.branch": "Filial",
     "order.filterByBranch": "Filtrar por filial",
@@ -766,7 +768,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.ofItems": "de",
     "credit.activityLogs": "Registros de Atividade",
     "credit.noLogs": "Nenhum registro de atividade encontrado",
-    "credit.activityLogsDescription": "Veja os registros de atividade deste item",
+    "credit.activityLogsDescription":
+      "Veja os registros de atividade deste item",
     "credit.viewLogs": "Ver Registros",
 
     // Home Page
@@ -775,13 +778,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "home.value": "Valor Total",
 
     // Filters
-    "filters": "Filtros",
-    "clearFilters": "Limpar Filtros",
-    "search": "Pesquisar",
-    "status": "Status",
-    "allStatuses": "Todos os Status",
-    "startDate": "Data Inicial",
-    "endDate": "Data Final",
+    filters: "Filtros",
+    clearFilters: "Limpar Filtros",
+    search: "Pesquisar",
+    status: "Status",
+    allStatuses: "Todos os Status",
+    startDate: "Data Inicial",
+    endDate: "Data Final",
 
     // Users Management
     "users.title": "Gerenciamento de Usuários",
@@ -984,12 +987,14 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Admin Dashboard
     "admin.title": "Panel Administrativo",
-    "admin.description": "Gestionar usuarios, departamentos, roles y posiciones",
+    "admin.description":
+      "Gestionar usuarios, departamentos, roles y posiciones",
     "admin.users": "Usuarios",
     "admin.departments": "Departamentos",
     "admin.roles": "Roles",
     "admin.positions": "Posiciones",
-    "admin.noPermission": "No tienes permiso para acceder al panel administrativo.",
+    "admin.noPermission":
+      "No tienes permiso para acceder al panel administrativo.",
 
     // Departments
     "department.title": "Departamentos",
@@ -1063,7 +1068,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Fecha desde",
     "filters.dateTo": "Fecha hasta",
     "filters.selectDate": "Seleccionar Fecha",
-    
+
     // Order
     "order.branch": "Sucursal",
     "order.filterByBranch": "Filtrar por sucursal",
@@ -1090,13 +1095,13 @@ const translations: Record<Locale, Record<string, string>> = {
     tableView: "Vista de Tabla",
 
     // Filters
-    "filters": "Filtros",
-    "clearFilters": "Limpar Filtros",
-    "search": "Pesquisar",
-    "status": "Status",
-    "allStatuses": "Todos os Status",
-    "startDate": "Data Inicial",
-    "endDate": "Data Final",
+    filters: "Filtros",
+    clearFilters: "Limpar Filtros",
+    search: "Pesquisar",
+    status: "Status",
+    allStatuses: "Todos os Status",
+    startDate: "Data Inicial",
+    endDate: "Data Final",
 
     // Credit
     "credit.title": "Gestión de Crédito",
@@ -1174,7 +1179,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.ofItems": "de",
     "credit.activityLogs": "Registros de actividad",
     "credit.noLogs": "No se encontraron registros de actividad",
-    "credit.activityLogsDescription": "Consulte los registros de actividad de este elemento",
+    "credit.activityLogsDescription":
+      "Consulte los registros de actividad de este elemento",
     "credit.viewLogs": "Ver Registros",
 
     // Home Page

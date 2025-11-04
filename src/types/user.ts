@@ -29,7 +29,7 @@ export interface CreateUserDto {
   roleId: string;
   phone?: string | null;
   phoneVerified?: boolean; // default false
-  firstAccess?: boolean;   // default true
+  firstAccess?: boolean; // default true
 }
 
 // DTO for updating users (all fields optional)
@@ -46,12 +46,21 @@ export interface UpdateUserDto {
 }
 
 // Query params for listing users
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = "asc" | "desc";
 
 export interface ListUsersQueryDto {
   page?: number;
   limit?: number;
-  sortBy?: 'id' | 'aadId' | 'name' | 'email' | 'phoneVerified' | 'firstAccess' | 'departmentId' | 'positionId' | 'roleId';
+  sortBy?:
+    | "id"
+    | "aadId"
+    | "name"
+    | "email"
+    | "phoneVerified"
+    | "firstAccess"
+    | "departmentId"
+    | "positionId"
+    | "roleId";
   sortDir?: SortDirection;
   search?: string;
   departmentId?: string;
@@ -69,5 +78,5 @@ export interface PaginatedUsersDto<T> {
   total: number;
   totalPages: number;
   sortBy: string;
-  sortDir: 'asc' | 'desc';
+  sortDir: "asc" | "desc";
 }

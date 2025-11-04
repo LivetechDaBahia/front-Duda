@@ -10,7 +10,7 @@ const calculateScrollSpeed = (distanceFromEdge: number): number => {
 
 export const useAutoScroll = (
   scrollContainerRef: React.RefObject<HTMLElement>,
-  isDragging: boolean
+  isDragging: boolean,
 ) => {
   const animationFrameRef = useRef<number | null>(null);
   const mousePositionRef = useRef({ x: 0, y: 0 });
@@ -63,7 +63,10 @@ export const useAutoScroll = (
         const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
         // Clamp scroll position to valid range
-        container.scrollLeft = Math.max(0, Math.min(newScrollLeft, maxScrollLeft));
+        container.scrollLeft = Math.max(
+          0,
+          Math.min(newScrollLeft, maxScrollLeft),
+        );
       }
 
       // Continue animation loop

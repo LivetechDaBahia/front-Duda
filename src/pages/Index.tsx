@@ -40,20 +40,14 @@ const Index = () => {
   });
 
   // Pass API-level filters to useOrders
-  const {
-    orders,
-    isLoading,
-    error,
-    approveOrder,
-    declineOrder,
-    revertOrder,
-  } = useOrders({
-    dateBegin: formatDateForAPI(filters.dateFrom),
-    dateEnd: formatDateForAPI(filters.dateTo),
-    types: mapUIStatusToAPITypes(filters.status),
-    tenantId: "01",
-  });
-  
+  const { orders, isLoading, error, approveOrder, declineOrder, revertOrder } =
+    useOrders({
+      dateBegin: formatDateForAPI(filters.dateFrom),
+      dateEnd: formatDateForAPI(filters.dateTo),
+      types: mapUIStatusToAPITypes(filters.status),
+      tenantId: "01",
+    });
+
   const { branches, isLoading: isLoadingBranches } = useBranches();
 
   // Filter orders based on user filters
@@ -166,7 +160,7 @@ const Index = () => {
 
       <main className="container mt-3 mx-auto">
         <div className="mb-6">
-          <OrderFilters 
+          <OrderFilters
             onFilterChange={setFilters}
             branches={branches}
             isLoadingBranches={isLoadingBranches}

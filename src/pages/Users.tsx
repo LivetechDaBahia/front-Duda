@@ -25,10 +25,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <AdminLayout
-      title={t("admin.title")}
-      description={t("admin.description")}
-    >
+    <AdminLayout title={t("admin.title")} description={t("admin.description")}>
       <Tabs defaultValue="users" className="w-full">
         <TabsList className="grid w-full grid-cols-4 h-auto">
           <TabsTrigger value="users" className="gap-2">

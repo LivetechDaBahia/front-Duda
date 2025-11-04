@@ -96,7 +96,9 @@ const Welcome = () => {
           </div>
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <p className="text-destructive mb-2">Error loading pending items</p>
+              <p className="text-destructive mb-2">
+                Error loading pending items
+              </p>
               <p className="text-sm text-muted-foreground">
                 {error?.message || "Unknown error"}
               </p>

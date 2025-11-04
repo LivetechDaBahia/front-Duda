@@ -30,7 +30,7 @@ const getAccessLevelName = (accessLevelId: string): string => {
 };
 
 const getAccessLevelVariant = (
-  accessLevelId: string
+  accessLevelId: string,
 ): "default" | "secondary" | "outline" => {
   if (accessLevelId === "1") return "default";
   if (accessLevelId === "2") return "secondary";

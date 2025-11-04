@@ -146,10 +146,14 @@ const Credit = () => {
     setCurrentPage(1);
   }, [filters]);
 
-  const handleStatusChange = async (creditId: number, offerId: string, newStatusId: string) => {
+  const handleStatusChange = async (
+    creditId: number,
+    offerId: string,
+    newStatusId: string,
+  ) => {
     try {
       setLoadingCreditId(creditId);
-      
+
       const current = credits.find((c) => c.id === creditId);
       if (!current) {
         toast({
@@ -302,7 +306,6 @@ const Credit = () => {
               loadingCreditId={loadingCreditId}
             />
           )}
-
 
           <div className="mt-8 flex items-center justify-between pb-4">
             <ItemsPerPageSelector

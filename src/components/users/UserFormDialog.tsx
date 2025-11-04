@@ -119,7 +119,9 @@ export function UserFormDialog({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Edit User" : "Create New User"}</DialogTitle>
+          <DialogTitle>
+            {isEditing ? "Edit User" : "Create New User"}
+          </DialogTitle>
           <DialogDescription>
             {isEditing
               ? "Update the user's information below."
@@ -128,7 +130,10 @@ export function UserFormDialog({
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
             <FormField
               control={form.control}
               name="aadId"
@@ -244,7 +249,7 @@ export function UserFormDialog({
                       ) : (
                         positions.map((pos) => {
                           const dept = departments.find(
-                            (d) => d.id === pos.departmentId
+                            (d) => d.id === pos.departmentId,
                           );
                           const role = roles.find((r) => r.id === pos.roleId);
                           return (

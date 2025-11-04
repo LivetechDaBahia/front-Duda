@@ -49,7 +49,7 @@ export function PositionsManagement() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingPosition, setEditingPosition] = useState<Position | null>(null);
   const [deletingPosition, setDeletingPosition] = useState<Position | null>(
-    null
+    null,
   );
 
   const handleCreate = async (data: CreatePositionDto) => {

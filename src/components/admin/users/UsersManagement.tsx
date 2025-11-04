@@ -5,7 +5,13 @@ import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Plus, Search, Users as UsersIcon } from "lucide-react";
 import { UsersTable } from "@/components/users/UsersTable";
 import { UserFormDialog } from "@/components/users/UserFormDialog";
@@ -30,10 +36,11 @@ export function UsersManagement() {
     error,
   } = useQuery({
     queryKey: ["users", { search: searchQuery }],
-    queryFn: () => userService.getUsers({ 
-      search: searchQuery || undefined,
-      limit: 100 // Get more records for client-side operations
-    }),
+    queryFn: () =>
+      userService.getUsers({
+        search: searchQuery || undefined,
+        limit: 100, // Get more records for client-side operations
+      }),
   });
 
   const users = usersResponse?.data || [];
