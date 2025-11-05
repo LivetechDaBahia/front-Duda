@@ -77,8 +77,14 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("User email not available");
       }
 
+      const order = orders.find((o) => o.id === orderId);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
       return orderService.approveOrder({
         orderId,
+        branch: order.branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -100,8 +106,14 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("User email not available");
       }
 
+      const order = orders.find((o) => o.id === orderId);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
       return orderService.rejectOrder({
         orderId,
+        branch: order.branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -124,8 +136,14 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("User email not available");
       }
 
+      const order = orders.find((o) => o.id === orderId);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
       return orderService.revertOrder({
         orderId,
+        branch: order.branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",

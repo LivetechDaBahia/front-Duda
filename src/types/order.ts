@@ -46,6 +46,7 @@ export interface PurchaseOrderAPI {
 // Approve/Reject DTOs
 export interface ApprovePurchaseOrderDto {
   orderId: string;
+  branch: string;
   type: string;
   approvalUserCode: string;
   systemUserCode: string;
@@ -55,6 +56,7 @@ export interface ApprovePurchaseOrderDto {
 
 export interface RejectPurchaseOrderDto {
   orderId: string;
+  branch: string;
   type: string;
   approvalUserCode: string;
   systemUserCode: string;
