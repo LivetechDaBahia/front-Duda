@@ -1,7 +1,6 @@
-import { Bell, Clock, Package, AlertCircle } from "lucide-react";
+import { Clock, Package, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useLocale } from "@/contexts/LocaleContext";
 
 interface Notification {
   id: string;
@@ -12,36 +11,10 @@ interface Notification {
   read: boolean;
 }
 
-// Mock data - will be replaced with real data later
-const mockNotifications: Notification[] = [
-  {
-    id: "1",
-    type: "urgent",
-    title: "Urgent Approval Required",
-    message: "Purchase Order #PO-2024-003 requires immediate approval",
-    timestamp: "2 hours ago",
-    read: false,
-  },
-  {
-    id: "2",
-    type: "warning",
-    title: "Approaching Deadline",
-    message: "Purchase Order #PO-2024-001 is due in 2 days",
-    timestamp: "5 hours ago",
-    read: false,
-  },
-  {
-    id: "3",
-    type: "info",
-    title: "Order Approved",
-    message: "Purchase Order #PO-2023-999 has been approved",
-    timestamp: "1 day ago",
-    read: true,
-  },
-];
+// TODO: Replace with real notifications data from the API or context
+const notifications: Notification[] = [];
 
 export const NotificationsSection = () => {
-  const { t } = useLocale();
 
   const getNotificationIcon = (type: Notification["type"]) => {
     switch (type) {
@@ -83,7 +56,7 @@ export const NotificationsSection = () => {
   return (
     <div>
       <div className="space-y-3">
-        {mockNotifications.map((notification) => (
+        {notifications.map((notification) => (
           <Card
             key={notification.id}
             className={`p-4 transition-colors hover:bg-accent/50 cursor-pointer ${
