@@ -30,8 +30,8 @@ export const orderService = {
   },
 
   // Fetch a single order by ID
-  async getOrderById(orderId: string): Promise<ApiDetailedOrder> {
-    return apiClient.get(`/purchaseOrders/${orderId}`);
+  async getOrderById(orderId: string, branch: string): Promise<ApiDetailedOrder> {
+    return apiClient.get(`/purchaseOrders/${orderId}/${branch}`);
   },
 
   // Fetch approval levels for an order

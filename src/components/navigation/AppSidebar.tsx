@@ -38,7 +38,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin } = usePermissions();
+  const { isAdmin, canManageCredit } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -86,20 +86,24 @@ const SidebarContent = () => {
         />
       ),
     },
-    {
-      label: t("nav.credit"),
-      href: "/credit",
-      icon: (
-        <Banknote
-          className={cn(
-            "w-5 h-5 flex-shrink-0",
-            location.pathname === "/credit"
-              ? "text-primary"
-              : "text-muted-foreground",
-          )}
-        />
-      ),
-    },
+    ...(canManageCredit
+      ? [
+          {
+            label: t("nav.credit"),
+            href: "/credit",
+            icon: (
+              <Banknote
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/credit"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
+        ]
+      : []),
     ...(isAdmin
       ? [
           {
