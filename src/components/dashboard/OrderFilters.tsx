@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -40,6 +40,21 @@ export const OrderFilters = ({
   const [dateTo, setDateTo] = useState<Date | undefined>();
   const [showFilters, setShowFilters] = useState(false);
 
+  // Set default branch to first branch when branches are loaded
+  useEffect(() => {
+    if (branches.length > 0 && !branch) {
+      const firstBranch = branches[0].code;
+      setBranch(firstBranch);
+      onFilterChange({
+        search,
+        status,
+        branch: firstBranch,
+        dateFrom,
+        dateTo,
+      });
+    }
+  }, [branches]);
+
   const handleApplyFilters = () => {
     onFilterChange({
       search,
@@ -51,15 +66,16 @@ export const OrderFilters = ({
   };
 
   const handleClearFilters = () => {
+    const firstBranch = branches.length > 0 ? branches[0].code : "";
     setSearch("");
     setStatus("all");
-    setBranch("");
+    setBranch(firstBranch);
     setDateFrom(undefined);
     setDateTo(undefined);
     onFilterChange({
       search: "",
       status: "all",
-      branch: "",
+      branch: firstBranch,
       dateFrom: undefined,
       dateTo: undefined,
     });
@@ -109,15 +125,14 @@ export const OrderFilters = ({
       <div className="space-y-2">
         <Label>{t("order.branch")}</Label>
         <Select
-          value={branch || "all"}
-          onValueChange={(value) => setBranch(value === "all" ? "" : value)}
+          value={branch}
+          onValueChange={setBranch}
           disabled={isLoadingBranches}
         >
           <SelectTrigger>
             <SelectValue placeholder={t("order.filterByBranch")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t("order.allBranches")}</SelectItem>
             {branches.map((b) => (
               <SelectItem key={b.id} value={b.code}>
                 {b.name} ({b.code})
