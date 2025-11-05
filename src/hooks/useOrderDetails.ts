@@ -45,7 +45,7 @@ export const useOrderDetails = ({
     refetch: refetchOrder,
   } = useQuery<ApiDetailedOrder>({
     queryKey: ["orderDetails", orderId],
-    queryFn: () => orderService.getOrderById(orderId),
+    queryFn: () => orderService.getOrderById(orderId, branch),
     enabled: enabled && !!orderId,
     staleTime: 5 * 60 * 1000,
   });
