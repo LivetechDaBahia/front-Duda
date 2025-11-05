@@ -126,7 +126,16 @@ export const OrderFilters = ({
         <Label>{t("order.branch")}</Label>
         <Select
           value={branch}
-          onValueChange={setBranch}
+          onValueChange={(value) => {
+            setBranch(value);
+            onFilterChange({
+              search,
+              status,
+              branch: value,
+              dateFrom,
+              dateTo,
+            });
+          }}
           disabled={isLoadingBranches}
         >
           <SelectTrigger>
