@@ -29,6 +29,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   const queryClient = useQueryClient();
   const { t } = useLocale();
   const { user } = useAuth();
+  const isDev = (import.meta as any).env?.DEV;
 
   // Default date range: current month
   const defaultDateBegin =
@@ -66,6 +67,18 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         params?.tenantId || "01",
       );
 
+      if (isDev) {
+        try {
+          console.log("[useOrders] getOrders.result", {
+            apiBranch: (apiData as any)?.branch,
+            itemsCount: (apiData as any)?.items?.length,
+            tenantSent: params?.tenantId || "01",
+          });
+        } catch (e) {
+          // no-op
+        }
+      }
+
       return transformAPIToUIOrders(apiData);
     },
     enabled: params?.enabled !== false && !!user?.email, // Respect enabled flag
@@ -78,18 +91,69 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
     // If tenant param already includes branch, prefer it
     if (tenantParam && tenantParam.includes(",")) {
-      return tenantParam;
+      const computed = tenantParam;
+      if (isDev) {
+        console.log("[useOrders] resolveBranchId → from tenantParam", {
+          orderId: order.id,
+          orderBranch: order.branch,
+          tenantParam,
+          tenant,
+          computedBranch: computed,
+        });
+      }
+      return computed;
     }
 
     const orderBranch = order.branch || "";
-    if (!orderBranch) return tenant; // fallback to tenant only
+    if (!orderBranch) {
+      if (isDev) {
+        console.log("[useOrders] resolveBranchId → fallback to tenant only", {
+          orderId: order.id,
+          orderBranch: order.branch,
+          tenantParam,
+          tenant,
+          computedBranch: tenant,
+        });
+      }
+      return tenant; // fallback to tenant only
+    }
 
     // If order branch already contains tenant, return as is
-    if (orderBranch.includes(",")) return orderBranch;
+    if (orderBranch.includes(",")) {
+      if (isDev) {
+        console.log("[useOrders] resolveBranchId → branch already has tenant", {
+          orderId: order.id,
+          orderBranch: order.branch,
+          tenantParam,
+          tenant,
+          computedBranch: orderBranch,
+        });
+      }
+      return orderBranch;
+    }
 
     // Combine tenant and branch
-    return `${tenant},${orderBranch}`;
+    const combined = `${tenant},${orderBranch}`;
+    if (isDev) {
+      console.log("[useOrders] resolveBranchId → combined", {
+        orderId: order.id,
+        orderBranch: order.branch,
+        tenantParam,
+        tenant,
+        computedBranch: combined,
+      });
+    }
+    return combined;
   };
+
+  // Debug: log hook params and query inputs
+  if (isDev) {
+    console.log("[useOrders] init", {
+      params,
+      defaultDateBegin,
+      defaultDateEnd,
+    });
+  }
 
   const approveMutation = useMutation({
     mutationFn: (orderId: string) => {
@@ -104,21 +168,30 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       const branch = resolveBranchId(order);
 
-      return orderService.approveOrder({
+      const dto = {
         orderId,
         branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
         email: user.email,
-      });
+      };
+      if (isDev) {
+        console.log("[useOrders] approve.mutationFn payload", {
+          dto,
+          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+        });
+      }
+      return orderService.approveOrder(dto);
     },
     onSuccess: () => {
+      if (isDev) console.log("[useOrders] approve.onSuccess");
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success(t("order.approveSuccess") || "Order approved successfully");
     },
     onError: (error: any) => {
-      toast.error(error.message || "Failed to approve order");
+      console.error("[useOrders] approve.onError", error);
+      toast.error(error?.message || "Failed to approve order");
     },
   });
 
@@ -135,7 +208,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       const branch = resolveBranchId(order);
 
-      return orderService.rejectOrder({
+      const dto = {
         orderId,
         branch,
         type: "PC",
@@ -143,13 +216,22 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         systemUserCode: "",
         email: user.email,
         reason,
-      });
+      };
+      if (isDev) {
+        console.log("[useOrders] decline.mutationFn payload", {
+          dto,
+          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+        });
+      }
+      return orderService.rejectOrder(dto);
     },
     onSuccess: () => {
+      if (isDev) console.log("[useOrders] decline.onSuccess");
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success(t("order.declineSuccess") || "Order declined successfully");
     },
     onError: (error: any) => {
+      console.error("[useOrders] decline.onError", error);
       toast.error(error.message || "Failed to decline order");
     },
   });
@@ -167,22 +249,31 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       const branch = resolveBranchId(order);
 
-      return orderService.revertOrder({
+      const dto = {
         orderId,
         branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
         email: user.email,
-      });
+      };
+      if (isDev) {
+        console.log("[useOrders] revert.mutationFn payload", {
+          dto,
+          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+        });
+      }
+      return orderService.revertOrder(dto);
     },
     onSuccess: () => {
+      if (isDev) console.log("[useOrders] revert.onSuccess");
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success(
         t("order.revertSuccess") || "Order reverted to pending successfully",
       );
     },
     onError: (error: any) => {
+      console.error("[useOrders] revert.onError", error);
       toast.error(error.message || "Failed to revert order");
     },
   });

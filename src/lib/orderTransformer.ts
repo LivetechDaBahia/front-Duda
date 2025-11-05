@@ -5,6 +5,8 @@ import {
   UIOrderStatus,
 } from "@/types/order";
 
+const isDev = (import.meta as any).env?.DEV;
+
 // Convert Brazilian date format (dd/MM/yyyy) to ISO format (yyyy-MM-dd)
 const convertBrazilianDateToISO = (dateStr: string): string => {
   if (!dateStr) return new Date().toISOString().split("T")[0];
@@ -40,6 +42,10 @@ export const transformIssueToOrder = (
 ): PurchaseOrder => {
   const uiStatus = mapStatusToUI(issue.StatusCode);
   const emissionDate = convertBrazilianDateToISO(issue.Emission);
+
+  if (isDev && (!branch || typeof branch !== "string")) {
+    console.warn("[orderTransformer] transformIssueToOrder: missing/invalid branch", { branch, issueDocument: issue.Document });
+  }
 
   return {
     id: issue.Document,

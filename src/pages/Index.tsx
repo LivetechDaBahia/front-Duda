@@ -24,6 +24,7 @@ import {
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 
 const Index = () => {
+  const isDev = (import.meta as any).env?.DEV;
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(
     null,
@@ -40,12 +41,22 @@ const Index = () => {
   });
 
   // Pass API-level filters to useOrders
+  const tenantForHook = filters.branch ? `01,${filters.branch}` : "01";
+  if (isDev) {
+    console.log("[Index] useOrders.params", {
+      dateBegin: formatDateForAPI(filters.dateFrom),
+      dateEnd: formatDateForAPI(filters.dateTo),
+      types: mapUIStatusToAPITypes(filters.status),
+      tenantId: tenantForHook,
+      filters,
+    });
+  }
   const { orders, isLoading, error, approveOrder, declineOrder, revertOrder } =
     useOrders({
       dateBegin: formatDateForAPI(filters.dateFrom),
       dateEnd: formatDateForAPI(filters.dateTo),
       types: mapUIStatusToAPITypes(filters.status),
-      tenantId: filters.branch ? `01,${filters.branch}` : "01",
+      tenantId: tenantForHook,
     });
 
   const { branches, isLoading: isLoadingBranches } = useBranches();
@@ -99,11 +110,20 @@ const Index = () => {
   }, [filters, filteredOrders.length]);
 
   const handleOrderClick = (order: PurchaseOrder) => {
+    if (isDev) console.log("[Index] handleOrderClick", { orderId: order.id, orderBranch: order.branch });
     setSelectedOrder(order);
     setIsPanelOpen(true);
   };
 
   const handleStatusChange = (orderId: string, newStatus: UIOrderStatus) => {
+    if (isDev) {
+      const ord = orders.find((o) => o.id === orderId);
+      console.log("[Index] handleStatusChange", {
+        orderId,
+        newStatus,
+        orderBranch: ord?.branch,
+      });
+    }
     if (newStatus === "approved") {
       approveOrder(orderId);
     } else if (newStatus === "declined") {
@@ -112,6 +132,10 @@ const Index = () => {
   };
 
   const handleRevertOrder = (orderId: string) => {
+    if (isDev) {
+      const ord = orders.find((o) => o.id === orderId);
+      console.log("[Index] handleRevertOrder", { orderId, orderBranch: ord?.branch });
+    }
     revertOrder(orderId);
   };
 

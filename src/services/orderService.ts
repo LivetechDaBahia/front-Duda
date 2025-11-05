@@ -10,6 +10,8 @@ import {
 } from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
+const isDev = (import.meta as any).env?.DEV;
+
 export const orderService = {
   // Fetch all orders - seeds approval cache for approve/reject
   async getOrders(
@@ -26,13 +28,21 @@ export const orderService = {
       types: types,
       tenantId: tenantId,
     });
-    return apiClient.get(`/purchaseOrders?${params}`);
+    const url = `/purchaseOrders?${params}`;
+    if (isDev) {
+      console.log("[orderService] getOrders", { url, email, dateBegin, dateEnd, types, tenantId });
+    }
+    return apiClient.get(url);
   },
 
   // Fetch a single order by ID
   async getOrderById(orderId: string, branch: string): Promise<ApiDetailedOrder> {
       const branchId = `01,${branch}`;
-    return apiClient.get(`/purchaseOrders/${orderId}/${branchId}`);
+    const url = `/purchaseOrders/${orderId}/${branchId}`;
+    if (isDev) {
+      console.log("[orderService] getOrderById", { orderId, inputBranch: branch, branchId, url });
+    }
+    return apiClient.get(url);
   },
 
   // Fetch approval levels for an order
@@ -40,9 +50,11 @@ export const orderService = {
     orderId: string,
     branch: string,
   ): Promise<ApiApprovalLevelsResponse> {
-    const res: any = await apiClient.get(
-      `/purchaseOrders/approvalLevels/${orderId}/${branch}`,
-    );
+    const url = `/purchaseOrders/approvalLevels/${orderId}/${branch}`;
+    if (isDev) {
+      console.log("[orderService] getApprovalLevels", { url, orderId, branch });
+    }
+    const res: any = await apiClient.get(url);
 
     // Handle both possible API shapes:
     // 1) New shape (array)
@@ -60,13 +72,20 @@ export const orderService = {
 
   // Fetch cost center details for an order
   async getCostCenterDetails(orderId: string, branch: string): Promise<ApiCostCenter[]> {
-    return apiClient.get(`/purchaseOrders/costCenter/${orderId}/${branch}`);
+    const url = `/purchaseOrders/costCenter/${orderId}/${branch}`;
+    if (isDev) {
+      console.log("[orderService] getCostCenterDetails", { url, orderId, branch });
+    }
+    return apiClient.get(url);
   },
 
   // Approve order
   async approveOrder(
     dto: ApprovePurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
+    if (isDev) {
+      console.log("[orderService] approveOrder", { dto });
+    }
     return apiClient.post("/purchaseOrders/approve", dto);
   },
 
@@ -74,6 +93,9 @@ export const orderService = {
   async rejectOrder(
     dto: RejectPurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
+    if (isDev) {
+      console.log("[orderService] rejectOrder", { dto });
+    }
     return apiClient.post("/purchaseOrders/reject", dto);
   },
 
@@ -81,15 +103,20 @@ export const orderService = {
   async revertOrder(
     dto: ApprovePurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
-    return apiClient.post("/purchaseOrders/approve", {
-      ...dto,
-      reversion: true, // Flag to indicate reversion
-    });
+    const finalDto = { ...dto, reversion: true } as ApprovePurchaseOrderDto & { reversion: true };
+    if (isDev) {
+      console.log("[orderService] revertOrder", { inDto: dto, finalDto });
+    }
+    return apiClient.post("/purchaseOrders/approve", finalDto);
   },
 
 
   // Fetch branches
   async getBranches(): Promise<Branch[]> {
-    return apiClient.get("/purchaseOrders/branches");
+    const url = "/purchaseOrders/branches";
+    if (isDev) {
+      console.log("[orderService] getBranches", { url });
+    }
+    return apiClient.get(url);
   },
 };
