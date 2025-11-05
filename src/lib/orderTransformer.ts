@@ -45,6 +45,7 @@ export const transformIssueToOrder = (
     id: issue.Document,
     supplierName: issue.Supplier || "Unknown Supplier",
     supplierEmail: "", // Not provided by API
+    amount: issue.Amount,
     value: issue.ReleaseValue || issue.CoinValue || 0,
     coinSymbol: issue.CoinSymbol || "$",
     status: uiStatus,

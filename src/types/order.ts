@@ -85,6 +85,7 @@ export interface PurchaseOrder {
   id: string;
   supplierName: string;
   supplierEmail: string;
+  amount: number
   value: number;
   coinSymbol: string;
   status: UIOrderStatus;
