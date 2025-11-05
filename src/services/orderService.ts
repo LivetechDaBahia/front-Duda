@@ -2,7 +2,7 @@ import {
   PurchaseOrderAPI,
   ApiDetailedOrder,
   ApiApprovalLevelsResponse,
-  ApiCostCenterResponse,
+  ApiCostCenter,
   ApprovePurchaseOrderDto,
   RejectPurchaseOrderDto,
   ApprovalActionResponse,
@@ -39,11 +39,26 @@ export const orderService = {
     orderId: string,
     branch: string,
   ): Promise<ApiApprovalLevelsResponse> {
-    return apiClient.get(`/purchaseOrders/approvalLevels/${orderId}/${branch}`);
+    const res: any = await apiClient.get(
+      `/purchaseOrders/approvalLevels/${orderId}/${branch}`,
+    );
+
+    // Handle both possible API shapes:
+    // 1) New shape (array)
+    // 2) Legacy shape ({ levels: [...] })
+    if (Array.isArray(res)) {
+      return { levels: res };
+    }
+    if (res && Array.isArray((res as any).levels)) {
+      return res as ApiApprovalLevelsResponse;
+    }
+
+    // Fallback: ensure a consistent return type
+    return { levels: [] };
   },
 
   // Fetch cost center details for an order
-  async getCostCenterDetails(orderId: string, branch: string): Promise<ApiCostCenterResponse> {
+  async getCostCenterDetails(orderId: string, branch: string): Promise<ApiCostCenter[]> {
     return apiClient.get(`/purchaseOrders/costCenter/${orderId}/${branch}`);
   },
 

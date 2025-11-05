@@ -6,7 +6,7 @@ import {
   CostCenter,
   ApiDetailedOrder,
   ApiApprovalLevelsResponse,
-  ApiCostCenterResponse,
+  ApiCostCenter,
 } from "@/types/order";
 import {
   transformApiDetailedOrder,
@@ -69,10 +69,10 @@ export const useOrderDetails = ({
     isLoading: isLoadingCostCenters,
     error: costCentersError,
     refetch: refetchCostCenters,
-  } = useQuery<ApiCostCenterResponse>({
-    queryKey: ["costCenters", orderId],
+  } = useQuery<ApiCostCenter[]>({
+    queryKey: ["costCenters", orderId, branch],
     queryFn: () => orderService.getCostCenterDetails(orderId, branch),
-    enabled: enabled && !!orderId,
+    enabled: enabled && !!orderId && !!branch,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -85,8 +85,8 @@ export const useOrderDetails = ({
     ? transformApiApprovalLevels(rawApprovalLevels.levels)
     : undefined;
 
-  const costCenters = rawCostCenters?.costCenters
-    ? transformApiCostCenters(rawCostCenters.costCenters)
+  const costCenters = rawCostCenters
+    ? transformApiCostCenters(rawCostCenters)
     : undefined;
 
   // Combine refetch functions

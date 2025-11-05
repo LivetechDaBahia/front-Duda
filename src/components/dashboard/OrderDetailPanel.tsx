@@ -57,16 +57,39 @@ const statusColors = {
 };
 
 const getApprovalIcon = (status: string) => {
-  switch (status) {
+  const s = (status || "").toString().toLowerCase().trim();
+  switch (s) {
+    // Approved
     case "03":
     case "05":
+    case "aprovado":
+    case "aprovada":
+    case "approved":
       return <CheckCircle className="h-6 w-6 text-[hsl(var(--success))]" />;
+
+    // Rejected
     case "06":
     case "07":
+    case "rejeitado":
+    case "rejeitada":
+    case "rejected":
       return <XCircle className="h-6 w-6 text-destructive" />;
+
+    // Waiting/Pending/Blocked
     case "01":
     case "02":
+    case "04":
+    case "pendente":
+    case "aguardando":
+    case "aguardando nível anterior":
+    case "aguardando nivel anterior":
+    case "waiting":
+    case "pending":
+    case "blocked":
+    case "bloqueado":
+    case "bloqueada":
       return <Clock className="h-6 w-6 text-warning" />;
+
     default:
       return <AlertCircle className="h-6 w-6 text-muted-foreground" />;
   }

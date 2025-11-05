@@ -17,6 +17,7 @@ interface OrderFiltersProps {
   onFilterChange: (filters: FilterValues) => void;
   branches: Branch[];
   isLoadingBranches?: boolean;
+  selectedBranch?: string;
 }
 
 export interface FilterValues {
@@ -31,6 +32,7 @@ export const OrderFilters = ({
   onFilterChange,
   branches,
   isLoadingBranches = false,
+  selectedBranch,
 }: OrderFiltersProps) => {
   const { t } = useLocale();
   const [search, setSearch] = useState("");
@@ -40,9 +42,35 @@ export const OrderFilters = ({
   const [dateTo, setDateTo] = useState<Date | undefined>();
   const [showFilters, setShowFilters] = useState(false);
 
-  // Set default branch to first branch when branches are loaded
+  // Keep local branch in sync with selectedBranch and choose sensible default
   useEffect(() => {
-    if (branches.length > 0 && !branch) {
+    if (branches.length === 0) return;
+
+    // If parent provides a selectedBranch
+    if (selectedBranch) {
+      const exists = branches.some((b) => b.code === selectedBranch);
+      if (exists) {
+        // Sync local state to prop, but do not notify parent (source of truth)
+        if (branch !== selectedBranch) {
+          setBranch(selectedBranch);
+        }
+        return;
+      }
+      // If selectedBranch is invalid (not in list), fall back to first and notify parent
+      const firstBranch = branches[0].code;
+      setBranch(firstBranch);
+      onFilterChange({
+        search,
+        status,
+        branch: firstBranch,
+        dateFrom,
+        dateTo,
+      });
+      return;
+    }
+
+    // No selectedBranch from parent and local branch empty: default to first and notify parent
+    if (!branch) {
       const firstBranch = branches[0].code;
       setBranch(firstBranch);
       onFilterChange({
@@ -53,7 +81,7 @@ export const OrderFilters = ({
         dateTo,
       });
     }
-  }, [branches]);
+  }, [branches, selectedBranch]);
 
   const handleApplyFilters = () => {
     onFilterChange({

@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useOrders } from "@/hooks/useOrders";
-import { useCredits } from "@/hooks/useCredits";
 import { usePermissions } from "@/hooks/usePermissions";
 import { mapUIStatusToAPITypes } from "@/lib/statusMapper";
 import { PendingItem } from "@/types/order";
@@ -21,14 +20,7 @@ export const usePendingItems = () => {
     enabled: canManagePurchaseOrders, // Only fetch if user has permission
   });
 
-  // Fetch credits only if user has permissions
-  const {
-    credits,
-    isLoading: creditsLoading,
-    error: creditsError,
-  } = useCredits({
-    enabled: canManageCredit, // Only fetch if user has permission
-  });
+  // Note: Credit items fetching is intentionally disabled on the Welcome page for now.
 
   // Transform and combine pending items
   const pendingItems = useMemo((): PendingItem[] => {
@@ -58,37 +50,14 @@ export const usePendingItems = () => {
       );
     }
 
-    // Add credit items if user has permissions
-    if (canManageCredit) {
-      // Filter credits that need approval (adjust status check based on your credit workflow)
-      const pendingCredits = credits.filter(
-        (credit) => credit.statusId === "pending" || credit.statusId === "01",
-      );
-
-      items.push(
-        ...pendingCredits.map((credit) => ({
-          id: credit.id.toString(),
-          type: "credit" as const,
-          title: credit.name,
-          supplierOrClient: credit.details.client,
-          value: credit.details.value,
-          coinSymbol: credit.details.currency,
-          createdAt: credit.details.date.toISOString(),
-          description: credit.details.offer,
-          status: credit.statusId,
-          branch: credit.details.clientBranch,
-          needsApproval: true,
-          originalData: credit,
-        })),
-      );
-    }
+    // Intentionally skip credit items for now.
 
     // Sort by creation date (newest first)
     return items.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
-  }, [canManagePurchaseOrders, canManageCredit, orders, credits]);
+  }, [canManagePurchaseOrders, orders]);
 
   // Calculate urgent items (pending + more than 3 days old)
   const urgentItems = useMemo(() => {
@@ -106,11 +75,9 @@ export const usePendingItems = () => {
     return pendingItems.reduce((sum, item) => sum + item.value, 0);
   }, [pendingItems]);
 
-  const isLoading =
-    (canManagePurchaseOrders && ordersLoading) ||
-    (canManageCredit && creditsLoading);
+  const isLoading = canManagePurchaseOrders && ordersLoading;
 
-  const error = ordersError || creditsError;
+  const error = ordersError;
 
   return {
     pendingItems,

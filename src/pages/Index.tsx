@@ -156,6 +156,7 @@ const Index = () => {
             onFilterChange={setFilters}
             branches={branches}
             isLoadingBranches={isLoadingBranches}
+            selectedBranch={filters.branch}
           />
         </div>
 

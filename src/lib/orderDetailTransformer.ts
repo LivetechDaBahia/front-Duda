@@ -40,8 +40,13 @@ const getStatusDescription = (statusCode: string): string => {
       return "Rejected";
     case "07":
       return "Rejected/Blocked by Other Approver";
-    default:
+    default: {
+      // If API already returns a human-readable status (e.g., "Aprovado"), use it.
+      if (typeof statusCode === "string" && statusCode.trim().length > 0) {
+        return statusCode;
+      }
       return "Unknown";
+    }
   }
 };
 
