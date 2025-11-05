@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { KanbanView } from "@/components/dashboard/KanbanView";
 import { TableView } from "@/components/dashboard/TableView";
@@ -93,10 +93,10 @@ const Index = () => {
     return filteredOrders.slice(startIndex, endIndex);
   }, [filteredOrders, currentPage, itemsPerPage]);
 
-  // Reset to page 1 when filters change
-  useMemo(() => {
+  // Reset to page 1 when filters or results change (e.g., switching branch)
+  useEffect(() => {
     setCurrentPage(1);
-  }, [filters]);
+  }, [filters, filteredOrders.length]);
 
   const handleOrderClick = (order: PurchaseOrder) => {
     setSelectedOrder(order);

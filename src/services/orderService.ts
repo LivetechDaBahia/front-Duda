@@ -43,8 +43,8 @@ export const orderService = {
   },
 
   // Fetch cost center details for an order
-  async getCostCenterDetails(orderId: string): Promise<ApiCostCenterResponse> {
-    return apiClient.get(`/purchaseOrders/costCenter/${orderId}`);
+  async getCostCenterDetails(orderId: string, branch: string): Promise<ApiCostCenterResponse> {
+    return apiClient.get(`/purchaseOrders/costCenter/${orderId}/${branch}`);
   },
 
   // Approve order
@@ -71,10 +71,6 @@ export const orderService = {
     });
   },
 
-  // Create new order
-  async createOrder(order: any): Promise<any> {
-    return apiClient.post("/purchaseOrders", order);
-  },
 
   // Fetch branches
   async getBranches(): Promise<Branch[]> {

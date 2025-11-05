@@ -71,7 +71,7 @@ export const useOrderDetails = ({
     refetch: refetchCostCenters,
   } = useQuery<ApiCostCenterResponse>({
     queryKey: ["costCenters", orderId],
-    queryFn: () => orderService.getCostCenterDetails(orderId),
+    queryFn: () => orderService.getCostCenterDetails(orderId, branch),
     enabled: enabled && !!orderId,
     staleTime: 5 * 60 * 1000,
   });
