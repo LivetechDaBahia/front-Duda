@@ -71,6 +71,26 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
     enabled: params?.enabled !== false && !!user?.email, // Respect enabled flag
   });
 
+  // Helper: compute the branch id (tenant,branch) expected by backend
+  const resolveBranchId = (order: PurchaseOrder): string => {
+    const tenantParam = params?.tenantId;
+    const tenant = tenantParam?.split(",")[0] || "01";
+
+    // If tenant param already includes branch, prefer it
+    if (tenantParam && tenantParam.includes(",")) {
+      return tenantParam;
+    }
+
+    const orderBranch = order.branch || "";
+    if (!orderBranch) return tenant; // fallback to tenant only
+
+    // If order branch already contains tenant, return as is
+    if (orderBranch.includes(",")) return orderBranch;
+
+    // Combine tenant and branch
+    return `${tenant},${orderBranch}`;
+  };
+
   const approveMutation = useMutation({
     mutationFn: (orderId: string) => {
       if (!user?.email) {
@@ -82,9 +102,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("Order not found");
       }
 
+      const branch = resolveBranchId(order);
+
       return orderService.approveOrder({
         orderId,
-        branch: params.tenantId,
+        branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -111,9 +133,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("Order not found");
       }
 
+      const branch = resolveBranchId(order);
+
       return orderService.rejectOrder({
         orderId,
-        branch: params.tenantId,
+        branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -141,14 +165,15 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("Order not found");
       }
 
+      const branch = resolveBranchId(order);
+
       return orderService.revertOrder({
         orderId,
-        branch: params.tenantId,
+        branch,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
         email: user.email,
-        reversion: true,
       });
     },
     onSuccess: () => {
