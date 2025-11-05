@@ -84,7 +84,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       return orderService.approveOrder({
         orderId,
-        branch: order.branch,
+        branch: params.tenantId,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -113,7 +113,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       return orderService.rejectOrder({
         orderId,
-        branch: order.branch,
+        branch: params.tenantId,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
@@ -143,7 +143,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
 
       return orderService.revertOrder({
         orderId,
-        branch: order.branch,
+        branch: params.tenantId,
         type: "PC",
         approvalUserCode: "",
         systemUserCode: "",
