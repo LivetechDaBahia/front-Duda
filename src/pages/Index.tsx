@@ -45,7 +45,7 @@ const Index = () => {
       dateBegin: formatDateForAPI(filters.dateFrom),
       dateEnd: formatDateForAPI(filters.dateTo),
       types: mapUIStatusToAPITypes(filters.status),
-      tenantId: "01",
+      tenantId: filters.branch || "01",
     });
 
   const { branches, isLoading: isLoadingBranches } = useBranches();
@@ -65,14 +65,6 @@ const Index = () => {
 
       // Status filter
       if (filters.status !== "all" && order.status !== filters.status) {
-        return false;
-      }
-
-      // Branch filter
-      if (
-        filters.branch &&
-        !order.branch.toLowerCase().includes(filters.branch.toLowerCase())
-      ) {
         return false;
       }
 
