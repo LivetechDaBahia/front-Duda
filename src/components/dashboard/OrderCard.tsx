@@ -1,10 +1,16 @@
-import { PurchaseOrder, UIOrderStatus } from "@/types/order";
+import { PurchaseOrder, isOrderLocked } from "@/types/order";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, DollarSign, User, RotateCcw } from "lucide-react";
+import { Calendar, DollarSign, User, RotateCcw, Lock } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDateDDMMYYYY } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface OrderCardProps {
   order: PurchaseOrder;
@@ -27,18 +33,27 @@ export const OrderCard = ({
   onRevertOrder,
 }: OrderCardProps) => {
   const { t } = useLocale();
+  const isLocked = isOrderLocked(order);
 
   const handleDragStart = (e: React.DragEvent) => {
+    if (isLocked) {
+      e.preventDefault();
+      return;
+    }
     if (onDragStart) {
       onDragStart(e, order.id);
     }
   };
 
-  return (
+  const cardContent = (
     <Card
-      className="p-4 cursor-grab active:cursor-grabbing transition-all hover:shadow-md hover:scale-[1.02] animate-scale-in bg-gradient-to-br from-card to-card/50 w-full"
+      className={`p-4 transition-all hover:shadow-md animate-scale-in bg-gradient-to-br from-card to-card/50 w-full ${
+        isLocked
+          ? "opacity-60 cursor-not-allowed"
+          : "cursor-grab active:cursor-grabbing hover:scale-[1.02]"
+      }`}
       onClick={onClick}
-      draggable={!!onDragStart}
+      draggable={!isLocked && !!onDragStart}
       onDragStart={handleDragStart}
     >
       <div className="space-y-3">
@@ -50,9 +65,16 @@ export const OrderCard = ({
               {order.supplierName}
             </p>
           </div>
-          <Badge className={statusColors[order.status]}>
-            {t(`status.${order.status}`)}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge className={statusColors[order.status]}>
+              {t(`status.${order.status}`)}
+            </Badge>
+            {isLocked && (
+              <Badge className="bg-muted text-muted-foreground border-muted-foreground/20">
+                <Lock className="w-3 h-3" />
+              </Badge>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2 text-sm">
@@ -97,4 +119,19 @@ export const OrderCard = ({
       </div>
     </Card>
   );
+
+  if (isLocked) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>{cardContent}</TooltipTrigger>
+          <TooltipContent>
+            <p>{t("order.lockedTooltip")}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return cardContent;
 };

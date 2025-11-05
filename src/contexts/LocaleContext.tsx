@@ -122,6 +122,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Revert to Pending",
     "order.approve": "Approve",
     "order.decline": "Decline",
+    "order.lockedTooltip": "This order is awaiting approval from a previous level",
+    "order.waitingPreviousLevel": "Waiting Previous Level",
 
     // Order Details
     "orderDetail.title": "Purchase Order Details",
@@ -528,6 +530,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Reverter para Pendente",
     "order.approve": "Aprovar",
     "order.decline": "Recusar",
+    "order.lockedTooltip": "Este pedido está aguardando aprovação de um nível anterior",
+    "order.waitingPreviousLevel": "Aguardando Nível Anterior",
 
     // Order Details
     "orderDetail.title": "Detalhes do Pedido de Compra",
@@ -938,6 +942,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Revertir a Pendiente",
     "order.approve": "Aprobar",
     "order.decline": "Rechazar",
+    "order.lockedTooltip": "Este pedido está esperando la aprobación de un nivel anterior",
+    "order.waitingPreviousLevel": "Esperando Nivel Anterior",
 
     // Order Details
     "orderDetail.title": "Detalles de la Orden de Compra",

@@ -48,6 +48,7 @@ export const transformIssueToOrder = (
     value: issue.ReleaseValue || issue.CoinValue || 0,
     coinSymbol: issue.CoinSymbol || "$",
     status: uiStatus,
+    statusCode: issue.StatusCode, // Preserve original status code
     items: 1, // Each issue is one item
     createdAt: emissionDate,
     dueDate: emissionDate, // Use emission as dueDate since it's not provided

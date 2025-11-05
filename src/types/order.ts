@@ -86,6 +86,7 @@ export interface PurchaseOrder {
   value: number;
   coinSymbol: string;
   status: UIOrderStatus;
+  statusCode?: string; // Original API status code
   items: number;
   createdAt: string;
   dueDate: string;
@@ -242,3 +243,8 @@ export interface CostCenter {
   totalValue: number;
   percentage: number;
 }
+
+// Helper function to check if order is locked (waiting previous level)
+export const isOrderLocked = (order: PurchaseOrder): boolean => {
+  return order.statusCode === ORDER_STATUS.WAITING_PREVIOUS_LEVEL;
+};

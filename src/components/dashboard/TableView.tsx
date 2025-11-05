@@ -1,4 +1,4 @@
-import { PurchaseOrder, UIOrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus, isOrderLocked } from "@/types/order";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowUpDown, CheckCircle, XCircle, RotateCcw } from "lucide-react";
+import { ArrowUpDown, CheckCircle, XCircle, RotateCcw, Lock } from "lucide-react";
 import { useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
 import {
@@ -20,6 +20,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { formatDateDDMMYYYY } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TableViewProps {
   orders: PurchaseOrder[];
@@ -173,13 +179,29 @@ export const TableView = ({
                 onClick={() => onOrderClick(order)}
                 className="cursor-pointer"
               >
-                <Badge
-                  className={
-                    statusColors[order.status as keyof typeof statusColors]
-                  }
-                >
-                  {t(`status.${order.status}`)}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge
+                    className={
+                      statusColors[order.status as keyof typeof statusColors]
+                    }
+                  >
+                    {t(`status.${order.status}`)}
+                  </Badge>
+                  {isOrderLocked(order) && (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Badge className="bg-muted text-muted-foreground border-muted-foreground/20">
+                            <Lock className="w-3 h-3" />
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("order.lockedTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </div>
               </TableCell>
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
@@ -189,6 +211,7 @@ export const TableView = ({
                       size="sm"
                       className="h-8"
                       onClick={(e) => e.stopPropagation()}
+                      disabled={isOrderLocked(order)}
                     >
                       {t("table.actions")}
                       <ChevronDown className="ml-2 h-4 w-4" />

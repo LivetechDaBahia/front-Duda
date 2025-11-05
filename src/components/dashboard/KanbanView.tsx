@@ -1,4 +1,4 @@
-import { PurchaseOrder, UIOrderStatus } from "@/types/order";
+import { PurchaseOrder, UIOrderStatus, isOrderLocked } from "@/types/order";
 import { OrderCard } from "./OrderCard";
 import { useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext.tsx";
@@ -54,6 +54,13 @@ export const KanbanView = ({
   const handleDrop = (e: React.DragEvent, newStatus: UIOrderStatus) => {
     e.preventDefault();
     if (draggedOrderId) {
+      const draggedOrder = orders.find((o) => o.id === draggedOrderId);
+      if (draggedOrder && isOrderLocked(draggedOrder)) {
+        // Don't allow status change for locked orders
+        setDraggedOrderId(null);
+        setDragOverColumn(null);
+        return;
+      }
       onStatusChange(draggedOrderId, newStatus);
     }
     setDraggedOrderId(null);
