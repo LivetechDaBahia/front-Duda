@@ -45,7 +45,7 @@ const Index = () => {
       dateBegin: formatDateForAPI(filters.dateFrom),
       dateEnd: formatDateForAPI(filters.dateTo),
       types: mapUIStatusToAPITypes(filters.status),
-      tenantId: filters.branch || "01",
+      tenantId: filters.branch ? `01,${filters.branch}` : "01",
     });
 
   const { branches, isLoading: isLoadingBranches } = useBranches();
