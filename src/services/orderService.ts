@@ -30,17 +30,32 @@ export const orderService = {
     });
     const url = `/purchaseOrders?${params}`;
     if (isDev) {
-      console.log("[orderService] getOrders", { url, email, dateBegin, dateEnd, types, tenantId });
+      console.log("[orderService] getOrders", {
+        url,
+        email,
+        dateBegin,
+        dateEnd,
+        types,
+        tenantId,
+      });
     }
     return apiClient.get(url);
   },
 
   // Fetch a single order by ID
-  async getOrderById(orderId: string, branch: string): Promise<ApiDetailedOrder> {
-      const branchId = `01,${branch}`;
+  async getOrderById(
+    orderId: string,
+    branch: string,
+  ): Promise<ApiDetailedOrder> {
+    const branchId = `01,${branch}`;
     const url = `/purchaseOrders/${orderId}/${branchId}`;
     if (isDev) {
-      console.log("[orderService] getOrderById", { orderId, inputBranch: branch, branchId, url });
+      console.log("[orderService] getOrderById", {
+        orderId,
+        inputBranch: branch,
+        branchId,
+        url,
+      });
     }
     return apiClient.get(url);
   },
@@ -71,10 +86,17 @@ export const orderService = {
   },
 
   // Fetch cost center details for an order
-  async getCostCenterDetails(orderId: string, branch: string): Promise<ApiCostCenter[]> {
+  async getCostCenterDetails(
+    orderId: string,
+    branch: string,
+  ): Promise<ApiCostCenter[]> {
     const url = `/purchaseOrders/costCenter/${orderId}/${branch}`;
     if (isDev) {
-      console.log("[orderService] getCostCenterDetails", { url, orderId, branch });
+      console.log("[orderService] getCostCenterDetails", {
+        url,
+        orderId,
+        branch,
+      });
     }
     return apiClient.get(url);
   },
@@ -103,13 +125,14 @@ export const orderService = {
   async revertOrder(
     dto: ApprovePurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
-    const finalDto = { ...dto, reversion: true } as ApprovePurchaseOrderDto & { reversion: true };
+    const finalDto = { ...dto, reversion: true } as ApprovePurchaseOrderDto & {
+      reversion: true;
+    };
     if (isDev) {
       console.log("[orderService] revertOrder", { inDto: dto, finalDto });
     }
     return apiClient.post("/purchaseOrders/approve", finalDto);
   },
-
 
   // Fetch branches
   async getBranches(): Promise<Branch[]> {

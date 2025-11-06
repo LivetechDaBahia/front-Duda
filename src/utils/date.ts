@@ -52,7 +52,7 @@ export function toDateNoTZShift(value: DateInput): Date | null {
 export function formatDate(
   value: DateInput,
   loc?: string,
-  options: Intl.DateTimeFormatOptions = { dateStyle: "medium" }
+  options: Intl.DateTimeFormatOptions = { dateStyle: "medium" },
 ): string {
   const d = toDateNoTZShift(value);
   if (!d) return "-";
@@ -62,7 +62,7 @@ export function formatDate(
   }
   // Prefer provided locale, otherwise browser locale (when available)
   const resolvedLocale = normalizeLocale(
-    loc || (typeof navigator !== "undefined" ? navigator.language : undefined)
+    loc || (typeof navigator !== "undefined" ? navigator.language : undefined),
   );
   try {
     return new Intl.DateTimeFormat(resolvedLocale, options).format(d);

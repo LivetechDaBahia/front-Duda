@@ -15,7 +15,6 @@ interface Notification {
 const notifications: Notification[] = [];
 
 export const NotificationsSection = () => {
-
   const getNotificationIcon = (type: Notification["type"]) => {
     switch (type) {
       case "urgent":

@@ -179,7 +179,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       if (isDev) {
         console.log("[useOrders] approve.mutationFn payload", {
           dto,
-          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+          context: {
+            orderId,
+            orderBranch: order.branch,
+            tenantParam: params?.tenantId,
+          },
         });
       }
       return orderService.approveOrder(dto);
@@ -220,7 +224,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       if (isDev) {
         console.log("[useOrders] decline.mutationFn payload", {
           dto,
-          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+          context: {
+            orderId,
+            orderBranch: order.branch,
+            tenantParam: params?.tenantId,
+          },
         });
       }
       return orderService.rejectOrder(dto);
@@ -260,7 +268,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       if (isDev) {
         console.log("[useOrders] revert.mutationFn payload", {
           dto,
-          context: { orderId, orderBranch: order.branch, tenantParam: params?.tenantId },
+          context: {
+            orderId,
+            orderBranch: order.branch,
+            tenantParam: params?.tenantId,
+          },
         });
       }
       return orderService.revertOrder(dto);

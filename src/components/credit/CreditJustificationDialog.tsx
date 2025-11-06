@@ -47,14 +47,13 @@ export const CreditJustificationDialog = ({
         <DialogHeader>
           <DialogTitle>{t("credit.justifyStatusChange")}</DialogTitle>
           <DialogDescription>
-            {t("credit.justifyStatusChangeDescription")} <strong>{statusName}</strong>
+            {t("credit.justifyStatusChangeDescription")}{" "}
+            <strong>{statusName}</strong>
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="justification">
-              {t("credit.justification")}
-            </Label>
+            <Label htmlFor="justification">{t("credit.justification")}</Label>
             <Textarea
               id="justification"
               value={justification}
@@ -76,10 +75,7 @@ export const CreditJustificationDialog = ({
           <Button variant="outline" onClick={handleCancel}>
             {t("common.cancel")}
           </Button>
-          <Button
-            onClick={handleConfirm}
-            disabled={!justification.trim()}
-          >
+          <Button onClick={handleConfirm} disabled={!justification.trim()}>
             {t("common.confirm")}
           </Button>
         </DialogFooter>

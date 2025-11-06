@@ -44,7 +44,10 @@ export const transformIssueToOrder = (
   const emissionDate = convertBrazilianDateToISO(issue.Emission);
 
   if (isDev && (!branch || typeof branch !== "string")) {
-    console.warn("[orderTransformer] transformIssueToOrder: missing/invalid branch", { branch, issueDocument: issue.Document });
+    console.warn(
+      "[orderTransformer] transformIssueToOrder: missing/invalid branch",
+      { branch, issueDocument: issue.Document },
+    );
   }
 
   return {

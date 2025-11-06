@@ -100,7 +100,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Purchase Orders",
-    "dashboard.subtitle": "Manage and track all your purchase orders, drag the items to change their status.",
+    "dashboard.subtitle":
+      "Manage and track all your purchase orders, drag the items to change their status.",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Table",
 
@@ -122,7 +123,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Revert to Pending",
     "order.approve": "Approve",
     "order.decline": "Decline",
-    "order.lockedTooltip": "This order is awaiting approval from a previous level",
+    "order.lockedTooltip":
+      "This order is awaiting approval from a previous level",
     "order.waitingPreviousLevel": "Waiting Previous Level",
 
     // Order Details
@@ -344,7 +346,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.foundation": "Foundation Date",
     "credit.lastPurchase": "Last Purchase",
     "credit.justifyStatusChange": "Justify Status Change",
-    "credit.justifyStatusChangeDescription": "Please explain why you are moving this credit to",
+    "credit.justifyStatusChangeDescription":
+      "Please explain why you are moving this credit to",
     "credit.justification": "Justification",
     "credit.justificationPlaceholder": "Enter your reason (max 50 characters)",
     "credit.emissionDate": "Emission Date",
@@ -532,7 +535,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Reverter para Pendente",
     "order.approve": "Aprovar",
     "order.decline": "Recusar",
-    "order.lockedTooltip": "Este pedido está aguardando aprovação de um nível anterior",
+    "order.lockedTooltip":
+      "Este pedido está aguardando aprovação de um nível anterior",
     "order.waitingPreviousLevel": "Aguardando Nível Anterior",
 
     // Order Details
@@ -777,7 +781,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.store": "Loja",
     "credit.id": "Código",
     "credit.justifyStatusChange": "Justificar Mudança de Status",
-    "credit.justifyStatusChangeDescription": "Por favor, explique por que você está movendo este crédito para",
+    "credit.justifyStatusChangeDescription":
+      "Por favor, explique por que você está movendo este crédito para",
     "credit.justification": "Justificativa",
     "credit.justificationPlaceholder": "Digite sua razão (máx 50 caracteres)",
     "credit.items": "itens",
@@ -924,7 +929,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Órdenes de Compra",
-    "dashboard.subtitle": "Gestiona y rastrea todas tus órdenes de compra, arrastra los elementos para cambiar su estado.",
+    "dashboard.subtitle":
+      "Gestiona y rastrea todas tus órdenes de compra, arrastra los elementos para cambiar su estado.",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Tabla",
 
@@ -946,7 +952,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "order.revertToPending": "Revertir a Pendiente",
     "order.approve": "Aprobar",
     "order.decline": "Rechazar",
-    "order.lockedTooltip": "Este pedido está esperando la aprobación de un nivel anterior",
+    "order.lockedTooltip":
+      "Este pedido está esperando la aprobación de un nivel anterior",
     "order.waitingPreviousLevel": "Esperando Nivel Anterior",
 
     // Order Details
@@ -1162,7 +1169,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.store": "Tienda",
     "credit.id": "Id",
     "credit.justifyStatusChange": "Justificar Cambio de Estado",
-    "credit.justifyStatusChangeDescription": "Por favor, explique por qué está moviendo este crédito a",
+    "credit.justifyStatusChangeDescription":
+      "Por favor, explique por qué está moviendo este crédito a",
     "credit.justification": "Justificación",
     "credit.justificationPlaceholder": "Ingrese su razón (máx 50 caracteres)",
     "credit.documents": "Documentos",

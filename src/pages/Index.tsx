@@ -110,7 +110,11 @@ const Index = () => {
   }, [filters, filteredOrders.length]);
 
   const handleOrderClick = (order: PurchaseOrder) => {
-    if (isDev) console.log("[Index] handleOrderClick", { orderId: order.id, orderBranch: order.branch });
+    if (isDev)
+      console.log("[Index] handleOrderClick", {
+        orderId: order.id,
+        orderBranch: order.branch,
+      });
     setSelectedOrder(order);
     setIsPanelOpen(true);
   };
@@ -134,7 +138,10 @@ const Index = () => {
   const handleRevertOrder = (orderId: string) => {
     if (isDev) {
       const ord = orders.find((o) => o.id === orderId);
-      console.log("[Index] handleRevertOrder", { orderId, orderBranch: ord?.branch });
+      console.log("[Index] handleRevertOrder", {
+        orderId,
+        orderBranch: ord?.branch,
+      });
     }
     revertOrder(orderId);
   };

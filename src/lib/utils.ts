@@ -27,7 +27,9 @@ export function normalizeLocale(loc?: string): string | undefined {
   return `${parts[0].toLowerCase()}-${parts[1].toUpperCase()}`;
 }
 
-export function toDateNoTZShift(value: Date | string | number | null): Date | null {
+export function toDateNoTZShift(
+  value: Date | string | number | null,
+): Date | null {
   if (!value) return null;
   if (value instanceof Date) {
     return isNaN(value.getTime()) ? null : value;
@@ -52,7 +54,7 @@ export function toDateNoTZShift(value: Date | string | number | null): Date | nu
 export function formatDate(
   value: Date | string | number | null,
   loc?: string,
-  options: Intl.DateTimeFormatOptions = { dateStyle: "medium" }
+  options: Intl.DateTimeFormatOptions = { dateStyle: "medium" },
 ): string {
   const d = toDateNoTZShift(value);
   if (!d) return "-";
@@ -61,7 +63,7 @@ export function formatDate(
     return "-";
   }
   const resolvedLocale = normalizeLocale(
-    loc || (typeof navigator !== "undefined" ? navigator.language : undefined)
+    loc || (typeof navigator !== "undefined" ? navigator.language : undefined),
   );
   try {
     return new Intl.DateTimeFormat(resolvedLocale, options).format(d);

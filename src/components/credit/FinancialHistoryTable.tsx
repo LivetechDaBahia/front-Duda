@@ -42,7 +42,6 @@ export function FinancialHistoryTable({
     }
   };
 
-
   const getStatusVariant = (
     status: string,
   ): "default" | "secondary" | "destructive" | "outline" => {

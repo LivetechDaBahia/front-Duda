@@ -159,7 +159,6 @@ export const CreditDetailPanel = ({
     }
   };
 
-
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="sm:max-w-2xl overflow-y-auto">
@@ -233,7 +232,7 @@ export const CreditDetailPanel = ({
                     <span className="text-muted-foreground">
                       {t("credit.group")}:
                     </span>
-                    <p className="font-medium">{credit.group}</p>
+                    <p className="font-medium">{credit.details.sellerGroup}</p>
                   </div>
                 </div>
               </div>
@@ -249,7 +248,10 @@ export const CreditDetailPanel = ({
                     {t("credit.salesOrderDetails")}
                   </h3>
                   {elementDetailsList.map((el, idx) => (
-                    <div key={`${el.branch}-${el.id}-${idx}`} className="grid grid-cols-2 gap-3 text-sm border rounded-md p-3">
+                    <div
+                      key={`${el.branch}-${el.id}-${idx}`}
+                      className="grid grid-cols-2 gap-3 text-sm border rounded-md p-3"
+                    >
                       <div>
                         <span className="text-muted-foreground">
                           {t("credit.branch")}:
@@ -266,13 +268,17 @@ export const CreditDetailPanel = ({
                         <span className="text-muted-foreground">
                           {t("credit.emissionDate")}:
                         </span>
-                        <p className="font-medium">{formatDate(el.emissionDate, locale)}</p>
+                        <p className="font-medium">
+                          {formatDate(el.emissionDate, locale)}
+                        </p>
                       </div>
                       <div>
                         <span className="text-muted-foreground">
                           {t("credit.value")}:
                         </span>
-                        <p className="font-medium">{formatCurrency(el.value)}</p>
+                        <p className="font-medium">
+                          {formatCurrency(el.value)}
+                        </p>
                       </div>
                       <div>
                         <span className="text-muted-foreground">
@@ -284,15 +290,21 @@ export const CreditDetailPanel = ({
                         <span className="text-muted-foreground">
                           {t("credit.shippingCost")}:
                         </span>
-                        <p className="font-medium">{formatCurrency(el.shippingCost)}</p>
+                        <p className="font-medium">
+                          {formatCurrency(el.shippingCost)}
+                        </p>
                       </div>
                       {(el.message1 || el.message2 || el.standardMessage) && (
                         <div className="col-span-2">
                           <span className="text-muted-foreground">
                             {t("credit.message")}:
                           </span>
-                          {el.message1 && <p className="font-medium">{el.message1}</p>}
-                          {el.message2 && <p className="font-medium">{el.message2}</p>}
+                          {el.message1 && (
+                            <p className="font-medium">{el.message1}</p>
+                          )}
+                          {el.message2 && (
+                            <p className="font-medium">{el.message2}</p>
+                          )}
                           {el.standardMessage && (
                             <p className="font-medium">{el.standardMessage}</p>
                           )}
@@ -433,18 +445,22 @@ export const CreditDetailPanel = ({
                         </span>
                         <p className="font-medium">{clientDetails.cpfCnpj}</p>
                       </div>
-                        <div>
+                      <div>
                         <span className="text-muted-foreground">
                           {t("credit.foundation")}:
                         </span>
-                            <p className="font-medium">{formatDate(clientDetails.foundationDate, locale)}</p>
-                        </div>
-                        <div>
+                        <p className="font-medium">
+                          {formatDate(clientDetails.foundationDate, locale)}
+                        </p>
+                      </div>
+                      <div>
                         <span className="text-muted-foreground">
                           {t("credit.lastPurchase")}:
                         </span>
-                            <p className="font-medium">{formatDate(clientDetails.lastPurchase, locale)}</p>
-                        </div>
+                        <p className="font-medium">
+                          {formatDate(clientDetails.lastPurchase, locale)}
+                        </p>
+                      </div>
                       <div className="col-span-2">
                         <span className="text-muted-foreground">
                           {t("credit.address")}:
@@ -632,7 +648,9 @@ export const CreditDetailPanel = ({
                           <TableCell>{client.id}</TableCell>
                           <TableCell>{client.branch}</TableCell>
                           <TableCell>{formatCurrency(client.lc)}</TableCell>
-                          <TableCell>{formatDate(client.dueDate, locale)}</TableCell>
+                          <TableCell>
+                            {formatDate(client.dueDate, locale)}
+                          </TableCell>
                           <TableCell>
                             <Badge variant="outline">{client.risk}</Badge>
                           </TableCell>

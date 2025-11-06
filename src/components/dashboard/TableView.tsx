@@ -8,7 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowUpDown, CheckCircle, XCircle, RotateCcw, Lock } from "lucide-react";
+import {
+  ArrowUpDown,
+  CheckCircle,
+  XCircle,
+  RotateCcw,
+  Lock,
+} from "lucide-react";
 import { useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
 import {
