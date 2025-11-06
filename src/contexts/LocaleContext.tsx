@@ -100,7 +100,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Purchase Orders",
-    "dashboard.subtitle": "Manage and track all your purchase orders",
+    "dashboard.subtitle": "Manage and track all your purchase orders, drag the items to change their status.",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Table",
 
@@ -336,7 +336,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.overview": "Overview",
     "credit.documents": "Documents",
     "credit.clientInfo": "Client Info",
-    "credit.elementInfo": "Element Information",
+    "credit.elementInfo": "Proposal information",
     "credit.salesOrderDetails": "Sales Order Details",
     "credit.branch": "Branch",
     "credit.store": "Store",
@@ -508,7 +508,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Dashboard
     "dashboard.title": "Pedidos de Compra",
     "dashboard.subtitle":
-      "Gerencie e acompanhe todas os seus Pedidos de compra",
+      "Gerencie e acompanhe todas os seus Pedidos de compra, arraste os itens para alterar o status.",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Tabela",
 
@@ -738,7 +738,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.overview": "Visão Geral",
     "credit.documents": "Documentos",
     "credit.clientInfo": "Info do Cliente",
-    "credit.elementInfo": "Informações do Elemento",
+    "credit.elementInfo": "Informações da Proposta",
     "credit.salesOrderDetails": "Detalhes do Pedido de Venda",
     "credit.branch": "Filial",
     "credit.emissionDate": "Data de Emissão",
@@ -920,7 +920,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Órdenes de Compra",
-    "dashboard.subtitle": "Gestiona y rastrea todas tus órdenes de compra",
+    "dashboard.subtitle": "Gestiona y rastrea todas tus órdenes de compra, arrastra los elementos para cambiar su estado.",
     "dashboard.viewKanban": "Kanban",
     "dashboard.viewTable": "Tabla",
 
@@ -1163,7 +1163,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.justificationPlaceholder": "Ingrese su razón (máx 50 caracteres)",
     "credit.documents": "Documentos",
     "credit.clientInfo": "Info del Cliente",
-    "credit.elementInfo": "Información del Elemento",
+    "credit.elementInfo": "Información de la Propuesta",
     "credit.salesOrderDetails": "Detalles del Pedido de Venta",
     "credit.branch": "Sucursal",
     "credit.emissionDate": "Fecha de Emisión",

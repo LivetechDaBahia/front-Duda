@@ -124,6 +124,9 @@ export const useCreditDetails = ({
     linkedClientsError;
 
   return {
+    // Full list as returned by API
+    elementDetailsList: elementDetails || [],
+    // Backward-compatible: first item (kept for older consumers)
     elementDetails: elementDetails?.[0] || null,
     documents: documents || [],
     quoteDocuments: quoteDocuments || [],

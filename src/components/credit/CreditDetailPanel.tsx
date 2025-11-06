@@ -25,12 +25,12 @@ import {
 import { useCreditDetails } from "@/hooks/useCreditDetails";
 import { useLocale } from "@/contexts/LocaleContext";
 import type { CreditElementItem } from "@/types/credit";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { FinancialHistoryFilters } from "@/components/credit/FinancialHistoryFilters";
 import { FinancialHistorySummary } from "@/components/credit/FinancialHistorySummary";
 import { FinancialHistoryTable } from "@/components/credit/FinancialHistoryTable";
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
+import { formatDate } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 
 interface CreditDetailPanelProps {
@@ -44,10 +44,11 @@ export const CreditDetailPanel = ({
   isOpen,
   onClose,
 }: CreditDetailPanelProps) => {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   const {
     elementDetails,
+    elementDetailsList,
     documents,
     quoteDocuments,
     clientDocuments,
@@ -158,10 +159,6 @@ export const CreditDetailPanel = ({
     }
   };
 
-  const formatDate = (date: Date | null) => {
-    if (!date) return "-";
-    return format(date, "PPP");
-  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -246,51 +243,63 @@ export const CreditDetailPanel = ({
                   <Skeleton className="h-4 w-full" />
                   <Skeleton className="h-4 w-3/4" />
                 </div>
-              ) : elementDetails ? (
+              ) : elementDetailsList && elementDetailsList.length > 0 ? (
                 <div className="space-y-3">
                   <h3 className="font-semibold">
                     {t("credit.salesOrderDetails")}
                   </h3>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">
-                        {t("credit.branch")}:
-                      </span>
-                      <p className="font-medium">{elementDetails.branch}</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">
-                        {t("credit.emissionDate")}:
-                      </span>
-                      <p className="font-medium">
-                        {formatDate(elementDetails.emissionDate)}
-                      </p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">
-                        {t("credit.shippingType")}:
-                      </span>
-                      <p className="font-medium">
-                        {elementDetails.shippingType}
-                      </p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">
-                        {t("credit.shippingCost")}:
-                      </span>
-                      <p className="font-medium">
-                        {formatCurrency(elementDetails.shippingCost)}
-                      </p>
-                    </div>
-                    {elementDetails.message1 && (
-                      <div className="col-span-2">
+                  {elementDetailsList.map((el, idx) => (
+                    <div key={`${el.branch}-${el.id}-${idx}`} className="grid grid-cols-2 gap-3 text-sm border rounded-md p-3">
+                      <div>
                         <span className="text-muted-foreground">
-                          {t("credit.message")}:
+                          {t("credit.branch")}:
                         </span>
-                        <p className="font-medium">{elementDetails.message1}</p>
+                        <p className="font-medium">{el.branch}</p>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.id")}:
+                        </span>
+                        <p className="font-medium">{el.id}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.emissionDate")}:
+                        </span>
+                        <p className="font-medium">{formatDate(el.emissionDate, locale)}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.value")}:
+                        </span>
+                        <p className="font-medium">{formatCurrency(el.value)}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.shippingType")}:
+                        </span>
+                        <p className="font-medium">{el.shippingType}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.shippingCost")}:
+                        </span>
+                        <p className="font-medium">{formatCurrency(el.shippingCost)}</p>
+                      </div>
+                      {(el.message1 || el.message2 || el.standardMessage) && (
+                        <div className="col-span-2">
+                          <span className="text-muted-foreground">
+                            {t("credit.message")}:
+                          </span>
+                          {el.message1 && <p className="font-medium">{el.message1}</p>}
+                          {el.message2 && <p className="font-medium">{el.message2}</p>}
+                          {el.standardMessage && (
+                            <p className="font-medium">{el.standardMessage}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               ) : null}
             </TabsContent>
@@ -424,6 +433,18 @@ export const CreditDetailPanel = ({
                         </span>
                         <p className="font-medium">{clientDetails.cpfCnpj}</p>
                       </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.foundation")}:
+                        </span>
+                            <p className="font-medium">{formatDate(clientDetails.foundationDate, locale)}</p>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.lastPurchase")}:
+                        </span>
+                            <p className="font-medium">{formatDate(clientDetails.lastPurchase, locale)}</p>
+                        </div>
                       <div className="col-span-2">
                         <span className="text-muted-foreground">
                           {t("credit.address")}:
@@ -611,7 +632,7 @@ export const CreditDetailPanel = ({
                           <TableCell>{client.id}</TableCell>
                           <TableCell>{client.branch}</TableCell>
                           <TableCell>{formatCurrency(client.lc)}</TableCell>
-                          <TableCell>{formatDate(client.dueDate)}</TableCell>
+                          <TableCell>{formatDate(client.dueDate, locale)}</TableCell>
                           <TableCell>
                             <Badge variant="outline">{client.risk}</Badge>
                           </TableCell>

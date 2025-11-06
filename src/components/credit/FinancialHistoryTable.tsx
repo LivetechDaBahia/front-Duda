@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { FinancialHistory } from "@/types/credit";
-import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocale } from "@/contexts/LocaleContext";
+import { formatDate } from "@/lib/utils";
 
 interface FinancialHistoryTableProps {
   data: FinancialHistory[];
@@ -21,7 +21,7 @@ export function FinancialHistoryTable({
   data,
   isLoading,
 }: FinancialHistoryTableProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   const formatCurrency = (value: number, currency: string) => {
     const currencyMap: Record<string, string> = {
@@ -42,14 +42,6 @@ export function FinancialHistoryTable({
     }
   };
 
-  const formatDate = (date: Date | null) => {
-    if (!date) return "-";
-    try {
-      return format(new Date(date), "dd/MM/yyyy");
-    } catch {
-      return "-";
-    }
-  };
 
   const getStatusVariant = (
     status: string,
@@ -112,10 +104,10 @@ export function FinancialHistoryTable({
               <TableCell>
                 <Badge variant="outline">{item.type}</Badge>
               </TableCell>
-              <TableCell>{formatDate(item.emission)}</TableCell>
-              <TableCell>{formatDate(item.dueDate)}</TableCell>
-              <TableCell>{formatDate(item.realDueDate)}</TableCell>
-              <TableCell>{formatDate(item.lastPaymentDate)}</TableCell>
+              <TableCell>{formatDate(item.emission, locale)}</TableCell>
+              <TableCell>{formatDate(item.dueDate, locale)}</TableCell>
+              <TableCell>{formatDate(item.realDueDate, locale)}</TableCell>
+              <TableCell>{formatDate(item.lastPaymentDate, locale)}</TableCell>
               <TableCell className="text-right font-medium">
                 {formatCurrency(item.value, item.currency)}
               </TableCell>
