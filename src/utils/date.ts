@@ -56,6 +56,10 @@ export function formatDate(
 ): string {
   const d = toDateNoTZShift(value);
   if (!d) return "-";
+  // Treat sentinel default date 1900-01-01 as empty
+  if (d.getFullYear() === 1900 && d.getMonth() === 0 && d.getDate() === 1) {
+    return "-";
+  }
   // Prefer provided locale, otherwise browser locale (when available)
   const resolvedLocale = normalizeLocale(
     loc || (typeof navigator !== "undefined" ? navigator.language : undefined)

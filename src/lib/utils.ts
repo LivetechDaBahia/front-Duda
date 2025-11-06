@@ -8,6 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 // Format date as DD/MM/YYYY
 export function formatDateDDMMYYYY(date: string | Date): string {
   const d = new Date(date);
+  if (isNaN(d.getTime())) return "-";
+  // Treat sentinel default date 01/01/1900 as empty
+  if (d.getFullYear() === 1900 && d.getMonth() === 0 && d.getDate() === 1) {
+    return "-";
+  }
   const day = String(d.getDate()).padStart(2, "0");
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const year = d.getFullYear();
@@ -51,6 +56,10 @@ export function formatDate(
 ): string {
   const d = toDateNoTZShift(value);
   if (!d) return "-";
+  // Treat sentinel default date 1900-01-01 as empty
+  if (d.getFullYear() === 1900 && d.getMonth() === 0 && d.getDate() === 1) {
+    return "-";
+  }
   const resolvedLocale = normalizeLocale(
     loc || (typeof navigator !== "undefined" ? navigator.language : undefined)
   );
