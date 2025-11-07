@@ -112,9 +112,11 @@ export const CreditCard = ({
       <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
+            <span className="text-muted-foreground">{t("credit.offer")}</span>
             <h3 className="font-semibold text-xs sm:text-sm truncate">
               {credit.details.offer}
             </h3>
+            <span className="text-muted-foreground">{t("credit.client")}</span>
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.client}/{credit.details.clientBranch}
             </p>

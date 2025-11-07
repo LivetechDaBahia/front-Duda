@@ -171,11 +171,11 @@ export const CreditDetailPanel = ({
         {credit && (
           <Tabs defaultValue="overview" className="mt-6">
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview">{t("credit.overview")}</TabsTrigger>
+              <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
               <TabsTrigger value="documents">
                 {t("credit.documents")}
               </TabsTrigger>
-              <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
+              <TabsTrigger value="overview">{t("credit.tabs.saleOrder")}</TabsTrigger>
               <TabsTrigger value="linkedClients">
                 {t("credit.linkedClients")}
               </TabsTrigger>
