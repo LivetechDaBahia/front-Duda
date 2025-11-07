@@ -6,6 +6,7 @@ import { CreditTableView } from "@/components/credit/CreditTableView";
 import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
 import { CreditLogsDialog } from "@/components/credit/CreditLogsDialog";
 import { CreditJustificationDialog } from "@/components/credit/CreditJustificationDialog";
+import { CreditAssignmentDialog } from "@/components/credit/CreditAssignmentDialog";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { creditService } from "@/services/creditService";
@@ -37,6 +38,8 @@ const Credit = () => {
     null,
   );
   const [loadingCreditId, setLoadingCreditId] = useState<number | null>(null);
+  const [assignmentDialogCredit, setAssignmentDialogCredit] =
+    useState<CreditElementItem | null>(null);
   const [justificationDialog, setJustificationDialog] = useState<{
     creditId: number;
     offerId: string;
@@ -258,10 +261,55 @@ const Credit = () => {
     }
   };
 
-  const handleActionsClick = (credit: CreditElementItem, action: string) => {
+  const handleActionsClick = async (
+    credit: CreditElementItem,
+    action: string,
+  ) => {
     if (action === "view-logs") {
       setLogsDialogCreditId(parseInt(credit.key));
+    } else if (action === "assign-to-me") {
+      // Self-assign directly
+      try {
+        setLoadingCreditId(credit.id);
+        await creditService.assignCreditItem({
+          itemId: credit.id.toString(),
+          // No assigneeEmail = assign to current user
+          flowId: credit.flowId,
+          key: credit.key,
+        });
+
+        toast({
+          title: "Item assigned",
+          description: "Successfully assigned to you.",
+        });
+
+        await refetchCredits();
+      } catch (error: any) {
+        if (error?.response?.status === 403) {
+          toast({
+            variant: "destructive",
+            title: "Permission denied",
+            description: "You can only assign unassigned items to yourself.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Assignment failed",
+            description: "Could not assign item. Please try again.",
+          });
+        }
+      } finally {
+        setLoadingCreditId(null);
+      }
+    } else if (action === "assign-item") {
+      // Open dialog for managers
+      setAssignmentDialogCredit(credit);
     }
+  };
+
+  const handleAssignSuccess = async () => {
+    setAssignmentDialogCredit(null);
+    await refetchCredits();
   };
 
   const isLoading = isLoadingCredits || isLoadingStatuses;
@@ -438,6 +486,13 @@ const Credit = () => {
           }
         }}
         onCancel={() => setJustificationDialog(null)}
+      />
+
+      <CreditAssignmentDialog
+        credit={assignmentDialogCredit}
+        isOpen={!!assignmentDialogCredit}
+        onClose={() => setAssignmentDialogCredit(null)}
+        onAssignSuccess={handleAssignSuccess}
       />
     </div>
   );

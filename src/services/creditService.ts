@@ -69,4 +69,13 @@ export const creditService = {
   async getCreditLogs(id: number): Promise<CreditLog[]> {
     return apiClient.get(`/credit/creditElement/logs/${id}`);
   },
+
+  async assignCreditItem(payload: {
+    itemId: string;
+    assigneeEmail?: string;
+    flowId?: string;
+    key?: string;
+  }): Promise<void> {
+    return apiClient.post("/credit/creditElement/assign", payload);
+  },
 };

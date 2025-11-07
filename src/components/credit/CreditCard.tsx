@@ -6,13 +6,16 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, History, Loader2 } from "lucide-react";
+import { MoreHorizontal, History, Loader2, User, UserPlus } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { format } from "date-fns";
 import { useLocale } from "@/contexts/LocaleContext.tsx";
+import { usePermissions } from "@/hooks/usePermissions";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CreditCardProps {
   credit: CreditElementItem;
@@ -36,6 +39,11 @@ export const CreditCard = ({
   isLoading,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
+  const { hasMinimumLevel } = usePermissions();
+  const { user } = useAuth();
+  const isManager = hasMinimumLevel("Manager");
+  const isAssignedToCurrentUser =
+    user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
 
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
@@ -127,6 +135,15 @@ export const CreditCard = ({
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.type} • {credit.details.financial}
             </p>
+            {/* Assignee Badge */}
+            {credit.user && (
+              <div className="mt-2">
+                <Badge variant="outline" className="gap-1 text-xs">
+                  <User className="h-3 w-3" />
+                  {credit.user}
+                </Badge>
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-1 shrink-0">
             {status && (
@@ -157,7 +174,7 @@ export const CreditCard = ({
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="z-50">
+                <DropdownMenuContent align="end" className="z-50 bg-background">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem
                     onClick={(e) => {
@@ -168,6 +185,33 @@ export const CreditCard = ({
                     <History className="mr-2 h-4 w-4" />
                     {t("credit.viewLogs")}
                   </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* Assignment Options */}
+                  {!isManager && (!credit.user || isAssignedToCurrentUser) && (
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onActionsClick(credit, "assign-to-me");
+                      }}
+                    >
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Assign to me
+                    </DropdownMenuItem>
+                  )}
+                  
+                  {isManager && (
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onActionsClick(credit, "assign-item");
+                      }}
+                    >
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Assign item to
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
