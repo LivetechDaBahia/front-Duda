@@ -175,7 +175,7 @@ export const CreditDetailPanel = ({
               <TabsTrigger value="documents">
                 {t("credit.documents")}
               </TabsTrigger>
-              <TabsTrigger value="overview">{t("creditDetail.tabs.saleOrder")}</TabsTrigger>
+              <TabsTrigger value="overview">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="linkedClients">
                 {t("credit.linkedClients")}
               </TabsTrigger>
