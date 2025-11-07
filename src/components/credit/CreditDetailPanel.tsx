@@ -169,13 +169,13 @@ export const CreditDetailPanel = ({
         </SheetHeader>
 
         {credit && (
-          <Tabs defaultValue="overview" className="mt-6">
+          <Tabs defaultValue="client" className="mt-6">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
               <TabsTrigger value="documents">
                 {t("credit.documents")}
               </TabsTrigger>
-              <TabsTrigger value="overview">{t("credit.tabs.saleOrder")}</TabsTrigger>
+              <TabsTrigger value="overview">{t("creditDetail.tabs.saleOrder")}</TabsTrigger>
               <TabsTrigger value="linkedClients">
                 {t("credit.linkedClients")}
               </TabsTrigger>
