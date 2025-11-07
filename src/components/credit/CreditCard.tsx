@@ -97,7 +97,11 @@ export const CreditCard = ({
       style={{
         borderLeftColor: toCssColor(credit.borders.left),
         borderRightColor: toCssColor(credit.borders.right),
-        ...(credit.background && { backgroundColor: credit.background }),
+        ...(credit.background && {
+          // Normalize API color and blend it with the current theme's card color
+          backgroundColor: toCssColor(credit.background),
+          backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
+        }),
       }}
       onClick={onClick}
       draggable={!!onDragStart && !isLoading}
