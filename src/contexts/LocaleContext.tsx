@@ -296,6 +296,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.urgent": "Urgent",
     "common.yes": "Yes",
     "common.no": "No",
+    "common.all": "All",
+    "common.hideFilters": "Hide Filters",
 
     // Kanban
     "kanban.noOrders": "No orders",
@@ -416,6 +418,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.emailPlaceholder": "user@example.com",
     "credit.assign.submit": "Assign",
     "credit.assign.self": "Assign to me",
+    "credit.assign.toSelf": "Assigned to me",
     "credit.assign.selfSuccessDesc": "Successfully assigned to you.",
     "credit.assign.selfPermissionDeniedDesc":
       "You can only assign unassigned items to yourself.",
@@ -747,6 +750,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.confirm": "Confirmar",
     "common.yes": "Sim",
     "common.no": "Não",
+    "common.all": "Todos",
+    "common.hideFilters": "Ocultar Filtros",
 
     // Kanban
     "kanban.noOrders": "Nenhum pedido",
@@ -859,6 +864,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.emailPlaceholder": "usuario@exemplo.com",
     "credit.assign.submit": "Atribuir",
     "credit.assign.self": "Atribuir a mim",
+    "credit.assign.toSelf": "Atribuidos a mim",
     "credit.assign.selfSuccessDesc": "Atribuído com sucesso para você.",
     "credit.assign.selfPermissionDeniedDesc":
       "Você só pode atribuir a si mesmo itens sem responsável.",
@@ -1201,8 +1207,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.urgent": "Urgente",
     "common.cancel": "Cancelar",
     "common.confirm": "Confirmar",
-    "Common.yes": "Si",
-    "Common.no": "No",
+    "common.yes": "Si",
+    "common.no": "No",
+    "common.all": "Todos",
+    "common.hideFilters": "Ocultar Filtros",
 
     // Kanban
     "kanban.noOrders": "No hay órdenes",
@@ -1324,6 +1332,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.emailPlaceholder": "usuario@ejemplo.com",
     "credit.assign.submit": "Asignar",
     "credit.assign.self": "Asignarme",
+      "credit.assign.toSelf": "Asignados a mi",
     "credit.assign.emailRequiredTitle": "Correo requerido",
     "credit.assign.emailRequiredDesc":
       "Por favor, ingresa una dirección de correo.",
