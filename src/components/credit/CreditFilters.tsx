@@ -179,7 +179,7 @@ export const CreditFilters = ({
             <SelectValue placeholder={t("credit.assign.currentAssignee")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{"common.all"}</SelectItem>
+            <SelectItem value="all">{t("common.all")}</SelectItem>
             <SelectItem value="me">{t("credit.assign.toSelf")}</SelectItem>
             <SelectItem value="unassigned">{t("credit.assign.unassigned")}</SelectItem>
             {isManagerOrAdmin &&
