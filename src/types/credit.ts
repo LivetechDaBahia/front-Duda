@@ -68,6 +68,9 @@ export interface CreditClientDetails {
   name: string;
   cpfCnpj: string;
   risk: string;
+  creditLimit: number;
+  dueDate: Date | null;
+  secondaryCreditLimit: number;
   billingAddress: string;
   billingAddress2: string;
   district: string;
@@ -75,6 +78,8 @@ export interface CreditClientDetails {
   zipCode: string;
   foundationDate: Date | null;
   lastPurchase: Date | null;
+  firstPurchase: Date | null;
+  biggestPurchase: number;
   isSN: boolean;
   comments: string;
 }

@@ -170,12 +170,12 @@ export const CreditCard = ({
                       e.stopPropagation();
                     }}
                   >
-                    <span className="sr-only">Actions</span>
+                    <span className="sr-only">{t("table.actions")}</span>
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="z-50 bg-background">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
@@ -185,22 +185,20 @@ export const CreditCard = ({
                     <History className="mr-2 h-4 w-4" />
                     {t("credit.viewLogs")}
                   </DropdownMenuItem>
-                  
+
                   <DropdownMenuSeparator />
-                  
+
                   {/* Assignment Options */}
-                  {!isManager && (!credit.user || isAssignedToCurrentUser) && (
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onActionsClick(credit, "assign-to-me");
-                      }}
-                    >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Assign to me
-                    </DropdownMenuItem>
-                  )}
-                  
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onActionsClick(credit, "assign-to-me");
+                    }}
+                  >
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    {t("credit.assign.self")}
+                  </DropdownMenuItem>
+
                   {isManager && (
                     <DropdownMenuItem
                       onClick={(e) => {
@@ -209,7 +207,7 @@ export const CreditCard = ({
                       }}
                     >
                       <UserPlus className="mr-2 h-4 w-4" />
-                      Assign item to
+                      {t("credit.assignTo")}
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>

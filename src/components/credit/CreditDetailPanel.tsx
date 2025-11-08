@@ -175,7 +175,9 @@ export const CreditDetailPanel = ({
               <TabsTrigger value="documents">
                 {t("credit.documents")}
               </TabsTrigger>
-              <TabsTrigger value="overview">{t("credit.salesOrder")}</TabsTrigger>
+              <TabsTrigger value="overview">
+                {t("credit.salesOrder")}
+              </TabsTrigger>
               <TabsTrigger value="linkedClients">
                 {t("credit.linkedClients")}
               </TabsTrigger>
@@ -461,6 +463,22 @@ export const CreditDetailPanel = ({
                           {formatDate(clientDetails.lastPurchase, locale)}
                         </p>
                       </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.firstPurchase")}:
+                        </span>
+                        <p className="font-medium">
+                          {formatDate(clientDetails.firstPurchase, locale)}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.biggestPurchase")}:
+                        </span>
+                        <p className="font-medium">
+                          {clientDetails.biggestPurchase}
+                        </p>
+                      </div>
                       <div className="col-span-2">
                         <span className="text-muted-foreground">
                           {t("credit.address")}:
@@ -477,6 +495,36 @@ export const CreditDetailPanel = ({
                           {t("credit.risk")}:
                         </span>
                         <Badge variant="outline">{clientDetails.risk}</Badge>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.isSN")}:
+                        </span>
+                        <Badge variant="outline">{clientDetails.isSN}</Badge>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.dueDate")}:
+                        </span>
+                        <p className="font-medium">
+                          {formatDate(clientDetails.dueDate, locale)}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.limit")}:
+                        </span>
+                        <p className="font-medium">
+                          {clientDetails.creditLimit}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.secondaryLimit")}:
+                        </span>
+                        <p className="font-medium">
+                          {clientDetails.secondaryCreditLimit}
+                        </p>
                       </div>
                       <div></div>
                     </div>

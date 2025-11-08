@@ -321,6 +321,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.type": "Type",
     "credit.group": "Group",
     "credit.user": "User",
+    "credit.isSN": "Simples Nacional",
+    "credit.dueDate": "Due Date",
+    "credit.limit": "Limit",
+    "credit.secondaryLimit": "Secondary Limit",
+    "credit.firstPurchase": "First Purchase",
+    "credit.biggestPurchase": "Biggest Purchase",
     "credit.noCredits": "No credit elements found",
     "credit.noCreditsInStatus": "No items in this status",
     "credit.noLinkedClients": "No linked clients",
@@ -345,6 +351,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.branch": "Branch",
     "credit.store": "Store",
     "credit.id": "Id",
+    "credit.assignTo": "Assign item to ...",
     "credit.foundation": "Foundation Date",
     "credit.lastPurchase": "Last Purchase",
     "credit.justifyStatusChange": "Justify Status Change",
@@ -384,7 +391,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.items": "items",
     "credit.status": "Status",
     "credit.document": "Document",
-    "credit.dueDate": "Due Date",
     "credit.realDueDate": "Real Due Date",
     "credit.lastPayment": "Payment",
     "credit.balance": "Balance",
@@ -396,6 +402,32 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.noLogs": "No activity logs found",
     "credit.activityLogsDescription": "View activity logs for this element",
     "credit.viewLogs": "View Logs",
+
+    // Credit Assignment Dialog
+    "credit.assign.title": "Assign Credit Item",
+    "credit.assign.description":
+      "Assign this credit item to another user by entering their email address.",
+    "credit.assign.currentAssignee": "Current Assignee",
+    "credit.assign.unassigned": "Unassigned",
+    "credit.assign.emailLabel": "Assignee Email *",
+    "credit.assign.emailPlaceholder": "user@example.com",
+    "credit.assign.submit": "Assign",
+    "credit.assign.self": "Assign to me",
+    "credit.assign.selfSuccessDesc": "Successfully assigned to you.",
+    "credit.assign.selfPermissionDeniedDesc":
+      "You can only assign unassigned items to yourself.",
+    "credit.assign.emailRequiredTitle": "Email required",
+    "credit.assign.emailRequiredDesc": "Please enter an email address.",
+    "credit.assign.invalidEmailTitle": "Invalid email",
+    "credit.assign.invalidEmailDesc": "Please enter a valid email address.",
+    "credit.assign.successTitle": "Item assigned",
+    "credit.assign.successDesc": "Successfully assigned to {email}",
+    "credit.assign.permissionDeniedTitle": "Permission denied",
+    "credit.assign.permissionDeniedDesc":
+      "You don't have permission to assign this item to another user.",
+    "credit.assign.failedTitle": "Assignment failed",
+    "credit.assign.notFoundOrInvalid": "Item not found or invalid data.",
+    "credit.assign.genericError": "Could not assign item. Please try again.",
 
     // Home Page
     "home.pending": "Pending",
@@ -721,12 +753,18 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.subtitle": "Gerencie e acompanhe elementos de fluxo de crédito",
     "credit.offer": "Proposta",
     "credit.client": "Cliente",
-    "credit.linkedClients": "Clientes vinculados",
+    "credit.linkedClients": "Clientes Vinculados",
     "credit.value": "Valor",
     "credit.currency": "Moeda",
     "credit.seller": "Vendedor",
     "credit.paymentConditions": "Condições de Pagamento",
     "credit.type": "Tipo",
+    "credit.isSN": "Simples Nacional",
+    "credit.dueDate": "Vencimento",
+    "credit.limit": "Limite",
+    "credit.secondaryLimit": "Limite Secundário",
+    "credit.firstPurchase": "Primeira Compra",
+    "credit.biggestPurchase": "Maior Compra",
     "credit.group": "Grupo",
     "credit.user": "Usuário",
     "credit.noCredits": "Nenhum elemento de crédito encontrado",
@@ -782,6 +820,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.totalBalance": "Saldo em Aberto",
     "credit.outstandingAmount": "Valor pendente",
     "credit.item": "item",
+    "credit.assignTo": "Atribuir item a ...",
     "credit.store": "Loja",
     "credit.id": "Código",
     "credit.justifyStatusChange": "Justificar Mudança de Status",
@@ -792,7 +831,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.items": "itens",
     "credit.status": "Status",
     "credit.document": "Documento",
-    "credit.dueDate": "Vencimento",
     "credit.realDueDate": "Vencimento Real",
     "credit.lastPayment": "Pagamento",
     "credit.balance": "Saldo",
@@ -805,6 +843,36 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.activityLogsDescription":
       "Veja os registros de atividade deste item",
     "credit.viewLogs": "Ver Registros",
+
+    // Credit Assignment Dialog
+    "credit.assign.title": "Atribuir Item de Crédito",
+    "credit.assign.description":
+      "Atribua este item de crédito a outro usuário informando o e-mail dele.",
+    "credit.assign.currentAssignee": "Responsável Atual",
+    "credit.assign.unassigned": "Sem responsável",
+    "credit.assign.emailLabel": "E-mail do Responsável *",
+    "credit.assign.emailPlaceholder": "usuario@exemplo.com",
+    "credit.assign.submit": "Atribuir",
+    "credit.assign.self": "Atribuir a mim",
+    "credit.assign.selfSuccessDesc": "Atribuído com sucesso para você.",
+    "credit.assign.selfPermissionDeniedDesc":
+      "Você só pode atribuir a si mesmo itens sem responsável.",
+    "credit.assign.emailRequiredTitle": "E-mail obrigatório",
+    "credit.assign.emailRequiredDesc":
+      "Por favor, insira um endereço de e-mail.",
+    "credit.assign.invalidEmailTitle": "E-mail inválido",
+    "credit.assign.invalidEmailDesc":
+      "Por favor, insira um endereço de e-mail válido.",
+    "credit.assign.successTitle": "Item atribuído",
+    "credit.assign.successDesc": "Atribuído com sucesso para {email}",
+    "credit.assign.permissionDeniedTitle": "Permissão negada",
+    "credit.assign.permissionDeniedDesc":
+      "Você não tem permissão para atribuir este item a outro usuário.",
+    "credit.assign.failedTitle": "Falha na atribuição",
+    "credit.assign.notFoundOrInvalid":
+      "Item não encontrado ou dados inválidos.",
+    "credit.assign.genericError":
+      "Não foi possível atribuir o item. Tente novamente.",
 
     // Home Page
     "home.pending": "Pendente",
@@ -1126,6 +1194,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgente",
+    "common.cancel": "Cancelar",
+    "common.confirm": "Confirmar",
 
     // Kanban
     "kanban.noOrders": "No hay órdenes",
@@ -1152,6 +1222,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.seller": "Vendedor",
     "credit.paymentConditions": "Condiciones de Pago",
     "credit.type": "Tipo",
+    "credit.isSN": "Simples Nacional",
+    "credit.dueDate": "Fecha de Vencimiento",
+    "credit.limit": "Límite",
+    "credit.secondaryLimit": "Límite Secundario",
+    "credit.firstPurchase": "Primera Compra",
+    "credit.biggestPurchase": "Mayor Compra",
     "credit.group": "Grupo",
     "credit.user": "Usuario",
     "credit.noCredits": "No se encontraron elementos de crédito",
@@ -1193,6 +1269,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.clientDocuments": "Documentos del Cliente",
     "credit.noDocuments": "No se encontraron documentos",
     "credit.docTitle": "Título",
+    "credit.assignTo": "Asignar artículo a ...",
     "credit.docDescription": "Descripción",
     "credit.clientDetails": "Detalles del Cliente",
     "credit.clientName": "Nombre",
@@ -1217,7 +1294,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.status": "Estado",
     "credit.document": "Documento",
     "credit.salesOrder": "Pedido de Venta",
-    "credit.dueDate": "Vencimiento",
     "credit.realDueDate": "Vencimiento Real",
     "credit.lastPayment": "Pago",
     "credit.balance": "Saldo",
@@ -1230,6 +1306,35 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.activityLogsDescription":
       "Consulte los registros de actividad de este elemento",
     "credit.viewLogs": "Ver Registros",
+
+    // Credit Assignment Dialog
+    "credit.assign.title": "Asignar elemento de crédito",
+    "credit.assign.description":
+      "Asigna este elemento de crédito a otro usuario ingresando su correo electrónico.",
+    "credit.assign.currentAssignee": "Responsable actual",
+    "credit.assign.unassigned": "Sin asignar",
+    "credit.assign.emailLabel": "Correo del asignado *",
+    "credit.assign.emailPlaceholder": "usuario@ejemplo.com",
+    "credit.assign.submit": "Asignar",
+    "credit.assign.self": "Asignarme",
+    "credit.assign.emailRequiredTitle": "Correo requerido",
+    "credit.assign.emailRequiredDesc":
+      "Por favor, ingresa una dirección de correo.",
+    "credit.assign.invalidEmailTitle": "Correo inválido",
+    "credit.assign.invalidEmailDesc": "Por favor, ingresa un correo válido.",
+    "credit.assign.successTitle": "Elemento asignado",
+    "credit.assign.successDesc": "Asignado exitosamente a {email}",
+    "credit.assign.permissionDeniedTitle": "Permiso denegado",
+    "credit.assign.permissionDeniedDesc":
+      "No tienes permiso para asignar este elemento a otro usuario.",
+    "credit.assign.failedTitle": "Fallo en la asignación",
+    "credit.assign.notFoundOrInvalid":
+      "Elemento no encontrado o datos inválidos.",
+    "credit.assign.genericError":
+      "No se pudo asignar el elemento. Inténtalo nuevamente.",
+    "credit.assign.selfSuccessDesc": "Asignado exitosamente a ti.",
+    "credit.assign.selfPermissionDeniedDesc":
+      "Solo puedes asignarte elementos que no tengan responsable.",
 
     // Home Page
     "home.pending": "Pendiente",
