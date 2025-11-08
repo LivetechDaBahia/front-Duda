@@ -20,6 +20,7 @@ import type {
 } from "@/types/credit";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { FilterDateRange } from "@/components/shared/FilterDateRange";
+import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditFiltersProps {
   filters: CreditFiltersType;
@@ -48,6 +49,10 @@ export const CreditFilters = ({
     });
     return Array.from(badgeMap.values());
   }, [credits]);
+
+  // Permissions for assignee filter visibility
+  const { hasMinimumLevel } = usePermissions();
+  const isManagerOrAdmin = hasMinimumLevel("Manager");
 
   // Calculate min/max values from all credits for slider bounds
   const valueRange = useMemo(() => {
@@ -80,6 +85,14 @@ export const CreditFilters = ({
       credits.map((c) => c.details.operation).filter(Boolean),
     );
     return Array.from(operations).sort();
+  }, [credits]);
+
+  // Extract unique assignees from credits (emails)
+  const availableAssignees = useMemo(() => {
+    const users = new Set(
+      credits.map((c) => (c.user ? c.user.trim() : "")).filter((u) => !!u),
+    );
+    return Array.from(users).sort((a, b) => a.localeCompare(b));
   }, [credits]);
 
   // Initialize slider value range
@@ -151,6 +164,30 @@ export const CreditFilters = ({
                 {status.destructive && " ⚠️"}
               </SelectItem>
             ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Assignee Filter */}
+      <div className="space-y-2">
+        <Label>{t("credit.assign.currentAssignee") || "Assignee"}</Label>
+        <Select
+          value={filters.user || "all"}
+          onValueChange={(value) => updateFilter("user", value === "all" ? "" : value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={t("credit.assign.currentAssignee")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{"All"}</SelectItem>
+            <SelectItem value="me">{t("credit.assign.self")}</SelectItem>
+            <SelectItem value="unassigned">{t("credit.assign.unassigned")}</SelectItem>
+            {isManagerOrAdmin &&
+              availableAssignees.map((email) => (
+                <SelectItem key={email} value={email}>
+                  {email}
+                </SelectItem>
+              ))}
           </SelectContent>
         </Select>
       </div>

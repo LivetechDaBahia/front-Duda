@@ -98,9 +98,21 @@ const Credit = () => {
         return false;
       }
 
-      // User filter
-      if (filters.user && credit.user !== filters.user) {
-        return false;
+      // User/Assignee filter
+      if (filters.user) {
+        const selected = filters.user;
+        if (selected === "unassigned") {
+          if (credit.user && credit.user.trim() !== "") return false;
+        } else if (selected === "me") {
+          const authEmail = user?.email?.toLowerCase() || "";
+          if (!authEmail || (credit.user || "").toLowerCase() !== authEmail) {
+            return false;
+          }
+        } else {
+          if ((credit.user || "").toLowerCase() !== selected.toLowerCase()) {
+            return false;
+          }
+        }
       }
 
       // Currency filter

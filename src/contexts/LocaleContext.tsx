@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import {no} from "zod/v4/locales";
 
 type Locale = "en" | "pt-BR" | "es-ES";
 
@@ -293,6 +294,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Common
     "common.urgent": "Urgent",
+    "common.yes": "Yes",
+    "common.no": "No",
 
     // Kanban
     "kanban.noOrders": "No orders",
@@ -742,6 +745,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.urgent": "Urgente",
     "common.cancel": "Cancelar",
     "common.confirm": "Confirmar",
+    "common.yes": "Sim",
+    "common.no": "Não",
 
     // Kanban
     "kanban.noOrders": "Nenhum pedido",
@@ -1196,6 +1201,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.urgent": "Urgente",
     "common.cancel": "Cancelar",
     "common.confirm": "Confirmar",
+    "Common.yes": "Si",
+    "Common.no": "No",
 
     // Kanban
     "kanban.noOrders": "No hay órdenes",

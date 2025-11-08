@@ -476,7 +476,7 @@ export const CreditDetailPanel = ({
                           {t("credit.biggestPurchase")}:
                         </span>
                         <p className="font-medium">
-                          {clientDetails.biggestPurchase}
+                          {formatCurrency(clientDetails.biggestPurchase)}
                         </p>
                       </div>
                       <div className="col-span-2">
@@ -500,7 +500,7 @@ export const CreditDetailPanel = ({
                         <span className="text-muted-foreground">
                           {t("credit.isSN")}:
                         </span>
-                        <Badge variant="outline">{clientDetails.isSN}</Badge>
+                        <Badge variant="outline">{clientDetails.isSN == true ? t("common.yes") : t("common.no")}</Badge>
                       </div>
                       <div>
                         <span className="text-muted-foreground">
@@ -515,7 +515,7 @@ export const CreditDetailPanel = ({
                           {t("credit.limit")}:
                         </span>
                         <p className="font-medium">
-                          {clientDetails.creditLimit}
+                          {formatCurrency(clientDetails.creditLimit)}
                         </p>
                       </div>
                       <div>
@@ -523,7 +523,7 @@ export const CreditDetailPanel = ({
                           {t("credit.secondaryLimit")}:
                         </span>
                         <p className="font-medium">
-                          {clientDetails.secondaryCreditLimit}
+                          { formatCurrency(clientDetails.secondaryCreditLimit)}
                         </p>
                       </div>
                       <div></div>
