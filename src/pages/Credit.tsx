@@ -7,11 +7,13 @@ import { CreditDetailPanel } from "@/components/credit/CreditDetailPanel";
 import { CreditLogsDialog } from "@/components/credit/CreditLogsDialog";
 import { CreditJustificationDialog } from "@/components/credit/CreditJustificationDialog";
 import { CreditAssignmentDialog } from "@/components/credit/CreditAssignmentDialog";
+import { CreditLimitDialog } from "@/components/credit/CreditLimitDialog";
 import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
@@ -40,6 +42,9 @@ const Credit = () => {
   const [loadingCreditId, setLoadingCreditId] = useState<number | null>(null);
   const [assignmentDialogCredit, setAssignmentDialogCredit] =
     useState<CreditElementItem | null>(null);
+  const [limitDialogOpen, setLimitDialogOpen] = useState(false);
+  const [selectedCreditForLimit, setSelectedCreditForLimit] =
+    useState<CreditElementItem | null>(null);
   const [justificationDialog, setJustificationDialog] = useState<{
     creditId: number;
     offerId: string;
@@ -62,6 +67,7 @@ const Credit = () => {
 
   const { toast } = useToast();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
     credits,
@@ -316,6 +322,9 @@ const Credit = () => {
     } else if (action === "assign-item") {
       // Open dialog for managers
       setAssignmentDialogCredit(credit);
+    } else if (action === "set-credit-limit") {
+      setSelectedCreditForLimit(credit);
+      setLimitDialogOpen(true);
     }
   };
 
@@ -505,6 +514,16 @@ const Credit = () => {
         isOpen={!!assignmentDialogCredit}
         onClose={() => setAssignmentDialogCredit(null)}
         onAssignSuccess={handleAssignSuccess}
+      />
+
+      <CreditLimitDialog
+        open={limitDialogOpen}
+        onOpenChange={setLimitDialogOpen}
+        clientCnpj={selectedCreditForLimit?.details.client || ""}
+        onSuccess={() => {
+          queryClient.invalidateQueries({ queryKey: ["credit-elements"] });
+          queryClient.invalidateQueries({ queryKey: ["credit-limit"] });
+        }}
       />
     </div>
   );

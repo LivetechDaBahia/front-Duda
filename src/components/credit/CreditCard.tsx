@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, History, Loader2, User, UserPlus } from "lucide-react";
+import { MoreHorizontal, History, Loader2, User, UserPlus, TrendingUp } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { format } from "date-fns";
@@ -209,6 +209,21 @@ export const CreditCard = ({
                       <UserPlus className="mr-2 h-4 w-4" />
                       {t("credit.assignTo")}
                     </DropdownMenuItem>
+                  )}
+
+                  {isManager && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onActionsClick(credit, "set-credit-limit");
+                        }}
+                      >
+                        <TrendingUp className="mr-2 h-4 w-4" />
+                        {t("credit.limit.setLimit")}
+                      </DropdownMenuItem>
+                    </>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>

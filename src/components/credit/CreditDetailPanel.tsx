@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import {
   Pagination,
   PaginationContent,
@@ -32,6 +33,8 @@ import { FinancialHistoryTable } from "@/components/credit/FinancialHistoryTable
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 import { formatDate } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { creditService } from "@/services/creditService";
 
 interface CreditDetailPanelProps {
   credit: CreditElementItem | null;
@@ -60,6 +63,21 @@ export const CreditDetailPanel = ({
     creditId: credit?.key || null,
     clientBranch: credit?.details.clientBranch || undefined,
     clientId: credit?.details.client || undefined,
+  });
+
+  // Fetch credit limit data
+  const { data: creditLimit, isLoading: isLoadingLimit } = useQuery({
+    queryKey: [
+      "credit-limit",
+      credit?.details.client,
+      credit?.details.clientBranch,
+    ],
+    queryFn: () =>
+      creditService.getCreditLimit(
+        credit?.details.client || "",
+        credit?.details.clientBranch || ""
+      ),
+    enabled: !!credit?.details.client && !!credit?.details.clientBranch,
   });
 
   // Financial history filters and pagination state
@@ -530,8 +548,106 @@ export const CreditDetailPanel = ({
                           {formatCurrency(clientDetails.secondaryCreditLimit)}
                         </p>
                       </div>
-                      <div></div>
                     </div>
+                  </div>
+
+                  {/* Credit Limit Pie Chart */}
+                  <div className="space-y-3">
+                    <h3 className="font-semibold">{t("credit.limit.chartTitle")}</h3>
+                    {isLoadingLimit ? (
+                      <Skeleton className="h-64 w-full" />
+                    ) : creditLimit ? (
+                      <div className="h-64 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={[
+                                {
+                                  name: t("credit.limit.creditLimit"),
+                                  value: creditLimit.creditLimit,
+                                  color: "hsl(var(--primary))",
+                                },
+                                {
+                                  name: t("credit.limit.pendingValue"),
+                                  value: creditLimit.pendingValue,
+                                  color: "hsl(var(--warning))",
+                                },
+                                {
+                                  name: t("credit.limit.approvedItems"),
+                                  value: creditLimit.approvedItemsValue,
+                                  color: "hsl(var(--success))",
+                                },
+                                {
+                                  name: t("credit.limit.raBalance"),
+                                  value: creditLimit.raBalance,
+                                  color: "hsl(var(--info))",
+                                },
+                                {
+                                  name: t("credit.limit.nccBalance"),
+                                  value: creditLimit.nccBalance,
+                                  color: "hsl(var(--secondary))",
+                                },
+                                {
+                                  name: t("credit.limit.availableBalance"),
+                                  value: creditLimit.availableBalance,
+                                  color: "hsl(var(--accent))",
+                                },
+                              ].filter((item) => item.value > 0)}
+                              dataKey="value"
+                              nameKey="name"
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={80}
+                              label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
+                            >
+                              {[
+                                {
+                                  name: t("credit.limit.creditLimit"),
+                                  value: creditLimit.creditLimit,
+                                  color: "hsl(var(--primary))",
+                                },
+                                {
+                                  name: t("credit.limit.pendingValue"),
+                                  value: creditLimit.pendingValue,
+                                  color: "hsl(var(--warning))",
+                                },
+                                {
+                                  name: t("credit.limit.approvedItems"),
+                                  value: creditLimit.approvedItemsValue,
+                                  color: "hsl(var(--success))",
+                                },
+                                {
+                                  name: t("credit.limit.raBalance"),
+                                  value: creditLimit.raBalance,
+                                  color: "hsl(var(--info))",
+                                },
+                                {
+                                  name: t("credit.limit.nccBalance"),
+                                  value: creditLimit.nccBalance,
+                                  color: "hsl(var(--secondary))",
+                                },
+                                {
+                                  name: t("credit.limit.availableBalance"),
+                                  value: creditLimit.availableBalance,
+                                  color: "hsl(var(--accent))",
+                                },
+                              ]
+                                .filter((item) => item.value > 0)
+                                .map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                            </Pie>
+                            <Tooltip
+                              formatter={(value: number) => formatCurrency(value)}
+                            />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-8">
+                        {t("credit.limit.noData")}
+                      </p>
+                    )}
                   </div>
 
                   {clientHistory.length > 0 && (
