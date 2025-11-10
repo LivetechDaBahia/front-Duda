@@ -141,7 +141,9 @@ export const CreditFilters = ({
       onSearchChange={(value) => updateFilter("search", value)}
       showFilters={showFilters}
       onShowFiltersChange={setShowFilters}
-      filterButtonLabel={showFilters ? t("common.hideFilters") : t("filters.filters")}
+      filterButtonLabel={
+        showFilters ? t("common.hideFilters") : t("filters.filters")
+      }
       onClearFilters={clearFilters}
       clearButtonLabel={t("clearFilters")}
       hasActiveFilters={hasActiveFilters}
@@ -173,7 +175,9 @@ export const CreditFilters = ({
         <Label>{t("credit.assign.currentAssignee") || "Assignee"}</Label>
         <Select
           value={filters.user || "all"}
-          onValueChange={(value) => updateFilter("user", value === "all" ? "" : value)}
+          onValueChange={(value) =>
+            updateFilter("user", value === "all" ? "" : value)
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder={t("credit.assign.currentAssignee")} />
@@ -181,7 +185,9 @@ export const CreditFilters = ({
           <SelectContent>
             <SelectItem value="all">{t("common.all")}</SelectItem>
             <SelectItem value="me">{t("credit.assign.toSelf")}</SelectItem>
-            <SelectItem value="unassigned">{t("credit.assign.unassigned")}</SelectItem>
+            <SelectItem value="unassigned">
+              {t("credit.assign.unassigned")}
+            </SelectItem>
             {isManagerOrAdmin &&
               availableAssignees.map((email) => (
                 <SelectItem key={email} value={email}>

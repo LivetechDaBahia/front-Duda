@@ -157,3 +157,12 @@ export interface UpdateCreditStatusDto {
     sellerId: string;
   };
 }
+
+export interface CreditLimit {
+  creditLimit: number;
+  pendingValue: number;
+  approvedItemsValue: number;
+  raBalance: number;
+  nccBalance: number;
+  availableBalance: number;
+}

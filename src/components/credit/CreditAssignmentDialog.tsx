@@ -104,7 +104,8 @@ export const CreditAssignmentDialog = ({
       toast({
         title: t("credit.assign.successTitle"),
         description: t("credit.assign.successDesc").replace(
-          "{email}", selectedUser.name,
+          "{email}",
+          selectedUser.name,
         ),
       });
 

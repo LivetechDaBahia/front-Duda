@@ -11,6 +11,7 @@ import {
   CreditLinkedClient,
   CreditLog,
   UpdateCreditStatusDto,
+  CreditLimit,
 } from "@/types/credit";
 
 export const creditService = {
@@ -77,5 +78,18 @@ export const creditService = {
     key?: string;
   }): Promise<void> {
     return apiClient.post("/credit/creditElement/assign", payload);
+  },
+
+  async getCreditLimit(clientId: string, branch: string): Promise<CreditLimit> {
+    return apiClient.get(`/credit/creditElement/limit/${clientId}/${branch}`);
+  },
+
+  async setCreditLimit(payload: {
+    cnpj: string;
+    limit: number;
+    risk: string;
+    dueDate: Date;
+  }): Promise<void> {
+    return apiClient.post("/credit/creditElement/limit", payload);
   },
 };

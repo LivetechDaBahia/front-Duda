@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import {no} from "zod/v4/locales";
+import { no } from "zod/v4/locales";
 
 type Locale = "en" | "pt-BR" | "es-ES";
 
@@ -1332,7 +1332,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.emailPlaceholder": "usuario@ejemplo.com",
     "credit.assign.submit": "Asignar",
     "credit.assign.self": "Asignarme",
-      "credit.assign.toSelf": "Asignados a mi",
+    "credit.assign.toSelf": "Asignados a mi",
     "credit.assign.emailRequiredTitle": "Correo requerido",
     "credit.assign.emailRequiredDesc":
       "Por favor, ingresa una dirección de correo.",
