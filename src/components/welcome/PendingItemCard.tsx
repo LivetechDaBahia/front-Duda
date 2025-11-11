@@ -1,7 +1,13 @@
-import { PendingItem } from "@/types/order";
+import { PendingItem, isOrderLocked } from "@/types/order";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Calendar,
   DollarSign,
@@ -11,6 +17,7 @@ import {
   Info,
   FileText,
   CreditCard,
+  Lock,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -64,6 +71,12 @@ export const PendingItemCard = ({
   const ItemIcon = item.type === "purchase_order" ? FileText : CreditCard;
   const itemTypeLabel =
     item.type === "purchase_order" ? "Purchase Order" : "Credit Request";
+
+  // Check if the order is locked (waiting for previous approval level)
+  const isLocked =
+    item.type === "purchase_order" && item.originalData
+      ? isOrderLocked(item.originalData)
+      : false;
 
   return (
     <Card className="p-5 hover:shadow-md transition-all animate-scale-in bg-gradient-to-br from-card to-card/50 w-full">
@@ -127,23 +140,54 @@ export const PendingItemCard = ({
         {/* Action Buttons - Only show for purchase orders */}
         {item.type === "purchase_order" && onApprove && onDecline && (
           <div className="flex gap-2 pt-2">
-            <Button
-              onClick={handleDecline}
-              disabled={isProcessing}
-              variant="outline"
-              className="flex-1 border-destructive/20 text-destructive hover:bg-destructive/10"
-            >
-              <XCircle className="w-4 h-4 mr-2" />
-              Decline
-            </Button>
-            <Button
-              onClick={handleApprove}
-              disabled={isProcessing}
-              className="flex-1 bg-gradient-to-r from-primary to-accent hover:shadow-md"
-            >
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Approve
-            </Button>
+            {isLocked ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex gap-2 flex-1">
+                      <Button
+                        disabled
+                        variant="outline"
+                        className="flex-1 border-destructive/20 text-destructive hover:bg-destructive/10 opacity-50"
+                      >
+                        <Lock className="w-4 h-4 mr-2" />
+                        Decline
+                      </Button>
+                      <Button
+                        disabled
+                        className="flex-1 bg-gradient-to-r from-primary to-accent opacity-50"
+                      >
+                        <Lock className="w-4 h-4 mr-2" />
+                        Approve
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>This order is waiting for approval from a previous level</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <>
+                <Button
+                  onClick={handleDecline}
+                  disabled={isProcessing}
+                  variant="outline"
+                  className="flex-1 border-destructive/20 text-destructive hover:bg-destructive/10"
+                >
+                  <XCircle className="w-4 h-4 mr-2" />
+                  Decline
+                </Button>
+                <Button
+                  onClick={handleApprove}
+                  disabled={isProcessing}
+                  className="flex-1 bg-gradient-to-r from-primary to-accent hover:shadow-md"
+                >
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Approve
+                </Button>
+              </>
+            )}
           </div>
         )}
 
