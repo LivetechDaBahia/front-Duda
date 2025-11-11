@@ -564,32 +564,32 @@ export const CreditDetailPanel = ({
                               data={[
                                 {
                                   name: t("credit.limit.creditLimit"),
-                                  value: creditLimit.creditLimit,
+                                  value: Math.abs(creditLimit.creditLimit),
                                   color: "hsl(var(--primary))",
                                 },
                                 {
                                   name: t("credit.limit.pendingValue"),
-                                  value: creditLimit.pendingValue,
+                                  value: Math.abs(creditLimit.pendingValue),
                                   color: "hsl(var(--warning))",
                                 },
                                 {
                                   name: t("credit.limit.approvedItems"),
-                                  value: creditLimit.approvedItemsValue,
+                                  value: Math.abs(creditLimit.approvedItemsValue),
                                   color: "hsl(var(--success))",
                                 },
                                 {
                                   name: t("credit.limit.raBalance"),
-                                  value: creditLimit.raBalance,
+                                  value: Math.abs(creditLimit.raBalance),
                                   color: "hsl(var(--info))",
                                 },
                                 {
                                   name: t("credit.limit.nccBalance"),
-                                  value: creditLimit.nccBalance,
+                                  value: Math.abs(creditLimit.nccBalance),
                                   color: "hsl(var(--secondary))",
                                 },
                                 {
                                   name: t("credit.limit.availableBalance"),
-                                  value: creditLimit.availableBalance,
+                                  value: Math.abs(creditLimit.availableBalance),
                                   color: "hsl(var(--accent))",
                                 },
                               ].filter((item) => item.value > 0)}
@@ -603,32 +603,32 @@ export const CreditDetailPanel = ({
                               {[
                                 {
                                   name: t("credit.limit.creditLimit"),
-                                  value: creditLimit.creditLimit,
+                                  value: Math.abs(creditLimit.creditLimit),
                                   color: "hsl(var(--primary))",
                                 },
                                 {
                                   name: t("credit.limit.pendingValue"),
-                                  value: creditLimit.pendingValue,
+                                  value: Math.abs(creditLimit.pendingValue),
                                   color: "hsl(var(--warning))",
                                 },
                                 {
                                   name: t("credit.limit.approvedItems"),
-                                  value: creditLimit.approvedItemsValue,
+                                  value: Math.abs(creditLimit.approvedItemsValue),
                                   color: "hsl(var(--success))",
                                 },
                                 {
                                   name: t("credit.limit.raBalance"),
-                                  value: creditLimit.raBalance,
+                                  value: Math.abs(creditLimit.raBalance),
                                   color: "hsl(var(--info))",
                                 },
                                 {
                                   name: t("credit.limit.nccBalance"),
-                                  value: creditLimit.nccBalance,
+                                  value: Math.abs(creditLimit.nccBalance),
                                   color: "hsl(var(--secondary))",
                                 },
                                 {
                                   name: t("credit.limit.availableBalance"),
-                                  value: creditLimit.availableBalance,
+                                  value: Math.abs(creditLimit.availableBalance),
                                   color: "hsl(var(--accent))",
                                 },
                               ]
