@@ -519,7 +519,7 @@ const Credit = () => {
       <CreditLimitDialog
         open={limitDialogOpen}
         onOpenChange={setLimitDialogOpen}
-        clientCnpj={selectedCreditForLimit?.details.client || ""}
+        clientCnpj={selectedCreditForLimit?.details.clientCpfCnpj || ""}
         onSuccess={() => {
           queryClient.invalidateQueries({ queryKey: ["credit-elements"] });
           queryClient.invalidateQueries({ queryKey: ["credit-limit"] });
