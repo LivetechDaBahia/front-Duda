@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, CreditCard, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { UserProfile } from "@/components/welcome/UserProfile";
 import { TodayStats } from "@/components/welcome/TodayStats";
 import { PendingItemCard } from "@/components/welcome/PendingItemCard";
@@ -10,11 +18,25 @@ import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
 import { PendingItem } from "@/types/order";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePendingItems } from "@/hooks/usePendingItems";
+import { useBranches } from "@/hooks/useBranches";
 
 const Welcome = () => {
   const { t } = useLocale();
   const [selectedItem, setSelectedItem] = useState<PendingItem | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState<string>("");
+
+  const { branches, isLoading: isLoadingBranches } = useBranches();
+
+  // Set default branch when branches are loaded
+  useEffect(() => {
+    if (branches.length > 0 && !selectedBranch) {
+      setSelectedBranch(branches[0].code);
+    }
+  }, [branches, selectedBranch]);
+
+  // Format tenantId for API (always "01" + selected branch)
+  const tenantId = selectedBranch ? `01,${selectedBranch}` : undefined;
 
   const {
     pendingItems,
@@ -26,7 +48,7 @@ const Welcome = () => {
     canManageCredit,
     approveOrder,
     declineOrder,
-  } = usePendingItems();
+  } = usePendingItems({ tenantId });
 
   const handleApprove = (itemId: string) => {
     if (approveOrder) {
@@ -72,7 +94,7 @@ const Welcome = () => {
 
   const primaryLink = getPrimaryLink();
 
-  if (isLoading) {
+  if (isLoading || isLoadingBranches) {
     return (
       <div className="min-h-full bg-background">
         <main className="container mx-auto">
@@ -160,6 +182,28 @@ const Welcome = () => {
                 </Button>
               )}
             </div>
+
+            {/* Branch Selector */}
+            {canManagePurchaseOrders && branches.length > 0 && (
+              <div className="mb-4 max-w-xs">
+                <Label className="mb-2 block">{t("order.branch")}</Label>
+                <Select
+                  value={selectedBranch}
+                  onValueChange={setSelectedBranch}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t("order.filterByBranch")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {branches.map((b) => (
+                      <SelectItem key={b.id} value={b.code}>
+                        {b.name} ({b.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {/* Show secondary link if user has both permissions */}
             {canManagePurchaseOrders && canManageCredit && (

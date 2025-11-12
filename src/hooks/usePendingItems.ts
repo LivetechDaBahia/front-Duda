@@ -4,7 +4,11 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { mapUIStatusToAPITypes } from "@/lib/statusMapper";
 import { PendingItem } from "@/types/order";
 
-export const usePendingItems = () => {
+interface UsePendingItemsParams {
+  tenantId?: string;
+}
+
+export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
   const { canManagePurchaseOrders, canManageCredit } = usePermissions();
 
   // Fetch purchase orders only if user has permissions
@@ -16,8 +20,8 @@ export const usePendingItems = () => {
     declineOrder,
   } = useOrders({
     types: mapUIStatusToAPITypes("pending"),
-    tenantId: "01,01,02,05,06,08,09,13",
-    enabled: canManagePurchaseOrders, // Only fetch if user has permission
+    tenantId: tenantId,
+    enabled: canManagePurchaseOrders && !!tenantId, // Only fetch if user has permission and tenantId is provided
   });
 
   // Note: Credit items fetching is intentionally disabled on the Welcome page for now.
