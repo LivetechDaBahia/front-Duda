@@ -81,7 +81,8 @@ export const creditService = {
   },
 
   async getCreditLimit(clientId: string, branch: string): Promise<CreditLimit> {
-    return apiClient.get(`/credit/creditElement/limit/${clientId}/${branch}`);
+    const result: CreditLimit[] = await apiClient.get(`/credit/creditElement/limit/${clientId}/${branch}`);
+    return result[0];
   },
 
   async setCreditLimit(payload: {
