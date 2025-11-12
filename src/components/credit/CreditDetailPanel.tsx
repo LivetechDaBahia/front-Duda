@@ -557,92 +557,70 @@ export const CreditDetailPanel = ({
                     {isLoadingLimit ? (
                       <Skeleton className="h-64 w-full" />
                     ) : creditLimit ? (
-                      <div className="h-64 w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                            <Pie
-                              data={[
-                                {
-                                  name: t("credit.limit.creditLimit"),
-                                  value: Math.abs(creditLimit.creditLimit),
-                                  color: "hsl(var(--primary))",
-                                },
-                                {
-                                  name: t("credit.limit.pendingValue"),
-                                  value: Math.abs(creditLimit.pendingValue),
-                                  color: "hsl(var(--warning))",
-                                },
-                                {
-                                  name: t("credit.limit.approvedItems"),
-                                  value: Math.abs(creditLimit.approvedItemsValue),
-                                  color: "hsl(var(--success))",
-                                },
-                                {
-                                  name: t("credit.limit.raBalance"),
-                                  value: Math.abs(creditLimit.raBalance),
-                                  color: "hsl(var(--info))",
-                                },
-                                {
-                                  name: t("credit.limit.nccBalance"),
-                                  value: Math.abs(creditLimit.nccBalance),
-                                  color: "hsl(var(--secondary))",
-                                },
-                                {
-                                  name: t("credit.limit.availableBalance"),
-                                  value: Math.abs(creditLimit.availableBalance),
-                                  color: "hsl(var(--accent))",
-                                },
-                              ].filter((item) => item.value > 0)}
-                              dataKey="value"
-                              nameKey="name"
-                              cx="50%"
-                              cy="50%"
-                              outerRadius={80}
-                              label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
-                            >
-                              {[
-                                {
-                                  name: t("credit.limit.creditLimit"),
-                                  value: Math.abs(creditLimit.creditLimit),
-                                  color: "hsl(var(--primary))",
-                                },
-                                {
-                                  name: t("credit.limit.pendingValue"),
-                                  value: Math.abs(creditLimit.pendingValue),
-                                  color: "hsl(var(--warning))",
-                                },
-                                {
-                                  name: t("credit.limit.approvedItems"),
-                                  value: Math.abs(creditLimit.approvedItemsValue),
-                                  color: "hsl(var(--success))",
-                                },
-                                {
-                                  name: t("credit.limit.raBalance"),
-                                  value: Math.abs(creditLimit.raBalance),
-                                  color: "hsl(var(--info))",
-                                },
-                                {
-                                  name: t("credit.limit.nccBalance"),
-                                  value: Math.abs(creditLimit.nccBalance),
-                                  color: "hsl(var(--secondary))",
-                                },
-                                {
-                                  name: t("credit.limit.availableBalance"),
-                                  value: Math.abs(creditLimit.availableBalance),
-                                  color: "hsl(var(--accent))",
-                                },
-                              ]
-                                .filter((item) => item.value > 0)
-                                .map((entry, index) => (
-                                  <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                            </Pie>
-                            <Tooltip
-                              formatter={(value: number) => formatCurrency(value)}
-                            />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </div>
+                      (() => {
+                        const pieData = [
+                          {
+                            name: t("credit.limit.creditLimit"),
+                            value: Math.abs(creditLimit.creditLimit),
+                            color: "hsl(var(--primary))",
+                          },
+                          {
+                            name: t("credit.limit.pendingValue"),
+                            value: Math.abs(creditLimit.pendingValue),
+                            color: "hsl(var(--warning))",
+                          },
+                          {
+                            name: t("credit.limit.approvedItems"),
+                            value: Math.abs(creditLimit.approvedItemsValue),
+                            color: "hsl(var(--success))",
+                          },
+                          {
+                            name: t("credit.limit.raBalance"),
+                            value: Math.abs(creditLimit.raBalance),
+                            color: "hsl(var(--info))",
+                          },
+                          {
+                            name: t("credit.limit.nccBalance"),
+                            value: Math.abs(creditLimit.nccBalance),
+                            color: "hsl(var(--secondary))",
+                          },
+                          {
+                            name: t("credit.limit.availableBalance"),
+                            value: Math.abs(creditLimit.availableBalance),
+                            color: "hsl(var(--accent))",
+                          },
+                        ];
+                        const filteredData = pieData.filter((item) => item.value > 0);
+                        if (filteredData.length === 0) {
+                          return (
+                            <p className="text-sm text-muted-foreground text-center py-8">
+                              {t("credit.limit.noData")}
+                            </p>
+                          );
+                        }
+                        return (
+                          <div className="h-64 w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <Pie
+                                  data={filteredData}
+                                  dataKey="value"
+                                  nameKey="name"
+                                  cx="50%"
+                                  cy="50%"
+                                  outerRadius={80}
+                                  label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
+                                >
+                                  {filteredData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                  ))}
+                                </Pie>
+                                <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                        );
+                      })()
                     ) : (
                       <p className="text-sm text-muted-foreground text-center py-8">
                         {t("credit.limit.noData")}
