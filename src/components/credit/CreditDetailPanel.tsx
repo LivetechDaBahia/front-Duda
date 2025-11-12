@@ -560,11 +560,6 @@ export const CreditDetailPanel = ({
                       (() => {
                         const pieData = [
                           {
-                            name: t("credit.limit.creditLimit"),
-                            value: Math.abs(creditLimit.creditLimit),
-                            color: "hsl(var(--primary))",
-                          },
-                          {
                             name: t("credit.limit.pendingValue"),
                             value: Math.abs(creditLimit.pendingValue),
                             color: "hsl(var(--warning))",
@@ -591,33 +586,40 @@ export const CreditDetailPanel = ({
                           },
                         ];
                         const filteredData = pieData.filter((item) => item.value > 0);
-                        if (filteredData.length === 0) {
-                          return (
-                            <p className="text-sm text-muted-foreground text-center py-8">
-                              {t("credit.limit.noData")}
-                            </p>
-                          );
-                        }
                         return (
-                          <div className="h-64 w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
-                                <Pie
-                                  data={filteredData}
-                                  dataKey="value"
-                                  nameKey="name"
-                                  cx="50%"
-                                  cy="50%"
-                                  outerRadius={80}
-                                  label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
-                                >
-                                  {filteredData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                  ))}
-                                </Pie>
-                                <Tooltip formatter={(value: number) => formatCurrency(value)} />
-                              </PieChart>
-                            </ResponsiveContainer>
+                          <div>
+                            <div className="text-sm text-muted-foreground">
+                              {t("credit.limit.creditLimit")}: {" "}
+                              <span className="font-medium">
+                                {formatCurrency(creditLimit.creditLimit)}
+                              </span>
+                            </div>
+                            {filteredData.length === 0 ? (
+                              <p className="text-sm text-muted-foreground text-center py-8">
+                                {t("credit.limit.noData")}
+                              </p>
+                            ) : (
+                              <div className="h-64 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                  <PieChart>
+                                    <Pie
+                                      data={filteredData}
+                                      dataKey="value"
+                                      nameKey="name"
+                                      cx="50%"
+                                      cy="50%"
+                                      outerRadius={80}
+                                      label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
+                                    >
+                                      {filteredData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                      ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                                  </PieChart>
+                                </ResponsiveContainer>
+                              </div>
+                            )}
                           </div>
                         );
                       })()
