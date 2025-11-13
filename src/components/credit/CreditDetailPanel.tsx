@@ -370,7 +370,11 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {documents.map((doc, idx) => (
-                          <TableRow key={idx}>
+                          <TableRow 
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, '_blank')}
+                          >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
                           </TableRow>
@@ -399,7 +403,11 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {quoteDocuments.map((doc, idx) => (
-                          <TableRow key={idx}>
+                          <TableRow 
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, '_blank')}
+                          >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
                           </TableRow>
@@ -428,7 +436,11 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {clientDocuments.map((doc, idx) => (
-                          <TableRow key={idx}>
+                          <TableRow 
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, '_blank')}
+                          >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
                           </TableRow>
