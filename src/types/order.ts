@@ -51,6 +51,7 @@ export interface ApprovePurchaseOrderDto {
   approvalUserCode: string;
   systemUserCode: string;
   email: string;
+  tenantId?: string;
   reversion?: boolean;
 }
 
@@ -62,6 +63,7 @@ export interface RejectPurchaseOrderDto {
   systemUserCode: string;
   email: string;
   reason: string;
+  tenantId?: string;
 }
 
 export interface ApprovalActionResponse {
