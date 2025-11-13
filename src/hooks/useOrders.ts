@@ -167,6 +167,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       }
 
       const branch = resolveBranchId(order);
+      const tenantId = params?.tenantId;
 
       const dto = {
         orderId,
@@ -175,6 +176,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         approvalUserCode: "",
         systemUserCode: "",
         email: user.email,
+        tenantId,
       };
       if (isDev) {
         console.log("[useOrders] approve.mutationFn payload", {
@@ -211,6 +213,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       }
 
       const branch = resolveBranchId(order);
+      const tenantId = params?.tenantId;
 
       const dto = {
         orderId,
@@ -220,6 +223,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         systemUserCode: "",
         email: user.email,
         reason,
+        tenantId,
       };
       if (isDev) {
         console.log("[useOrders] decline.mutationFn payload", {
@@ -256,6 +260,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       }
 
       const branch = resolveBranchId(order);
+      const tenantId = params?.tenantId;
 
       const dto = {
         orderId,
@@ -264,6 +269,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         approvalUserCode: "",
         systemUserCode: "",
         email: user.email,
+        tenantId,
       };
       if (isDev) {
         console.log("[useOrders] revert.mutationFn payload", {
