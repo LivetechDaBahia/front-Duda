@@ -9,7 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, History, Loader2, User, UserPlus, TrendingUp } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { MoreHorizontal, History, Loader2, User, UserPlus, TrendingUp, Lock } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { format } from "date-fns";
@@ -26,6 +32,7 @@ interface CreditCardProps {
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
   isDragging?: boolean;
   isLoading?: boolean;
+  canDrag?: boolean;
 }
 
 export const CreditCard = ({
@@ -37,13 +44,16 @@ export const CreditCard = ({
   onActionsClick,
   isDragging,
   isLoading,
+  canDrag = true,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
-  const { hasMinimumLevel } = usePermissions();
+  const { hasMinimumLevel, isAdmin } = usePermissions();
   const { user } = useAuth();
   const isManager = hasMinimumLevel("Manager");
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
+  
+  const showDragRestrictionTooltip = !canDrag && !isAdmin;
 
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
@@ -97,7 +107,7 @@ export const CreditCard = ({
 
   const { t } = useLocale();
 
-  return (
+  const cardContent = (
     <Card
       className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
@@ -278,4 +288,28 @@ export const CreditCard = ({
       </CardContent>
     </Card>
   );
+
+  if (showDragRestrictionTooltip) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="relative">
+              {cardContent}
+              <div className="absolute top-2 right-2 bg-background/90 rounded-full p-1">
+                <Lock className="h-3 w-3 text-muted-foreground" />
+              </div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs">
+            <p className="text-sm">
+              {t("credit.dragRestriction") || "Only assigned items can be moved. Assign this item to yourself or ask an admin to move it."}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return cardContent;
 };
