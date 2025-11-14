@@ -303,7 +303,9 @@ export const CreditCard = ({
           </TooltipTrigger>
           <TooltipContent side="top" className="max-w-xs">
             <p className="text-sm">
-              {t("credit.dragRestriction") || "Only assigned items can be moved. Assign this item to yourself or ask an admin to move it."}
+              {status?.destructive
+                ? t("credit.dragRestrictionDestructive")
+                : t("credit.dragRestriction")}
             </p>
           </TooltipContent>
         </Tooltip>

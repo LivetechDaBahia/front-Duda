@@ -409,6 +409,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.noLogs": "No activity logs found",
     "credit.activityLogsDescription": "View activity logs for this element",
     "credit.viewLogs": "View Logs",
+    "credit.dragRestriction":
+      "Only assigned items can be moved. Assign this item to yourself or ask an admin to move it.",
+    "credit.dragRestrictionDestructive":
+      "Items in this status cannot be moved.",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -886,6 +890,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.activityLogsDescription":
       "Veja os registros de atividade deste item",
     "credit.viewLogs": "Ver Registros",
+    "credit.dragRestriction":
+      "Apenas itens atribuídos podem ser movidos. Atribua este item a você ou peça a um administrador para movê-lo.",
+    "credit.dragRestrictionDestructive":
+      "Itens neste status não podem ser movidos.",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1385,6 +1393,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.activityLogsDescription":
       "Consulte los registros de actividad de este elemento",
     "credit.viewLogs": "Ver Registros",
+    "credit.dragRestriction":
+      "Solo los elementos asignados se pueden mover. Asigna este elemento a ti mismo o pídele a un administrador que lo mueva.",
+    "credit.dragRestrictionDestructive":
+      "Los elementos en este estado no se pueden mover.",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",

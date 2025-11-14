@@ -39,6 +39,10 @@ export const CreditKanbanView = ({
 
   // Check if user can drag a specific credit
   const canDragCredit = (credit: CreditElementItem): boolean => {
+    // Check if credit is in a destructive status - if so, it cannot be moved
+    const currentStatus = statuses.find((s) => s.id === credit.statusId);
+    if (currentStatus?.destructive) return false;
+    
     if (isAdmin) return true;
     if (!user?.email) return false;
     return credit.user?.toLowerCase() === user.email.toLowerCase();
