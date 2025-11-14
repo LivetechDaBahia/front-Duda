@@ -3,6 +3,8 @@ import { CreditCard } from "./CreditCard";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
+import { usePermissions } from "@/hooks/usePermissions";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CreditKanbanViewProps {
   credits: CreditElementItem[];
@@ -26,12 +28,21 @@ export const CreditKanbanView = ({
   loadingCreditId,
 }: CreditKanbanViewProps) => {
   const { t } = useLocale();
+  const { isAdmin } = usePermissions();
+  const { user } = useAuth();
   const [draggedCreditId, setDraggedCreditId] = useState<number | null>(null);
   const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Enable auto-scroll when dragging
   useAutoScroll(scrollContainerRef, draggedCreditId !== null);
+
+  // Check if user can drag a specific credit
+  const canDragCredit = (credit: CreditElementItem): boolean => {
+    if (isAdmin) return true;
+    if (!user?.email) return false;
+    return credit.user?.toLowerCase() === user.email.toLowerCase();
+  };
 
   const getCreditsByStatus = (statusId: string) => {
     return credits.filter((credit) => credit.statusId === statusId);
@@ -107,21 +118,27 @@ export const CreditKanbanView = ({
                         {t("credit.noCreditsInStatus")}
                       </p>
                     ) : (
-                      statusCredits.map((credit) => (
-                        <CreditCard
-                          key={`credit-${credit.id}`}
-                          credit={credit}
-                          statuses={statuses}
-                          onClick={() => onCreditClick(credit)}
-                          onDragStart={
-                            onStatusChange ? handleDragStart : undefined
-                          }
-                          onDragEnd={handleDragEnd}
-                          onActionsClick={onActionsClick}
-                          isDragging={draggedCreditId === credit.id}
-                          isLoading={loadingCreditId === credit.id}
-                        />
-                      ))
+                      statusCredits.map((credit) => {
+                        const isDraggable = canDragCredit(credit);
+                        return (
+                          <CreditCard
+                            key={`credit-${credit.id}`}
+                            credit={credit}
+                            statuses={statuses}
+                            onClick={() => onCreditClick(credit)}
+                            onDragStart={
+                              onStatusChange && isDraggable
+                                ? handleDragStart
+                                : undefined
+                            }
+                            onDragEnd={handleDragEnd}
+                            onActionsClick={onActionsClick}
+                            isDragging={draggedCreditId === credit.id}
+                            isLoading={loadingCreditId === credit.id}
+                            canDrag={isDraggable}
+                          />
+                        );
+                      })
                     )}
                   </div>
                 </div>
