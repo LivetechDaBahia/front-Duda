@@ -274,6 +274,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Date from",
     "filters.dateTo": "Date to",
     "filters.selectDate": "Select Date",
+    "filters.showInBRL": "Show in BRL",
 
     // Order
     "order.branch": "Branch",
@@ -760,6 +761,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Data a partir",
     "filters.dateTo": "Data até",
     "filters.selectDate": "Selecionar Data",
+    "filters.showInBRL": "Mostrar em R$",
 
     // Order
     "order.branch": "Filial",
@@ -1255,6 +1257,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateFrom": "Fecha desde",
     "filters.dateTo": "Fecha hasta",
     "filters.selectDate": "Seleccionar Fecha",
+    "filters.showInBRL": "Mostrar en BRL",
 
     // Order
     "order.branch": "Sucursal",

@@ -16,7 +16,7 @@ interface ItemsPerPageSelectorProps {
 export const ItemsPerPageSelector = ({
   value,
   onChange,
-  options = [10, 20, 50, 100],
+  options = [5, 10, 20, 50, 100],
 }: ItemsPerPageSelectorProps) => {
   const { t } = useLocale();
 
