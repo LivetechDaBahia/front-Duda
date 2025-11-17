@@ -90,6 +90,7 @@ export interface PurchaseOrder {
   amount: number;
   value: number;
   coinSymbol: string;
+  currencyRate?: number; // Currency rate for BRL conversion
   status: UIOrderStatus;
   statusCode?: string; // Original API status code
   items: number;

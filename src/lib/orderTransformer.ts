@@ -57,6 +57,7 @@ export const transformIssueToOrder = (
     amount: issue.Amount,
     value: issue.ReleaseValue || issue.CoinValue || 0,
     coinSymbol: issue.CoinSymbol || "$",
+    currencyRate: issue.CurrencyRate || 1, // Store currency rate for BRL conversion
     status: uiStatus,
     statusCode: issue.StatusCode, // Preserve original status code
     items: 1, // Each issue is one item

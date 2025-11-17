@@ -17,6 +17,7 @@ interface OrderCardProps {
   onClick: () => void;
   onDragStart?: (e: React.DragEvent, orderId: string) => void;
   onRevertOrder?: (orderId: string) => void;
+  showInBRL?: boolean;
 }
 
 const statusColors = {
@@ -31,9 +32,15 @@ export const OrderCard = ({
   onClick,
   onDragStart,
   onRevertOrder,
+  showInBRL = false,
 }: OrderCardProps) => {
   const { t } = useLocale();
   const isLocked = isOrderLocked(order);
+
+  const displayAmount = showInBRL && order.currencyRate
+    ? order.amount * order.currencyRate
+    : order.amount;
+  const displaySymbol = showInBRL ? "R$" : order.coinSymbol;
 
   const handleDragStart = (e: React.DragEvent) => {
     if (isLocked) {
@@ -84,8 +91,7 @@ export const OrderCard = ({
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              {order.coinSymbol}
-              {(order.amount || 0).toLocaleString()}
+              {displaySymbol} {displayAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           </div>
 

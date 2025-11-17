@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useLocale } from "@/contexts/LocaleContext";
 import { UIOrderStatus, Branch } from "@/types/order";
 import { FilterContainer } from "@/components/shared/FilterContainer";
@@ -26,6 +27,7 @@ export interface FilterValues {
   branch: string;
   dateFrom: Date | undefined;
   dateTo: Date | undefined;
+  showInBRL?: boolean;
 }
 
 export const OrderFilters = ({
@@ -41,6 +43,7 @@ export const OrderFilters = ({
   const [dateFrom, setDateFrom] = useState<Date | undefined>();
   const [dateTo, setDateTo] = useState<Date | undefined>();
   const [showFilters, setShowFilters] = useState(false);
+  const [showInBRL, setShowInBRL] = useState(false);
 
   // Keep local branch in sync with selectedBranch and choose sensible default
   useEffect(() => {
@@ -90,6 +93,7 @@ export const OrderFilters = ({
       branch,
       dateFrom,
       dateTo,
+      showInBRL,
     });
   };
 
@@ -100,12 +104,14 @@ export const OrderFilters = ({
     setBranch(firstBranch);
     setDateFrom(undefined);
     setDateTo(undefined);
+    setShowInBRL(false);
     onFilterChange({
       search: "",
       status: "all",
       branch: firstBranch,
       dateFrom: undefined,
       dateTo: undefined,
+      showInBRL: false,
     });
   };
 
@@ -188,6 +194,18 @@ export const OrderFilters = ({
         dateToLabel={t("filters.dateTo")}
         selectDateLabel={t("filters.selectDate")}
       />
+
+      {/* Currency Toggle */}
+      <div className="flex items-center justify-between space-x-2 pt-2">
+        <Label htmlFor="currency-toggle" className="flex-1">
+          {t("filters.showInBRL")}
+        </Label>
+        <Switch
+          id="currency-toggle"
+          checked={showInBRL}
+          onCheckedChange={setShowInBRL}
+        />
+      </div>
     </FilterContainer>
   );
 };

@@ -38,6 +38,7 @@ const Index = () => {
     branch: "",
     dateFrom: undefined,
     dateTo: undefined,
+    showInBRL: false,
   });
 
   // Pass API-level filters to useOrders
@@ -197,6 +198,7 @@ const Index = () => {
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
             onRevertOrder={handleRevertOrder}
+            showInBRL={filters.showInBRL}
           />
         ) : (
           <TableView
@@ -204,6 +206,7 @@ const Index = () => {
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
             onRevertOrder={handleRevertOrder}
+            showInBRL={filters.showInBRL}
           />
         )}
 

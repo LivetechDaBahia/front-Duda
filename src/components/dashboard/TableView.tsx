@@ -38,6 +38,7 @@ interface TableViewProps {
   onOrderClick: (order: PurchaseOrder) => void;
   onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
   onRevertOrder: (orderId: string) => void;
+  showInBRL?: boolean;
 }
 
 const statusColors = {
@@ -54,6 +55,7 @@ export const TableView = ({
   onOrderClick,
   onStatusChange,
   onRevertOrder,
+  showInBRL = false,
 }: TableViewProps) => {
   const { t } = useLocale();
   const [sortField, setSortField] = useState<SortField>("id");
@@ -172,8 +174,9 @@ export const TableView = ({
                 className="font-semibold cursor-pointer"
                 onClick={() => onOrderClick(order)}
               >
-                {order.coinSymbol}
-                {(order.value || 0).toLocaleString()}
+                {showInBRL && order.currencyRate
+                  ? `R$ ${(order.amount * order.currencyRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  : `${order.coinSymbol} ${(order.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
               </TableCell>
               <TableCell
                 onClick={() => onOrderClick(order)}
