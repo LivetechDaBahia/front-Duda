@@ -8,6 +8,7 @@ interface KanbanViewProps {
   onOrderClick: (order: PurchaseOrder) => void;
   onStatusChange: (orderId: string, newStatus: UIOrderStatus) => void;
   onRevertOrder: (orderId: string) => void;
+  showInBRL?: boolean;
 }
 
 export const KanbanView = ({
@@ -15,6 +16,7 @@ export const KanbanView = ({
   onOrderClick,
   onStatusChange,
   onRevertOrder,
+  showInBRL = false,
 }: KanbanViewProps) => {
   const { t } = useLocale();
 
@@ -112,6 +114,7 @@ export const KanbanView = ({
                   onClick={() => onOrderClick(order)}
                   onDragStart={handleDragStart}
                   onRevertOrder={onRevertOrder}
+                  showInBRL={showInBRL}
                 />
               ))}
 
