@@ -657,6 +657,78 @@ export const CreditDetailPanel = ({
                       </p>
                     )}
                   </div>
+
+                  {/* Default Probability Indicator */}
+                  {clientHistory && clientHistory.length > 0 && (() => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const pendingItems = clientHistory.filter(
+                      (item) => item.dueDate && item.dueDate >= today
+                    );
+                    const dueItems = clientHistory.filter(
+                      (item) => item.dueDate && item.dueDate < today
+                    );
+
+                    const pendingCount = pendingItems.length;
+                    const dueCount = dueItems.length;
+                    const pendingValue = pendingItems.reduce((sum, item) => sum + Math.abs(item.balance), 0);
+                    const dueValue = dueItems.reduce((sum, item) => sum + Math.abs(item.balance), 0);
+
+                    const totalValue = pendingValue + dueValue;
+                    const defaultProbability = totalValue > 0 
+                      ? ((dueValue / totalValue) * 100).toFixed(2)
+                      : "0.00";
+
+                    return (
+                      <div className="space-y-3 border rounded-lg p-4 bg-muted/30">
+                        <h3 className="font-semibold text-base">
+                          {t("credit.defaultProbability.title")}
+                        </h3>
+                        <div className="grid grid-cols-1 gap-4">
+                          {/* Probability Display */}
+                          <div className="flex items-center justify-between p-3 bg-background rounded-md border">
+                            <span className="text-sm text-muted-foreground">
+                              {t("credit.defaultProbability.probability")}
+                            </span>
+                            <span className={`text-2xl font-bold ${
+                              parseFloat(defaultProbability) > 50 
+                                ? "text-destructive" 
+                                : parseFloat(defaultProbability) > 25 
+                                ? "text-warning" 
+                                : "text-success"
+                            }`}>
+                              {defaultProbability}%
+                            </span>
+                          </div>
+
+                          {/* Pending Items */}
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="p-3 bg-background rounded-md border">
+                              <div className="text-xs text-muted-foreground mb-1">
+                                {t("credit.defaultProbability.pendingItems")}
+                              </div>
+                              <div className="text-lg font-semibold">{pendingCount}</div>
+                              <div className="text-sm text-muted-foreground mt-1">
+                                {formatCurrency(pendingValue)}
+                              </div>
+                            </div>
+
+                            {/* Due Items */}
+                            <div className="p-3 bg-background rounded-md border">
+                              <div className="text-xs text-muted-foreground mb-1">
+                                {t("credit.defaultProbability.dueItems")}
+                              </div>
+                              <div className="text-lg font-semibold text-destructive">{dueCount}</div>
+                              <div className="text-sm text-muted-foreground mt-1">
+                                {formatCurrency(dueValue)}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground text-center py-8">

@@ -472,6 +472,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.nccBalance": "NCC Balance",
     "credit.limit.availableBalance": "Available Balance",
     "credit.limit.noData": "No credit limit data available",
+    "credit.defaultProbability.title": "Default Risk Analysis",
+    "credit.defaultProbability.probability": "Default Probability",
+    "credit.defaultProbability.pendingItems": "Pending Items",
+    "credit.defaultProbability.dueItems": "Overdue Items",
 
     // Home Page
     "home.pending": "Pending",
@@ -962,6 +966,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.nccBalance": "Saldo NCC",
     "credit.limit.availableBalance": "Saldo Disponível",
     "credit.limit.noData": "Nenhum dado de limite de crédito disponível",
+    "credit.defaultProbability.title": "Análise de Risco de Inadimplência",
+    "credit.defaultProbability.probability": "Probabilidade de Inadimplência",
+    "credit.defaultProbability.pendingItems": "Itens Pendentes",
+    "credit.defaultProbability.dueItems": "Itens Vencidos",
 
     // Home Page
     "home.pending": "Pendente",
@@ -1468,6 +1476,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.nccBalance": "Saldo NCC",
     "credit.limit.availableBalance": "Saldo Disponible",
     "credit.limit.noData": "No hay datos de límite de crédito disponibles",
+    "credit.defaultProbability.title": "Análisis de Riesgo de Incumplimiento",
+    "credit.defaultProbability.probability": "Probabilidad de Incumplimiento",
+    "credit.defaultProbability.pendingItems": "Elementos Pendientes",
+    "credit.defaultProbability.dueItems": "Elementos Vencidos",
 
     // Home Page
     "home.pending": "Pendiente",
