@@ -188,7 +188,7 @@ export const CreditDetailPanel = ({
 
         {credit && (
           <Tabs defaultValue="client" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3 grid-rows-2 gap-4 border-b border-muted-foreground pb-2 mb-2">
+            <TabsList className="h-13 grid w-full grid-cols-3 grid-rows-2 gap-4 border-b border-muted-foreground pb-2 mb-2">
               <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
               <TabsTrigger value="documents">
                 {t("credit.documents")}
