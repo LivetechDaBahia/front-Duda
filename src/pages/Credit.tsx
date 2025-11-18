@@ -402,6 +402,8 @@ const Credit = () => {
               credits={paginatedCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
+              onStatusChange={handleStatusChange}
+              onActionsClick={handleActionsClick}
               loadingCreditId={loadingCreditId}
             />
           )}

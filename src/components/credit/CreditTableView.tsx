@@ -7,15 +7,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Loader2, MoreHorizontal, History, UserPlus, TrendingUp } from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { useLocale } from "@/contexts/LocaleContext";
+import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditTableViewProps {
   credits: CreditElementItem[];
   statuses: CreditStatus[];
   onCreditClick: (credit: CreditElementItem) => void;
+  onStatusChange?: (
+    creditId: number,
+    offerId: string,
+    newStatusId: string,
+  ) => void;
+  onActionsClick?: (credit: CreditElementItem, action: string) => void;
   loadingCreditId?: number | null;
 }
 
@@ -23,9 +42,13 @@ export const CreditTableView = ({
   credits,
   statuses,
   onCreditClick,
+  onStatusChange,
+  onActionsClick,
   loadingCreditId,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
+  const { hasMinimumLevel } = usePermissions();
+  const isManager = hasMinimumLevel("Manager");
 
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
@@ -62,9 +85,6 @@ export const CreditTableView = ({
             <TableHead className="whitespace-nowrap">
               {t("credit.value")}
             </TableHead>
-            <TableHead className="whitespace-nowrap hidden sm:table-cell">
-              {t("credit.currency")}
-            </TableHead>
             <TableHead className="whitespace-nowrap hidden md:table-cell">
               {t("credit.seller")}
             </TableHead>
@@ -76,17 +96,17 @@ export const CreditTableView = ({
             </TableHead>
             <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
             <TableHead className="whitespace-nowrap hidden lg:table-cell">
-              {t("credit.group")}
-            </TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">
               {t("credit.user")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap text-right">
+              {t("table.actions")}
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {credits.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={10} className="text-center py-8">
+              <TableCell colSpan={9} className="text-center py-8">
                 {t("credit.noCredits")}
               </TableCell>
             </TableRow>
@@ -115,9 +135,6 @@ export const CreditTableView = ({
                       credit.details.currency,
                     )}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap hidden sm:table-cell">
-                    {credit.details.currency}
-                  </TableCell>
                   <TableCell className="whitespace-nowrap hidden md:table-cell">
                     {credit.details.sellerName}
                   </TableCell>
@@ -144,10 +161,125 @@ export const CreditTableView = ({
                     )}
                   </TableCell>
                   <TableCell className="whitespace-nowrap hidden lg:table-cell">
-                    {credit.group}
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap hidden lg:table-cell">
                     {credit.user || "-"}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-right">
+                    {(onActionsClick || onStatusChange) && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            className="h-8 w-8 p-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            disabled={isLoading}
+                          >
+                            <span className="sr-only">{t("table.actions")}</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="z-50 bg-background">
+                          <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
+                          {onActionsClick && (
+                            <>
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onActionsClick(credit, "view-logs");
+                                }}
+                              >
+                                <History className="mr-2 h-4 w-4" />
+                                {t("credit.viewLogs")}
+                              </DropdownMenuItem>
+
+                              <DropdownMenuSeparator />
+
+                              {/* Assignment Options */}
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onActionsClick(credit, "assign-to-me");
+                                }}
+                              >
+                                <UserPlus className="mr-2 h-4 w-4" />
+                                {t("credit.assign.self")}
+                              </DropdownMenuItem>
+
+                              {isManager && (
+                                <DropdownMenuItem
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onActionsClick(credit, "assign-item");
+                                  }}
+                                >
+                                  <UserPlus className="mr-2 h-4 w-4" />
+                                  {t("credit.assignTo")}
+                                </DropdownMenuItem>
+                              )}
+
+                              {isManager && (
+                                <>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onActionsClick(credit, "set-credit-limit");
+                                    }}
+                                  >
+                                    <TrendingUp className="mr-2 h-4 w-4" />
+                                    {t("credit.limit.setLimit")}
+                                  </DropdownMenuItem>
+                                </>
+                              )}
+                            </>
+                          )}
+
+                          {onStatusChange && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
+                                  {t("credit.changeStatus")}
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuSubContent>
+                                  {statuses.map((s) => (
+                                    <DropdownMenuItem
+                                      key={s.id}
+                                      disabled={s.id === credit.statusId}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (s.id !== credit.statusId) {
+                                          onStatusChange(
+                                            credit.id,
+                                            credit.details.offer,
+                                            s.id,
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <Badge
+                                        variant={
+                                          s.id === "S004"
+                                            ? "success"
+                                            : s.destructive
+                                              ? "destructive"
+                                              : "secondary"
+                                        }
+                                        className="text-xs mr-2"
+                                      >
+                                        {s.description}
+                                      </Badge>
+                                      {s.description}
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuSubContent>
+                              </DropdownMenuSub>
+                            </>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                   </TableCell>
                 </TableRow>
               );
