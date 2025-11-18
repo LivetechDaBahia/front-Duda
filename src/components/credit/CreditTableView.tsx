@@ -19,7 +19,13 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Loader2, MoreHorizontal, History, UserPlus, TrendingUp } from "lucide-react";
+import {
+  Loader2,
+  MoreHorizontal,
+  History,
+  UserPlus,
+  TrendingUp,
+} from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -175,12 +181,19 @@ export const CreditTableView = ({
                             }}
                             disabled={isLoading}
                           >
-                            <span className="sr-only">{t("table.actions")}</span>
+                            <span className="sr-only">
+                              {t("table.actions")}
+                            </span>
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="z-50 bg-background">
-                          <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
+                        <DropdownMenuContent
+                          align="end"
+                          className="z-50 bg-background"
+                        >
+                          <DropdownMenuLabel>
+                            {t("table.actions")}
+                          </DropdownMenuLabel>
                           {onActionsClick && (
                             <>
                               <DropdownMenuItem
@@ -224,7 +237,10 @@ export const CreditTableView = ({
                                   <DropdownMenuItem
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      onActionsClick(credit, "set-credit-limit");
+                                      onActionsClick(
+                                        credit,
+                                        "set-credit-limit",
+                                      );
                                     }}
                                   >
                                     <TrendingUp className="mr-2 h-4 w-4" />

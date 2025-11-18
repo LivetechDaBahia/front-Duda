@@ -15,7 +15,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { MoreHorizontal, History, Loader2, User, UserPlus, TrendingUp, Lock } from "lucide-react";
+import {
+  MoreHorizontal,
+  History,
+  Loader2,
+  User,
+  UserPlus,
+  TrendingUp,
+  Lock,
+} from "lucide-react";
 import type { CreditElementItem, CreditStatus } from "@/types/credit";
 import { getCreditStatusById } from "@/lib/creditTransformer";
 import { format } from "date-fns";
@@ -52,7 +60,7 @@ export const CreditCard = ({
   const isManager = hasMinimumLevel("Manager");
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
-  
+
   const showDragRestrictionTooltip = !canDrag && !isAdmin;
 
   const formatCurrency = (value: number, currency: string) => {
@@ -250,7 +258,21 @@ export const CreditCard = ({
         )}
         {credit.details.date && (
           <div className="text-xs text-muted-foreground truncate">
-            {format(credit.details.date, "dd/MM/yyyy hh:mm")} •{" "}
+            {format(
+              (() => {
+                const rawDate = credit.details.date;
+                if (!rawDate) return new Date();
+                // If it's already a Date, just return it (no timezone adjustment by us)
+                if (rawDate instanceof Date) {
+                  return rawDate;
+                }
+                // Otherwise, treat as string and strip trailing "Z" so it's parsed as local time
+                const str = String(rawDate);
+                const normalized = str.endsWith("Z") ? str.slice(0, -1) : str;
+                return new Date(normalized);
+              })(),
+              "PPp",
+            )}{" "}
             {credit.details.operation}
           </div>
         )}

@@ -37,9 +37,10 @@ export const OrderCard = ({
   const { t } = useLocale();
   const isLocked = isOrderLocked(order);
 
-  const displayAmount = showInBRL && order.currencyRate
-    ? order.amount * order.currencyRate
-    : order.amount;
+  const displayAmount =
+    showInBRL && order.currencyRate
+      ? order.amount * order.currencyRate
+      : order.amount;
   const displaySymbol = showInBRL ? "R$" : order.coinSymbol;
 
   const handleDragStart = (e: React.DragEvent) => {
@@ -91,7 +92,11 @@ export const OrderCard = ({
               {t("order.value")}
             </span>
             <span className="font-semibold text-foreground">
-              {displaySymbol} {displayAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {displaySymbol}{" "}
+              {displayAmount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </div>
 

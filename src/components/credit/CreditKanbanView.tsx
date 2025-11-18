@@ -43,7 +43,7 @@ export const CreditKanbanView = ({
     // Check if credit is in a destructive status - if so, it cannot be moved
     const currentStatus = statuses.find((s) => s.id === credit.statusId);
     if (currentStatus?.destructive) return false;
-    
+
     if (isAdmin) return true;
     if (!user?.email) return false;
     return credit.user?.toLowerCase() === user.email.toLowerCase();
@@ -97,7 +97,10 @@ export const CreditKanbanView = ({
             const statusCredits = getCreditsByStatus(status.id);
             const isDragOver = dragOverColumn === status.id;
             return (
-              <div key={status.id} className="flex-shrink-0 w-[349px] h-full flex flex-col">
+              <div
+                key={status.id}
+                className="flex-shrink-0 w-[349px] h-full flex flex-col"
+              >
                 <div
                   className={`rounded-lg border bg-card transition-colors h-full flex flex-col ${
                     status.destructive ? "border-destructive/50" : ""

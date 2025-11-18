@@ -75,7 +75,7 @@ export const CreditDetailPanel = ({
     queryFn: () =>
       creditService.getCreditLimit(
         credit?.details.client || "",
-        credit?.details.clientBranch || ""
+        credit?.details.clientBranch || "",
       ),
     enabled: !!credit?.details.client && !!credit?.details.clientBranch,
   });
@@ -370,10 +370,10 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {documents.map((doc, idx) => (
-                          <TableRow 
+                          <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, '_blank')}
+                            onClick={() => window.open(doc.path, "_blank")}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -403,10 +403,10 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {quoteDocuments.map((doc, idx) => (
-                          <TableRow 
+                          <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, '_blank')}
+                            onClick={() => window.open(doc.path, "_blank")}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -436,10 +436,10 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {clientDocuments.map((doc, idx) => (
-                          <TableRow 
+                          <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, '_blank')}
+                            onClick={() => window.open(doc.path, "_blank")}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -565,7 +565,9 @@ export const CreditDetailPanel = ({
 
                   {/* Credit Limit Pie Chart */}
                   <div className="space-y-3">
-                    <h3 className="font-semibold">{t("credit.limit.chartTitle")}</h3>
+                    <h3 className="font-semibold">
+                      {t("credit.limit.chartTitle")}
+                    </h3>
                     {isLoadingLimit ? (
                       <Skeleton className="h-64 w-full" />
                     ) : creditLimit ? (
@@ -597,11 +599,13 @@ export const CreditDetailPanel = ({
                             color: "hsl(var(--accent))",
                           },
                         ];
-                        const filteredData = pieData.filter((item) => item.value > 0);
+                        const filteredData = pieData.filter(
+                          (item) => item.value > 0,
+                        );
                         return (
                           <div>
                             <div className="text-sm text-muted-foreground">
-                              {t("credit.limit.creditLimit")}: {" "}
+                              {t("credit.limit.creditLimit")}:{" "}
                               <span className="font-medium">
                                 {formatCurrency(creditLimit.creditLimit)}
                               </span>
@@ -621,13 +625,22 @@ export const CreditDetailPanel = ({
                                       cx="50%"
                                       cy="50%"
                                       outerRadius={80}
-                                      label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
+                                      label={(entry) =>
+                                        `${entry.name}: ${formatCurrency(entry.value)}`
+                                      }
                                     >
                                       {filteredData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                        <Cell
+                                          key={`cell-${index}`}
+                                          fill={entry.color}
+                                        />
                                       ))}
                                     </Pie>
-                                    <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                                    <Tooltip
+                                      formatter={(value: number) =>
+                                        formatCurrency(value)
+                                      }
+                                    />
                                   </PieChart>
                                 </ResponsiveContainer>
                               </div>

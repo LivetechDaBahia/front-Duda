@@ -163,7 +163,9 @@ export const PendingItemCard = ({
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>This order is waiting for approval from a previous level</p>
+                    <p>
+                      This order is waiting for approval from a previous level
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

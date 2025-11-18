@@ -462,7 +462,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.errorTitle": "Error",
     "credit.limit.errorDesc": "Failed to update credit limit.",
     "credit.limit.fillAllFields": "Please fill in all fields.",
-    "credit.limit.invalidLimit": "Please enter a valid limit value greater than 0.",
+    "credit.limit.invalidLimit":
+      "Please enter a valid limit value greater than 0.",
     "credit.limit.chartTitle": "Credit Limit Distribution",
     "credit.limit.creditLimit": "Credit Limit",
     "credit.limit.pendingValue": "Pending Value",
@@ -933,7 +934,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Credit Limit
     "credit.limit.setLimit": "Definir Limite de Crédito",
     "credit.limit.title": "Definir Limite de Crédito",
-    "credit.limit.description": "Defina o limite de crédito e risco para este cliente",
+    "credit.limit.description":
+      "Defina o limite de crédito e risco para este cliente",
     "credit.limit.limitLabel": "Limite de Crédito",
     "credit.limit.riskLabel": "Nível de Risco",
     "credit.limit.selectRisk": "Selecione o nível de risco",
@@ -945,11 +947,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.dueDateLabel": "Data de Vencimento",
     "credit.limit.selectDate": "Escolha uma data",
     "credit.limit.successTitle": "Limite de crédito atualizado",
-    "credit.limit.successDesc": "O limite de crédito foi atualizado com sucesso.",
+    "credit.limit.successDesc":
+      "O limite de crédito foi atualizado com sucesso.",
     "credit.limit.errorTitle": "Erro",
     "credit.limit.errorDesc": "Falha ao atualizar o limite de crédito.",
     "credit.limit.fillAllFields": "Por favor, preencha todos os campos.",
-    "credit.limit.invalidLimit": "Por favor, insira um valor de limite válido maior que 0.",
+    "credit.limit.invalidLimit":
+      "Por favor, insira um valor de limite válido maior que 0.",
     "credit.limit.chartTitle": "Distribuição do Limite de Crédito",
     "credit.limit.creditLimit": "Limite de Crédito",
     "credit.limit.pendingValue": "Valor Pendente",
@@ -1450,8 +1454,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.dueDateLabel": "Fecha de Vencimiento",
     "credit.limit.selectDate": "Elige una fecha",
     "credit.limit.successTitle": "Límite de crédito actualizado",
-    "credit.limit.successDesc":
-      "El límite de crédito se actualizó con éxito.",
+    "credit.limit.successDesc": "El límite de crédito se actualizó con éxito.",
     "credit.limit.errorTitle": "Error",
     "credit.limit.errorDesc": "Error al actualizar el límite de crédito.",
     "credit.limit.fillAllFields": "Por favor, completa todos los campos.",
