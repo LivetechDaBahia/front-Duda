@@ -666,6 +666,9 @@ export const CreditDetailPanel = ({
                     const pendingItems = clientHistory.filter(
                       (item) => item.dueDate && item.dueDate >= today
                     );
+
+                    console.log("clientHistory" ,clientHistory);
+                    console.log("pendingItems" ,pendingItems);
                     const dueItems = clientHistory.filter(
                       (item) => item.dueDate && item.dueDate < today
                     );
