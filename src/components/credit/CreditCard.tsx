@@ -272,8 +272,8 @@ export const CreditCard = ({
                 return new Date(normalized);
               })(),
               "PPp",
-            )} • {" "}
-            {credit.details.operation}
+            )}{" "}
+            • {credit.details.operation}
           </div>
         )}
       </CardContent>

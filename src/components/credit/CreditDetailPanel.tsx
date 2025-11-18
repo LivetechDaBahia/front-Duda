@@ -188,7 +188,7 @@ export const CreditDetailPanel = ({
 
         {credit && (
           <Tabs defaultValue="client" className="mt-6">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="client">{t("credit.clientInfo")}</TabsTrigger>
               <TabsTrigger value="documents">
                 {t("credit.documents")}
@@ -198,6 +198,9 @@ export const CreditDetailPanel = ({
               </TabsTrigger>
               <TabsTrigger value="linkedClients">
                 {t("credit.linkedClients")}
+              </TabsTrigger>
+              <TabsTrigger value="financialHistory">
+                {t("credit.financialHistory")}
               </TabsTrigger>
             </TabsList>
 
@@ -654,7 +657,67 @@ export const CreditDetailPanel = ({
                       </p>
                     )}
                   </div>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  {t("credit.noClientInfo")}
+                </p>
+              )}
+            </TabsContent>
 
+            <TabsContent value="linkedClients" className="space-y-4 mt-4">
+              {isLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              ) : linkedClients.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  {t("credit.noLinkedClients")}
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  <h3 className="font-semibold">
+                    {t("credit.linkedClientsInfo")}
+                  </h3>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>{t("credit.id")}</TableHead>
+                        <TableHead>{t("credit.store")}</TableHead>
+                        <TableHead>{t("credit.lc")}</TableHead>
+                        <TableHead>{t("credit.dueDate")}</TableHead>
+                        <TableHead>{t("credit.risk")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {linkedClients.map((client, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{client.id}</TableCell>
+                          <TableCell>{client.branch}</TableCell>
+                          <TableCell>{formatCurrency(client.lc)}</TableCell>
+                          <TableCell>
+                            {formatDate(client.dueDate, locale)}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{client.risk}</Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value={"financialHistory"} className="space-y-4 mt-4">
+              {isLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              ) : clientDetails ? (
+                <div className="space-y-4">
                   {clientHistory.length > 0 && (
                     <div className="space-y-4">
                       <h3 className="font-semibold">
@@ -787,51 +850,6 @@ export const CreditDetailPanel = ({
                 <p className="text-sm text-muted-foreground text-center py-8">
                   {t("credit.noClientInfo")}
                 </p>
-              )}
-            </TabsContent>
-
-            <TabsContent value="linkedClients" className="space-y-4 mt-4">
-              {isLoading ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                </div>
-              ) : linkedClients.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-8">
-                  {t("credit.noLinkedClients")}
-                </p>
-              ) : (
-                <div className="space-y-3">
-                  <h3 className="font-semibold">
-                    {t("credit.linkedClientsInfo")}
-                  </h3>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>{t("credit.id")}</TableHead>
-                        <TableHead>{t("credit.store")}</TableHead>
-                        <TableHead>{t("credit.lc")}</TableHead>
-                        <TableHead>{t("credit.dueDate")}</TableHead>
-                        <TableHead>{t("credit.risk")}</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {linkedClients.map((client, idx) => (
-                        <TableRow key={idx}>
-                          <TableCell>{client.id}</TableCell>
-                          <TableCell>{client.branch}</TableCell>
-                          <TableCell>{formatCurrency(client.lc)}</TableCell>
-                          <TableCell>
-                            {formatDate(client.dueDate, locale)}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline">{client.risk}</Badge>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
               )}
             </TabsContent>
           </Tabs>
