@@ -250,7 +250,7 @@ export const CreditCard = ({
         )}
         {credit.details.date && (
           <div className="text-xs text-muted-foreground truncate">
-            {format(new Date(credit.details.date), "dd/MM/yyyy hh:mm")} •{" "}
+            {format(credit.details.date, "dd/MM/yyyy hh:mm")} •{" "}
             {credit.details.operation}
           </div>
         )}
