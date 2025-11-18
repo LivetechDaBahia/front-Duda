@@ -414,6 +414,7 @@ const translations: Record<Locale, Record<string, string>> = {
       "Only assigned items can be moved. Assign this item to yourself or ask an admin to move it.",
     "credit.dragRestrictionDestructive":
       "Items in this status cannot be moved.",
+    "credit.changeStatus": "Change Status",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -896,6 +897,7 @@ const translations: Record<Locale, Record<string, string>> = {
       "Apenas itens atribuídos podem ser movidos. Atribua este item a você ou peça a um administrador para movê-lo.",
     "credit.dragRestrictionDestructive":
       "Itens neste status não podem ser movidos.",
+    "credit.changeStatus": "Alterar Status",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1400,6 +1402,7 @@ const translations: Record<Locale, Record<string, string>> = {
       "Solo los elementos asignados se pueden mover. Asigna este elemento a ti mismo o pídele a un administrador que lo mueva.",
     "credit.dragRestrictionDestructive":
       "Los elementos en este estado no se pueden mover.",
+    "credit.changeStatus": "Cambiar Estado",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
