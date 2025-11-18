@@ -268,24 +268,6 @@ export const CreditCard = ({
             {credit.details.operation}
           </div>
         )}
-        {credit.badges && credit.badges.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2">
-            {credit.badges.map((badge) => (
-              <Badge
-                key={badge.id}
-                variant={badge.variant || "outline"}
-                className="text-xs"
-                style={
-                  badge.color
-                    ? { borderColor: badge.color, color: badge.color }
-                    : undefined
-                }
-              >
-                {badge.label}
-              </Badge>
-            ))}
-          </div>
-        )}
       </CardContent>
     </Card>
   );
