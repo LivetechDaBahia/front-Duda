@@ -157,20 +157,6 @@ export const CreditCard = ({
             )}
           </div>
           <div className="flex items-center gap-1 shrink-0">
-            {status && (
-              <Badge
-                variant={
-                  credit.statusId === "S004"
-                    ? "success"
-                    : status.destructive
-                      ? "destructive"
-                      : "secondary"
-                }
-                className="text-xs"
-              >
-                {status.description}
-              </Badge>
-            )}
             {onActionsClick && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
