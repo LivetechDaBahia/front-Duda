@@ -14,13 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip as RechartsTooltip,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 import {
   Tooltip,
   TooltipContent,
@@ -385,23 +379,82 @@ export const CreditDetailPanel = ({
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {documents.map((doc, idx) => {
-                          const API_BASE_URL =
-                            import.meta.env.VITE_API_URL ||
-                            "http://localhost:3000";
-                          const fileUrl = `${API_BASE_URL}/credit/creditElement/documents/${doc.branch}/${doc.entity}/${doc.entityId}/${encodeURIComponent(doc.docObject)}`;
+                        {documents.map((doc, idx) => (
+                          <TableRow
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, "_blank")}
+                          >
+                            <TableCell>{doc.docTitle}</TableCell>
+                            <TableCell>{doc.docDescription}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </TabsContent>
 
-                          return (
-                            <TableRow
-                              key={idx}
-                              className="cursor-pointer hover:bg-muted/50"
-                              onClick={() => window.open(fileUrl, "_blank")}
-                            >
-                              <TableCell>{doc.docTitle}</TableCell>
-                              <TableCell>{doc.docDescription}</TableCell>
-                            </TableRow>
-                          );
-                        })}
+                <TabsContent value="quote">
+                  {isLoading ? (
+                    <div className="space-y-2">
+                      <Skeleton className="h-20 w-full" />
+                    </div>
+                  ) : quoteDocuments.length === 0 ? (
+                    <p className="text-sm text-muted-foreground text-center py-8">
+                      {t("credit.noDocuments")}
+                    </p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>{t("credit.docTitle")}</TableHead>
+                          <TableHead>{t("credit.docDescription")}</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {quoteDocuments.map((doc, idx) => (
+                          <TableRow
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, "_blank")}
+                          >
+                            <TableCell>{doc.docTitle}</TableCell>
+                            <TableCell>{doc.docDescription}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="client">
+                  {isLoading ? (
+                    <div className="space-y-2">
+                      <Skeleton className="h-20 w-full" />
+                    </div>
+                  ) : clientDocuments.length === 0 ? (
+                    <p className="text-sm text-muted-foreground text-center py-8">
+                      {t("credit.noDocuments")}
+                    </p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>{t("credit.docTitle")}</TableHead>
+                          <TableHead>{t("credit.docDescription")}</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {clientDocuments.map((doc, idx) => (
+                          <TableRow
+                            key={idx}
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => window.open(doc.path, "_blank")}
+                          >
+                            <TableCell>{doc.docTitle}</TableCell>
+                            <TableCell>{doc.docDescription}</TableCell>
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   )}
@@ -662,9 +715,7 @@ export const CreditDetailPanel = ({
                                     </TooltipTrigger>
                                     <TooltipContent className="max-w-xs">
                                       <p className="text-sm">
-                                        {t(
-                                          "credit.defaultProbability.explanation",
-                                        )}
+                                        {t("credit.defaultProbability.explanation")}
                                       </p>
                                     </TooltipContent>
                                   </Tooltip>
