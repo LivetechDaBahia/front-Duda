@@ -664,14 +664,15 @@ export const CreditDetailPanel = ({
                     today.setHours(0, 0, 0, 0);
 
                     const pendingItems = clientHistory.filter(
-                      (item) => item.dueDate && item.dueDate >= today
+                      (item) => item.status && item.status == 'A vencer'
+                    );
+                    const dueItems = clientHistory.filter(
+                      (item) => item.status && item.status == 'Vencido'
                     );
 
-                    console.log("clientHistory" ,clientHistory);
-                    console.log("pendingItems" ,pendingItems);
-                    const dueItems = clientHistory.filter(
-                      (item) => item.dueDate && item.dueDate < today
-                    );
+                      console.log("clientHistory" ,clientHistory);
+                      console.log("pendingItems" ,pendingItems);
+                      console.log("dueItems" ,dueItems);
 
                     const pendingCount = pendingItems.length;
                     const dueCount = dueItems.length;
