@@ -14,7 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as RechartsTooltip,
+} from "recharts";
 import {
   Tooltip,
   TooltipContent,
@@ -380,9 +386,11 @@ export const CreditDetailPanel = ({
                       </TableHeader>
                       <TableBody>
                         {documents.map((doc, idx) => {
-                          const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+                          const API_BASE_URL =
+                            import.meta.env.VITE_API_URL ||
+                            "http://localhost:3000";
                           const downloadUrl = `${API_BASE_URL}/credit/creditElement/documents/download/${doc.branch}/${doc.entity}/${doc.entityId}/${encodeURIComponent(doc.docObject)}`;
-                          
+
                           return (
                             <TableRow
                               key={idx}
@@ -654,7 +662,9 @@ export const CreditDetailPanel = ({
                                     </TooltipTrigger>
                                     <TooltipContent className="max-w-xs">
                                       <p className="text-sm">
-                                        {t("credit.defaultProbability.explanation")}
+                                        {t(
+                                          "credit.defaultProbability.explanation",
+                                        )}
                                       </p>
                                     </TooltipContent>
                                   </Tooltip>
