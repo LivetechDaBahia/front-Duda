@@ -379,82 +379,21 @@ export const CreditDetailPanel = ({
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {documents.map((doc, idx) => (
-                          <TableRow
-                            key={idx}
-                            className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
-                          >
-                            <TableCell>{doc.docTitle}</TableCell>
-                            <TableCell>{doc.docDescription}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  )}
-                </TabsContent>
-
-                <TabsContent value="quote">
-                  {isLoading ? (
-                    <div className="space-y-2">
-                      <Skeleton className="h-20 w-full" />
-                    </div>
-                  ) : quoteDocuments.length === 0 ? (
-                    <p className="text-sm text-muted-foreground text-center py-8">
-                      {t("credit.noDocuments")}
-                    </p>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>{t("credit.docTitle")}</TableHead>
-                          <TableHead>{t("credit.docDescription")}</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {quoteDocuments.map((doc, idx) => (
-                          <TableRow
-                            key={idx}
-                            className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
-                          >
-                            <TableCell>{doc.docTitle}</TableCell>
-                            <TableCell>{doc.docDescription}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  )}
-                </TabsContent>
-
-                <TabsContent value="client">
-                  {isLoading ? (
-                    <div className="space-y-2">
-                      <Skeleton className="h-20 w-full" />
-                    </div>
-                  ) : clientDocuments.length === 0 ? (
-                    <p className="text-sm text-muted-foreground text-center py-8">
-                      {t("credit.noDocuments")}
-                    </p>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>{t("credit.docTitle")}</TableHead>
-                          <TableHead>{t("credit.docDescription")}</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {clientDocuments.map((doc, idx) => (
-                          <TableRow
-                            key={idx}
-                            className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
-                          >
-                            <TableCell>{doc.docTitle}</TableCell>
-                            <TableCell>{doc.docDescription}</TableCell>
-                          </TableRow>
-                        ))}
+                        {documents.map((doc, idx) => {
+                          const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+                          const downloadUrl = `${API_BASE_URL}/credit/creditElement/documents/download/${doc.branch}/${doc.entity}/${doc.entityId}/${encodeURIComponent(doc.docObject)}`;
+                          
+                          return (
+                            <TableRow
+                              key={idx}
+                              className="cursor-pointer hover:bg-muted/50"
+                              onClick={() => window.open(downloadUrl, "_blank")}
+                            >
+                              <TableCell>{doc.docTitle}</TableCell>
+                              <TableCell>{doc.docDescription}</TableCell>
+                            </TableRow>
+                          );
+                        })}
                       </TableBody>
                     </Table>
                   )}
