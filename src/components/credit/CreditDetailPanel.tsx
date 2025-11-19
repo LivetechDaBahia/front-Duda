@@ -389,13 +389,13 @@ export const CreditDetailPanel = ({
                           const API_BASE_URL =
                             import.meta.env.VITE_API_URL ||
                             "http://localhost:3000";
-                          const viewUrl = `${API_BASE_URL}/credit/creditElement/documents/view/${doc.branch}/${doc.entity}/${doc.entityId}/${encodeURIComponent(doc.docObject)}`;
+                          const fileUrl = `${API_BASE_URL}/credit/creditElement/documents/${doc.branch}/${doc.entity}/${doc.entityId}/${encodeURIComponent(doc.docObject)}`;
 
                           return (
                             <TableRow
                               key={idx}
                               className="cursor-pointer hover:bg-muted/50"
-                              onClick={() => window.open(viewUrl, "_blank")}
+                              onClick={() => window.open(fileUrl, "_blank")}
                             >
                               <TableCell>{doc.docTitle}</TableCell>
                               <TableCell>{doc.docDescription}</TableCell>
