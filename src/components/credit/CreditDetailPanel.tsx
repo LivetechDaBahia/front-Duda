@@ -14,7 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -639,7 +646,7 @@ export const CreditDetailPanel = ({
                                         />
                                       ))}
                                     </Pie>
-                                    <Tooltip
+                                    <RechartsTooltip
                                       formatter={(value: number) =>
                                         formatCurrency(value)
                                       }
@@ -697,9 +704,23 @@ export const CreditDetailPanel = ({
                           <div className="grid grid-cols-1 gap-4">
                             {/* Probability Display */}
                             <div className="flex items-center justify-between p-3 bg-background rounded-md border">
-                              <span className="text-sm text-muted-foreground">
-                                {t("credit.defaultProbability.probability")}
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm text-muted-foreground">
+                                  {t("credit.defaultProbability.probability")}
+                                </span>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                                    </TooltipTrigger>
+                                    <TooltipContent className="max-w-xs">
+                                      <p className="text-sm">
+                                        {t("credit.defaultProbability.explanation")}
+                                      </p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              </div>
                               <span
                                 className={`text-2xl font-bold ${
                                   parseFloat(defaultProbability) > 50
