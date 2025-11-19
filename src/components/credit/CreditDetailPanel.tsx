@@ -56,6 +56,15 @@ export const CreditDetailPanel = ({
 }: CreditDetailPanelProps) => {
   const { t, locale } = useLocale();
 
+  // Helper function to convert UNC path to file:// URL
+  const openDocumentPath = (path: string) => {
+    // Convert UNC path (\\server\share\file) to file:// URL
+    const fileUrl = path.startsWith('\\\\') 
+      ? `file:${path.replace(/\\/g, '/')}`
+      : path;
+    window.open(fileUrl, "_blank");
+  };
+
   const {
     elementDetails,
     elementDetailsList,
@@ -383,7 +392,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
+                            onClick={() => openDocumentPath(doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -416,7 +425,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
+                            onClick={() => openDocumentPath(doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -449,7 +458,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => window.open(doc.path, "_blank")}
+                            onClick={() => openDocumentPath(doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
