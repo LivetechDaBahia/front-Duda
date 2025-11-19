@@ -476,6 +476,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.defaultProbability.probability": "Default Probability",
     "credit.defaultProbability.pendingItems": "Pending Items",
     "credit.defaultProbability.dueItems": "Overdue Items",
+    "credit.defaultProbability.explanation": "The delinquency calculation is based on the values of outstanding invoices (dueValue / (dueValue + pendingValue) * 100)",
 
     // Home Page
     "home.pending": "Pending",
@@ -968,8 +969,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.noData": "Nenhum dado de limite de crédito disponível",
     "credit.defaultProbability.title": "Análise de Risco de Inadimplência",
     "credit.defaultProbability.probability": "Probabilidade de Inadimplência",
-    "credit.defaultProbability.pendingItems": "Itens Pendentes",
-    "credit.defaultProbability.dueItems": "Itens Vencidos",
+    "credit.defaultProbability.pendingItems": "A vencer",
+    "credit.defaultProbability.dueItems": "Vencidos",
+    "credit.defaultProbability.explanation":
+      "O cálculo de inadimplência é feito com base nos valores dos títulos em aberto (ValorVencidos / (ValorVencidos + ValorAberto) * 100)",
 
     // Home Page
     "home.pending": "Pendente",
@@ -1480,6 +1483,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.defaultProbability.probability": "Probabilidad de Incumplimiento",
     "credit.defaultProbability.pendingItems": "Elementos Pendientes",
     "credit.defaultProbability.dueItems": "Elementos Vencidos",
+    "credit.defaultProbability.explanation": "El cálculo de la morosidad se basa en el valor de las facturas pendientes de pago (ValorVencidos / (ValorVencidos + ValorAberto) * 100)",
 
     // Home Page
     "home.pending": "Pendiente",
