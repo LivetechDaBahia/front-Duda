@@ -10,7 +10,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, History } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
-import { format } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
 interface CreditLogsDialogProps {
@@ -71,7 +71,16 @@ export function CreditLogsDialog({
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{log.user}</span>
                         <span>•</span>
-                        <span>{format(new Date(log.timestamp), "PPp")}</span>
+                        <span>
+                          {(() => {
+                            const date = typeof log.timestamp === 'string' 
+                              ? parseISO(log.timestamp) 
+                              : new Date(log.timestamp);
+                            return isValid(date) 
+                              ? format(date, "PPp") 
+                              : log.timestamp?.toString() || "Invalid date";
+                          })()}
+                        </span>
                       </div>
                     </div>
                   </div>
