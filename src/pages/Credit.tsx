@@ -284,7 +284,7 @@ const Credit = () => {
     action: string,
   ) => {
     if (action === "view-logs") {
-      setLogsDialogCreditId(parseInt(credit.key));
+      setLogsDialogCreditId(credit.id);
     } else if (action === "assign-to-me") {
       // Self-assign directly
       try {
