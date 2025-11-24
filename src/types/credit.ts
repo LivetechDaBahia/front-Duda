@@ -125,7 +125,7 @@ export interface CreditLog {
   description: string;
   detail: string;
   user: string;
-  timestamp: Date;
+  dateTime: Date;
   oldStatus?: string;
   newStatus?: string;
 }
