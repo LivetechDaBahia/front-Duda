@@ -35,7 +35,7 @@ export default function Logout() {
               </Button>
 
               <Button
-                onClick={() => navigate("/home")}
+                onClick={() => navigate("/login")}
                 variant="outline"
                 className="w-full"
                 size="lg"
