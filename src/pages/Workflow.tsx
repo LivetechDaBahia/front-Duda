@@ -115,7 +115,11 @@ const initialEdges: Edge[] = [
     target: "3",
     type: "smoothstep",
     animated: true,
-    style: { stroke: "hsl(var(--primary))", strokeWidth: 2, strokeDasharray: "5,5" },
+    style: {
+      stroke: "hsl(var(--primary))",
+      strokeWidth: 2,
+      strokeDasharray: "5,5",
+    },
     markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--primary))" },
   },
   {
@@ -125,7 +129,10 @@ const initialEdges: Edge[] = [
     type: "smoothstep",
     animated: false,
     style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-    markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--muted-foreground))" },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "hsl(var(--muted-foreground))",
+    },
   },
   {
     id: "e2-5",
@@ -133,7 +140,11 @@ const initialEdges: Edge[] = [
     target: "5",
     type: "smoothstep",
     animated: false,
-    style: { stroke: "hsl(var(--warning))", strokeWidth: 2, strokeDasharray: "5,5" },
+    style: {
+      stroke: "hsl(var(--warning))",
+      strokeWidth: 2,
+      strokeDasharray: "5,5",
+    },
     markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--warning))" },
   },
   {
@@ -143,7 +154,10 @@ const initialEdges: Edge[] = [
     type: "smoothstep",
     animated: false,
     style: { stroke: "hsl(var(--destructive))", strokeWidth: 2 },
-    markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--destructive))" },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "hsl(var(--destructive))",
+    },
   },
   {
     id: "e4-7",
@@ -152,7 +166,10 @@ const initialEdges: Edge[] = [
     type: "smoothstep",
     animated: false,
     style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-    markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--muted-foreground))" },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "hsl(var(--muted-foreground))",
+    },
   },
 ];
 

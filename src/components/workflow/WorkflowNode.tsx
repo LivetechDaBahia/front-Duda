@@ -90,7 +90,8 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
           "w-[240px] transition-all duration-300",
           config.borderColor,
           "border-2",
-          selected && "shadow-lg ring-2 ring-ring ring-offset-2 ring-offset-background"
+          selected &&
+            "shadow-lg ring-2 ring-ring ring-offset-2 ring-offset-background",
         )}
       >
         {/* Semaphore Light Indicator */}
@@ -100,7 +101,7 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
               className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center",
                 config.bgColor,
-                config.pulse && "animate-pulse"
+                config.pulse && "animate-pulse",
               )}
             >
               <Icon className={cn("w-5 h-5", config.color)} />
@@ -110,13 +111,13 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
                 <div
                   className={cn(
                     "absolute inset-0 rounded-full animate-ping opacity-75",
-                    config.bgColor
+                    config.bgColor,
                   )}
                 />
                 <div
                   className={cn(
                     "absolute inset-0 rounded-full",
-                    "shadow-[0_0_20px_rgba(var(--primary-rgb),0.5)]"
+                    "shadow-[0_0_20px_rgba(var(--primary-rgb),0.5)]",
                   )}
                   style={{
                     boxShadow:
@@ -131,7 +132,11 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
           <div className="flex-1 min-w-0">
             <Badge
               variant="outline"
-              className={cn("text-xs font-medium", config.color, config.borderColor)}
+              className={cn(
+                "text-xs font-medium",
+                config.color,
+                config.borderColor,
+              )}
             >
               {config.label}
             </Badge>

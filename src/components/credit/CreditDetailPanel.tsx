@@ -14,7 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as RechartsTooltip,
+} from "recharts";
 import {
   Tooltip,
   TooltipContent,
@@ -61,29 +67,29 @@ export const CreditDetailPanel = ({
   // Helper function to open or download documents from the backend
   const openDocument = async (docObject: string) => {
     const url = `${API_BASE_URL}/documents/open/${encodeURIComponent(docObject)}`;
-    const extension = docObject.toLowerCase().split('.').pop();
-    
+    const extension = docObject.toLowerCase().split(".").pop();
+
     // Download these file types instead of opening inline
-    const downloadExtensions = ['csv', 'xlsx', 'docx', 'xls', 'doc'];
-    
-    if (downloadExtensions.includes(extension || '')) {
+    const downloadExtensions = ["csv", "xlsx", "docx", "xls", "doc"];
+
+    if (downloadExtensions.includes(extension || "")) {
       // Download the file
       try {
-        const response = await fetch(url, { credentials: 'include' });
+        const response = await fetch(url, { credentials: "include" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = blobUrl;
         a.download = docObject;
         a.click();
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
-        console.error('Error downloading document:', error);
+        console.error("Error downloading document:", error);
       }
     } else {
       // Open inline in new tab (PDF, images, etc.)
-      window.open(url, '_blank', 'noopener');
+      window.open(url, "_blank", "noopener");
     }
   };
 
@@ -746,7 +752,9 @@ export const CreditDetailPanel = ({
                                     </TooltipTrigger>
                                     <TooltipContent className="max-w-xs">
                                       <p className="text-sm">
-                                        {t("credit.defaultProbability.explanation")}
+                                        {t(
+                                          "credit.defaultProbability.explanation",
+                                        )}
                                       </p>
                                     </TooltipContent>
                                   </Tooltip>

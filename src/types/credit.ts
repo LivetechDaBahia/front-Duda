@@ -123,6 +123,7 @@ export interface CreditLog {
   creditId: number;
   action: string;
   description: string;
+  detail: string;
   user: string;
   timestamp: Date;
   oldStatus?: string;
