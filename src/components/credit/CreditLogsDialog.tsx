@@ -10,8 +10,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, History } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/utils";
 
 interface CreditLogsDialogProps {
   creditId: number | null;
@@ -72,7 +72,7 @@ export function CreditLogsDialog({
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{log.user}</span>
                         <span>•</span>
-                        <span>{format(log.timestamp, "PPp")}</span>
+                        <span>{formatDate(log.timestamp)}</span>
                       </div>
                     </div>
                   </div>
