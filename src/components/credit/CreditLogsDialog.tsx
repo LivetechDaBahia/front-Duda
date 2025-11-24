@@ -12,7 +12,7 @@ import { Loader2, History } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
-import {format, isValid, parseISO} from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 interface CreditLogsDialogProps {
   creditId: number | null;
@@ -73,15 +73,24 @@ export function CreditLogsDialog({
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{log.user}</span>
                         <span>•</span>
-                          <span>
-                          {(() => {
-                              const date = typeof log.dateTime === 'string'
-                                  ? parseISO(log.dateTime)
-                                  : new Date(log.dateTime);
-                              return isValid(date)
-                                  ? format(date, "PPp")
-                                  : log.dateTime?.toString() || "Invalid date";
-                          })()}
+                        <span>
+                          {format(
+                            (() => {
+                              const rawDate = log.dateTime;
+                              if (!rawDate) return new Date();
+                              // If it's already a Date, just return it (no timezone adjustment by us)
+                              if (rawDate instanceof Date) {
+                                return rawDate;
+                              }
+                              // Otherwise, treat as string and strip trailing "Z" so it's parsed as local time
+                              const str = String(rawDate);
+                              const normalized = str.endsWith("Z")
+                                ? str.slice(0, -1)
+                                : str;
+                              return new Date(normalized);
+                            })(),
+                            "PPp",
+                          )}
                         </span>
                       </div>
                     </div>
