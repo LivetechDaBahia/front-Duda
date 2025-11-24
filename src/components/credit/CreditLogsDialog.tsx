@@ -12,6 +12,7 @@ import { Loader2, History } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
+import {format, isValid, parseISO} from "date-fns";
 
 interface CreditLogsDialogProps {
   creditId: number | null;
@@ -72,7 +73,16 @@ export function CreditLogsDialog({
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{log.user}</span>
                         <span>•</span>
-                        <span>{formatDate(log.dateTime)}</span>
+                          <span>
+                          {(() => {
+                              const date = typeof log.dateTime === 'string'
+                                  ? parseISO(log.dateTime)
+                                  : new Date(log.dateTime);
+                              return isValid(date)
+                                  ? format(date, "PPp")
+                                  : log.dateTime?.toString() || "Invalid date";
+                          })()}
+                        </span>
                       </div>
                     </div>
                   </div>
