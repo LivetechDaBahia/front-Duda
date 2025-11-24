@@ -18,6 +18,7 @@ import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Credit from "./pages/Credit";
 import Users from "./pages/Users";
+import Workflow from "./pages/Workflow";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
@@ -70,6 +71,14 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <Users />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/workflow"
+              element={
+                <ProtectedRoute>
+                  <Workflow />
                 </ProtectedRoute>
               }
             />
