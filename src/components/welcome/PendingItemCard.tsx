@@ -27,6 +27,7 @@ interface PendingItemCardProps {
   onApprove?: (itemId: string) => void;
   onDecline?: (itemId: string) => void;
   onViewDetails: (item: PendingItem) => void;
+  showInBRL?: boolean;
 }
 
 export const PendingItemCard = ({
@@ -34,8 +35,20 @@ export const PendingItemCard = ({
   onApprove,
   onDecline,
   onViewDetails,
+  showInBRL = false,
 }: PendingItemCardProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Calculate display values based on showInBRL flag
+  const displayValue =
+    showInBRL && item.type === "purchase_order" && item.originalData?.coinRate
+      ? item.value * item.originalData.coinRate
+      : item.value;
+
+  const displaySymbol =
+    showInBRL && item.type === "purchase_order" && item.originalData?.coinRate
+      ? "R$"
+      : item.coinSymbol;
 
   const handleApprove = async () => {
     if (!onApprove) return;
@@ -114,8 +127,11 @@ export const PendingItemCard = ({
               <span className="text-xs">Value</span>
             </div>
             <p className="font-semibold text-foreground">
-              {item.coinSymbol}
-              {item.value.toLocaleString()}
+              {displaySymbol}
+              {displayValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
           </div>
 

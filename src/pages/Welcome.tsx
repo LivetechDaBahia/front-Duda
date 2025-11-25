@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, CreditCard, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ const Welcome = () => {
   const [selectedItem, setSelectedItem] = useState<PendingItem | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState<string>("");
+  const [showInBRL, setShowInBRL] = useState(false);
 
   const { branches, isLoading: isLoadingBranches } = useBranches();
 
@@ -183,25 +185,37 @@ const Welcome = () => {
               )}
             </div>
 
-            {/* Branch Selector */}
+            {/* Branch Selector and Currency Toggle */}
             {canManagePurchaseOrders && branches.length > 0 && (
-              <div className="mb-4 max-w-xs">
-                <Label className="mb-2 block">{t("order.branch")}</Label>
-                <Select
-                  value={selectedBranch}
-                  onValueChange={setSelectedBranch}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={t("order.filterByBranch")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {branches.map((b) => (
-                      <SelectItem key={b.id} value={b.code}>
-                        {b.name} ({b.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="mb-4 flex items-end gap-4">
+                <div className="flex-1 max-w-xs">
+                  <Label className="mb-2 block">{t("order.branch")}</Label>
+                  <Select
+                    value={selectedBranch}
+                    onValueChange={setSelectedBranch}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("order.filterByBranch")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {branches.map((b) => (
+                        <SelectItem key={b.id} value={b.code}>
+                          {b.name} ({b.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="show-brl"
+                    checked={showInBRL}
+                    onCheckedChange={setShowInBRL}
+                  />
+                  <Label htmlFor="show-brl" className="cursor-pointer">
+                    Show in BRL
+                  </Label>
+                </div>
               </div>
             )}
 
@@ -245,6 +259,7 @@ const Welcome = () => {
                       item.type === "purchase_order" ? handleDecline : undefined
                     }
                     onViewDetails={handleViewDetails}
+                    showInBRL={showInBRL}
                   />
                 ))}
               </div>
