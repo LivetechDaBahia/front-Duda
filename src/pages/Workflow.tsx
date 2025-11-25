@@ -13,6 +13,9 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useLocale } from "@/contexts/LocaleContext";
 import { WorkflowNode } from "@/components/workflow/WorkflowNode";
+import { usePermissions } from "@/hooks/usePermissions";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ShieldAlert } from "lucide-react";
 
 const nodeTypes = {
   workflow: WorkflowNode,
@@ -175,8 +178,22 @@ const initialEdges: Edge[] = [
 
 export default function Workflow() {
   const { t } = useLocale();
+  const { isAdmin } = usePermissions();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <ShieldAlert className="h-4 w-4" />
+          <AlertDescription>
+            You don't have permission to access this page. Only administrators can view workflows.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen w-full">
