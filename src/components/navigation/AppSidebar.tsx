@@ -87,7 +87,7 @@ const SidebarContent = () => {
         />
       ),
     },
-    ...(canManageCredit
+    ...(isAdmin
       ? [
           {
             label: t("nav.credit"),
@@ -103,22 +103,22 @@ const SidebarContent = () => {
               />
             ),
           },
+          {
+            label: t("nav.workflow"),
+            href: "/workflow",
+            icon: (
+              <GitBranch
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/workflow"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
         ]
       : []),
-    {
-      label: t("nav.workflow"),
-      href: "/workflow",
-      icon: (
-        <GitBranch
-          className={cn(
-            "w-5 h-5 flex-shrink-0",
-            location.pathname === "/workflow"
-              ? "text-primary"
-              : "text-muted-foreground",
-          )}
-        />
-      ),
-    },
     ...(isAdmin
       ? [
           {

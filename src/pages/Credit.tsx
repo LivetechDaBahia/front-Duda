@@ -14,15 +14,18 @@ import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import type {
   CreditElementItem,
   CreditFilters as CreditFiltersType,
   UpdateCreditStatusDto,
 } from "@/types/credit";
 import { formatOfferId } from "@/utils/offer";
+import { usePermissions } from "@/hooks/usePermissions";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Credit = () => {
+  const { isAdmin } = usePermissions();
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
@@ -338,6 +341,19 @@ const Credit = () => {
             </div>
           </div>
         </main>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <ShieldAlert className="h-4 w-4" />
+          <AlertDescription>
+            You don't have permission to access this page. Only administrators can manage credit.
+          </AlertDescription>
+        </Alert>
       </div>
     );
   }
