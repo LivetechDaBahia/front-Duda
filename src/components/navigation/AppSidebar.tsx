@@ -7,6 +7,7 @@ import {
   Banknote,
   Users as UsersIcon,
   GitBranch,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -111,6 +112,20 @@ const SidebarContent = () => {
                 className={cn(
                   "w-5 h-5 flex-shrink-0",
                   location.pathname === "/workflow"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
+          {
+            label: "AI Assistant",
+            href: "/ai-assistant",
+            icon: (
+              <Sparkles
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/ai-assistant"
                     ? "text-primary"
                     : "text-muted-foreground",
                 )}

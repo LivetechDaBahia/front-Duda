@@ -19,6 +19,7 @@ import Index from "./pages/Index";
 import Credit from "./pages/Credit";
 import Users from "./pages/Users";
 import Workflow from "./pages/Workflow";
+import AIAssistant from "./pages/AIAssistant";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
@@ -79,6 +80,14 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <Workflow />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ai-assistant"
+              element={
+                <ProtectedRoute>
+                  <AIAssistant />
                 </ProtectedRoute>
               }
             />
