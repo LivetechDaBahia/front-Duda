@@ -69,38 +69,27 @@ const AIAssistant = () => {
     setStreamingText("");
 
     try {
-      const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("Mistral API key not configured. Please add VITE_MISTRAL_API_KEY to your environment variables.");
-      }
-
-      const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ai/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
         },
+        credentials: "include",
         body: JSON.stringify({
-          model: "mistral-large-latest",
           messages: [
             ...messages.map((m) => ({ role: m.role, content: m.content })),
             { role: "user", content: userMessage },
           ],
-          temperature: 0.7,
-          top_p: 1,
-          max_tokens: 2000,
-          stream: false,
         }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to get response from Mistral AI");
+        throw new Error(errorData.message || "Failed to get response from AI");
       }
 
       const data = await response.json();
-      const assistantMessage = data.choices[0].message.content;
+      const assistantMessage = data.response || data.content || data.message;
 
       await streamText(assistantMessage);
       setMessages((prev) => [
@@ -109,7 +98,7 @@ const AIAssistant = () => {
       ]);
       setStreamingText("");
     } catch (error) {
-      console.error("Error calling Mistral AI:", error);
+      console.error("Error calling AI:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Sorry, I encountered an error. Please try again.";
       setMessages((prev) => [
