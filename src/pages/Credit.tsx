@@ -25,7 +25,7 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Credit = () => {
-  const { isAdmin } = usePermissions();
+  const { canManageCredit } = usePermissions();
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
@@ -345,13 +345,13 @@ const Credit = () => {
     );
   }
 
-  if (!isAdmin) {
+  if (!canManageCredit) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
           <ShieldAlert className="h-4 w-4" />
           <AlertDescription>
-            You don't have permission to access this page. Only administrators can manage credit.
+            You don't have permission to access this page.
           </AlertDescription>
         </Alert>
       </div>
