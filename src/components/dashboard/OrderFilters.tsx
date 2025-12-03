@@ -87,12 +87,15 @@ export const OrderFilters = ({
   }, [branches, selectedBranch]);
 
   const handleApplyFilters = () => {
+    // If dateFrom is set but dateTo is not, default dateTo to current date
+    const effectiveDateTo = dateFrom && !dateTo ? new Date() : dateTo;
+    
     onFilterChange({
       search,
       status,
       branch,
       dateFrom,
-      dateTo,
+      dateTo: effectiveDateTo,
       showInBRL,
     });
   };
