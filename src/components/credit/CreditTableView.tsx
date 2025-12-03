@@ -42,6 +42,7 @@ interface CreditTableViewProps {
   ) => void;
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
   loadingCreditId?: number | null;
+  isCreditManager?: boolean;
 }
 
 export const CreditTableView = ({
@@ -51,10 +52,11 @@ export const CreditTableView = ({
   onStatusChange,
   onActionsClick,
   loadingCreditId,
+  isCreditManager = false,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
   const { hasMinimumLevel } = usePermissions();
-  const isManager = hasMinimumLevel("Manager");
+  const isManager = isCreditManager || hasMinimumLevel("Manager");
 
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes

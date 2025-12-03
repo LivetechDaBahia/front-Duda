@@ -85,6 +85,11 @@ export const usePermissions = () => {
     return hasPermission("credit:read") && hasPermission("credit:update");
   };
 
+  // Check if user is a credit manager (can assign to others and see all items)
+  const isCreditManager = (): boolean => {
+    return hasMinimumLevel("Manager") && canManageCredit();
+  };
+
   return {
     hasPermission,
     hasMinimumLevel,
@@ -94,5 +99,6 @@ export const usePermissions = () => {
       hasPermission("users:delete") || hasMinimumLevel("Administrator"),
     canManagePurchaseOrders: canManagePurchaseOrders(),
     canManageCredit: canManageCredit(),
+    isCreditManager: isCreditManager(),
   };
 };

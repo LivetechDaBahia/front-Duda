@@ -41,6 +41,7 @@ interface CreditCardProps {
   isDragging?: boolean;
   isLoading?: boolean;
   canDrag?: boolean;
+  isCreditManager?: boolean;
 }
 
 export const CreditCard = ({
@@ -53,11 +54,12 @@ export const CreditCard = ({
   isDragging,
   isLoading,
   canDrag = true,
+  isCreditManager,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
   const { hasMinimumLevel, isAdmin } = usePermissions();
   const { user } = useAuth();
-  const isManager = hasMinimumLevel("Manager");
+  const isManager = isCreditManager ?? hasMinimumLevel("Manager");
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
 
