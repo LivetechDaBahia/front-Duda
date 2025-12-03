@@ -11,6 +11,12 @@ const DISABLE_PHONE_VERIFICATION_MODAL =
   String(import.meta.env.VITE_DISABLE_PHONE_VERIFICATION_MODAL || "false") ===
   "true";
 
+interface ImpersonatedBy {
+  sub: string;
+  email?: string | null;
+  name?: string | null;
+}
+
 interface User {
   email: string;
   name: string;
@@ -19,6 +25,8 @@ interface User {
   department?: string;
   permissions?: string[]; // Array of permission strings (e.g., ["users:read", "users:update"])
   level?: string; // Permission level (e.g., "Viewer", "Editor", "Administrator")
+  impersonating?: boolean;
+  impersonatedBy?: ImpersonatedBy | null;
 }
 
 interface AuthContextType {

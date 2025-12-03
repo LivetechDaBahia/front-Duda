@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { LocaleProvider } from "./contexts/LocaleContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PhoneVerificationModal } from "./components/auth/PhoneVerificationModal";
+import { ImpersonationBanner } from "./components/impersonation";
 import { AppSidebar } from "./components/navigation/AppSidebar";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
@@ -34,10 +35,12 @@ const AppRoutes = () => {
     !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 
   return (
-    <div className="flex w-full min-h-[100dvh]">
-      {showSidebar && <AppSidebar />}
-      <div className="flex-1 min-w-0 flex flex-col">
-        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+    <>
+      <ImpersonationBanner />
+      <div className="flex w-full min-h-[100dvh]">
+        {showSidebar && <AppSidebar />}
+        <div className="flex-1 min-w-0 flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route
@@ -91,12 +94,13 @@ const AppRoutes = () => {
                 </ProtectedRoute>
               }
             />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

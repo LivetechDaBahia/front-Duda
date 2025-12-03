@@ -8,6 +8,7 @@ import {
   Users as UsersIcon,
   GitBranch,
   Sparkles,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { NotificationsSection } from "@/components/welcome/NotificationsSection";
+import { ImpersonationDialog } from "@/components/impersonation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -40,8 +42,10 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin, canManageCredit } = usePermissions();
+  const { isAdmin, canManageCredit, canImpersonate } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [impersonationDialogOpen, setImpersonationDialogOpen] = useState(false);
+  const isImpersonating = user?.impersonating ?? false;
 
   const handleLogout = async () => {
     try {
@@ -201,6 +205,27 @@ const SidebarContent = () => {
                 {t("nav.notifications")}
               </motion.span>
             </Button>
+
+            {/* Impersonation Button - Admin only */}
+            {canImpersonate && !isImpersonating && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setImpersonationDialogOpen(true)}
+                className="flex items-center gap-2 justify-start w-full"
+              >
+                <Eye className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
+                <motion.span
+                  className="text-sm"
+                  animate={{
+                    display: open ? "inline-block" : "none",
+                    opacity: open ? 1 : 0,
+                  }}
+                >
+                  View as user
+                </motion.span>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -241,6 +266,11 @@ const SidebarContent = () => {
           <NotificationsSection />
         </DialogContent>
       </Dialog>
+
+      <ImpersonationDialog
+        open={impersonationDialogOpen}
+        onOpenChange={setImpersonationDialogOpen}
+      />
     </>
   );
 };
