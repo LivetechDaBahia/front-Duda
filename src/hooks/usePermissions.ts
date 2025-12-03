@@ -90,6 +90,13 @@ export const usePermissions = () => {
     return hasMinimumLevel("Manager") && canManageCredit();
   };
 
+  // Check if user can impersonate other users
+  const canImpersonate = (): boolean => {
+    return (
+      hasPermission("users:impersonate") || hasMinimumLevel("Administrator")
+    );
+  };
+
   return {
     hasPermission,
     hasMinimumLevel,
@@ -100,5 +107,6 @@ export const usePermissions = () => {
     canManagePurchaseOrders: canManagePurchaseOrders(),
     canManageCredit: canManageCredit(),
     isCreditManager: isCreditManager(),
+    canImpersonate: canImpersonate(),
   };
 };

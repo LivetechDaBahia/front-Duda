@@ -25,10 +25,24 @@ class ApiClient {
       throw new Error("Unauthorized - Please log in again");
     }
 
-    // Handle 403 - permissions issue
+    // Handle 403 - permissions issue or impersonation read-only
     if (response.status === 403) {
+      const errorText = await response.text();
+      
+      // Check if this is an impersonation read-only error
+      if (
+        errorText.toLowerCase().includes("impersonation") ||
+        errorText.toLowerCase().includes("read-only") ||
+        response.headers.get("X-Impersonating") === "true"
+      ) {
+        throw new Error(
+          "You're in view-as mode (read-only). Stop impersonation to perform this action.",
+        );
+      }
+      
       throw new Error(
-        "Access Denied: Your account doesn't have the required permissions (purchase_orders:read). Please contact your system administrator.",
+        errorText ||
+          "Access Denied: Your account doesn't have the required permissions. Please contact your system administrator.",
       );
     }
 
