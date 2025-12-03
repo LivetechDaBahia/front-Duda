@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/apiClient";
 import { useToast } from "@/hooks/use-toast";
+import { useLocale } from "@/contexts/LocaleContext";
 import { Eye, Mail, Hash, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -26,6 +27,7 @@ export const ImpersonationDialog = ({
   onOpenChange,
 }: ImpersonationDialogProps) => {
   const { toast } = useToast();
+  const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,8 +40,8 @@ export const ImpersonationDialog = ({
     if (!payload.email && !payload.userId) {
       toast({
         variant: "destructive",
-        title: "Missing input",
-        description: "Please enter an email or user ID",
+        title: t("impersonation.missingInput"),
+        description: t("impersonation.enterEmailOrId"),
       });
       return;
     }
@@ -59,24 +61,24 @@ export const ImpersonationDialog = ({
 
     } catch (error: any) {
       const message =
-        error?.message || "Failed to start impersonation. Please try again.";
+        error?.message || t("impersonation.failed");
       
       if (message.includes("403") || message.includes("permission")) {
         toast({
           variant: "destructive",
-          title: "Permission denied",
-          description: "You don't have permission to impersonate users",
+          title: t("impersonation.permissionDenied"),
+          description: t("impersonation.noPermission"),
         });
       } else if (message.includes("404") || message.includes("not found")) {
         toast({
           variant: "destructive",
-          title: "User not found",
-          description: "No user found with the provided email or ID",
+          title: t("impersonation.userNotFound"),
+          description: t("impersonation.userNotFoundDesc"),
         });
       } else {
         toast({
           variant: "destructive",
-          title: "Impersonation failed",
+          title: t("impersonation.failed"),
           description: message,
         });
       }
@@ -97,19 +99,17 @@ export const ImpersonationDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Eye className="h-5 w-5" />
-            View as User
+            {t("impersonation.dialogTitle")}
           </DialogTitle>
           <DialogDescription>
-            Enter the email or ID of the user you want to view as. You will be in
-            read-only mode and cannot make changes.
+            {t("impersonation.dialogDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <Alert variant="default" className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800">
           <AlertCircle className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800 dark:text-amber-200 text-sm">
-            After starting impersonation, all data (purchase orders, credits, etc.) 
-            will be refetched for the target user. Session expires in 15 minutes.
+            {t("impersonation.alertMessage")}
           </AlertDescription>
         </Alert>
 
@@ -117,21 +117,21 @@ export const ImpersonationDialog = ({
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="email" className="flex items-center gap-2">
               <Mail className="h-4 w-4" />
-              By Email
+              {t("impersonation.byEmail")}
             </TabsTrigger>
             <TabsTrigger value="userId" className="flex items-center gap-2">
               <Hash className="h-4 w-4" />
-              By User ID
+              {t("impersonation.byUserId")}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="email" className="mt-4">
             <div className="space-y-2">
-              <Label htmlFor="email">User Email</Label>
+              <Label htmlFor="email">{t("impersonation.emailLabel")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="user@example.com"
+                placeholder={t("impersonation.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleStart()}
@@ -141,11 +141,11 @@ export const ImpersonationDialog = ({
 
           <TabsContent value="userId" className="mt-4">
             <div className="space-y-2">
-              <Label htmlFor="userId">User ID (UUID)</Label>
+              <Label htmlFor="userId">{t("impersonation.userIdLabel")}</Label>
               <Input
                 id="userId"
                 type="text"
-                placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                placeholder={t("impersonation.userIdPlaceholder")}
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleStart()}
@@ -156,10 +156,10 @@ export const ImpersonationDialog = ({
 
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={handleClose} disabled={loading}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button onClick={handleStart} disabled={loading}>
-            {loading ? "Starting..." : "Start Viewing"}
+            {loading ? t("impersonation.starting") : t("impersonation.startViewing")}
           </Button>
         </DialogFooter>
       </DialogContent>
