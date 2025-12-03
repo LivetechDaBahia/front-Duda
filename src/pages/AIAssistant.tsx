@@ -19,7 +19,7 @@ const AIAssistant = () => {
     {
       role: "assistant",
       content:
-        "Hello! I'm Duda your AI assistant powered by Mistral AI. I can help you with various tasks, answer questions, and provide insights. How can I assist you today?",
+        "Hello! I'm your AI assistant powered by Mistral AI. I can help you with various tasks, answer questions, and provide insights. How can I assist you today?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -127,7 +127,7 @@ const AIAssistant = () => {
               <Sparkles className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Duda</h1>
+              <h1 className="text-2xl font-bold text-foreground">AI Assistant</h1>
               <p className="text-sm text-muted-foreground">
                 Powered by Mistral AI
               </p>

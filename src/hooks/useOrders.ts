@@ -59,12 +59,8 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         throw new Error("User email not available");
       }
 
-      // When impersonating, let the backend resolve the user from the session
-      // by omitting the explicit email parameter.
-      const emailParam = user?.impersonating ? undefined : user.email;
-
       const apiData = await orderService.getOrders(
-        emailParam,
+        user.email,
         defaultDateBegin,
         defaultDateEnd,
         params?.types || "01,02,03,04,05,06,07",

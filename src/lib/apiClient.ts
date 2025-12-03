@@ -1,8 +1,4 @@
-const isDev = (import.meta as any).env?.DEV;
-// In development, use Vite proxy (/api → target) to ensure first‑party cookies
-const API_BASE_URL = isDev
-  ? "/api"
-  : import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 class ApiClient {
   private baseURL: string;
@@ -16,54 +12,6 @@ class ApiClient {
       "Content-Type": "application/json",
       ...options.headers,
     };
-
-    // Debug: capture expected vs actual email being sent
-    if (isDev) {
-      try {
-        const method = (options.method || "GET").toString().toUpperCase();
-        const fullUrl = `${this.baseURL}${endpoint}`;
-        const urlObj = new URL(fullUrl);
-        const actualEmailQuery = urlObj.searchParams.get("userEmail") || null;
-
-        let actualEmailBody: string | null = null;
-        const body = (options as any).body;
-        if (typeof body === "string" && body.trim().startsWith("{")) {
-          try {
-            const parsed = JSON.parse(body);
-            if (parsed && typeof parsed === "object") {
-              // common shapes: { email }, { payload: { email } }
-              if (typeof parsed.email === "string") {
-                actualEmailBody = parsed.email;
-              } else if (
-                parsed.payload &&
-                typeof parsed.payload === "object" &&
-                typeof parsed.payload.email === "string"
-              ) {
-                actualEmailBody = parsed.payload.email;
-              }
-            }
-          } catch (_) {
-            // ignore JSON parse errors in debug
-          }
-        }
-
-        const authDebug = (window as any).__IMPERSONATION_DEBUG__ || {};
-        // eslint-disable-next-line no-console
-        console.log("[apiClient] request", {
-          method,
-          endpoint,
-          url: fullUrl,
-          expectedEmail: authDebug.expectedEmail,
-          impersonating: !!authDebug.impersonating,
-          actualUserEmailQuery: actualEmailQuery,
-          actualUserEmailBody: actualEmailBody,
-          sendingCookies: true,
-        });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn("[apiClient] debug logging failed", e);
-      }
-    }
 
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
@@ -103,22 +51,6 @@ class ApiClient {
       throw new Error(
         errorText || `API Error: ${response.status} ${response.statusText}`,
       );
-    }
-
-    // Debug: log impersonation headers on every successful response
-    if (isDev) {
-      try {
-        const xImp = response.headers.get("X-Impersonating");
-        const xImpUser = response.headers.get("X-Impersonated-User");
-        // eslint-disable-next-line no-console
-        console.log("[apiClient] response", {
-          status: response.status,
-          xImpersonating: xImp,
-          xImpersonatedUser: xImpUser,
-        });
-      } catch (_) {
-        // ignore
-      }
     }
 
     // Handle empty responses (204 No Content or empty body)

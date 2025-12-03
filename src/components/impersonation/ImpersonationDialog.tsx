@@ -51,33 +51,11 @@ export const ImpersonationDialog = ({
         ttlSec: 900, // 15 minutes default
       });
 
-      console.log("[ImpersonationDialog] Impersonation start response:", response);
+      console.log("[ImpersonationDialog] Impersonation started:", response);
 
-      // After starting, poll /auth/me briefly to ensure cookie/state has taken effect
-      const maxAttempts = 10;
-      const delayMs = 250;
-      for (let i = 0; i < maxAttempts; i++) {
-        try {
-          const me: any = await apiClient.get("/auth/me");
-          console.log("[ImpersonationDialog] /auth/me after start:", me);
-          if (me?.impersonating) {
-            // Reload once confirmed
-            window.location.reload();
-            return;
-          }
-        } catch (e) {
-          // ignore between attempts
-        }
-        await new Promise((r) => setTimeout(r, delayMs));
-      }
-
-      // If we get here, impersonation did not activate according to /auth/me
-      toast({
-        variant: "destructive",
-        title: "Impersonation not activated",
-        description:
-          "Could not confirm impersonation state from the server. Please try again or contact support.",
-      });
+      // Reload the page to ensure all components get fresh data with impersonated user context
+      // This is the most reliable way to ensure all queries use the new user's email
+      window.location.reload();
 
     } catch (error: any) {
       const message =
