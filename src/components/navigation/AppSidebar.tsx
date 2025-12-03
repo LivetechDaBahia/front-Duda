@@ -88,7 +88,7 @@ const SidebarContent = () => {
         />
       ),
     },
-    ...(isAdmin
+    ...(canManageCredit
       ? [
           {
             label: t("nav.credit"),
@@ -104,6 +104,10 @@ const SidebarContent = () => {
               />
             ),
           },
+        ]
+      : []),
+    ...(isAdmin
+      ? [
           {
             label: t("nav.workflow"),
             href: "/workflow",
