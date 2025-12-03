@@ -4,15 +4,16 @@ import {
   Issue,
   UIOrderStatus,
 } from "@/types/order";
+import { formatDateToYYYYMMDD } from "@/lib/utils";
 
 const isDev = (import.meta as any).env?.DEV;
 
 // Convert Brazilian date format (dd/MM/yyyy) to ISO format (yyyy-MM-dd)
 const convertBrazilianDateToISO = (dateStr: string): string => {
-  if (!dateStr) return new Date().toISOString().split("T")[0];
+  if (!dateStr) return formatDateToYYYYMMDD(new Date());
 
   const parts = dateStr.split("/");
-  if (parts.length !== 3) return new Date().toISOString().split("T")[0];
+  if (parts.length !== 3) return formatDateToYYYYMMDD(new Date());
 
   const [day, month, year] = parts;
   return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
