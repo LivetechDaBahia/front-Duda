@@ -15,7 +15,8 @@ import { apiClient } from "@/lib/apiClient";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Eye, Mail, Hash } from "lucide-react";
+import { Eye, Mail, Hash, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ImpersonationDialogProps {
   open: boolean;
@@ -54,18 +55,22 @@ export const ImpersonationDialog = ({
         ttlSec: 900, // 15 minutes default
       });
 
-      toast({
-        title: "Impersonation started",
-        description: `Now viewing as ${response.target?.name || response.target?.email || "user"}`,
-      });
-
+      // Close dialog first
       onOpenChange(false);
       setEmail("");
       setUserId("");
       
-      // Refresh user context first, then invalidate all queries to refetch with impersonated user
+      // Refresh user context to get impersonated user data
       await refreshUser();
-      queryClient.invalidateQueries();
+      
+      // Invalidate ALL queries to force refetch with new user context
+      await queryClient.invalidateQueries();
+      
+      toast({
+        title: "Impersonation started",
+        description: `Now viewing as ${response.target?.name || response.target?.email || "user"}. All data will refresh.`,
+      });
+
     } catch (error: any) {
       const message =
         error?.message || "Failed to start impersonation. Please try again.";
@@ -113,6 +118,14 @@ export const ImpersonationDialog = ({
             read-only mode and cannot make changes.
           </DialogDescription>
         </DialogHeader>
+
+        <Alert variant="default" className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800">
+          <AlertCircle className="h-4 w-4 text-amber-600" />
+          <AlertDescription className="text-amber-800 dark:text-amber-200 text-sm">
+            After starting impersonation, all data (purchase orders, credits, etc.) 
+            will be refetched for the target user. Session expires in 15 minutes.
+          </AlertDescription>
+        </Alert>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
