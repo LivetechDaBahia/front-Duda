@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Eye, X } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export const ImpersonationBanner = () => {
   const { user, refreshUser } = useAuth();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [stopping, setStopping] = useState(false);
 
   if (!user?.impersonating) return null;
@@ -21,6 +23,8 @@ export const ImpersonationBanner = () => {
         description: "You are now viewing as yourself",
       });
       await refreshUser();
+      // Invalidate all queries to refetch with original user context
+      queryClient.invalidateQueries();
     } catch (error) {
       toast({
         variant: "destructive",

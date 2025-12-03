@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/apiClient";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { Eye, Mail, Hash } from "lucide-react";
 
 interface ImpersonationDialogProps {
@@ -27,6 +28,7 @@ export const ImpersonationDialog = ({
 }: ImpersonationDialogProps) => {
   const { refreshUser } = useAuth();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,7 +62,10 @@ export const ImpersonationDialog = ({
       onOpenChange(false);
       setEmail("");
       setUserId("");
+      
+      // Refresh user context first, then invalidate all queries to refetch with impersonated user
       await refreshUser();
+      queryClient.invalidateQueries();
     } catch (error: any) {
       const message =
         error?.message || "Failed to start impersonation. Please try again.";
