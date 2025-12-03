@@ -1,4 +1,5 @@
 import { PendingItem, isOrderLocked } from "@/types/order";
+import { toDateNoTZShift } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -74,10 +75,12 @@ export const PendingItemCard = ({
     }, 500);
   };
 
-  const daysSinceCreation = Math.floor(
-    (new Date().getTime() - new Date(item.createdAt).getTime()) /
-      (1000 * 60 * 60 * 24),
-  );
+  const createdDate = toDateNoTZShift(item.createdAt);
+  const daysSinceCreation = createdDate
+    ? Math.floor(
+        (new Date().getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24),
+      )
+    : 0;
 
   const isUrgent = daysSinceCreation > 3;
 
