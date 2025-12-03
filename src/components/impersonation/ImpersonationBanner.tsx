@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Eye, X, AlertTriangle } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
 import { useToast } from "@/hooks/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export const ImpersonationBanner = () => {
-  const { user, refreshUser } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [stopping, setStopping] = useState(false);
 
   if (!user?.impersonating) return null;
@@ -19,23 +17,14 @@ export const ImpersonationBanner = () => {
     try {
       await apiClient.post("/auth/impersonate/stop");
       
-      // Refresh user context first
-      await refreshUser();
-      
-      // Invalidate all queries to refetch with original user context
-      await queryClient.invalidateQueries();
-      
-      toast({
-        title: "Impersonation ended",
-        description: "You are now viewing as yourself",
-      });
+      // Reload the page to ensure all components get fresh data with original user context
+      window.location.reload();
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Failed to stop impersonation",
         description: "Please try again",
       });
-    } finally {
       setStopping(false);
     }
   };
