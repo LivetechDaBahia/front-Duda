@@ -15,19 +15,22 @@ const isDev = (import.meta as any).env?.DEV;
 export const orderService = {
   // Fetch all orders - seeds approval cache for approve/reject
   async getOrders(
-    email: string,
+    email: string | undefined,
     dateBegin: string,
     dateEnd: string,
     types: string = "01,02,03,04,05,06,07",
     tenantId: string = "01",
   ): Promise<PurchaseOrderAPI> {
     const params = new URLSearchParams({
-      userEmail: email,
       dateBegin: dateBegin,
       dateEnd: dateEnd,
       types: types,
       tenantId: tenantId,
     });
+    // Only include userEmail when explicitly provided (not during impersonation)
+    if (email) {
+      params.set("userEmail", email);
+    }
     const url = `/purchaseOrders?${params}`;
     if (isDev) {
       console.log("[orderService] getOrders", {
