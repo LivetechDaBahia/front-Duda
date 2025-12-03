@@ -46,10 +46,12 @@ export const ImpersonationDialog = ({
 
     setLoading(true);
     try {
-      await apiClient.post("/auth/impersonate/start", {
+      const response = await apiClient.post("/auth/impersonate/start", {
         ...payload,
         ttlSec: 900, // 15 minutes default
       });
+
+      console.log("[ImpersonationDialog] Impersonation started:", response);
 
       // Reload the page to ensure all components get fresh data with impersonated user context
       // This is the most reliable way to ensure all queries use the new user's email

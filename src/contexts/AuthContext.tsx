@@ -63,6 +63,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok) {
         const userData = await response.json();
+        console.log("[AuthContext] /auth/me response:", {
+          email: userData.email,
+          name: userData.name,
+          impersonating: userData.impersonating,
+          impersonatedBy: userData.impersonatedBy,
+        });
         setUser(userData);
 
         // Check first access immediately after getting user data
