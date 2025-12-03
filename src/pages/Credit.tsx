@@ -25,7 +25,7 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Credit = () => {
-  const { canManageCredit } = usePermissions();
+  const { canManageCredit, isCreditManager } = usePermissions();
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
@@ -74,6 +74,15 @@ const Credit = () => {
 
   const filteredCredits = useMemo(() => {
     return credits.filter((credit) => {
+      // Role-based visibility: agents only see unassigned or their own items
+      if (!isCreditManager) {
+        const userEmail = user?.email?.toLowerCase() || "";
+        const creditAssignee = (credit.user || "").toLowerCase();
+        const isUnassigned = !credit.user || credit.user.trim() === "";
+        const isAssignedToMe = creditAssignee === userEmail;
+        if (!isUnassigned && !isAssignedToMe) return false;
+      }
+
       // Search filter
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
@@ -150,7 +159,7 @@ const Credit = () => {
 
       return true;
     });
-  }, [credits, filters]);
+  }, [credits, filters, isCreditManager, user?.email]);
 
   const handleStatusChange = async (
     creditId: number,
@@ -387,6 +396,7 @@ const Credit = () => {
               onStatusChange={handleStatusChange}
               onActionsClick={handleActionsClick}
               loadingCreditId={loadingCreditId}
+              isCreditManager={isCreditManager}
             />
           ) : (
             <CreditTableView
@@ -396,6 +406,7 @@ const Credit = () => {
               onStatusChange={handleStatusChange}
               onActionsClick={handleActionsClick}
               loadingCreditId={loadingCreditId}
+              isCreditManager={isCreditManager}
             />
           )}
         </div>
