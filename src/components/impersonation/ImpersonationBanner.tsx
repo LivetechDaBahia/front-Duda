@@ -3,14 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Eye, X, AlertTriangle } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const ImpersonationBanner = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const [stopping, setStopping] = useState(false);
 
-  if (!user?.impersonating) return null;
+  // Debug logging to track impersonation state
+  useEffect(() => {
+    if (!isLoading) {
+      console.log("[ImpersonationBanner] Auth state:", {
+        email: user?.email,
+        impersonating: user?.impersonating,
+        impersonatedBy: user?.impersonatedBy,
+      });
+    }
+  }, [user, isLoading]);
+
+  // Don't render during loading or if not impersonating
+  if (isLoading || !user?.impersonating) return null;
 
   const handleStop = async () => {
     setStopping(true);
@@ -68,6 +80,8 @@ export const ImpersonationBanner = () => {
 
 // Export a hook to check if impersonation is active (for layout adjustments)
 export const useImpersonationActive = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+  // Return false during loading to avoid layout shift
+  if (isLoading) return false;
   return user?.impersonating ?? false;
 };
