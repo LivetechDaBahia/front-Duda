@@ -12,9 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/apiClient";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
 import { Eye, Mail, Hash, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -27,9 +25,7 @@ export const ImpersonationDialog = ({
   open,
   onOpenChange,
 }: ImpersonationDialogProps) => {
-  const { refreshUser } = useAuth();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -50,26 +46,14 @@ export const ImpersonationDialog = ({
 
     setLoading(true);
     try {
-      const response = await apiClient.post("/auth/impersonate/start", {
+      await apiClient.post("/auth/impersonate/start", {
         ...payload,
         ttlSec: 900, // 15 minutes default
       });
 
-      // Close dialog first
-      onOpenChange(false);
-      setEmail("");
-      setUserId("");
-      
-      // Refresh user context to get impersonated user data
-      await refreshUser();
-      
-      // Invalidate ALL queries to force refetch with new user context
-      await queryClient.invalidateQueries();
-      
-      toast({
-        title: "Impersonation started",
-        description: `Now viewing as ${response.target?.name || response.target?.email || "user"}. All data will refresh.`,
-      });
+      // Reload the page to ensure all components get fresh data with impersonated user context
+      // This is the most reliable way to ensure all queries use the new user's email
+      window.location.reload();
 
     } catch (error: any) {
       const message =
