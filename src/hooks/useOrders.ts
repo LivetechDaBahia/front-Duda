@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { transformAPIToUIOrders } from "@/lib/orderTransformer";
+import { formatDateToYYYYMMDD } from "@/lib/utils";
 
 interface UseOrdersParams {
   dateBegin?: string;
@@ -32,13 +33,11 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   const isDev = (import.meta as any).env?.DEV;
 
   // Default date range: current month
+  const today = new Date();
   const defaultDateBegin =
     params?.dateBegin ||
-    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-      .toISOString()
-      .split("T")[0];
-  const defaultDateEnd =
-    params?.dateEnd || new Date().toISOString().split("T")[0];
+    formatDateToYYYYMMDD(new Date(today.getFullYear(), today.getMonth(), 1));
+  const defaultDateEnd = params?.dateEnd || formatDateToYYYYMMDD(today);
 
   const {
     data: orders = [],
