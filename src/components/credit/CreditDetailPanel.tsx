@@ -632,13 +632,12 @@ export const CreditDetailPanel = ({
                             value: Math.abs(creditLimit.approvedItemsValue),
                             color: "hsl(var(--success))",
                           },
-                          {
+                          // Only show available balance if it's positive
+                          ...(creditLimit.availableBalance > 0 ? [{
                             name: t("credit.limit.availableBalance"),
-                            value: Math.abs(creditLimit.availableBalance),
-                            color: creditLimit.availableBalance < 0 
-                              ? "hsl(var(--destructive))" 
-                              : "hsl(var(--accent))",
-                          },
+                            value: creditLimit.availableBalance,
+                            color: "hsl(var(--accent))",
+                          }] : []),
                         ];
                         const filteredData = pieData.filter(
                           (item) => item.value > 0,
