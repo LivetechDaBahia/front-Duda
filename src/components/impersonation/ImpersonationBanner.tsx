@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import { useLocale } from "@/contexts/LocaleContext";
 import { Button } from "@/components/ui/button";
 import { Eye, X, AlertTriangle } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
@@ -7,6 +8,7 @@ import { useState, useEffect } from "react";
 
 export const ImpersonationBanner = () => {
   const { user, isLoading } = useAuth();
+  const { t } = useLocale();
   const { toast } = useToast();
   const [stopping, setStopping] = useState(false);
 
@@ -34,8 +36,8 @@ export const ImpersonationBanner = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Failed to stop impersonation",
-        description: "Please try again",
+        title: t("impersonation.stopFailed"),
+        description: t("impersonation.stopFailedDesc"),
       });
       setStopping(false);
     }
@@ -52,16 +54,18 @@ export const ImpersonationBanner = () => {
       </div>
       <div className="flex items-center gap-2">
         <Eye className="h-4 w-4" />
-        <span className="text-sm font-semibold">IMPERSONATION MODE</span>
+        <span className="text-sm font-semibold">
+          {t("impersonation.mode")}
+        </span>
         <span className="text-sm">
-          — Viewing as <strong className="underline">{displayName}</strong>
+          — {t("impersonation.viewingAs")} <strong className="underline">{displayName}</strong>
         </span>
         <span className="text-xs opacity-75">
-          (started by {impersonatedByName})
+          ({t("impersonation.startedBy")} {impersonatedByName})
         </span>
       </div>
       <div className="flex items-center gap-2 px-3 py-1 bg-amber-600/30 rounded-full">
-        <span className="text-xs font-medium">READ-ONLY</span>
+        <span className="text-xs font-medium">{t("impersonation.readOnly")}</span>
       </div>
       <Button
         variant="outline"
@@ -71,7 +75,7 @@ export const ImpersonationBanner = () => {
         className="h-8 bg-amber-100 border-amber-700 text-amber-900 hover:bg-amber-200 hover:text-amber-950 font-medium"
       >
         <X className="h-4 w-4 mr-1" />
-        {stopping ? "Stopping..." : "Stop Impersonation"}
+        {stopping ? t("impersonation.stopping") : t("impersonation.stop")}
       </Button>
     </div>
   );

@@ -5,10 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Format date as DD/MM/YYYY
+// Format date as DD/MM/YYYY without UTC conversion
 export function formatDateDDMMYYYY(date: string | Date): string {
-  const d = new Date(date);
-  if (isNaN(d.getTime())) return "-";
+  const d = toDateNoTZShift(date);
+  if (!d) return "-";
   // Treat sentinel default date 01/01/1900 as empty
   if (d.getFullYear() === 1900 && d.getMonth() === 0 && d.getDate() === 1) {
     return "-";

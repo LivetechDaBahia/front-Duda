@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import { useLocale } from "@/contexts/LocaleContext";
 import {
   Tooltip,
   TooltipContent,
@@ -22,6 +23,7 @@ export const GateWrite = ({
   showTooltip = true,
 }: GateWriteProps) => {
   const { user } = useAuth();
+  const { t } = useLocale();
 
   if (!user?.impersonating) {
     return <>{children}</>;
@@ -49,10 +51,7 @@ export const GateWrite = ({
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          <p>
-            Read-only in view-as mode. Stop impersonation to perform this
-            action.
-          </p>
+          <p>{t("impersonation.gateTooltip")}</p>
         </TooltipContent>
       </Tooltip>
     );
