@@ -619,6 +619,8 @@ export const CreditDetailPanel = ({
                       <Skeleton className="h-64 w-full" />
                     ) : creditLimit ? (
                       (() => {
+                        // Total credit limit includes base limit + RA + NCC balances
+                        const totalCreditLimit = creditLimit.creditLimit + creditLimit.raBalance + creditLimit.nccBalance;
                         const pieData = [
                           {
                             name: t("credit.limit.pendingValue"),
@@ -629,16 +631,6 @@ export const CreditDetailPanel = ({
                             name: t("credit.limit.approvedItems"),
                             value: Math.abs(creditLimit.approvedItemsValue),
                             color: "hsl(var(--success))",
-                          },
-                          {
-                            name: t("credit.limit.raBalance"),
-                            value: Math.abs(creditLimit.raBalance),
-                            color: "hsl(var(--info))",
-                          },
-                          {
-                            name: t("credit.limit.nccBalance"),
-                            value: Math.abs(creditLimit.nccBalance),
-                            color: "hsl(var(--secondary))",
                           },
                           {
                             name: t("credit.limit.availableBalance"),
@@ -655,10 +647,17 @@ export const CreditDetailPanel = ({
                         return (
                           <div>
                             <div className="text-sm text-muted-foreground">
-                              {t("credit.limit.creditLimit")}:{" "}
+                              {t("credit.limit.totalCreditLimit")}:{" "}
                               <span className="font-medium">
-                                {formatCurrency(creditLimit.creditLimit)}
+                                {formatCurrency(totalCreditLimit)}
                               </span>
+                              {(creditLimit.raBalance > 0 || creditLimit.nccBalance > 0) && (
+                                <span className="text-xs ml-2">
+                                  ({t("credit.limit.creditLimit")}: {formatCurrency(creditLimit.creditLimit)}
+                                  {creditLimit.raBalance > 0 && ` + ${t("credit.limit.raBalance")}: ${formatCurrency(creditLimit.raBalance)}`}
+                                  {creditLimit.nccBalance > 0 && ` + ${t("credit.limit.nccBalance")}: ${formatCurrency(creditLimit.nccBalance)}`})
+                                </span>
+                              )}
                             </div>
                             {isInsufficientCredit && (
                               <div className="flex items-center gap-2 mt-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
