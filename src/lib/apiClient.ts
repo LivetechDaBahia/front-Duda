@@ -28,7 +28,7 @@ class ApiClient {
     // Handle 403 - permissions issue or impersonation read-only
     if (response.status === 403) {
       const errorText = await response.text();
-      
+
       // Check if this is an impersonation read-only error
       if (
         errorText.toLowerCase().includes("impersonation") ||
@@ -39,7 +39,7 @@ class ApiClient {
           "You're in view-as mode (read-only). Stop impersonation to perform this action.",
         );
       }
-      
+
       throw new Error(
         errorText ||
           "Access Denied: Your account doesn't have the required permissions. Please contact your system administrator.",

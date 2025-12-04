@@ -42,6 +42,7 @@ export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
           type: "purchase_order" as const,
           title: order.id,
           supplierOrClient: order.supplierName,
+          amount: order.amount || 0,
           value: order.value || 0,
           coinSymbol: order.coinSymbol,
           createdAt: order.createdAt,
@@ -76,7 +77,7 @@ export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
 
   // Calculate total value (sum all currencies for simplicity)
   const totalValue = useMemo(() => {
-    return pendingItems.reduce((sum, item) => sum + item.value, 0);
+    return pendingItems.reduce((sum, item) => sum + item.amount, 0);
   }, [pendingItems]);
 
   const isLoading = canManagePurchaseOrders && ordersLoading;

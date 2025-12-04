@@ -33,7 +33,9 @@ export const ImpersonationDialog = ({
 
   const handleStart = async () => {
     const payload: { email?: string; userId?: string; ttlSec?: number } =
-      activeTab === "email" ? { email: email.trim() } : { userId: userId.trim() };
+      activeTab === "email"
+        ? { email: email.trim() }
+        : { userId: userId.trim() };
 
     if (!payload.email && !payload.userId) {
       toast({
@@ -56,11 +58,10 @@ export const ImpersonationDialog = ({
       // Reload the page to ensure all components get fresh data with impersonated user context
       // This is the most reliable way to ensure all queries use the new user's email
       window.location.reload();
-
     } catch (error: any) {
       const message =
         error?.message || "Failed to start impersonation. Please try again.";
-      
+
       if (message.includes("403") || message.includes("permission")) {
         toast({
           variant: "destructive",
@@ -100,16 +101,20 @@ export const ImpersonationDialog = ({
             View as User
           </DialogTitle>
           <DialogDescription>
-            Enter the email or ID of the user you want to view as. You will be in
-            read-only mode and cannot make changes.
+            Enter the email or ID of the user you want to view as. You will be
+            in read-only mode and cannot make changes.
           </DialogDescription>
         </DialogHeader>
 
-        <Alert variant="default" className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800">
+        <Alert
+          variant="default"
+          className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800"
+        >
           <AlertCircle className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800 dark:text-amber-200 text-sm">
-            After starting impersonation, all data (purchase orders, credits, etc.) 
-            will be refetched for the target user. Session expires in 15 minutes.
+            After starting impersonation, all data (purchase orders, credits,
+            etc.) will be refetched for the target user. Session expires in 15
+            minutes.
           </AlertDescription>
         </Alert>
 

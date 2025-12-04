@@ -28,7 +28,7 @@ export const ImpersonationBanner = () => {
     setStopping(true);
     try {
       await apiClient.post("/auth/impersonate/stop");
-      
+
       // Reload the page to ensure all components get fresh data with original user context
       window.location.reload();
     } catch (error) {
@@ -42,7 +42,8 @@ export const ImpersonationBanner = () => {
   };
 
   const displayName = user.name || user.email || "Unknown user";
-  const impersonatedByName = user.impersonatedBy?.name || user.impersonatedBy?.email || "Admin";
+  const impersonatedByName =
+    user.impersonatedBy?.name || user.impersonatedBy?.email || "Admin";
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] bg-amber-500 text-amber-950 px-4 py-3 flex items-center justify-center gap-4 shadow-lg border-b-2 border-amber-600">
@@ -51,9 +52,7 @@ export const ImpersonationBanner = () => {
       </div>
       <div className="flex items-center gap-2">
         <Eye className="h-4 w-4" />
-        <span className="text-sm font-semibold">
-          IMPERSONATION MODE
-        </span>
+        <span className="text-sm font-semibold">IMPERSONATION MODE</span>
         <span className="text-sm">
           — Viewing as <strong className="underline">{displayName}</strong>
         </span>

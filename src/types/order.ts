@@ -109,6 +109,7 @@ export interface PendingItem {
   type: PendingItemType;
   title: string;
   supplierOrClient: string;
+  amount: number;
   value: number;
   coinSymbol: string;
   createdAt: string;

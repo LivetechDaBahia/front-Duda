@@ -188,7 +188,8 @@ export default function Workflow() {
         <Alert variant="destructive">
           <ShieldAlert className="h-4 w-4" />
           <AlertDescription>
-            You don't have permission to access this page. Only administrators can view workflows.
+            You don't have permission to access this page. Only administrators
+            can view workflows.
           </AlertDescription>
         </Alert>
       </div>

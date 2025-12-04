@@ -100,7 +100,9 @@ const AIAssistant = () => {
     } catch (error) {
       console.error("Error calling AI:", error);
       const errorMessage =
-        error instanceof Error ? error.message : "Sorry, I encountered an error. Please try again.";
+        error instanceof Error
+          ? error.message
+          : "Sorry, I encountered an error. Please try again.";
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: errorMessage },
@@ -127,7 +129,9 @@ const AIAssistant = () => {
               <Sparkles className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">AI Assistant</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                AI Assistant
+              </h1>
               <p className="text-sm text-muted-foreground">
                 Powered by Mistral AI
               </p>
@@ -144,7 +148,7 @@ const AIAssistant = () => {
               key={index}
               className={cn(
                 "flex gap-3",
-                message.role === "user" ? "justify-end" : "justify-start"
+                message.role === "user" ? "justify-end" : "justify-start",
               )}
             >
               {message.role === "assistant" && (
@@ -157,7 +161,7 @@ const AIAssistant = () => {
                   "rounded-lg px-4 py-3 max-w-[80%]",
                   message.role === "user"
                     ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-foreground"
+                    : "bg-muted text-foreground",
                 )}
               >
                 <p className="whitespace-pre-wrap break-words">

@@ -44,10 +44,15 @@ export const GateWrite = ({
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="inline-block cursor-not-allowed">{disabledContent}</span>
+          <span className="inline-block cursor-not-allowed">
+            {disabledContent}
+          </span>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Read-only in view-as mode. Stop impersonation to perform this action.</p>
+          <p>
+            Read-only in view-as mode. Stop impersonation to perform this
+            action.
+          </p>
         </TooltipContent>
       </Tooltip>
     );
