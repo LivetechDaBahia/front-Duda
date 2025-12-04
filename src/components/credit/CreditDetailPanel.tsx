@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, AlertTriangle } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -643,12 +643,15 @@ export const CreditDetailPanel = ({
                           {
                             name: t("credit.limit.availableBalance"),
                             value: Math.abs(creditLimit.availableBalance),
-                            color: "hsl(var(--accent))",
+                            color: creditLimit.availableBalance < 0 
+                              ? "hsl(var(--destructive))" 
+                              : "hsl(var(--accent))",
                           },
                         ];
                         const filteredData = pieData.filter(
                           (item) => item.value > 0,
                         );
+                        const isInsufficientCredit = creditLimit.availableBalance < 0;
                         return (
                           <div>
                             <div className="text-sm text-muted-foreground">
@@ -657,6 +660,20 @@ export const CreditDetailPanel = ({
                                 {formatCurrency(creditLimit.creditLimit)}
                               </span>
                             </div>
+                            {isInsufficientCredit && (
+                              <div className="flex items-center gap-2 mt-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
+                                <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                                <div className="text-sm">
+                                  <p className="font-medium text-destructive">
+                                    {t("credit.limit.insufficientCredit")}
+                                  </p>
+                                  <p className="text-muted-foreground">
+                                    {t("credit.limit.insufficientCreditDetail").replace("{value}",
+                                      formatCurrency(Math.abs(creditLimit.availableBalance)))}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
                             {filteredData.length === 0 ? (
                               <p className="text-sm text-muted-foreground text-center py-8">
                                 {t("credit.limit.noData")}
