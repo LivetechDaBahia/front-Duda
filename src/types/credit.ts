@@ -67,6 +67,8 @@ export type CreditClientDocument = CreditDocument;
 
 export interface CreditClientDetails {
   name: string;
+  fantasyName: string;
+  vip: boolean;
   cpfCnpj: string;
   risk: string;
   creditLimit: number;
@@ -82,6 +84,9 @@ export interface CreditClientDetails {
   firstPurchase: Date | null;
   biggestPurchase: number;
   isSN: boolean;
+  purchases: number;
+  averageDelay: number;
+  biggestDelay: number;
   comments: string;
 }
 

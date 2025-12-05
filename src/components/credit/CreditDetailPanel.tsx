@@ -524,6 +524,29 @@ export const CreditDetailPanel = ({
                         </span>
                         <p className="font-medium">{clientDetails.cpfCnpj}</p>
                       </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.clientName")}:
+                        </span>
+                            <p className="font-medium">{clientDetails.fantasyName}</p>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.clientName")}:
+                        </span>
+                            <p className="font-medium">{clientDetails.vip == true ? t('common.yes') : t('common.no')}</p>
+                        </div>
+                        <div className="col-span-2">
+                        <span className="text-muted-foreground">
+                          {t("credit.address")}:
+                        </span>
+                            <p className="font-medium">
+                                {clientDetails.billingAddress},{" "}
+                                {clientDetails.district}
+                                <br />
+                                {clientDetails.state} - {clientDetails.zipCode}
+                            </p>
+                        </div>
                       <div>
                         <span className="text-muted-foreground">
                           {t("credit.foundation")}:
@@ -532,6 +555,24 @@ export const CreditDetailPanel = ({
                           {formatDate(clientDetails.foundationDate, locale)}
                         </p>
                       </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.isSN")}:
+                        </span>
+                            <Badge variant="outline">
+                                {clientDetails.isSN == true
+                                    ? t("common.yes")
+                                    : t("common.no")}
+                            </Badge>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.firstPurchase")}:
+                        </span>
+                            <p className="font-medium">
+                                {formatDate(clientDetails.firstPurchase, locale)}
+                            </p>
+                        </div>
                       <div>
                         <span className="text-muted-foreground">
                           {t("credit.lastPurchase")}:
@@ -542,31 +583,44 @@ export const CreditDetailPanel = ({
                       </div>
                       <div>
                         <span className="text-muted-foreground">
-                          {t("credit.firstPurchase")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatDate(clientDetails.firstPurchase, locale)}
-                        </p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
                           {t("credit.biggestPurchase")}:
                         </span>
                         <p className="font-medium">
                           {formatCurrency(clientDetails.biggestPurchase)}
                         </p>
                       </div>
-                      <div className="col-span-2">
+                        <div>
                         <span className="text-muted-foreground">
-                          {t("credit.address")}:
+                          {t("credit.biggestPurchase")}:
                         </span>
-                        <p className="font-medium">
-                          {clientDetails.billingAddress},{" "}
-                          {clientDetails.district}
-                          <br />
-                          {clientDetails.state} - {clientDetails.zipCode}
-                        </p>
-                      </div>
+                            <p className="font-medium">
+                                {clientDetails.purchases}
+                            </p>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.biggestPurchase")}:
+                        </span>
+                            <p className="font-medium">
+                                {clientDetails.averageDelay + t("common.days")}
+                            </p>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.biggestPurchase")}:
+                        </span>
+                            <p className="font-medium">
+                                {clientDetails.biggestDelay + t("common.days")}
+                            </p>
+                        </div>
+                        <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.limit")}:
+                        </span>
+                            <p className="font-medium">
+                                {formatCurrency(clientDetails.creditLimit)}
+                            </p>
+                        </div>
                       <div>
                         <span className="text-muted-foreground">
                           {t("credit.risk")}:
@@ -575,28 +629,10 @@ export const CreditDetailPanel = ({
                       </div>
                       <div>
                         <span className="text-muted-foreground">
-                          {t("credit.isSN")}:
-                        </span>
-                        <Badge variant="outline">
-                          {clientDetails.isSN == true
-                            ? t("common.yes")
-                            : t("common.no")}
-                        </Badge>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
                           {t("credit.dueDate")}:
                         </span>
                         <p className="font-medium">
                           {formatDate(clientDetails.dueDate, locale)}
-                        </p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.limit")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatCurrency(clientDetails.creditLimit)}
                         </p>
                       </div>
                       <div>
