@@ -61,9 +61,8 @@ export const ImpersonationDialog = ({
       // This is the most reliable way to ensure all queries use the new user's email
       window.location.reload();
     } catch (error: any) {
-      const message =
-        error?.message || t("impersonation.failed");
-      
+      const message = error?.message || t("impersonation.failed");
+
       if (message.includes("403") || message.includes("permission")) {
         toast({
           variant: "destructive",
@@ -163,7 +162,9 @@ export const ImpersonationDialog = ({
             {t("common.cancel")}
           </Button>
           <Button onClick={handleStart} disabled={loading}>
-            {loading ? t("impersonation.starting") : t("impersonation.startViewing")}
+            {loading
+              ? t("impersonation.starting")
+              : t("impersonation.startViewing")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -620,7 +620,10 @@ export const CreditDetailPanel = ({
                     ) : creditLimit ? (
                       (() => {
                         // Total credit limit includes base limit + RA + NCC balances
-                        const totalCreditLimit = creditLimit.creditLimit + creditLimit.raBalance + creditLimit.nccBalance;
+                        const totalCreditLimit =
+                          creditLimit.creditLimit +
+                          creditLimit.raBalance +
+                          creditLimit.nccBalance;
                         const pieData = [
                           {
                             name: t("credit.limit.pendingValue"),
@@ -633,16 +636,21 @@ export const CreditDetailPanel = ({
                             color: "hsl(var(--success))",
                           },
                           // Only show available balance if it's positive
-                          ...(creditLimit.availableBalance > 0 ? [{
-                            name: t("credit.limit.availableBalance"),
-                            value: creditLimit.availableBalance,
-                            color: "hsl(var(--accent))",
-                          }] : []),
+                          ...(creditLimit.availableBalance > 0
+                            ? [
+                                {
+                                  name: t("credit.limit.availableBalance"),
+                                  value: creditLimit.availableBalance,
+                                  color: "hsl(var(--accent))",
+                                },
+                              ]
+                            : []),
                         ];
                         const filteredData = pieData.filter(
                           (item) => item.value > 0,
                         );
-                        const isInsufficientCredit = creditLimit.availableBalance < 0;
+                        const isInsufficientCredit =
+                          creditLimit.availableBalance < 0;
                         return (
                           <div>
                             <div className="text-sm text-muted-foreground">
@@ -650,11 +658,16 @@ export const CreditDetailPanel = ({
                               <span className="font-medium">
                                 {formatCurrency(totalCreditLimit)}
                               </span>
-                              {(creditLimit.raBalance > 0 || creditLimit.nccBalance > 0) && (
+                              {(creditLimit.raBalance > 0 ||
+                                creditLimit.nccBalance > 0) && (
                                 <span className="text-xs ml-2">
-                                  ({t("credit.limit.creditLimit")}: {formatCurrency(creditLimit.creditLimit)}
-                                  {creditLimit.raBalance > 0 && ` + ${t("credit.limit.raBalance")}: ${formatCurrency(creditLimit.raBalance)}`}
-                                  {creditLimit.nccBalance > 0 && ` + ${t("credit.limit.nccBalance")}: ${formatCurrency(creditLimit.nccBalance)}`})
+                                  ({t("credit.limit.creditLimit")}:{" "}
+                                  {formatCurrency(creditLimit.creditLimit)}
+                                  {creditLimit.raBalance > 0 &&
+                                    ` + ${t("credit.limit.raBalance")}: ${formatCurrency(creditLimit.raBalance)}`}
+                                  {creditLimit.nccBalance > 0 &&
+                                    ` + ${t("credit.limit.nccBalance")}: ${formatCurrency(creditLimit.nccBalance)}`}
+                                  )
                                 </span>
                               )}
                             </div>
@@ -666,8 +679,14 @@ export const CreditDetailPanel = ({
                                     {t("credit.limit.insufficientCredit")}
                                   </p>
                                   <p className="text-muted-foreground">
-                                    {t("credit.limit.insufficientCreditDetail").replace("{value}",
-                                      formatCurrency(Math.abs(creditLimit.availableBalance)))}
+                                    {t(
+                                      "credit.limit.insufficientCreditDetail",
+                                    ).replace(
+                                      "{value}",
+                                      formatCurrency(
+                                        Math.abs(creditLimit.availableBalance),
+                                      ),
+                                    )}
                                   </p>
                                 </div>
                               </div>

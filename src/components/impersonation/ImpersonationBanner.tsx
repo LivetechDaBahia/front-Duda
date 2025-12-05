@@ -54,18 +54,19 @@ export const ImpersonationBanner = () => {
       </div>
       <div className="flex items-center gap-2">
         <Eye className="h-4 w-4" />
-        <span className="text-sm font-semibold">
-          {t("impersonation.mode")}
-        </span>
+        <span className="text-sm font-semibold">{t("impersonation.mode")}</span>
         <span className="text-sm">
-          — {t("impersonation.viewingAs")} <strong className="underline">{displayName}</strong>
+          — {t("impersonation.viewingAs")}{" "}
+          <strong className="underline">{displayName}</strong>
         </span>
         <span className="text-xs opacity-75">
           ({t("impersonation.startedBy")} {impersonatedByName})
         </span>
       </div>
       <div className="flex items-center gap-2 px-3 py-1 bg-amber-600/30 rounded-full">
-        <span className="text-xs font-medium">{t("impersonation.readOnly")}</span>
+        <span className="text-xs font-medium">
+          {t("impersonation.readOnly")}
+        </span>
       </div>
       <Button
         variant="outline"

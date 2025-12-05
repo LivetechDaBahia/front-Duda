@@ -521,8 +521,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.stopFailed": "Failed to stop impersonation",
     "impersonation.stopFailedDesc": "Please try again",
     "impersonation.dialogTitle": "View as User",
-    "impersonation.dialogDescription": "Enter the email or ID of the user you want to view as. You will be in read-only mode and cannot make changes.",
-    "impersonation.alertMessage": "After starting impersonation, all data (purchase orders, credits, etc.) will be refetched for the target user. Session expires in 15 minutes.",
+    "impersonation.dialogDescription":
+      "Enter the email or ID of the user you want to view as. You will be in read-only mode and cannot make changes.",
+    "impersonation.alertMessage":
+      "After starting impersonation, all data (purchase orders, credits, etc.) will be refetched for the target user. Session expires in 15 minutes.",
     "impersonation.byEmail": "By Email",
     "impersonation.byUserId": "By User ID",
     "impersonation.emailLabel": "User Email",
@@ -534,11 +536,14 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.missingInput": "Missing input",
     "impersonation.enterEmailOrId": "Please enter an email or user ID",
     "impersonation.permissionDenied": "Permission denied",
-    "impersonation.noPermission": "You don't have permission to impersonate users",
+    "impersonation.noPermission":
+      "You don't have permission to impersonate users",
     "impersonation.userNotFound": "User not found",
-    "impersonation.userNotFoundDesc": "No user found with the provided email or ID",
+    "impersonation.userNotFoundDesc":
+      "No user found with the provided email or ID",
     "impersonation.failed": "Impersonation failed",
-    "impersonation.gateTooltip": "Read-only in view-as mode. Stop impersonation to perform this action.",
+    "impersonation.gateTooltip":
+      "Read-only in view-as mode. Stop impersonation to perform this action.",
   },
   "pt-BR": {
     // Navigation
@@ -1059,8 +1064,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.stopFailed": "Falha ao parar personificação",
     "impersonation.stopFailedDesc": "Por favor, tente novamente",
     "impersonation.dialogTitle": "Visualizar como Usuário",
-    "impersonation.dialogDescription": "Digite o e-mail ou ID do usuário que deseja visualizar. Você estará em modo somente leitura e não poderá fazer alterações.",
-    "impersonation.alertMessage": "Após iniciar a personificação, todos os dados (pedidos de compra, créditos, etc.) serão recarregados para o usuário alvo. A sessão expira em 15 minutos.",
+    "impersonation.dialogDescription":
+      "Digite o e-mail ou ID do usuário que deseja visualizar. Você estará em modo somente leitura e não poderá fazer alterações.",
+    "impersonation.alertMessage":
+      "Após iniciar a personificação, todos os dados (pedidos de compra, créditos, etc.) serão recarregados para o usuário alvo. A sessão expira em 15 minutos.",
     "impersonation.byEmail": "Por E-mail",
     "impersonation.byUserId": "Por ID do Usuário",
     "impersonation.emailLabel": "E-mail do Usuário",
@@ -1070,13 +1077,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.startViewing": "Iniciar Visualização",
     "impersonation.starting": "Iniciando...",
     "impersonation.missingInput": "Campo obrigatório",
-    "impersonation.enterEmailOrId": "Por favor, insira um e-mail ou ID de usuário",
+    "impersonation.enterEmailOrId":
+      "Por favor, insira um e-mail ou ID de usuário",
     "impersonation.permissionDenied": "Permissão negada",
-    "impersonation.noPermission": "Você não tem permissão para personificar usuários",
+    "impersonation.noPermission":
+      "Você não tem permissão para personificar usuários",
     "impersonation.userNotFound": "Usuário não encontrado",
-    "impersonation.userNotFoundDesc": "Nenhum usuário encontrado com o e-mail ou ID fornecido",
+    "impersonation.userNotFoundDesc":
+      "Nenhum usuário encontrado com o e-mail ou ID fornecido",
     "impersonation.failed": "Falha na personificação",
-    "impersonation.gateTooltip": "Somente leitura no modo de visualização. Pare a personificação para executar esta ação.",
+    "impersonation.gateTooltip":
+      "Somente leitura no modo de visualização. Pare a personificação para executar esta ação.",
   },
   "es-ES": {
     // Navigation
@@ -1595,8 +1606,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.stopFailed": "Error al detener la suplantación",
     "impersonation.stopFailedDesc": "Por favor, inténtelo de nuevo",
     "impersonation.dialogTitle": "Ver como Usuario",
-    "impersonation.dialogDescription": "Ingrese el correo electrónico o ID del usuario que desea ver. Estará en modo de solo lectura y no podrá hacer cambios.",
-    "impersonation.alertMessage": "Después de iniciar la suplantación, todos los datos (órdenes de compra, créditos, etc.) se volverán a cargar para el usuario objetivo. La sesión expira en 15 minutos.",
+    "impersonation.dialogDescription":
+      "Ingrese el correo electrónico o ID del usuario que desea ver. Estará en modo de solo lectura y no podrá hacer cambios.",
+    "impersonation.alertMessage":
+      "Después de iniciar la suplantación, todos los datos (órdenes de compra, créditos, etc.) se volverán a cargar para el usuario objetivo. La sesión expira en 15 minutos.",
     "impersonation.byEmail": "Por Correo",
     "impersonation.byUserId": "Por ID de Usuario",
     "impersonation.emailLabel": "Correo del Usuario",
@@ -1606,13 +1619,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "impersonation.startViewing": "Iniciar Visualización",
     "impersonation.starting": "Iniciando...",
     "impersonation.missingInput": "Campo requerido",
-    "impersonation.enterEmailOrId": "Por favor, ingrese un correo electrónico o ID de usuario",
+    "impersonation.enterEmailOrId":
+      "Por favor, ingrese un correo electrónico o ID de usuario",
     "impersonation.permissionDenied": "Permiso denegado",
     "impersonation.noPermission": "No tiene permiso para suplantar usuarios",
     "impersonation.userNotFound": "Usuario no encontrado",
-    "impersonation.userNotFoundDesc": "No se encontró ningún usuario con el correo o ID proporcionado",
+    "impersonation.userNotFoundDesc":
+      "No se encontró ningún usuario con el correo o ID proporcionado",
     "impersonation.failed": "Error en la suplantación",
-    "impersonation.gateTooltip": "Solo lectura en modo de visualización. Detenga la suplantación para realizar esta acción.",
+    "impersonation.gateTooltip":
+      "Solo lectura en modo de visualización. Detenga la suplantación para realizar esta acción.",
   },
 };
 

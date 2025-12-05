@@ -76,7 +76,8 @@ export const CreditKanbanView = ({
       const draggedCredit = credits.find((c) => c.id === draggedCreditId);
       if (draggedCredit && draggedCredit.statusId !== newStatusId) {
         // Auto-assign to current user when moving a card (if not already assigned to them)
-        const isAssignedToMe = draggedCredit.user?.toLowerCase() === user?.email?.toLowerCase();
+        const isAssignedToMe =
+          draggedCredit.user?.toLowerCase() === user?.email?.toLowerCase();
 
         if (!isAssignedToMe && onActionsClick) {
           // Trigger self-assignment before status change

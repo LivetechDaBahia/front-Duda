@@ -36,7 +36,7 @@ export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
         (order) => order.needsApproval && order.status === "pending",
       );
 
-      console.log('@@@@@@@', pendingOrders);
+      console.log("@@@@@@@", pendingOrders);
 
       items.push(
         ...pendingOrders.map((order) => ({

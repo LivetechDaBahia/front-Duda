@@ -59,9 +59,10 @@ export const PendingOrderCard = ({
 
   const isUrgent = daysSinceCreation > 3;
 
-  console.log("@@@@@@@@@@@@@@", order)
+  console.log("order", order);
 
-    console.log("@@@@@@@@@@@@@@", order.amount, order.amount.toLocaleString())
+  console.log("order.ammount", order.amount);
+  console.log("order formated", order.amount.toLocaleString());
 
   return (
     <Card className="p-5 hover:shadow-md transition-all animate-scale-in bg-gradient-to-br from-card to-card/50 w-full">
