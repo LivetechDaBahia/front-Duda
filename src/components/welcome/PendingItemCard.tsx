@@ -43,7 +43,7 @@ export const PendingItemCard = ({
   // Calculate display values based on showInBRL flag
   const displayValue =
     showInBRL && item.type === "purchase_order" && item.originalData?.coinRate
-      ? item.value * item.originalData.coinRate
+      ? item.amount * item.originalData.coinRate
       : item.value;
 
   const displaySymbol =

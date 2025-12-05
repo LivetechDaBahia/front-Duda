@@ -24,7 +24,6 @@ export const creditService = {
   },
 
   async getCreditElementDetails(id: string): Promise<CreditElementDetails[]> {
-    console.log("getCreditElementDetails", id);
     return apiClient.get(`/credit/creditElement/${id}`);
   },
 

@@ -12,16 +12,6 @@ export const ImpersonationBanner = () => {
   const { toast } = useToast();
   const [stopping, setStopping] = useState(false);
 
-  // Debug logging to track impersonation state
-  useEffect(() => {
-    if (!isLoading) {
-      console.log("[ImpersonationBanner] Auth state:", {
-        email: user?.email,
-        impersonating: user?.impersonating,
-        impersonatedBy: user?.impersonatedBy,
-      });
-    }
-  }, [user, isLoading]);
 
   // Don't render during loading or if not impersonating
   if (isLoading || !user?.impersonating) return null;

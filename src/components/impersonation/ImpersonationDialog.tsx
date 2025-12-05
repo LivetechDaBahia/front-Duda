@@ -55,8 +55,6 @@ export const ImpersonationDialog = ({
         ttlSec: 900, // 15 minutes default
       });
 
-      console.log("[ImpersonationDialog] Impersonation started:", response);
-
       // Reload the page to ensure all components get fresh data with impersonated user context
       // This is the most reliable way to ensure all queries use the new user's email
       window.location.reload();

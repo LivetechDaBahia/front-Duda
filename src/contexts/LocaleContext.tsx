@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { no } from "zod/v4/locales";
+import React, {createContext, useContext, useEffect, useState} from "react";
 
 type Locale = "en" | "pt-BR" | "es-ES";
 
@@ -1664,19 +1663,11 @@ export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
     // Priority 1: Check for user's saved preference
     const stored = localStorage.getItem("locale");
     if (stored && ["en", "pt-BR", "es-ES"].includes(stored)) {
-      console.log("[LocaleProvider] Using saved locale:", stored);
       return stored as Locale;
     }
 
     // Priority 2: Auto-detect from browser
-    const detected = detectBrowserLocale();
-    console.log(
-      "[LocaleProvider] Auto-detected locale:",
-      detected,
-      "from browser language:",
-      navigator.language,
-    );
-    return detected;
+      return detectBrowserLocale();
   });
 
   useEffect(() => {
