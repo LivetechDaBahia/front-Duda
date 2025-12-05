@@ -43,7 +43,7 @@ export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
           title: order.id,
           supplierOrClient: order.supplierName,
           amount: order.amount || 0,
-          value: order.value || (order.amount * (order.currencyRate || 1)),
+          value: order.value || order.amount * (order.currencyRate || 1),
           coinSymbol: order.coinSymbol,
           currencyRate: order.currencyRate || 1,
           createdAt: order.createdAt,

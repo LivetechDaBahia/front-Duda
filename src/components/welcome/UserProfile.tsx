@@ -22,7 +22,6 @@ export const UserProfile = () => {
       .slice(0, 2);
   };
 
-
   const displayName = profile?.name || authUser?.name || "User";
   const displayRole = profile?.role || t("profile.notSpecified");
   const displayDepartment = profile?.department || t("profile.notSpecified");

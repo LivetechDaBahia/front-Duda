@@ -12,7 +12,6 @@ export const ImpersonationBanner = () => {
   const { toast } = useToast();
   const [stopping, setStopping] = useState(false);
 
-
   // Don't render during loading or if not impersonating
   if (isLoading || !user?.impersonating) return null;
 

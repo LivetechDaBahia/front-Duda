@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Locale = "en" | "pt-BR" | "es-ES";
 
@@ -416,6 +416,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.dragRestrictionDestructive":
       "Items in this status cannot be moved.",
     "credit.changeStatus": "Change Status",
+    "credit.fantasyName": "Fantasy Name",
+    "credit.vip": "VIP",
+    "credit.purchases": "Purchases",
+    "credit.averageDelay": "Average Delay",
+    "credit.biggestDelay": "Biggest Delay",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -945,6 +950,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.dragRestrictionDestructive":
       "Itens neste status não podem ser movidos.",
     "credit.changeStatus": "Alterar Status",
+    "credit.fantasyName": "Nome Fantasia",
+    "credit.vip": "VIP",
+    "credit.purchases": "Número de Compras",
+    "credit.averageDelay": "Média de Atraso",
+    "credit.biggestDelay": "Maior Atraso",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1499,6 +1509,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.dragRestrictionDestructive":
       "Los elementos en este estado no se pueden mover.",
     "credit.changeStatus": "Cambiar Estado",
+    "credit.fantasyName": "Nombre de Fantasía",
+    "credit.vip": "VIP",
+    "credit.purchases": "Número de Compras",
+    "credit.averageDelay": "Promedio de Retraso",
+    "credit.biggestDelay": "Retraso más Largo",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
@@ -1670,7 +1685,7 @@ export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     // Priority 2: Auto-detect from browser
-      return detectBrowserLocale();
+    return detectBrowserLocale();
   });
 
   useEffect(() => {
