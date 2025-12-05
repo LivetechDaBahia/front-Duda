@@ -606,7 +606,7 @@ export const CreditDetailPanel = ({
                           {t("credit.averageDelay")}:
                         </span>
                         <p className="font-medium">
-                          {clientDetails.averageDelay + " " + t("common.days")}
+                          {clientDetails.averageDelay + " " + (clientDetails.averageDelay > 1 ? t("common.days") : t("common.day"))}
                         </p>
                       </div>
                       <div>
@@ -614,7 +614,7 @@ export const CreditDetailPanel = ({
                           {t("credit.biggestDelay")}:
                         </span>
                         <p className="font-medium">
-                          {clientDetails.biggestDelay + " " + t("common.days")}
+                          {clientDetails.biggestDelay + " " + (clientDetails.biggestDelay > 1 ? t("common.days") : t("common.day"))}
                         </p>
                       </div>
                       <div>

@@ -301,7 +301,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.hideFilters": "Hide Filters",
     "common.save": "Save",
     "common.saving": "Saving...",
-    "common.days": "days",
+    "common.days": "Days",
+    "common.day": "Day",
 
     // Kanban
     "kanban.noOrders": "No orders",
@@ -844,6 +845,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.save": "Salvar",
     "common.saving": "Salvando...",
     "common.days": "Dias",
+    "common.day": "Dia",
 
     // Kanban
     "kanban.noOrders": "Nenhum pedido",
@@ -1394,6 +1396,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "common.save": "Guardar",
     "common.saving": "Guardando...",
     "common.days": "Dias",
+    "common.day": "Dia",
 
     // Kanban
     "kanban.noOrders": "No hay órdenes",
