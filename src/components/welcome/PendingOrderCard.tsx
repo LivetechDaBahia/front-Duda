@@ -61,6 +61,8 @@ export const PendingOrderCard = ({
 
   console.log("@@@@@@@@@@@@@@", order)
 
+    console.log("@@@@@@@@@@@@@@", order.amount, order.amount.toLocaleString())
+
   return (
     <Card className="p-5 hover:shadow-md transition-all animate-scale-in bg-gradient-to-br from-card to-card/50 w-full">
       <div className="space-y-4">
