@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, AlertTriangle } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -619,6 +619,8 @@ export const CreditDetailPanel = ({
                       <Skeleton className="h-64 w-full" />
                     ) : creditLimit ? (
                       (() => {
+                        // Total credit limit includes base limit + RA + NCC balances
+                        const totalCreditLimit = creditLimit.creditLimit + creditLimit.raBalance + creditLimit.nccBalance;
                         const pieData = [
                           {
                             name: t("credit.limit.pendingValue"),
@@ -630,33 +632,46 @@ export const CreditDetailPanel = ({
                             value: Math.abs(creditLimit.approvedItemsValue),
                             color: "hsl(var(--success))",
                           },
-                          {
-                            name: t("credit.limit.raBalance"),
-                            value: Math.abs(creditLimit.raBalance),
-                            color: "hsl(var(--info))",
-                          },
-                          {
-                            name: t("credit.limit.nccBalance"),
-                            value: Math.abs(creditLimit.nccBalance),
-                            color: "hsl(var(--secondary))",
-                          },
-                          {
+                          // Only show available balance if it's positive
+                          ...(creditLimit.availableBalance > 0 ? [{
                             name: t("credit.limit.availableBalance"),
-                            value: Math.abs(creditLimit.availableBalance),
+                            value: creditLimit.availableBalance,
                             color: "hsl(var(--accent))",
-                          },
+                          }] : []),
                         ];
                         const filteredData = pieData.filter(
                           (item) => item.value > 0,
                         );
+                        const isInsufficientCredit = creditLimit.availableBalance < 0;
                         return (
                           <div>
                             <div className="text-sm text-muted-foreground">
-                              {t("credit.limit.creditLimit")}:{" "}
+                              {t("credit.limit.totalCreditLimit")}:{" "}
                               <span className="font-medium">
-                                {formatCurrency(creditLimit.creditLimit)}
+                                {formatCurrency(totalCreditLimit)}
                               </span>
+                              {(creditLimit.raBalance > 0 || creditLimit.nccBalance > 0) && (
+                                <span className="text-xs ml-2">
+                                  ({t("credit.limit.creditLimit")}: {formatCurrency(creditLimit.creditLimit)}
+                                  {creditLimit.raBalance > 0 && ` + ${t("credit.limit.raBalance")}: ${formatCurrency(creditLimit.raBalance)}`}
+                                  {creditLimit.nccBalance > 0 && ` + ${t("credit.limit.nccBalance")}: ${formatCurrency(creditLimit.nccBalance)}`})
+                                </span>
+                              )}
                             </div>
+                            {isInsufficientCredit && (
+                              <div className="flex items-center gap-2 mt-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
+                                <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                                <div className="text-sm">
+                                  <p className="font-medium text-destructive">
+                                    {t("credit.limit.insufficientCredit")}
+                                  </p>
+                                  <p className="text-muted-foreground">
+                                    {t("credit.limit.insufficientCreditDetail").replace("{value}",
+                                      formatCurrency(Math.abs(creditLimit.availableBalance)))}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
                             {filteredData.length === 0 ? (
                               <p className="text-sm text-muted-foreground text-center py-8">
                                 {t("credit.limit.noData")}
