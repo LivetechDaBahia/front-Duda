@@ -46,7 +46,8 @@ export const CreditKanbanView = ({
     const currentStatus = statuses.find((s) => s.id === credit.statusId);
     if (currentStatus?.destructive) return false;
 
-    if (isAdmin) return true;
+    // Admins and credit managers can move any card
+    if (isAdmin || isCreditManager) return true;
     if (!user?.email) return false;
     return credit.user?.toLowerCase() === user.email.toLowerCase();
   };
