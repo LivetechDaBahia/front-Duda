@@ -85,8 +85,8 @@ export interface CreditClientDetails {
   biggestPurchase: number;
   isSN: boolean;
   purchases: number;
-  averageDelay: number;
-  biggestDelay: number;
+  averageDelay: string;
+  biggestDelay: string;
   comments: string;
 }
 
