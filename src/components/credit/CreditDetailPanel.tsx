@@ -281,13 +281,19 @@ export const CreditDetailPanel = ({
                     </span>
                     <p className="font-medium">{credit.details.sellerName}</p>
                   </div>
-                  <div className="col-span-2">
+                  <div>
                     <span className="text-muted-foreground">
                       {t("credit.paymentConditions")}:
                     </span>
                     <p className="font-medium">
                       {credit.details.paymentConditions}
                     </p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">
+                      {t("credit.tid")}:
+                    </span>
+                    <p className="font-medium">{credit.details.tid}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">

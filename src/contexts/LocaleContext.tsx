@@ -422,6 +422,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.purchases": "Purchases",
     "credit.averageDelay": "Average Delay",
     "credit.biggestDelay": "Biggest Delay",
+    "credit.tid": "TID",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -957,6 +958,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.purchases": "Número de Compras",
     "credit.averageDelay": "Média de Atraso",
     "credit.biggestDelay": "Maior Atraso",
+    "credit.tid": "TID",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1517,6 +1519,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.purchases": "Número de Compras",
     "credit.averageDelay": "Promedio de Retraso",
     "credit.biggestDelay": "Retraso más Largo",
+    "credit.tid": "TID",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",

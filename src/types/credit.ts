@@ -12,6 +12,7 @@ export interface CreditItemDetails {
   sellerName: string;
   paymentConditions: string;
   type: string;
+  tid: string;
 }
 
 export interface CreditElementItem {
