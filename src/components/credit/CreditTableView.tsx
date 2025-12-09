@@ -43,6 +43,7 @@ interface CreditTableViewProps {
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
   loadingCreditId?: number | null;
   isCreditManager?: boolean;
+  isReadOnly?: boolean;
 }
 
 export const CreditTableView = ({
@@ -53,6 +54,7 @@ export const CreditTableView = ({
   onActionsClick,
   loadingCreditId,
   isCreditManager = false,
+  isReadOnly = false,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
   const { hasMinimumLevel } = usePermissions();

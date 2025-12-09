@@ -25,7 +25,8 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Credit = () => {
-  const { canManageCredit, isCreditManager } = usePermissions();
+  const { canViewCredit, canManageCredit, isCreditManager } = usePermissions();
+  const isReadOnly = canViewCredit && !canManageCredit;
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
     useState<CreditElementItem | null>(null);
@@ -354,7 +355,7 @@ const Credit = () => {
     );
   }
 
-  if (!canManageCredit) {
+  if (!canViewCredit) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
@@ -393,20 +394,22 @@ const Credit = () => {
               credits={filteredCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
-              onStatusChange={handleStatusChange}
-              onActionsClick={handleActionsClick}
+              onStatusChange={isReadOnly ? undefined : handleStatusChange}
+              onActionsClick={isReadOnly ? undefined : handleActionsClick}
               loadingCreditId={loadingCreditId}
               isCreditManager={isCreditManager}
+              isReadOnly={isReadOnly}
             />
           ) : (
             <CreditTableView
               credits={filteredCredits}
               statuses={statuses}
               onCreditClick={setSelectedCredit}
-              onStatusChange={handleStatusChange}
-              onActionsClick={handleActionsClick}
+              onStatusChange={isReadOnly ? undefined : handleStatusChange}
+              onActionsClick={isReadOnly ? undefined : handleActionsClick}
               loadingCreditId={loadingCreditId}
               isCreditManager={isCreditManager}
+              isReadOnly={isReadOnly}
             />
           )}
         </div>

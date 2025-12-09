@@ -80,6 +80,11 @@ export const usePermissions = () => {
     );
   };
 
+  // Check if user can view credit (read-only access)
+  const canViewCredit = (): boolean => {
+    return hasPermission("credit:read");
+  };
+
   // Check if user can view and update credit
   const canManageCredit = (): boolean => {
     return hasPermission("credit:read") && hasPermission("credit:update");
@@ -105,6 +110,7 @@ export const usePermissions = () => {
     canDeleteUsers:
       hasPermission("users:delete") || hasMinimumLevel("Administrator"),
     canManagePurchaseOrders: canManagePurchaseOrders(),
+    canViewCredit: canViewCredit(),
     canManageCredit: canManageCredit(),
     isCreditManager: isCreditManager(),
     canImpersonate: canImpersonate(),
