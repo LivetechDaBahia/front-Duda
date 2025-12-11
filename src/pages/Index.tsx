@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { KanbanView } from "@/components/dashboard/KanbanView";
 import { TableView } from "@/components/dashboard/TableView";
@@ -12,16 +12,6 @@ import { useOrders } from "@/hooks/useOrders";
 import { useBranches } from "@/hooks/useBranches";
 import { Loader2 } from "lucide-react";
 import { mapUIStatusToAPITypes, formatDateForAPI } from "@/lib/statusMapper";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 
 const Index = () => {
   const isDev = (import.meta as any).env?.DEV;
@@ -30,8 +20,6 @@ const Index = () => {
     null,
   );
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
     status: "all",
@@ -97,18 +85,6 @@ const Index = () => {
     });
   }, [orders, filters]);
 
-  // Pagination logic
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
-  const paginatedOrders = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredOrders.slice(startIndex, endIndex);
-  }, [filteredOrders, currentPage, itemsPerPage]);
-
-  // Reset to page 1 when filters or results change (e.g., switching branch)
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters, filteredOrders.length]);
 
   const handleOrderClick = (order: PurchaseOrder) => {
     if (isDev)
@@ -194,7 +170,7 @@ const Index = () => {
 
         {viewMode === "kanban" ? (
           <KanbanView
-            orders={paginatedOrders}
+            orders={filteredOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
             onRevertOrder={handleRevertOrder}
@@ -202,7 +178,7 @@ const Index = () => {
           />
         ) : (
           <TableView
-            orders={paginatedOrders}
+            orders={filteredOrders}
             onOrderClick={handleOrderClick}
             onStatusChange={handleStatusChange}
             onRevertOrder={handleRevertOrder}
@@ -210,78 +186,6 @@ const Index = () => {
           />
         )}
 
-        <div className="mt-8 flex items-center justify-between">
-          <ItemsPerPageSelector
-            value={itemsPerPage}
-            onChange={(value) => {
-              setItemsPerPage(value);
-              setCurrentPage(1);
-            }}
-          />
-
-          {totalPages > 1 && (
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    className={
-                      currentPage === 1
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => {
-                    // Show first page, last page, current page, and pages around current
-                    if (
-                      page === 1 ||
-                      page === totalPages ||
-                      (page >= currentPage - 1 && page <= currentPage + 1)
-                    ) {
-                      return (
-                        <PaginationItem key={page}>
-                          <PaginationLink
-                            onClick={() => setCurrentPage(page)}
-                            isActive={currentPage === page}
-                            className="cursor-pointer"
-                          >
-                            {page}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    } else if (
-                      page === currentPage - 2 ||
-                      page === currentPage + 2
-                    ) {
-                      return (
-                        <PaginationItem key={page}>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                      );
-                    }
-                    return null;
-                  },
-                )}
-
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    className={
-                      currentPage === totalPages
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          )}
-        </div>
       </main>
 
       <OrderDetailPanel
