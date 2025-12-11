@@ -255,3 +255,12 @@ export interface CostCenter {
 export const isOrderLocked = (order: PurchaseOrder): boolean => {
   return order.statusCode === ORDER_STATUS.WAITING_PREVIOUS_LEVEL;
 };
+
+// Indicators response from API
+export interface OrderIndicators {
+  branch: string;
+  branchName: string;
+  pendingItems: number;
+  urgentItems: number;
+  totalValueBRL: number;
+}

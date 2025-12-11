@@ -174,3 +174,12 @@ export interface CreditLimit {
   nccBalance: number;
   availableBalance: number;
 }
+
+// Indicators response from API
+export interface CreditIndicators {
+  branch: string;
+  branchName: string;
+  pendingItems: number;
+  urgentItems: number;
+  totalValueBRL: number;
+}

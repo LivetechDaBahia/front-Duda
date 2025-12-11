@@ -7,6 +7,7 @@ import {
   RejectPurchaseOrderDto,
   ApprovalActionResponse,
   Branch,
+  OrderIndicators,
 } from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
@@ -139,6 +140,26 @@ export const orderService = {
     const url = "/purchaseOrders/branches";
     if (isDev) {
       console.log("[orderService] getBranches", { url });
+    }
+    return apiClient.get(url);
+  },
+
+  // Fetch indicators for dashboard
+  async getIndicators(
+    userEmail: string,
+    dateBegin: string,
+    dateEnd: string,
+    types: string = "01,02",
+  ): Promise<OrderIndicators> {
+    const params = new URLSearchParams({
+      userEmail,
+      dateBegin,
+      dateEnd,
+      types,
+    });
+    const url = `/purchaseOrders/indicators?${params}`;
+    if (isDev) {
+      console.log("[orderService] getIndicators", { url, userEmail, dateBegin, dateEnd, types });
     }
     return apiClient.get(url);
   },

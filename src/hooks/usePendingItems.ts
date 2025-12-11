@@ -65,32 +65,14 @@ export const usePendingItems = ({ tenantId }: UsePendingItemsParams = {}) => {
     );
   }, [canManagePurchaseOrders, orders]);
 
-  // Calculate urgent items (pending + more than 3 days old)
-  const urgentItems = useMemo(() => {
-    return pendingItems.filter((item) => {
-      const daysSinceCreation = Math.floor(
-        (new Date().getTime() - new Date(item.createdAt).getTime()) /
-          (1000 * 60 * 60 * 24),
-      );
-      return daysSinceCreation > 3;
-    });
-  }, [pendingItems]);
+  const isLoadingState = canManagePurchaseOrders && ordersLoading;
 
-  // Calculate total value (sum all currencies for simplicity)
-  const totalValue = useMemo(() => {
-    return pendingItems.reduce((sum, item) => sum + item.amount, 0);
-  }, [pendingItems]);
-
-  const isLoading = canManagePurchaseOrders && ordersLoading;
-
-  const error = ordersError;
+  const errorState = ordersError;
 
   return {
     pendingItems,
-    urgentItems,
-    totalValue,
-    isLoading,
-    error,
+    isLoading: isLoadingState,
+    error: errorState,
     canManagePurchaseOrders,
     canManageCredit,
     approveOrder: canManagePurchaseOrders ? approveOrder : undefined,
