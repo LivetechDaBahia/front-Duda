@@ -42,7 +42,7 @@ export const OrderFilters = ({
   const [branch, setBranch] = useState("");
   const [dateFrom, setDateFrom] = useState<Date | undefined>();
   const [dateTo, setDateTo] = useState<Date | undefined>();
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [showInBRL, setShowInBRL] = useState(false);
 
   // Keep local branch in sync with selectedBranch and choose sensible default
