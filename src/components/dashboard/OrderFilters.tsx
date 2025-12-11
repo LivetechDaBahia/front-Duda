@@ -342,15 +342,22 @@ export const OrderFilters = ({
         </Select>
       </div>
 
-      <FilterDateRange
-        dateFrom={dateFrom}
-        dateTo={dateTo}
-        onDateFromChange={setDateFrom}
-        onDateToChange={setDateTo}
-        dateFromLabel={t("filters.dateFrom")}
-        dateToLabel={t("filters.dateTo")}
-        selectDateLabel={t("filters.selectDate")}
-      />
+      <div className="space-y-2">
+        <FilterDateRange
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          onDateFromChange={setDateFrom}
+          onDateToChange={setDateTo}
+          dateFromLabel={t("filters.dateFrom")}
+          dateToLabel={t("filters.dateTo")}
+          selectDateLabel={t("filters.selectDate")}
+        />
+        {!dateFrom && !dateTo && (
+          <p className="text-xs text-muted-foreground">
+            {t("filters.defaultDateRangeInfo")}
+          </p>
+        )}
+      </div>
 
       {/* Currency Toggle */}
       <div className="flex items-center justify-between space-x-2 pt-2">
