@@ -24,6 +24,8 @@ import { userService } from "@/services/userService";
 import { useToast } from "@/hooks/use-toast";
 import type { CreditElementItem } from "@/types/credit";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditAssignmentDialogProps {
   credit: CreditElementItem | null;
@@ -42,6 +44,8 @@ export const CreditAssignmentDialog = ({
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { t } = useLocale();
+  const { user: currentUser } = useAuth();
+  const { isAdmin } = usePermissions();
 
   // Fetch all users for assignment
   const { data: usersData, isLoading: isLoadingUsers } = useQuery({
@@ -56,7 +60,17 @@ export const CreditAssignmentDialog = ({
     enabled: isOpen,
   });
 
-  const users = usersData?.data || [];
+  // Find current user's departmentId from the users list
+  const allUsers = usersData?.data || [];
+  const currentUserData = allUsers.find((u) => u.email === currentUser?.email);
+  
+  // Filter users by department for non-admin users
+  const users = allUsers.filter((user) => {
+    if (isAdmin) return true;
+    // Non-admin users can only assign to users in their same department
+    if (!currentUserData?.departmentId) return false;
+    return user.departmentId === currentUserData.departmentId;
+  });
 
   useEffect(() => {
     if (isOpen) {
