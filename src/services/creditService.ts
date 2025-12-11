@@ -95,7 +95,7 @@ export const creditService = {
 
   // Fetch indicators for dashboard
   async getIndicators(userEmail: string): Promise<CreditIndicators> {
-    const params = new URLSearchParams({ email: userEmail });
+    const params = new URLSearchParams({ userEmail: userEmail });
     return apiClient.get(`/credit/indicators?${params}`);
   },
 };
