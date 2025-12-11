@@ -21,6 +21,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
+    // Notifications
+    "notifications.empty": "No notifications at the moment",
+
     "common.confirm": "Confirm",
     "common.cancel": "Cancel",
 
@@ -568,6 +571,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.users": "Usuários",
     "nav.notifications": "Notificações",
     "nav.brandName": "WDC Net",
+
+    // Notifications
+    "notifications.empty": "Nenhuma notificação no momento",
 
     // Auth
     "auth.login": "Entrar",
@@ -1127,6 +1133,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.users": "Usuarios",
     "nav.notifications": "Notificaciones",
     "nav.brandName": "WDC Net",
+
+    // Notifications
+    "notifications.empty": "No hay notificaciones en este momento",
 
     // Auth
     "auth.login": "Iniciar Sesión",

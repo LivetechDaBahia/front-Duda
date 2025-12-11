@@ -1,6 +1,7 @@
-import { Clock, Package, AlertCircle } from "lucide-react";
+import { Clock, Package, AlertCircle, Bell } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface Notification {
   id: string;
@@ -15,6 +16,7 @@ interface Notification {
 const notifications: Notification[] = [];
 
 export const NotificationsSection = () => {
+  const { t } = useLocale();
   const getNotificationIcon = (type: Notification["type"]) => {
     switch (type) {
       case "urgent":
@@ -51,6 +53,15 @@ export const NotificationsSection = () => {
         );
     }
   };
+
+  if (notifications.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center">
+        <Bell className="w-12 h-12 text-muted-foreground/50 mb-3" />
+        <p className="text-muted-foreground">{t("notifications.empty")}</p>
+      </div>
+    );
+  }
 
   return (
     <div>
