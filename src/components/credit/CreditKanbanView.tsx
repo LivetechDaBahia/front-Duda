@@ -19,6 +19,7 @@ interface CreditKanbanViewProps {
   onActionsClick?: (credit: CreditElementItem, action: string) => void;
   loadingCreditId?: number | null;
   isCreditManager?: boolean;
+  isReadOnly?: boolean;
 }
 
 export const CreditKanbanView = ({
@@ -29,6 +30,7 @@ export const CreditKanbanView = ({
   onActionsClick,
   loadingCreditId,
   isCreditManager = false,
+  isReadOnly = false,
 }: CreditKanbanViewProps) => {
   const { t } = useLocale();
   const { isAdmin } = usePermissions();
@@ -42,6 +44,9 @@ export const CreditKanbanView = ({
 
   // Check if user can drag a specific credit
   const canDragCredit = (credit: CreditElementItem): boolean => {
+    // Read-only users cannot drag
+    if (isReadOnly) return false;
+    
     // Check if credit is in a destructive status - if so, it cannot be moved
     const currentStatus = statuses.find((s) => s.id === credit.statusId);
     if (currentStatus?.destructive) return false;
