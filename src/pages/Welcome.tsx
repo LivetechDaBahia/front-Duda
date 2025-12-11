@@ -20,6 +20,8 @@ import { PendingItem } from "@/types/order";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePendingItems } from "@/hooks/usePendingItems";
 import { useBranches } from "@/hooks/useBranches";
+import { useOrderIndicators } from "@/hooks/useOrderIndicators";
+import { useCreditIndicators } from "@/hooks/useCreditIndicators";
 
 const Welcome = () => {
   const { t } = useLocale();
@@ -29,6 +31,19 @@ const Welcome = () => {
   const [showInBRL, setShowInBRL] = useState(false);
 
   const { branches, isLoading: isLoadingBranches } = useBranches();
+
+  // Fetch indicators from dedicated endpoints
+  const {
+    indicators: orderIndicators,
+    isLoading: isLoadingOrderIndicators,
+    enabled: showOrders,
+  } = useOrderIndicators();
+
+  const {
+    indicators: creditIndicators,
+    isLoading: isLoadingCreditIndicators,
+    enabled: showCredit,
+  } = useCreditIndicators();
 
   // Set default branch when branches are loaded
   useEffect(() => {
@@ -42,8 +57,6 @@ const Welcome = () => {
 
   const {
     pendingItems,
-    urgentItems,
-    totalValue,
     isLoading,
     error,
     canManagePurchaseOrders,
@@ -153,9 +166,28 @@ const Welcome = () => {
             {t("welcome.todayOverview")}
           </h2>
           <TodayStats
-            pendingCount={pendingItems.length}
-            urgentCount={urgentItems.length}
-            totalValue={totalValue}
+            purchaseOrders={
+              orderIndicators
+                ? {
+                    pending: orderIndicators.pendingItems,
+                    urgent: orderIndicators.urgentItems,
+                    totalValue: orderIndicators.totalValueBRL,
+                  }
+                : undefined
+            }
+            credit={
+              creditIndicators
+                ? {
+                    pending: creditIndicators.pendingItems,
+                    urgent: creditIndicators.urgentItems,
+                    totalValue: creditIndicators.totalValueBRL,
+                  }
+                : undefined
+            }
+            isLoadingOrders={isLoadingOrderIndicators}
+            isLoadingCredit={isLoadingCreditIndicators}
+            showOrders={showOrders}
+            showCredit={showCredit}
           />
         </div>
 

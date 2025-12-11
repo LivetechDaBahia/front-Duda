@@ -12,6 +12,7 @@ import {
   CreditLog,
   UpdateCreditStatusDto,
   CreditLimit,
+  CreditIndicators,
 } from "@/types/credit";
 
 export const creditService = {
@@ -90,5 +91,11 @@ export const creditService = {
     dueDate: Date;
   }): Promise<void> {
     return apiClient.post("/credit/creditElement/limit", payload);
+  },
+
+  // Fetch indicators for dashboard
+  async getIndicators(userEmail: string): Promise<CreditIndicators> {
+    const params = new URLSearchParams({ email: userEmail });
+    return apiClient.get(`/credit/indicators?${params}`);
   },
 };
