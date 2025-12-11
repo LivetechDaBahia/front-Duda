@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -9,10 +8,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { UIOrderStatus, Branch } from "@/types/order";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { FilterDateRange } from "@/components/shared/FilterDateRange";
+import { format } from "date-fns";
+
+const STORAGE_KEY = "orderFilters";
+
+interface StoredFilters {
+  search: string;
+  status: UIOrderStatus | "all";
+  branch: string;
+  dateFrom: string | null;
+  dateTo: string | null;
+  showInBRL: boolean;
+}
 
 interface OrderFiltersProps {
   onFilterChange: (filters: FilterValues) => void;
@@ -30,6 +43,23 @@ export interface FilterValues {
   showInBRL?: boolean;
 }
 
+const loadFiltersFromStorage = (): Partial<StoredFilters> => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
+
+const saveFiltersToStorage = (filters: StoredFilters) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
+  } catch {
+    // Ignore storage errors
+  }
+};
+
 export const OrderFilters = ({
   onFilterChange,
   branches,
@@ -37,12 +67,20 @@ export const OrderFilters = ({
   selectedBranch,
 }: OrderFiltersProps) => {
   const { t } = useLocale();
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<UIOrderStatus | "all">("all");
-  const [branch, setBranch] = useState("");
-  const [dateFrom, setDateFrom] = useState<Date | undefined>();
-  const [dateTo, setDateTo] = useState<Date | undefined>();
-  const [showInBRL, setShowInBRL] = useState(false);
+  
+  // Load initial values from localStorage
+  const storedFilters = loadFiltersFromStorage();
+  
+  const [search, setSearch] = useState(storedFilters.search || "");
+  const [status, setStatus] = useState<UIOrderStatus | "all">(storedFilters.status || "all");
+  const [branch, setBranch] = useState(storedFilters.branch || "");
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(
+    storedFilters.dateFrom ? new Date(storedFilters.dateFrom) : undefined
+  );
+  const [dateTo, setDateTo] = useState<Date | undefined>(
+    storedFilters.dateTo ? new Date(storedFilters.dateTo) : undefined
+  );
+  const [showInBRL, setShowInBRL] = useState(storedFilters.showInBRL || false);
 
   const hasActiveFilters = Boolean(
     search || status !== "all" || dateFrom || dateTo || showInBRL,
@@ -57,6 +95,37 @@ export const OrderFilters = ({
       setShowFilters(true);
     }
   }, [hasActiveFilters]);
+
+  // Save filters to localStorage whenever they change
+  useEffect(() => {
+    saveFiltersToStorage({
+      search,
+      status,
+      branch,
+      dateFrom: dateFrom ? dateFrom.toISOString() : null,
+      dateTo: dateTo ? dateTo.toISOString() : null,
+      showInBRL,
+    });
+  }, [search, status, branch, dateFrom, dateTo, showInBRL]);
+
+  // Apply stored filters on initial mount (after branches load)
+  const [hasInitialized, setHasInitialized] = useState(false);
+  useEffect(() => {
+    if (branches.length > 0 && !hasInitialized && hasActiveFilters) {
+      setHasInitialized(true);
+      const storedBranch = storedFilters.branch && branches.some(b => b.code === storedFilters.branch)
+        ? storedFilters.branch
+        : branches[0].code;
+      onFilterChange({
+        search,
+        status,
+        branch: storedBranch,
+        dateFrom,
+        dateTo,
+        showInBRL,
+      });
+    }
+  }, [branches, hasInitialized, hasActiveFilters]);
 
   // Keep local branch in sync with selectedBranch and choose sensible default
   useEffect(() => {
@@ -131,24 +200,99 @@ export const OrderFilters = ({
     });
   };
 
+  const removeFilter = (filterKey: string) => {
+    switch (filterKey) {
+      case "search":
+        setSearch("");
+        break;
+      case "status":
+        setStatus("all");
+        break;
+      case "dateFrom":
+        setDateFrom(undefined);
+        break;
+      case "dateTo":
+        setDateTo(undefined);
+        break;
+      case "showInBRL":
+        setShowInBRL(false);
+        break;
+    }
+  };
+
+  const getStatusLabel = (s: string) => {
+    switch (s) {
+      case "pending": return t("status.pending");
+      case "approved": return t("status.approved");
+      case "declined": return t("status.declined");
+      default: return s;
+    }
+  };
 
   return (
-    <FilterContainer
-      searchValue={search}
-      searchPlaceholder={t("filters.searchPlaceholder")}
-      onSearchChange={setSearch}
-      showFilters={showFilters}
-      onShowFiltersChange={setShowFilters}
-      filterButtonLabel={t("filters.filters")}
-      onApplyFilters={handleApplyFilters}
-      onClearFilters={handleClearFilters}
-      clearButtonLabel={t("filters.clear")}
-      applyButtonLabel={t("filters.apply")}
-      hasActiveFilters={hasActiveFilters}
-      onSearchKeyDown={(e) => {
-        if (e.key === "Enter") handleApplyFilters();
-      }}
-    >
+    <div className="space-y-3">
+      {/* Active Filter Badges */}
+      {hasActiveFilters && (
+        <div className="flex flex-wrap gap-2">
+          {search && (
+            <Badge variant="secondary" className="gap-1 pr-1">
+              {t("filters.searchPlaceholder")}: {search}
+              <button onClick={() => removeFilter("search")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          )}
+          {status !== "all" && (
+            <Badge variant="secondary" className="gap-1 pr-1">
+              {t("filters.status")}: {getStatusLabel(status)}
+              <button onClick={() => removeFilter("status")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          )}
+          {dateFrom && (
+            <Badge variant="secondary" className="gap-1 pr-1">
+              {t("filters.dateFrom")}: {format(dateFrom, "dd/MM/yyyy")}
+              <button onClick={() => removeFilter("dateFrom")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          )}
+          {dateTo && (
+            <Badge variant="secondary" className="gap-1 pr-1">
+              {t("filters.dateTo")}: {format(dateTo, "dd/MM/yyyy")}
+              <button onClick={() => removeFilter("dateTo")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          )}
+          {showInBRL && (
+            <Badge variant="secondary" className="gap-1 pr-1">
+              {t("filters.showInBRL")}
+              <button onClick={() => removeFilter("showInBRL")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          )}
+        </div>
+      )}
+
+      <FilterContainer
+        searchValue={search}
+        searchPlaceholder={t("filters.searchPlaceholder")}
+        onSearchChange={setSearch}
+        showFilters={showFilters}
+        onShowFiltersChange={setShowFilters}
+        filterButtonLabel={t("filters.filters")}
+        onApplyFilters={handleApplyFilters}
+        onClearFilters={handleClearFilters}
+        clearButtonLabel={t("filters.clear")}
+        applyButtonLabel={t("filters.apply")}
+        hasActiveFilters={hasActiveFilters}
+        onSearchKeyDown={(e) => {
+          if (e.key === "Enter") handleApplyFilters();
+        }}
+      >
       {/* Status Filter */}
       <div className="space-y-2">
         <Label>{t("filters.status")}</Label>
@@ -219,6 +363,7 @@ export const OrderFilters = ({
           onCheckedChange={setShowInBRL}
         />
       </div>
-    </FilterContainer>
+      </FilterContainer>
+    </div>
   );
 };
