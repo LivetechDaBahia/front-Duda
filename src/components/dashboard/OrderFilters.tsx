@@ -42,8 +42,21 @@ export const OrderFilters = ({
   const [branch, setBranch] = useState("");
   const [dateFrom, setDateFrom] = useState<Date | undefined>();
   const [dateTo, setDateTo] = useState<Date | undefined>();
-  const [showFilters, setShowFilters] = useState(true);
   const [showInBRL, setShowInBRL] = useState(false);
+
+  const hasActiveFilters = Boolean(
+    search || status !== "all" || dateFrom || dateTo || showInBRL,
+  );
+
+  // Filters panel starts collapsed, but stays expanded if there are active filters
+  const [showFilters, setShowFilters] = useState(hasActiveFilters);
+
+  // Keep panel expanded when there are active filters
+  useEffect(() => {
+    if (hasActiveFilters) {
+      setShowFilters(true);
+    }
+  }, [hasActiveFilters]);
 
   // Keep local branch in sync with selectedBranch and choose sensible default
   useEffect(() => {
@@ -118,9 +131,6 @@ export const OrderFilters = ({
     });
   };
 
-  const hasActiveFilters = Boolean(
-    search || status !== "all" || branch || dateFrom || dateTo,
-  );
 
   return (
     <FilterContainer
