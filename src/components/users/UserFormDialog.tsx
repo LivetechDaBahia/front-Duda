@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
 import { useDepartments } from "@/hooks/useDepartments";
 import { useRoles } from "@/hooks/useRoles";
@@ -38,7 +39,7 @@ const userSchema = z.object({
   email: z.string().email("Invalid email address"),
   departmentId: z.string().min(1, "Department is required"),
   positionId: z.string().min(1, "Position is required"),
-  roleId: z.string().min(1, "Role is required"),
+  roleIds: z.array(z.string()).min(1, "At least one role is required"),
   phone: z.string().optional(),
   phoneVerified: z.boolean().optional(),
   firstAccess: z.boolean().optional(),
@@ -74,7 +75,7 @@ export function UserFormDialog({
       email: "",
       departmentId: "",
       positionId: "",
-      roleId: "",
+      roleIds: [],
       phone: "",
       phoneVerified: false,
       firstAccess: true,
@@ -90,7 +91,7 @@ export function UserFormDialog({
         email: user?.email || "",
         departmentId: user?.departmentId || "",
         positionId: user?.positionId || "",
-        roleId: user?.roleId || "",
+        roleIds: user?.roleIds || [],
         phone: user?.phone || "",
         phoneVerified: user?.phoneVerified || false,
         firstAccess: user?.firstAccess ?? true,
@@ -105,7 +106,7 @@ export function UserFormDialog({
       email: data.email,
       departmentId: data.departmentId,
       positionId: data.positionId,
-      roleId: data.roleId,
+      roleIds: data.roleIds,
       phone: data.phone || null,
       phoneVerified: data.phoneVerified,
       firstAccess: data.firstAccess,
@@ -273,36 +274,48 @@ export function UserFormDialog({
 
             <FormField
               control={form.control}
-              name="roleId"
+              name="roleIds"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Role <span className="text-destructive">*</span>
+                    Roles <span className="text-destructive">*</span>
                   </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={rolesLoading}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="bg-background">
-                        <SelectValue placeholder="Select role" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-popover z-50">
-                      {roles.length === 0 ? (
-                        <div className="p-2 text-sm text-muted-foreground">
-                          No roles available
-                        </div>
-                      ) : (
-                        roles.map((role) => (
-                          <SelectItem key={role.id} value={role.id}>
+                  <div className="border rounded-md p-3 bg-background space-y-2 max-h-[200px] overflow-y-auto">
+                    {roles.length === 0 ? (
+                      <div className="text-sm text-muted-foreground">
+                        No roles available
+                      </div>
+                    ) : (
+                      roles.map((role) => (
+                        <div
+                          key={role.id}
+                          className="flex items-center space-x-2"
+                        >
+                          <Checkbox
+                            id={`role-${role.id}`}
+                            checked={field.value?.includes(role.id)}
+                            onCheckedChange={(checked) => {
+                              const currentValue = field.value || [];
+                              if (checked) {
+                                field.onChange([...currentValue, role.id]);
+                              } else {
+                                field.onChange(
+                                  currentValue.filter((id) => id !== role.id)
+                                );
+                              }
+                            }}
+                            disabled={rolesLoading}
+                          />
+                          <label
+                            htmlFor={`role-${role.id}`}
+                            className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
                             {role.name}
-                          </SelectItem>
-                        ))
-                      )}
-                    </SelectContent>
-                  </Select>
+                          </label>
+                        </div>
+                      ))
+                    )}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

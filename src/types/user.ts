@@ -11,7 +11,7 @@ export interface User {
   firstAccess: boolean;
   departmentId: string;
   positionId: string;
-  roleId: string;
+  roleIds: string[]; // Multiple roles support
 }
 
 // Extended user with related data
@@ -26,7 +26,7 @@ export interface CreateUserDto {
   email: string;
   departmentId: string;
   positionId: string;
-  roleId: string;
+  roleIds: string[]; // Multiple roles support
   phone?: string | null;
   phoneVerified?: boolean; // default false
   firstAccess?: boolean; // default true
@@ -39,7 +39,7 @@ export interface UpdateUserDto {
   email?: string;
   departmentId?: string;
   positionId?: string;
-  roleId?: string;
+  roleIds?: string[]; // Multiple roles support
   phone?: string | null;
   phoneVerified?: boolean;
   firstAccess?: boolean;
@@ -59,13 +59,12 @@ export interface ListUsersQueryDto {
     | "phoneVerified"
     | "firstAccess"
     | "departmentId"
-    | "positionId"
-    | "roleId";
+    | "positionId";
   sortDir?: SortDirection;
   search?: string;
   departmentId?: string;
   positionId?: string;
-  roleId?: string;
+  roleIds?: string[]; // Filter by any of these roles
   phoneVerified?: boolean;
   firstAccess?: boolean;
 }
