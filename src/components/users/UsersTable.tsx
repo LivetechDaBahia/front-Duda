@@ -49,6 +49,8 @@ export function UsersTable({
     departments.find((d) => d.id === id)?.name || id;
   const getRoleName = (id: string) =>
     roles.find((r) => r.id === id)?.name || id;
+  const getRoleNames = (ids: string[]) =>
+    ids.map((id) => getRoleName(id));
   const getPositionName = (id: string) =>
     positions.find((p) => p.id === id)?.name || id;
 
@@ -96,7 +98,7 @@ export function UsersTable({
             <TableHead>Phone</TableHead>
             <TableHead>Position</TableHead>
             <TableHead>Department</TableHead>
-            <TableHead>Role</TableHead>
+            <TableHead>Roles</TableHead>
             <TableHead>First Access</TableHead>
             {(canManageUsers || canDeleteUsers) && (
               <TableHead className="text-right">Actions</TableHead>
@@ -153,7 +155,17 @@ export function UsersTable({
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant="outline">{getRoleName(user.roleId)}</Badge>
+                <div className="flex flex-wrap gap-1">
+                  {user.roleIds?.length > 0 ? (
+                    getRoleNames(user.roleIds).map((roleName, idx) => (
+                      <Badge key={idx} variant="outline">
+                        {roleName}
+                      </Badge>
+                    ))
+                  ) : (
+                    <span className="text-muted-foreground text-sm">—</span>
+                  )}
+                </div>
               </TableCell>
               <TableCell>
                 <Badge variant={user.firstAccess ? "secondary" : "outline"}>
