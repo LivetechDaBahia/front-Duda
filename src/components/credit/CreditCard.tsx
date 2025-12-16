@@ -57,9 +57,10 @@ export const CreditCard = ({
   isCreditManager,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
-  const { hasMinimumLevel, isAdmin } = usePermissions();
+  const { hasMinimumLevel, isAdmin, canManageCredit } = usePermissions();
   const { user } = useAuth();
   const isManager = isCreditManager ?? hasMinimumLevel("Manager");
+  const canSetCreditLimit = canManageCredit;
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
 
@@ -218,7 +219,7 @@ export const CreditCard = ({
                     </DropdownMenuItem>
                   )}
 
-                  {isManager && (
+                  {canSetCreditLimit && (
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem

@@ -57,8 +57,9 @@ export const CreditTableView = ({
   isReadOnly = false,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
-  const { hasMinimumLevel } = usePermissions();
+  const { hasMinimumLevel, canManageCredit } = usePermissions();
   const isManager = isCreditManager || hasMinimumLevel("Manager");
+  const canSetCreditLimit = canManageCredit;
 
   const formatCurrency = (value: number, currency: string) => {
     // Map currency symbols to ISO codes
@@ -235,7 +236,7 @@ export const CreditTableView = ({
                                 </DropdownMenuItem>
                               )}
 
-                              {isManager && (
+                              {canSetCreditLimit && (
                                 <>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem
