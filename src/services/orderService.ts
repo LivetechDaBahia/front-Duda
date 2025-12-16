@@ -7,7 +7,7 @@ import {
   RejectPurchaseOrderDto,
   ApprovalActionResponse,
   Branch,
-  OrderIndicators,
+  BranchIndicators,
 } from "@/types/order";
 import { apiClient } from "@/lib/apiClient";
 
@@ -150,7 +150,7 @@ export const orderService = {
     dateBegin: string,
     dateEnd: string,
     types: string = "01,02",
-  ): Promise<OrderIndicators> {
+  ): Promise<BranchIndicators[]> {
     const params = new URLSearchParams({
       userEmail,
       dateBegin,

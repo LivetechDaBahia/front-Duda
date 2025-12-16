@@ -257,9 +257,15 @@ export const isOrderLocked = (order: PurchaseOrder): boolean => {
 };
 
 // Indicators response from API
-export interface OrderIndicators {
+export interface BranchIndicators {
   branch: string;
   branchName: string;
+  pendingItems: number;
+  urgentItems: number;
+  totalValueBRL: number;
+}
+
+export interface OrderIndicators {
   pendingItems: number;
   urgentItems: number;
   totalValueBRL: number;

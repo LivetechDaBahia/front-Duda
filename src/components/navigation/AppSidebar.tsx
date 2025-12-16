@@ -42,7 +42,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin, canManageCredit, canImpersonate } = usePermissions();
+  const { isAdmin, canViewCredit, canImpersonate } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [impersonationDialogOpen, setImpersonationDialogOpen] = useState(false);
   const isImpersonating = user?.impersonating ?? false;
@@ -92,7 +92,7 @@ const SidebarContent = () => {
         />
       ),
     },
-    ...(canManageCredit
+    ...(canViewCredit
       ? [
           {
             label: t("nav.credit"),
@@ -186,15 +186,7 @@ const SidebarContent = () => {
               onClick={() => setNotificationsOpen(true)}
               className="flex items-center gap-2 justify-start w-full relative"
             >
-              <div className="relative">
-                <Bell className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
-                <Badge
-                  className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
-                  variant="destructive"
-                >
-                  3
-                </Badge>
-              </div>
+              <Bell className="w-5 h-5 flex-shrink-0 text-muted-foreground" />
               <motion.span
                 className="text-sm"
                 animate={{

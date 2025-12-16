@@ -3,7 +3,7 @@ import { format, subDays } from "date-fns";
 import { orderService } from "@/services/orderService";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePermissions } from "@/hooks/usePermissions";
-import { OrderIndicators } from "@/types/order";
+import { BranchIndicators, OrderIndicators } from "@/types/order";
 
 export const useOrderIndicators = () => {
   const { user } = useAuth();
@@ -21,8 +21,23 @@ export const useOrderIndicators = () => {
     error,
   } = useQuery<OrderIndicators>({
     queryKey: ["orderIndicators", user?.email, dateBegin, dateEnd],
-    queryFn: () =>
-      orderService.getIndicators(user?.email || "", dateBegin, dateEnd),
+    queryFn: async () => {
+      const branchData: BranchIndicators[] = await orderService.getIndicators(
+        user?.email || "",
+        dateBegin,
+        dateEnd
+      );
+
+      // Sum totals across all branches
+      return branchData.reduce(
+        (acc, branch) => ({
+          pendingItems: acc.pendingItems + branch.pendingItems,
+          urgentItems: acc.urgentItems + branch.urgentItems,
+          totalValueBRL: acc.totalValueBRL + branch.totalValueBRL,
+        }),
+        { pendingItems: 0, urgentItems: 0, totalValueBRL: 0 }
+      );
+    },
     enabled: canManagePurchaseOrders && !!user?.email,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });

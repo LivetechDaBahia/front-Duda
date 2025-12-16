@@ -176,10 +176,17 @@ export interface CreditLimit {
   availableBalance: number;
 }
 
-// Indicators response from API
-export interface CreditIndicators {
+// Branch indicators from API (array items)
+export interface BranchCreditIndicators {
   branch: string;
   branchName: string;
+  pendingItems: number;
+  urgentItems: number;
+  totalValueBRL: number;
+}
+
+// Aggregated indicators for display
+export interface CreditIndicators {
   pendingItems: number;
   urgentItems: number;
   totalValueBRL: number;

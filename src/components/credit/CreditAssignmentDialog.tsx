@@ -24,6 +24,8 @@ import { userService } from "@/services/userService";
 import { useToast } from "@/hooks/use-toast";
 import type { CreditElementItem } from "@/types/credit";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditAssignmentDialogProps {
   credit: CreditElementItem | null;
@@ -42,6 +44,8 @@ export const CreditAssignmentDialog = ({
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { t } = useLocale();
+  const { user: currentUser } = useAuth();
+  const { isAdmin, isCreditManager } = usePermissions();
 
   // Fetch all users for assignment
   const { data: usersData, isLoading: isLoadingUsers } = useQuery({
@@ -56,7 +60,27 @@ export const CreditAssignmentDialog = ({
     enabled: isOpen,
   });
 
-  const users = usersData?.data || [];
+  // Find current user's departmentId from the users list
+  const allUsers = usersData?.data || [];
+  const currentUserData = allUsers.find((u) => u.email === currentUser?.email);
+  
+  // Filter users based on role:
+  // - Admins and Credit Managers can assign to any user
+  // - Credit Agents can self-assign OR assign to users in their department
+  const users = allUsers.filter((user) => {
+    // Admins and Credit Managers have unrestricted access
+    if (isAdmin || isCreditManager) return true;
+    
+    // Credit agents can always see themselves for self-assignment
+    if (user.email === currentUser?.email) return true;
+    
+    // Credit agents can assign to users in their same department
+    if (currentUserData?.departmentId && user.departmentId === currentUserData.departmentId) {
+      return true;
+    }
+    
+    return false;
+  });
 
   useEffect(() => {
     if (isOpen) {

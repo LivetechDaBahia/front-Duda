@@ -21,6 +21,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notifications",
     "nav.brandName": "WDC Net",
 
+    // Notifications
+    "notifications.empty": "No notifications at the moment",
+
     "common.confirm": "Confirm",
     "common.cancel": "Cancel",
 
@@ -240,6 +243,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "user.position": "Position",
     "user.department": "Department",
     "user.role": "Role",
+    "user.roles": "Roles",
+    "user.rolesRequired": "At least one role is required",
     "user.firstAccess": "First Access",
     "user.selectPosition": "Select a position",
     "user.noPosition": "No position assigned",
@@ -571,6 +576,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notificações",
     "nav.brandName": "WDC Net",
 
+    // Notifications
+    "notifications.empty": "Nenhuma notificação no momento",
+
     // Auth
     "auth.login": "Entrar",
     "auth.logout": "Sair",
@@ -790,6 +798,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "user.position": "Cargo",
     "user.department": "Departamento",
     "user.role": "Função",
+    "user.roles": "Funções",
+    "user.rolesRequired": "Pelo menos uma função é necessária",
     "user.firstAccess": "Primeiro Acesso",
     "user.selectPosition": "Selecione um cargo",
     "user.noPosition": "Nenhum cargo atribuído",
@@ -1132,6 +1142,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "nav.notifications": "Notificaciones",
     "nav.brandName": "WDC Net",
 
+    // Notifications
+    "notifications.empty": "No hay notificaciones en este momento",
+
     // Auth
     "auth.login": "Iniciar Sesión",
     "auth.logout": "Cerrar Sesión",
@@ -1352,6 +1365,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "user.position": "Posición",
     "user.department": "Departamento",
     "user.role": "Rol",
+    "user.roles": "Roles",
+    "user.rolesRequired": "Se requiere al menos un rol",
     "user.firstAccess": "Primer Acceso",
     "user.selectPosition": "Seleccione una posición",
     "user.noPosition": "Sin posición asignada",
