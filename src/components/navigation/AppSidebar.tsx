@@ -42,7 +42,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin, canManageCredit, canImpersonate } = usePermissions();
+  const { isAdmin, canViewCredit, canImpersonate } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [impersonationDialogOpen, setImpersonationDialogOpen] = useState(false);
   const isImpersonating = user?.impersonating ?? false;
@@ -92,7 +92,7 @@ const SidebarContent = () => {
         />
       ),
     },
-    ...(canManageCredit
+    ...(canViewCredit
       ? [
           {
             label: t("nav.credit"),
