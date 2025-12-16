@@ -85,7 +85,6 @@ const Index = () => {
     });
   }, [orders, filters]);
 
-
   const handleOrderClick = (order: PurchaseOrder) => {
     if (isDev)
       console.log("[Index] handleOrderClick", {
@@ -185,7 +184,6 @@ const Index = () => {
             showInBRL={filters.showInBRL}
           />
         )}
-
       </main>
 
       <OrderDetailPanel

@@ -46,7 +46,7 @@ export const CreditKanbanView = ({
   const canDragCredit = (credit: CreditElementItem): boolean => {
     // Read-only users cannot drag
     if (isReadOnly) return false;
-    
+
     // Check if credit is in a destructive status - if so, it cannot be moved
     const currentStatus = statuses.find((s) => s.id === credit.statusId);
     if (currentStatus?.destructive) return false;

@@ -6,6 +6,7 @@ export interface CreditItemDetails {
   offer: string;
   client: string;
   clientBranch: string;
+  resell: string;
   clientCpfCnpj: string;
   currency: string;
   value: number;

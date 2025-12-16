@@ -18,7 +18,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ShieldAlert, ArrowLeft, FileText, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  ShieldAlert,
+  ArrowLeft,
+  FileText,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -99,7 +106,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--success))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--success))",
+        },
       },
       {
         id: "e2-3",
@@ -107,8 +117,15 @@ const mockWorkflowItems: WorkflowItem[] = [
         target: "3",
         type: "smoothstep",
         animated: true,
-        style: { stroke: "hsl(var(--primary))", strokeWidth: 2, strokeDasharray: "5,5" },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--primary))" },
+        style: {
+          stroke: "hsl(var(--primary))",
+          strokeWidth: 2,
+          strokeDasharray: "5,5",
+        },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--primary))",
+        },
       },
       {
         id: "e3-4",
@@ -117,7 +134,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--muted-foreground))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--muted-foreground))",
+        },
       },
     ],
   },
@@ -170,7 +190,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--success))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--success))",
+        },
       },
       {
         id: "e2-3",
@@ -179,7 +202,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--success))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--success))",
+        },
       },
     ],
   },
@@ -221,7 +247,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--destructive))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--destructive))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--destructive))",
+        },
       },
     ],
   },
@@ -274,7 +303,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--muted-foreground))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--muted-foreground))",
+        },
       },
       {
         id: "e2-3",
@@ -283,7 +315,10 @@ const mockWorkflowItems: WorkflowItem[] = [
         type: "smoothstep",
         animated: false,
         style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--muted-foreground))" },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "hsl(var(--muted-foreground))",
+        },
       },
     ],
   },
@@ -320,8 +355,12 @@ export default function Workflow() {
   const { t } = useLocale();
   const { isAdmin } = usePermissions();
   const [selectedItem, setSelectedItem] = useState<WorkflowItem | null>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(selectedItem?.nodes || []);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(selectedItem?.edges || []);
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    selectedItem?.nodes || [],
+  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState(
+    selectedItem?.edges || [],
+  );
 
   const handleSelectItem = (item: WorkflowItem) => {
     setSelectedItem(item);
@@ -372,7 +411,7 @@ export default function Workflow() {
               {mockWorkflowItems.map((item) => {
                 const config = statusConfig[item.status];
                 const StatusIcon = config.icon;
-                
+
                 return (
                   <Card
                     key={item.id}
@@ -382,13 +421,18 @@ export default function Workflow() {
                       item.status === "completed" && "border-l-success",
                       item.status === "in-progress" && "border-l-primary",
                       item.status === "failed" && "border-l-destructive",
-                      item.status === "pending" && "border-l-muted-foreground"
+                      item.status === "pending" && "border-l-muted-foreground",
                     )}
                     onClick={() => handleSelectItem(item)}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div className={cn("p-2 rounded-lg shrink-0", config.bgColor)}>
+                        <div
+                          className={cn(
+                            "p-2 rounded-lg shrink-0",
+                            config.bgColor,
+                          )}
+                        >
                           <FileText className={cn("h-5 w-5", config.color)} />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -407,7 +451,7 @@ export default function Workflow() {
                         variant="outline"
                         className={cn(
                           "shrink-0 flex items-center gap-1.5",
-                          config.color
+                          config.color,
                         )}
                       >
                         <StatusIcon className="h-3 w-3" />
@@ -454,7 +498,7 @@ export default function Workflow() {
               variant="outline"
               className={cn(
                 "shrink-0 flex items-center gap-1.5",
-                selectedConfig.color
+                selectedConfig.color,
               )}
             >
               <selectedConfig.icon className="h-3 w-3" />

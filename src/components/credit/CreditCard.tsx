@@ -153,6 +153,16 @@ export const CreditCard = ({
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.client}/{credit.details.clientBranch}
             </p>
+            {credit.details.resell && (
+              <>
+                <span className="text-muted-foreground">
+                  {t("credit.resell")}
+                </span>
+                <p className="text-xs text-muted-foreground truncate mt-1">
+                  {credit.details.resell}
+                </p>
+              </>
+            )}
             <p className="text-xs text-muted-foreground truncate mt-1">
               {credit.details.type} • {credit.details.financial}
             </p>

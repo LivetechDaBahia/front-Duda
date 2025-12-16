@@ -67,18 +67,20 @@ export const OrderFilters = ({
   selectedBranch,
 }: OrderFiltersProps) => {
   const { t } = useLocale();
-  
+
   // Load initial values from localStorage
   const storedFilters = loadFiltersFromStorage();
-  
+
   const [search, setSearch] = useState(storedFilters.search || "");
-  const [status, setStatus] = useState<UIOrderStatus | "all">(storedFilters.status || "all");
+  const [status, setStatus] = useState<UIOrderStatus | "all">(
+    storedFilters.status || "all",
+  );
   const [branch, setBranch] = useState(storedFilters.branch || "");
   const [dateFrom, setDateFrom] = useState<Date | undefined>(
-    storedFilters.dateFrom ? new Date(storedFilters.dateFrom) : undefined
+    storedFilters.dateFrom ? new Date(storedFilters.dateFrom) : undefined,
   );
   const [dateTo, setDateTo] = useState<Date | undefined>(
-    storedFilters.dateTo ? new Date(storedFilters.dateTo) : undefined
+    storedFilters.dateTo ? new Date(storedFilters.dateTo) : undefined,
   );
   const [showInBRL, setShowInBRL] = useState(storedFilters.showInBRL || false);
 
@@ -113,9 +115,11 @@ export const OrderFilters = ({
   useEffect(() => {
     if (branches.length > 0 && !hasInitialized && hasActiveFilters) {
       setHasInitialized(true);
-      const storedBranch = storedFilters.branch && branches.some(b => b.code === storedFilters.branch)
-        ? storedFilters.branch
-        : branches[0].code;
+      const storedBranch =
+        storedFilters.branch &&
+        branches.some((b) => b.code === storedFilters.branch)
+          ? storedFilters.branch
+          : branches[0].code;
       onFilterChange({
         search,
         status,
@@ -222,10 +226,14 @@ export const OrderFilters = ({
 
   const getStatusLabel = (s: string) => {
     switch (s) {
-      case "pending": return t("status.pending");
-      case "approved": return t("status.approved");
-      case "declined": return t("status.declined");
-      default: return s;
+      case "pending":
+        return t("status.pending");
+      case "approved":
+        return t("status.approved");
+      case "declined":
+        return t("status.declined");
+      default:
+        return s;
     }
   };
 
@@ -237,7 +245,10 @@ export const OrderFilters = ({
           {search && (
             <Badge variant="secondary" className="gap-1 pr-1">
               {t("filters.searchPlaceholder")}: {search}
-              <button onClick={() => removeFilter("search")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+              <button
+                onClick={() => removeFilter("search")}
+                className="ml-1 hover:bg-muted rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </button>
             </Badge>
@@ -245,7 +256,10 @@ export const OrderFilters = ({
           {status !== "all" && (
             <Badge variant="secondary" className="gap-1 pr-1">
               {t("filters.status")}: {getStatusLabel(status)}
-              <button onClick={() => removeFilter("status")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+              <button
+                onClick={() => removeFilter("status")}
+                className="ml-1 hover:bg-muted rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </button>
             </Badge>
@@ -253,7 +267,10 @@ export const OrderFilters = ({
           {dateFrom && (
             <Badge variant="secondary" className="gap-1 pr-1">
               {t("filters.dateFrom")}: {format(dateFrom, "dd/MM/yyyy")}
-              <button onClick={() => removeFilter("dateFrom")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+              <button
+                onClick={() => removeFilter("dateFrom")}
+                className="ml-1 hover:bg-muted rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </button>
             </Badge>
@@ -261,7 +278,10 @@ export const OrderFilters = ({
           {dateTo && (
             <Badge variant="secondary" className="gap-1 pr-1">
               {t("filters.dateTo")}: {format(dateTo, "dd/MM/yyyy")}
-              <button onClick={() => removeFilter("dateTo")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+              <button
+                onClick={() => removeFilter("dateTo")}
+                className="ml-1 hover:bg-muted rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </button>
             </Badge>
@@ -269,7 +289,10 @@ export const OrderFilters = ({
           {showInBRL && (
             <Badge variant="secondary" className="gap-1 pr-1">
               {t("filters.showInBRL")}
-              <button onClick={() => removeFilter("showInBRL")} className="ml-1 hover:bg-muted rounded-full p-0.5">
+              <button
+                onClick={() => removeFilter("showInBRL")}
+                className="ml-1 hover:bg-muted rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </button>
             </Badge>
@@ -293,83 +316,83 @@ export const OrderFilters = ({
           if (e.key === "Enter") handleApplyFilters();
         }}
       >
-      {/* Status Filter */}
-      <div className="space-y-2">
-        <Label>{t("filters.status")}</Label>
-        <Select
-          value={status}
-          onValueChange={(value) => setStatus(value as UIOrderStatus | "all")}
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.allStatuses")}</SelectItem>
-            <SelectItem value="pending">{t("status.pending")}</SelectItem>
-            <SelectItem value="approved">{t("status.approved")}</SelectItem>
-            <SelectItem value="declined">{t("status.declined")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Status Filter */}
+        <div className="space-y-2">
+          <Label>{t("filters.status")}</Label>
+          <Select
+            value={status}
+            onValueChange={(value) => setStatus(value as UIOrderStatus | "all")}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("filters.allStatuses")}</SelectItem>
+              <SelectItem value="pending">{t("status.pending")}</SelectItem>
+              <SelectItem value="approved">{t("status.approved")}</SelectItem>
+              <SelectItem value="declined">{t("status.declined")}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-      {/* Branch Filter */}
-      <div className="space-y-2">
-        <Label>{t("order.branch")}</Label>
-        <Select
-          value={branch}
-          onValueChange={(value) => {
-            setBranch(value);
-            onFilterChange({
-              search,
-              status,
-              branch: value,
-              dateFrom,
-              dateTo,
-            });
-          }}
-          disabled={isLoadingBranches}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder={t("order.filterByBranch")} />
-          </SelectTrigger>
-          <SelectContent>
-            {branches.map((b) => (
-              <SelectItem key={b.id} value={b.code}>
-                {b.name} ({b.code})
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Branch Filter */}
+        <div className="space-y-2">
+          <Label>{t("order.branch")}</Label>
+          <Select
+            value={branch}
+            onValueChange={(value) => {
+              setBranch(value);
+              onFilterChange({
+                search,
+                status,
+                branch: value,
+                dateFrom,
+                dateTo,
+              });
+            }}
+            disabled={isLoadingBranches}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={t("order.filterByBranch")} />
+            </SelectTrigger>
+            <SelectContent>
+              {branches.map((b) => (
+                <SelectItem key={b.id} value={b.code}>
+                  {b.name} ({b.code})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="space-y-2">
-        <FilterDateRange
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          onDateFromChange={setDateFrom}
-          onDateToChange={setDateTo}
-          dateFromLabel={t("filters.dateFrom")}
-          dateToLabel={t("filters.dateTo")}
-          selectDateLabel={t("filters.selectDate")}
-        />
-        {!dateFrom && !dateTo && (
-          <p className="text-xs text-muted-foreground">
-            {t("filters.defaultDateRangeInfo")}
-          </p>
-        )}
-      </div>
+        <div className="space-y-2">
+          <FilterDateRange
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            onDateFromChange={setDateFrom}
+            onDateToChange={setDateTo}
+            dateFromLabel={t("filters.dateFrom")}
+            dateToLabel={t("filters.dateTo")}
+            selectDateLabel={t("filters.selectDate")}
+          />
+          {!dateFrom && !dateTo && (
+            <p className="text-xs text-muted-foreground">
+              {t("filters.defaultDateRangeInfo")}
+            </p>
+          )}
+        </div>
 
-      {/* Currency Toggle */}
-      <div className="flex items-center justify-between space-x-2 pt-2">
-        <Label htmlFor="currency-toggle" className="flex-1">
-          {t("filters.showInBRL")}
-        </Label>
-        <Switch
-          id="currency-toggle"
-          checked={showInBRL}
-          onCheckedChange={setShowInBRL}
-        />
-      </div>
+        {/* Currency Toggle */}
+        <div className="flex items-center justify-between space-x-2 pt-2">
+          <Label htmlFor="currency-toggle" className="flex-1">
+            {t("filters.showInBRL")}
+          </Label>
+          <Switch
+            id="currency-toggle"
+            checked={showInBRL}
+            onCheckedChange={setShowInBRL}
+          />
+        </div>
       </FilterContainer>
     </div>
   );

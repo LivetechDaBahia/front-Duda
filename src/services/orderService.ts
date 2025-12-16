@@ -159,7 +159,13 @@ export const orderService = {
     });
     const url = `/purchaseOrders/indicators?${params}`;
     if (isDev) {
-      console.log("[orderService] getIndicators", { url, userEmail, dateBegin, dateEnd, types });
+      console.log("[orderService] getIndicators", {
+        url,
+        userEmail,
+        dateBegin,
+        dateEnd,
+        types,
+      });
     }
     return apiClient.get(url);
   },

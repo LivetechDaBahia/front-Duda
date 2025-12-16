@@ -281,7 +281,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateTo": "Date to",
     "filters.selectDate": "Select Date",
     "filters.showInBRL": "Show in BRL",
-    "filters.defaultDateRangeInfo": "Without a date filter, orders from the last 15 days are displayed.",
+    "filters.defaultDateRangeInfo":
+      "Without a date filter, orders from the last 15 days are displayed.",
 
     // Order
     "order.branch": "Branch",
@@ -430,6 +431,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.averageDelay": "Average Delay",
     "credit.biggestDelay": "Biggest Delay",
     "credit.tid": "TID",
+    "credit.resell": "Resell",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -829,7 +831,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateTo": "Data até",
     "filters.selectDate": "Selecionar Data",
     "filters.showInBRL": "Mostrar em R$",
-    "filters.defaultDateRangeInfo": "Sem filtro de data, são exibidos pedidos dos últimos 15 dias.",
+    "filters.defaultDateRangeInfo":
+      "Sem filtro de data, são exibidos pedidos dos últimos 15 dias.",
 
     // Order
     "order.branch": "Filial",
@@ -973,6 +976,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.averageDelay": "Média de Atraso",
     "credit.biggestDelay": "Maior Atraso",
     "credit.tid": "TID",
+    "credit.resell": "Revenda",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1389,7 +1393,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.dateTo": "Fecha hasta",
     "filters.selectDate": "Seleccionar Fecha",
     "filters.showInBRL": "Mostrar en BRL",
-    "filters.defaultDateRangeInfo": "Sin filtro de fecha, se muestran pedidos de los últimos 15 días.",
+    "filters.defaultDateRangeInfo":
+      "Sin filtro de fecha, se muestran pedidos de los últimos 15 días.",
 
     // Order
     "order.branch": "Sucursal",
@@ -1541,6 +1546,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.averageDelay": "Promedio de Retraso",
     "credit.biggestDelay": "Retraso más Largo",
     "credit.tid": "TID",
+    "credit.resell": "Reventa",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
