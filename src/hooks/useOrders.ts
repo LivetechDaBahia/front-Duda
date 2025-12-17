@@ -84,61 +84,39 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   });
 
   // Helper: compute the branch id (tenant,branch) expected by backend
+  // Always use the order's own branch, not the filter parameter
   const resolveBranchId = (order: PurchaseOrder): string => {
-    const tenantParam = params?.tenantId;
-    const tenant = tenantParam?.split(",")[0] || "01";
-
-    // If tenant param already includes branch, prefer it
-    if (tenantParam && tenantParam.includes(",")) {
-      const computed = tenantParam;
-      if (isDev) {
-        console.log("[useOrders] resolveBranchId → from tenantParam", {
-          orderId: order.id,
-          orderBranch: order.branch,
-          tenantParam,
-          tenant,
-          computedBranch: computed,
-        });
-      }
-      return computed;
-    }
-
     const orderBranch = order.branch || "";
+
     if (!orderBranch) {
       if (isDev) {
         console.log("[useOrders] resolveBranchId → fallback to tenant only", {
           orderId: order.id,
           orderBranch: order.branch,
-          tenantParam,
-          tenant,
-          computedBranch: tenant,
+          computedBranch: "01",
         });
       }
-      return tenant; // fallback to tenant only
+      return "01"; // fallback to tenant only
     }
 
-    // If order branch already contains tenant, return as is
+    // If order branch already contains tenant prefix, return as is
     if (orderBranch.includes(",")) {
       if (isDev) {
         console.log("[useOrders] resolveBranchId → branch already has tenant", {
           orderId: order.id,
           orderBranch: order.branch,
-          tenantParam,
-          tenant,
           computedBranch: orderBranch,
         });
       }
       return orderBranch;
     }
 
-    // Combine tenant and branch
-    const combined = `${tenant},${orderBranch}`;
+    // Combine tenant and order's branch
+    const combined = `01,${orderBranch}`;
     if (isDev) {
       console.log("[useOrders] resolveBranchId → combined", {
         orderId: order.id,
         orderBranch: order.branch,
-        tenantParam,
-        tenant,
         computedBranch: combined,
       });
     }
