@@ -65,8 +65,9 @@ export const CreditDetailPanel = ({
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   // Helper function to open or download documents from the backend
-  const openDocument = async (docObject: string) => {
-    const url = `${API_BASE_URL}/documents/open/${encodeURIComponent(docObject)}`;
+  // Uses the path field (UNC path) to locate the file on the server
+  const openDocument = async (docObject: string, path: string) => {
+    const url = `${API_BASE_URL}/documents/open/${encodeURIComponent(path)}`;
     const extension = docObject.toLowerCase().split(".").pop();
 
     // Download these file types instead of opening inline
@@ -426,7 +427,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject)}
+                            onClick={() => openDocument(doc.docObject, doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -459,7 +460,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject)}
+                            onClick={() => openDocument(doc.docObject, doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -492,7 +493,7 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject)}
+                            onClick={() => openDocument(doc.docObject, doc.path)}
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
