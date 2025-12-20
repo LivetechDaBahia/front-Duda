@@ -63,21 +63,58 @@ export const CreditDetailPanel = ({
   const { t, locale } = useLocale();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const DOCUMENTS_BASE_PATH =
+    import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH ||
+    "\\\\BRMEGAWAPPROT01\\dirdoc\\co01\\br01";
+
+  // Helper to convert full UNC path to relative path for the /documents/open-share endpoint
+  const toRelativeSharePath = (uncPath: string, baseShare: string): string => {
+    const norm = (s: string) =>
+      s
+        .replace(/\\+/g, "\\")
+        .replace(/\/+|\\+/g, "\\")
+        .trim();
+    const u = norm(uncPath);
+    const b = norm(baseShare);
+
+    if (u.toLowerCase().startsWith(b.toLowerCase() + "\\")) {
+      return u.slice(b.length + 1).replace(/\\/g, "/"); // use forward slashes for URLs
+    }
+
+    // If it already looks relative, just return as-is
+    if (
+      !/^\\\\/.test(u) &&
+      !/^[a-zA-Z]:[\\/]/.test(u) &&
+      !u.startsWith("/")
+    ) {
+      return u.replace(/\\/g, "/");
+    }
+
+    throw new Error("Path must be inside the configured base share");
+  };
 
   // Helper function to open or download documents from the backend
-  // Uses the path field (UNC path) to locate the file on the server
+  // Uses the new /documents/open-share endpoint with relative path
   const openDocument = async (docObject: string, path: string) => {
-    const url = `${API_BASE_URL}/documents/open/${encodeURIComponent(path)}`;
-    const extension = docObject.toLowerCase().split(".").pop();
+    try {
+      // Convert full UNC path to relative path
+      const relativePath = toRelativeSharePath(path, DOCUMENTS_BASE_PATH);
 
-    // Download these file types instead of opening inline
-    const downloadExtensions = ["csv", "xlsx", "docx", "xls", "doc"];
+      // Build URL with query parameter for the new endpoint
+      const url = `${API_BASE_URL}/documents/open-share?path=${encodeURIComponent(relativePath)}`;
 
-    if (downloadExtensions.includes(extension || "")) {
-      // Download the file
-      try {
+      const extension = docObject.toLowerCase().split(".").pop();
+
+      // Download these file types instead of opening inline
+      const downloadExtensions = ["csv", "xlsx", "docx", "xls", "doc"];
+
+      if (downloadExtensions.includes(extension || "")) {
+        // Download the file as blob
         const response = await fetch(url, { credentials: "include" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP ${response.status}`);
+        }
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -85,12 +122,13 @@ export const CreditDetailPanel = ({
         a.download = docObject;
         a.click();
         URL.revokeObjectURL(blobUrl);
-      } catch (error) {
-        console.error("Error downloading document:", error);
+      } else {
+        // Open inline in new tab (PDF, images, etc.)
+        // The endpoint sets Content-Disposition: inline, so the browser will display it
+        window.open(url, "_blank", "noopener");
       }
-    } else {
-      // Open inline in new tab (PDF, images, etc.)
-      window.open(url, "_blank", "noopener");
+    } catch (error) {
+      console.error("Error opening document:", error);
     }
   };
 
