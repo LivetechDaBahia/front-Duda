@@ -63,9 +63,11 @@ export const CreditDetailPanel = ({
   const { t, locale } = useLocale();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-  const DOCUMENTS_BASE_PATH =
-    import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH ||
-    "\\\\BRMEGAWAPPROT01\\dirdoc\\co01\\br01";
+  const DOCUMENTS_BASE_PATH = import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH;
+
+  if (!DOCUMENTS_BASE_PATH) {
+    throw new Error("DOCUMENTS_BASE_PATH must be set in .env");
+  }
 
   // Helper to convert full UNC path to relative path for the /documents/open-share endpoint
   const toRelativeSharePath = (uncPath: string, baseShare: string): string => {
@@ -82,11 +84,7 @@ export const CreditDetailPanel = ({
     }
 
     // If it already looks relative, just return as-is
-    if (
-      !/^\\\\/.test(u) &&
-      !/^[a-zA-Z]:[\\/]/.test(u) &&
-      !u.startsWith("/")
-    ) {
+    if (!/^\\\\/.test(u) && !/^[a-zA-Z]:[\\/]/.test(u) && !u.startsWith("/")) {
       return u.replace(/\\/g, "/");
     }
 
@@ -465,7 +463,9 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject, doc.path)}
+                            onClick={() =>
+                              openDocument(doc.docObject, doc.path)
+                            }
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -498,7 +498,9 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject, doc.path)}
+                            onClick={() =>
+                              openDocument(doc.docObject, doc.path)
+                            }
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>
@@ -531,7 +533,9 @@ export const CreditDetailPanel = ({
                           <TableRow
                             key={idx}
                             className="cursor-pointer hover:bg-muted/50"
-                            onClick={() => openDocument(doc.docObject, doc.path)}
+                            onClick={() =>
+                              openDocument(doc.docObject, doc.path)
+                            }
                           >
                             <TableCell>{doc.docTitle}</TableCell>
                             <TableCell>{doc.docDescription}</TableCell>

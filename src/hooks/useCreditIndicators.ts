@@ -17,8 +17,10 @@ export const useCreditIndicators = () => {
   } = useQuery<CreditIndicators>({
     queryKey: ["creditIndicators", user?.email],
     queryFn: async (): Promise<CreditIndicators> => {
-      const data: BranchCreditIndicators[] = await creditService.getIndicators(user?.email || "");
-      
+      const data: BranchCreditIndicators[] = await creditService.getIndicators(
+        user?.email || "",
+      );
+
       // Sum totals across all items in the array
       return data.reduce(
         (acc, item) => ({
@@ -26,7 +28,7 @@ export const useCreditIndicators = () => {
           urgentItems: acc.urgentItems + item.urgentItems,
           totalValueBRL: acc.totalValueBRL + item.totalValueBRL,
         }),
-        { pendingItems: 0, urgentItems: 0, totalValueBRL: 0 }
+        { pendingItems: 0, urgentItems: 0, totalValueBRL: 0 },
       );
     },
     enabled: hasAccess && !!user?.email,

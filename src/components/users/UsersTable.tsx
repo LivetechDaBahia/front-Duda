@@ -49,8 +49,7 @@ export function UsersTable({
     departments.find((d) => d.id === id)?.name || id;
   const getRoleName = (id: string) =>
     roles.find((r) => r.id === id)?.name || id;
-  const getRoleNames = (ids: string[]) =>
-    ids.map((id) => getRoleName(id));
+  const getRoleNames = (ids: string[]) => ids.map((id) => getRoleName(id));
   const getPositionName = (id: string) =>
     positions.find((p) => p.id === id)?.name || id;
 

@@ -300,7 +300,7 @@ export function UserFormDialog({
                                 field.onChange([...currentValue, role.id]);
                               } else {
                                 field.onChange(
-                                  currentValue.filter((id) => id !== role.id)
+                                  currentValue.filter((id) => id !== role.id),
                                 );
                               }
                             }}

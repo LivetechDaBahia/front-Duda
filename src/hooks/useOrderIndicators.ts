@@ -25,7 +25,7 @@ export const useOrderIndicators = () => {
       const branchData: BranchIndicators[] = await orderService.getIndicators(
         user?.email || "",
         dateBegin,
-        dateEnd
+        dateEnd,
       );
 
       // Sum totals across all branches
@@ -35,7 +35,7 @@ export const useOrderIndicators = () => {
           urgentItems: acc.urgentItems + branch.urgentItems,
           totalValueBRL: acc.totalValueBRL + branch.totalValueBRL,
         }),
-        { pendingItems: 0, urgentItems: 0, totalValueBRL: 0 }
+        { pendingItems: 0, urgentItems: 0, totalValueBRL: 0 },
       );
     },
     enabled: canManagePurchaseOrders && !!user?.email,
