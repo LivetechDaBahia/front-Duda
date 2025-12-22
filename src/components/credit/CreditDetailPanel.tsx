@@ -71,23 +71,38 @@ export const CreditDetailPanel = ({
 
   // Helper to convert full UNC path to relative path for the /documents/open-share endpoint
   const toRelativeSharePath = (uncPath: string, baseShare: string): string => {
+    // Normalize: collapse multiple slashes/backslashes to single backslash, trim
     const norm = (s: string) =>
       s
-        .replace(/\\+/g, "\\")
-        .replace(/\/+|\\+/g, "\\")
+        .replace(/[/\\]+/g, "\\")
+        .replace(/^\\+/, "\\\\") // Preserve UNC prefix (\\server)
+        .replace(/\\+$/, "") // Remove trailing slashes
         .trim();
+
     const u = norm(uncPath);
     const b = norm(baseShare);
 
-    if (u.toLowerCase().startsWith(b.toLowerCase() + "\\")) {
-      return u.slice(b.length + 1).replace(/\\/g, "/"); // use forward slashes for URLs
+    console.log("UNC Path normalized:", u);
+    console.log("Base Share normalized:", b);
+
+    // Check if the path starts with the base share
+    if (u.toLowerCase().startsWith(b.toLowerCase())) {
+      // Get the relative part after the base, removing leading separator
+      let relative = u.slice(b.length);
+      if (relative.startsWith("\\")) {
+        relative = relative.slice(1);
+      }
+      const result = relative.replace(/\\/g, "/"); // use forward slashes for URLs
+      console.log("Relative path:", result);
+      return result;
     }
 
-    // If it already looks relative, just return as-is
+    // If it already looks relative (no UNC prefix, no drive letter, no leading slash), return as-is
     if (!/^\\\\/.test(u) && !/^[a-zA-Z]:[\\/]/.test(u) && !u.startsWith("/")) {
       return u.replace(/\\/g, "/");
     }
 
+    console.error("Path conversion failed. UNC:", u, "Base:", b);
     throw new Error("Path must be inside the configured base share");
   };
 
