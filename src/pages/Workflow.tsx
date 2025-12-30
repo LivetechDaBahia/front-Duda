@@ -7,7 +7,6 @@ import ReactFlow, {
   MiniMap,
   useNodesState,
   useEdgesState,
-  MarkerType,
   BackgroundVariant,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -25,304 +24,25 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  useTrafficLightList,
+  useTrafficLightDetail,
+} from "@/hooks/useTrafficLight";
+import {
+  transformDetailToWorkflow,
+  getOverallStatus,
+} from "@/lib/trafficLightTransformer";
+import { TrafficLightSummary } from "@/types/trafficLight";
 
 const nodeTypes = {
   workflow: WorkflowNode,
 };
-
-// Types for workflow items
-interface WorkflowItem {
-  id: string;
-  title: string;
-  description: string;
-  status: "pending" | "in-progress" | "completed" | "failed";
-  createdAt: string;
-  nodes: Node[];
-  edges: Edge[];
-}
-
-// Mock workflow items - this would come from your API
-const mockWorkflowItems: WorkflowItem[] = [
-  {
-    id: "1",
-    title: "Credit Request #CR-2024-001",
-    description: "Credit limit increase for Client ABC",
-    status: "in-progress",
-    createdAt: "2025-11-20",
-    nodes: [
-      {
-        id: "1",
-        type: "workflow",
-        position: { x: 50, y: 100 },
-        data: {
-          label: "Request Submitted",
-          status: "completed",
-          description: "Initial request created",
-          timestamp: "2025-11-20 10:30",
-        },
-      },
-      {
-        id: "2",
-        type: "workflow",
-        position: { x: 350, y: 100 },
-        data: {
-          label: "Document Verification",
-          status: "completed",
-          description: "All documents verified",
-          timestamp: "2025-11-21 14:15",
-        },
-      },
-      {
-        id: "3",
-        type: "workflow",
-        position: { x: 650, y: 100 },
-        data: {
-          label: "Manager Approval",
-          status: "in-progress",
-          description: "Waiting for manager review",
-          timestamp: null,
-        },
-      },
-      {
-        id: "4",
-        type: "workflow",
-        position: { x: 950, y: 100 },
-        data: {
-          label: "Final Approval",
-          status: "pending",
-          description: "Awaiting final approval",
-          timestamp: null,
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1-2",
-        source: "1",
-        target: "2",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--success))",
-        },
-      },
-      {
-        id: "e2-3",
-        source: "2",
-        target: "3",
-        type: "smoothstep",
-        animated: true,
-        style: {
-          stroke: "hsl(var(--primary))",
-          strokeWidth: 2,
-          strokeDasharray: "5,5",
-        },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--primary))",
-        },
-      },
-      {
-        id: "e3-4",
-        source: "3",
-        target: "4",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--muted-foreground))",
-        },
-      },
-    ],
-  },
-  {
-    id: "2",
-    title: "Purchase Order #PO-2024-089",
-    description: "Equipment purchase for IT Department",
-    status: "completed",
-    createdAt: "2025-11-18",
-    nodes: [
-      {
-        id: "1",
-        type: "workflow",
-        position: { x: 50, y: 100 },
-        data: {
-          label: "Order Created",
-          status: "completed",
-          description: "Purchase order submitted",
-          timestamp: "2025-11-18 09:00",
-        },
-      },
-      {
-        id: "2",
-        type: "workflow",
-        position: { x: 350, y: 100 },
-        data: {
-          label: "Budget Approval",
-          status: "completed",
-          description: "Budget verified and approved",
-          timestamp: "2025-11-18 14:30",
-        },
-      },
-      {
-        id: "3",
-        type: "workflow",
-        position: { x: 650, y: 100 },
-        data: {
-          label: "Final Approval",
-          status: "completed",
-          description: "Order approved for processing",
-          timestamp: "2025-11-19 10:00",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1-2",
-        source: "1",
-        target: "2",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--success))",
-        },
-      },
-      {
-        id: "e2-3",
-        source: "2",
-        target: "3",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--success))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--success))",
-        },
-      },
-    ],
-  },
-  {
-    id: "3",
-    title: "Credit Request #CR-2024-002",
-    description: "New credit line for Client XYZ",
-    status: "failed",
-    createdAt: "2025-11-15",
-    nodes: [
-      {
-        id: "1",
-        type: "workflow",
-        position: { x: 50, y: 100 },
-        data: {
-          label: "Request Submitted",
-          status: "completed",
-          description: "Initial request created",
-          timestamp: "2025-11-15 11:00",
-        },
-      },
-      {
-        id: "2",
-        type: "workflow",
-        position: { x: 350, y: 100 },
-        data: {
-          label: "Risk Assessment",
-          status: "failed",
-          description: "Risk threshold exceeded",
-          timestamp: "2025-11-16 09:00",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1-2",
-        source: "1",
-        target: "2",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--destructive))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--destructive))",
-        },
-      },
-    ],
-  },
-  {
-    id: "4",
-    title: "Purchase Order #PO-2024-090",
-    description: "Office supplies for Marketing",
-    status: "pending",
-    createdAt: "2025-11-22",
-    nodes: [
-      {
-        id: "1",
-        type: "workflow",
-        position: { x: 50, y: 100 },
-        data: {
-          label: "Order Created",
-          status: "completed",
-          description: "Purchase order submitted",
-          timestamp: "2025-11-22 08:30",
-        },
-      },
-      {
-        id: "2",
-        type: "workflow",
-        position: { x: 350, y: 100 },
-        data: {
-          label: "Manager Review",
-          status: "pending",
-          description: "Awaiting manager review",
-          timestamp: null,
-        },
-      },
-      {
-        id: "3",
-        type: "workflow",
-        position: { x: 650, y: 100 },
-        data: {
-          label: "Budget Check",
-          status: "pending",
-          description: "Pending budget verification",
-          timestamp: null,
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1-2",
-        source: "1",
-        target: "2",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--muted-foreground))",
-        },
-      },
-      {
-        id: "e2-3",
-        source: "2",
-        target: "3",
-        type: "smoothstep",
-        animated: false,
-        style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "hsl(var(--muted-foreground))",
-        },
-      },
-    ],
-  },
-];
 
 const statusConfig = {
   pending: {
@@ -351,26 +71,71 @@ const statusConfig = {
   },
 };
 
+// Derive status from summary for list display
+function getSummaryStatus(
+  item: TrafficLightSummary
+): "pending" | "in-progress" | "completed" | "failed" {
+  if (item.finishedDate) {
+    return "completed";
+  }
+  if (item.startDate) {
+    return "in-progress";
+  }
+  return "pending";
+}
+
 export default function Workflow() {
   const { t } = useLocale();
   const { isAdmin } = usePermissions();
-  const [selectedItem, setSelectedItem] = useState<WorkflowItem | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  // Fetch list of traffic lights
+  const {
+    items,
+    total,
+    isLoading: isListLoading,
+    error: listError,
+  } = useTrafficLightList({ page, pageSize });
+
+  // Fetch detail when an item is selected
+  const { detail, isLoading: isDetailLoading } = useTrafficLightDetail({
+    id: selectedItemId,
+  });
+
+  // Transform detail to workflow nodes/edges
+  const workflowData = detail ? transformDetailToWorkflow(detail) : null;
+
   const [nodes, setNodes, onNodesChange] = useNodesState(
-    selectedItem?.nodes || [],
+    workflowData?.nodes || []
   );
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    selectedItem?.edges || [],
+    workflowData?.edges || []
   );
 
-  const handleSelectItem = (item: WorkflowItem) => {
-    setSelectedItem(item);
-    setNodes(item.nodes);
-    setEdges(item.edges);
+  // Update nodes/edges when detail changes
+  const handleSelectItem = (id: number) => {
+    setSelectedItemId(id);
   };
 
+  // When detail loads, update the flow
+  if (
+    detail &&
+    workflowData &&
+    (nodes.length === 0 || nodes[0]?.id !== workflowData.nodes[0]?.id)
+  ) {
+    setNodes(workflowData.nodes);
+    setEdges(workflowData.edges);
+  }
+
   const handleBack = () => {
-    setSelectedItem(null);
+    setSelectedItemId(null);
+    setNodes([]);
+    setEdges([]);
   };
+
+  const totalPages = Math.ceil(total / pageSize);
 
   if (!isAdmin) {
     return (
@@ -387,7 +152,7 @@ export default function Workflow() {
   }
 
   // List View - Show when no item is selected
-  if (!selectedItem) {
+  if (!selectedItemId) {
     return (
       <div className="h-screen w-full">
         <header className="border-b bg-card">
@@ -395,7 +160,7 @@ export default function Workflow() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="w-full sm:w-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Workflow Status
+                  Traffic Light Status
                 </h1>
                 <p className="text-sm sm:text-base text-muted-foreground mt-1">
                   Select an item to view its workflow progress
@@ -406,70 +171,143 @@ export default function Workflow() {
         </header>
 
         <div className="container mx-auto px-4 sm:px-6 py-6">
-          <ScrollArea className="h-[calc(100vh-180px)]">
-            <div className="grid gap-4">
-              {mockWorkflowItems.map((item) => {
-                const config = statusConfig[item.status];
-                const StatusIcon = config.icon;
-
-                return (
-                  <Card
-                    key={item.id}
-                    className={cn(
-                      "p-4 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
-                      "border-l-4",
-                      item.status === "completed" && "border-l-success",
-                      item.status === "in-progress" && "border-l-primary",
-                      item.status === "failed" && "border-l-destructive",
-                      item.status === "pending" && "border-l-muted-foreground",
-                    )}
-                    onClick={() => handleSelectItem(item)}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div
-                          className={cn(
-                            "p-2 rounded-lg shrink-0",
-                            config.bgColor,
-                          )}
-                        >
-                          <FileText className={cn("h-5 w-5", config.color)} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-semibold text-foreground truncate">
-                            {item.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mt-0.5">
-                            {item.description}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Created: {item.createdAt}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "shrink-0 flex items-center gap-1.5",
-                          config.color,
-                        )}
-                      >
-                        <StatusIcon className="h-3 w-3" />
-                        {config.label}
-                      </Badge>
-                    </div>
-                  </Card>
-                );
-              })}
+          {isListLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2 text-muted-foreground">Loading...</span>
             </div>
-          </ScrollArea>
+          ) : listError ? (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Error loading traffic lights:{" "}
+                {listError instanceof Error
+                  ? listError.message
+                  : "Unknown error"}
+              </AlertDescription>
+            </Alert>
+          ) : items.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              No traffic light items found.
+            </div>
+          ) : (
+            <>
+              <ScrollArea className="h-[calc(100vh-280px)]">
+                <div className="grid gap-4">
+                  {items.map((item) => {
+                    const status = getSummaryStatus(item);
+                    const config = statusConfig[status];
+                    const StatusIcon = config.icon;
+
+                    return (
+                      <Card
+                        key={item.id}
+                        className={cn(
+                          "p-4 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
+                          "border-l-4",
+                          status === "completed" && "border-l-success",
+                          status === "in-progress" && "border-l-primary",
+                          status === "failed" && "border-l-destructive",
+                          status === "pending" && "border-l-muted-foreground"
+                        )}
+                        onClick={() => handleSelectItem(item.id)}
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-start gap-3 flex-1 min-w-0">
+                            <div
+                              className={cn(
+                                "p-2 rounded-lg shrink-0",
+                                config.bgColor
+                              )}
+                            >
+                              <FileText
+                                className={cn("h-5 w-5", config.color)}
+                              />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <h3 className="font-semibold text-foreground truncate">
+                                Quote: {item.numQuote}
+                              </h3>
+                              <p className="text-sm text-muted-foreground mt-0.5">
+                                Sales Order: {item.salesOrderNumber}
+                              </p>
+                              <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
+                                <span>Validity: {item.validityDate}</span>
+                                {item.startDate && (
+                                  <span>
+                                    Started:{" "}
+                                    {new Date(item.startDate).toLocaleDateString()}
+                                  </span>
+                                )}
+                                {item.finishedDate && (
+                                  <span>
+                                    Finished:{" "}
+                                    {new Date(
+                                      item.finishedDate
+                                    ).toLocaleDateString()}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "shrink-0 flex items-center gap-1.5",
+                              config.color
+                            )}
+                          >
+                            <StatusIcon className="h-3 w-3" />
+                            {config.label}
+                          </Badge>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </ScrollArea>
+
+              {/* Pagination */}
+              <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                <p className="text-sm text-muted-foreground">
+                  Showing {(page - 1) * pageSize + 1} to{" "}
+                  {Math.min(page * pageSize, total)} of {total} items
+                </p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page <= 1}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Previous
+                  </Button>
+                  <span className="text-sm text-muted-foreground px-2">
+                    Page {page} of {totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={page >= totalPages}
+                  >
+                    Next
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
   }
 
   // Workflow View - Show when an item is selected
-  const selectedConfig = statusConfig[selectedItem.status];
+  const selectedItem = items.find((i) => i.id === selectedItemId);
+  const overallStatus = detail ? getOverallStatus(detail) : "pending";
+  const selectedConfig = statusConfig[overallStatus];
 
   return (
     <div className="h-screen w-full">
@@ -487,10 +325,10 @@ export default function Workflow() {
               </Button>
               <div className="min-w-0 flex-1">
                 <h1 className="text-xl sm:text-2xl font-bold text-foreground truncate">
-                  {selectedItem.title}
+                  {detail?.poName || `Quote: ${selectedItem?.numQuote}`}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-0.5">
-                  {selectedItem.description}
+                  Sales Order: {detail?.salesOrderNumber || selectedItem?.salesOrderNumber}
                 </p>
               </div>
             </div>
@@ -498,7 +336,7 @@ export default function Workflow() {
               variant="outline"
               className={cn(
                 "shrink-0 flex items-center gap-1.5",
-                selectedConfig.color,
+                selectedConfig.color
               )}
             >
               <selectedConfig.icon className="h-3 w-3" />
@@ -508,35 +346,48 @@ export default function Workflow() {
         </div>
       </header>
 
-      <div className="h-[calc(100vh-120px)] w-full">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          nodeTypes={nodeTypes}
-          fitView
-          className="bg-background"
-        >
-          <Background
-            variant={BackgroundVariant.Dots}
-            gap={16}
-            size={1}
-            className="opacity-30"
-          />
-          <Controls className="bg-card border border-border rounded-lg shadow-md" />
-          <MiniMap
-            className="bg-card border border-border rounded-lg shadow-md"
-            nodeColor={(node) => {
-              const status = node.data.status;
-              if (status === "completed") return "hsl(var(--success))";
-              if (status === "in-progress") return "hsl(var(--primary))";
-              if (status === "failed") return "hsl(var(--destructive))";
-              if (status === "external-action") return "hsl(var(--warning))";
-              return "hsl(var(--muted-foreground))";
-            }}
-          />
-        </ReactFlow>
+      <div className="h-[calc(100vh-120px)]">
+        {isDetailLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2 text-muted-foreground">
+              Loading workflow...
+            </span>
+          </div>
+        ) : (
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+            fitView
+            fitViewOptions={{ padding: 0.2 }}
+            minZoom={0.3}
+            maxZoom={1.5}
+          >
+            <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
+            <Controls />
+            <MiniMap
+              nodeColor={(node) => {
+                switch (node.data?.status) {
+                  case "completed":
+                    return "hsl(var(--success))";
+                  case "in-progress":
+                    return "hsl(var(--primary))";
+                  case "failed":
+                    return "hsl(var(--destructive))";
+                  case "external-action":
+                    return "hsl(var(--warning))";
+                  default:
+                    return "hsl(var(--muted-foreground))";
+                }
+              }}
+              maskColor="hsl(var(--background) / 0.8)"
+              className="!bg-card"
+            />
+          </ReactFlow>
+        )}
       </div>
     </div>
   );
