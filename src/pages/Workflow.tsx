@@ -37,7 +37,7 @@ import {
 import {
   transformDetailToWorkflow,
   getOverallStatus,
-  getStatusLabel,
+  getStatusLabelKey,
 } from "@/lib/trafficLightTransformer";
 import { TrafficLightSummary } from "@/types/trafficLight";
 
@@ -45,32 +45,33 @@ const nodeTypes = {
   workflow: WorkflowNode,
 };
 
-const statusConfig = {
+// Status config uses translation keys
+const getStatusConfig = (t: (key: string) => string) => ({
   pending: {
     icon: Clock,
     color: "text-muted-foreground",
     bgColor: "bg-muted",
-    label: "Pending",
+    label: t("workflow.status.pending"),
   },
   "in-progress": {
     icon: Clock,
     color: "text-primary",
     bgColor: "bg-primary/10",
-    label: "In Progress",
+    label: t("workflow.status.inProgress"),
   },
   completed: {
     icon: CheckCircle2,
     color: "text-success",
     bgColor: "bg-success/10",
-    label: "Completed",
+    label: t("workflow.status.completed"),
   },
   failed: {
     icon: AlertCircle,
     color: "text-destructive",
     bgColor: "bg-destructive/10",
-    label: "Failed",
+    label: t("workflow.status.failed"),
   },
-};
+});
 
 // Derive status from summary for list display
 function getSummaryStatus(
@@ -88,6 +89,7 @@ function getSummaryStatus(
 export default function Workflow() {
   const { t } = useLocale();
   const { isAdmin } = usePermissions();
+  const statusConfig = getStatusConfig(t);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [page, setPage] = useState(1);
   const pageSize = 10;
@@ -144,8 +146,7 @@ export default function Workflow() {
         <Alert variant="destructive">
           <ShieldAlert className="h-4 w-4" />
           <AlertDescription>
-            You don't have permission to access this page. Only administrators
-            can view workflows.
+            {t("workflow.noPermission")}
           </AlertDescription>
         </Alert>
       </div>
@@ -161,10 +162,10 @@ export default function Workflow() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="w-full sm:w-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Traffic Light Status
+                  {t("workflow.title")}
                 </h1>
                 <p className="text-sm sm:text-base text-muted-foreground mt-1">
-                  Select an item to view its workflow progress
+                  {t("workflow.subtitle")}
                 </p>
               </div>
             </div>
@@ -175,13 +176,13 @@ export default function Workflow() {
           {isListLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-2 text-muted-foreground">Loading...</span>
+              <span className="ml-2 text-muted-foreground">{t("workflow.loading")}</span>
             </div>
           ) : listError ? (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Error loading traffic lights:{" "}
+                {t("workflow.errorLoading")}:{" "}
                 {listError instanceof Error
                   ? listError.message
                   : "Unknown error"}
@@ -189,7 +190,7 @@ export default function Workflow() {
             </Alert>
           ) : items.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              No traffic light items found.
+              {t("workflow.noItems")}
             </div>
           ) : (
             <>
@@ -227,10 +228,10 @@ export default function Workflow() {
                             </div>
                             <div className="min-w-0 flex-1">
                               <h3 className="font-semibold text-foreground truncate">
-                                Quote: {item.numQuote}
+                                {t("workflow.quote")}: {item.numQuote}
                               </h3>
                               <p className="text-sm text-muted-foreground mt-0.5">
-                                Sales Order: {item.salesOrderNumber}
+                                {t("workflow.salesOrder")}: {item.salesOrderNumber}
                               </p>
                               <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
                                 <Badge
@@ -244,17 +245,17 @@ export default function Workflow() {
                                       : "bg-primary/20 text-primary"
                                   )}
                                 >
-                                  {getStatusLabel(item.validityDate)}
+                                  {t(getStatusLabelKey(item.validityDate))}
                                 </Badge>
                                 {item.startDate && (
                                   <span>
-                                    Started:{" "}
+                                    {t("workflow.started")}:{" "}
                                     {new Date(item.startDate).toLocaleDateString()}
                                   </span>
                                 )}
                                 {item.finishedDate && (
                                   <span>
-                                    Finished:{" "}
+                                    {t("workflow.finished")}:{" "}
                                     {new Date(
                                       item.finishedDate
                                     ).toLocaleDateString()}
@@ -283,8 +284,8 @@ export default function Workflow() {
               {/* Pagination */}
               <div className="flex items-center justify-between mt-4 pt-4 border-t">
                 <p className="text-sm text-muted-foreground">
-                  Showing {(page - 1) * pageSize + 1} to{" "}
-                  {Math.min(page * pageSize, total)} of {total} items
+                  {t("workflow.showing")} {(page - 1) * pageSize + 1} {t("workflow.to")}{" "}
+                  {Math.min(page * pageSize, total)} {t("workflow.of")} {total} {t("workflow.items")}
                 </p>
                 <div className="flex items-center gap-2">
                   <Button
@@ -294,10 +295,10 @@ export default function Workflow() {
                     disabled={page <= 1}
                   >
                     <ChevronLeft className="h-4 w-4" />
-                    Previous
+                    {t("workflow.previous")}
                   </Button>
                   <span className="text-sm text-muted-foreground px-2">
-                    Page {page} of {totalPages}
+                    {t("workflow.page")} {page} {t("workflow.of")} {totalPages}
                   </span>
                   <Button
                     variant="outline"
@@ -305,7 +306,7 @@ export default function Workflow() {
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page >= totalPages}
                   >
-                    Next
+                    {t("workflow.next")}
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -338,10 +339,10 @@ export default function Workflow() {
               </Button>
               <div className="min-w-0 flex-1">
                 <h1 className="text-xl sm:text-2xl font-bold text-foreground truncate">
-                  {detail?.poName || `Quote: ${selectedItem?.numQuote}`}
+                  {detail?.poName || `${t("workflow.quote")}: ${selectedItem?.numQuote}`}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-0.5">
-                  Sales Order: {detail?.salesOrderNumber || selectedItem?.salesOrderNumber}
+                  {t("workflow.salesOrder")}: {detail?.salesOrderNumber || selectedItem?.salesOrderNumber}
                 </p>
               </div>
             </div>
@@ -364,7 +365,7 @@ export default function Workflow() {
           <div className="flex items-center justify-center h-full">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <span className="ml-2 text-muted-foreground">
-              Loading workflow...
+              {t("workflow.loadingWorkflow")}
             </span>
           </div>
         ) : (
