@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -12,6 +12,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useLocale } from "@/contexts/LocaleContext";
 import { WorkflowNode } from "@/components/workflow/WorkflowNode";
+import { WorkflowFilters, WorkflowFilterValues } from "@/components/workflow/WorkflowFilters";
 import { usePermissions } from "@/hooks/usePermissions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
@@ -40,6 +41,8 @@ import {
   getStatusLabelKey,
 } from "@/lib/trafficLightTransformer";
 import { TrafficLightSummary } from "@/types/trafficLight";
+import { TrafficLightFilters } from "@/services/trafficLightService";
+import { format } from "date-fns";
 
 const nodeTypes = {
   workflow: WorkflowNode,
@@ -94,13 +97,35 @@ export default function Workflow() {
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
+  // Filter state
+  const [filters, setFilters] = useState<WorkflowFilterValues>({
+    search: "",
+    status: "all",
+    dateFrom: undefined,
+    dateTo: undefined,
+  });
+
+  // Convert filter values to API format
+  const apiFilters: TrafficLightFilters = useMemo(() => ({
+    search: filters.search || undefined,
+    status: filters.status !== "all" ? filters.status : undefined,
+    dateFrom: filters.dateFrom ? format(filters.dateFrom, "yyyy-MM-dd") : undefined,
+    dateTo: filters.dateTo ? format(filters.dateTo, "yyyy-MM-dd") : undefined,
+  }), [filters]);
+
+  // Handle filter changes
+  const handleFilterChange = (newFilters: WorkflowFilterValues) => {
+    setFilters(newFilters);
+    setPage(1); // Reset to first page when filters change
+  };
+
   // Fetch list of traffic lights
   const {
     items,
     total,
     isLoading: isListLoading,
     error: listError,
-  } = useTrafficLightList({ page, pageSize });
+  } = useTrafficLightList({ page, pageSize, filters: apiFilters });
 
   // Fetch detail when an item is selected
   const { detail, isLoading: isDetailLoading } = useTrafficLightDetail({
@@ -172,7 +197,10 @@ export default function Workflow() {
           </div>
         </header>
 
-        <div className="container mx-auto px-4 sm:px-6 py-6">
+        <div className="container mx-auto px-4 sm:px-6 py-6 space-y-6">
+          {/* Filters */}
+          <WorkflowFilters onFilterChange={handleFilterChange} />
+
           {isListLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
