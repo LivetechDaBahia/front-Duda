@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { trafficLightService } from "@/services/trafficLightService";
+import { trafficLightService, TrafficLightFilters } from "@/services/trafficLightService";
 import {
   TrafficLightListResponse,
   TrafficLightDetail,
@@ -8,17 +8,19 @@ import {
 interface UseTrafficLightListParams {
   page?: number;
   pageSize?: number;
+  filters?: TrafficLightFilters;
   enabled?: boolean;
 }
 
 export const useTrafficLightList = ({
   page = 1,
   pageSize = 10,
+  filters,
   enabled = true,
 }: UseTrafficLightListParams = {}) => {
   const query = useQuery<TrafficLightListResponse>({
-    queryKey: ["trafficLight", "list", page, pageSize],
-    queryFn: () => trafficLightService.getList(page, pageSize),
+    queryKey: ["trafficLight", "list", page, pageSize, filters],
+    queryFn: () => trafficLightService.getList(page, pageSize, filters),
     enabled,
   });
 
