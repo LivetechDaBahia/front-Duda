@@ -39,20 +39,20 @@ const STATUS_CODES = {
   ERROR: "C003",
 } as const;
 
-// Get human-readable status label from code
-export function getStatusLabel(code: string): string {
+// Get human-readable status label from code (for use with translation function)
+export function getStatusLabelKey(code: string): string {
   const c = code.trim().toUpperCase();
   switch (c) {
     case STATUS_CODES.COMPLETED:
-      return "Completed";
+      return "workflow.status.completed";
     case STATUS_CODES.IN_EXECUTION:
-      return "In Execution";
+      return "workflow.status.inExecution";
     case STATUS_CODES.ERROR:
-      return "Error";
+      return "workflow.status.error";
     case "":
-      return "Pending";
+      return "workflow.status.pending";
     default:
-      return code || "Pending";
+      return code || "workflow.status.pending";
   }
 }
 
@@ -152,7 +152,7 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
       data: {
         label: stage.label,
         status,
-        description: statusValue ? getStatusLabel(statusValue) : stage.description,
+        description: statusValue ? getStatusLabelKey(statusValue) : stage.description,
         timestamp: detail.lastUpdate,
       },
     });
