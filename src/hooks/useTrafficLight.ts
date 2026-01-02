@@ -25,8 +25,8 @@ export const useTrafficLightList = ({
   return {
     items: query.data?.data ?? [],
     total: query.data?.total ?? 0,
-    page: query.data?.page ?? page,
-    pageSize: query.data?.pageSize ?? pageSize,
+    page: Number(query.data?.page) || page,
+    pageSize: Number(query.data?.pageSize) || pageSize,
     isLoading: query.isLoading,
     error: query.error,
     refetch: query.refetch,

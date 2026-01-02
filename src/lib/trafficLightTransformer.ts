@@ -32,7 +32,31 @@ const WORKFLOW_STAGES: WorkflowStage[] = [
   { key: "invoicing07", label: "Invoicing", description: "Final invoicing" },
 ];
 
-// Map raw status string to workflow status
+// Status codes from API
+const STATUS_CODES = {
+  COMPLETED: "C001",
+  IN_EXECUTION: "C002",
+  ERROR: "C003",
+} as const;
+
+// Get human-readable status label from code
+export function getStatusLabel(code: string): string {
+  const c = code.trim().toUpperCase();
+  switch (c) {
+    case STATUS_CODES.COMPLETED:
+      return "Completed";
+    case STATUS_CODES.IN_EXECUTION:
+      return "In Execution";
+    case STATUS_CODES.ERROR:
+      return "Error";
+    case "":
+      return "Pending";
+    default:
+      return code || "Pending";
+  }
+}
+
+// Map raw status code to workflow status
 function mapStatusToWorkflow(
   statusValue: string,
   isCanceled: boolean
@@ -41,66 +65,29 @@ function mapStatusToWorkflow(
     return "failed";
   }
 
-  const normalizedValue = statusValue.trim().toLowerCase();
+  const code = statusValue.trim().toUpperCase();
 
-  // Empty or not started
-  if (!normalizedValue || normalizedValue === "") {
+  // Empty = not started
+  if (!code || code === "") {
     return "pending";
   }
 
-  // Common completed indicators
-  if (
-    normalizedValue.includes("ok") ||
-    normalizedValue.includes("concluído") ||
-    normalizedValue.includes("concluido") ||
-    normalizedValue.includes("finalizado") ||
-    normalizedValue.includes("done") ||
-    normalizedValue.includes("completed") ||
-    normalizedValue.includes("aprovado") ||
-    normalizedValue.includes("sim") ||
-    normalizedValue === "s"
-  ) {
-    return "completed";
+  // Map status codes
+  switch (code) {
+    case STATUS_CODES.COMPLETED:
+      return "completed";
+    case STATUS_CODES.IN_EXECUTION:
+      return "in-progress";
+    case STATUS_CODES.ERROR:
+      return "failed";
+    default:
+      // Handle legacy color-based values if they exist
+      if (code === "VERDE") return "completed";
+      if (code === "AMARELO") return "in-progress";
+      if (code === "VERMELHO") return "failed";
+      // Unknown code with value - assume in-progress
+      return "in-progress";
   }
-
-  // In progress indicators
-  if (
-    normalizedValue.includes("andamento") ||
-    normalizedValue.includes("processando") ||
-    normalizedValue.includes("processing") ||
-    normalizedValue.includes("aguardando") ||
-    normalizedValue.includes("waiting") ||
-    normalizedValue.includes("em processo")
-  ) {
-    return "in-progress";
-  }
-
-  // External action indicators
-  if (
-    normalizedValue.includes("externo") ||
-    normalizedValue.includes("external") ||
-    normalizedValue.includes("terceiro") ||
-    normalizedValue.includes("pendente externo")
-  ) {
-    return "external-action";
-  }
-
-  // Failed indicators
-  if (
-    normalizedValue.includes("erro") ||
-    normalizedValue.includes("error") ||
-    normalizedValue.includes("falha") ||
-    normalizedValue.includes("failed") ||
-    normalizedValue.includes("cancelado") ||
-    normalizedValue.includes("reprovado") ||
-    normalizedValue.includes("não") ||
-    normalizedValue === "n"
-  ) {
-    return "failed";
-  }
-
-  // If has any value, assume in-progress or needs attention
-  return "in-progress";
 }
 
 // Get edge style based on status
@@ -165,7 +152,7 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
       data: {
         label: stage.label,
         status,
-        description: statusValue || stage.description,
+        description: statusValue ? getStatusLabel(statusValue) : stage.description,
         timestamp: detail.lastUpdate,
       },
     });

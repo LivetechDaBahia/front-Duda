@@ -31,8 +31,8 @@ export interface TrafficLightDetail {
 export interface TrafficLightListResponse {
   data: TrafficLightSummary[];
   total: number;
-  page: number;
-  pageSize: number;
+  page: number | string;
+  pageSize: number | string;
 }
 
 // Workflow stage definition for transforming detail to nodes

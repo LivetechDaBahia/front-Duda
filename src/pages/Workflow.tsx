@@ -37,6 +37,7 @@ import {
 import {
   transformDetailToWorkflow,
   getOverallStatus,
+  getStatusLabel,
 } from "@/lib/trafficLightTransformer";
 import { TrafficLightSummary } from "@/types/trafficLight";
 
@@ -232,7 +233,19 @@ export default function Workflow() {
                                 Sales Order: {item.salesOrderNumber}
                               </p>
                               <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
-                                <span>Validity: {item.validityDate}</span>
+                                <Badge
+                                  variant="secondary"
+                                  className={cn(
+                                    "text-xs",
+                                    item.validityDate?.toUpperCase() === "C001" || item.validityDate?.toLowerCase() === "verde"
+                                      ? "bg-success/20 text-success"
+                                      : item.validityDate?.toUpperCase() === "C003" || item.validityDate?.toLowerCase() === "vermelho"
+                                      ? "bg-destructive/20 text-destructive"
+                                      : "bg-primary/20 text-primary"
+                                  )}
+                                >
+                                  {getStatusLabel(item.validityDate)}
+                                </Badge>
                                 {item.startDate && (
                                   <span>
                                     Started:{" "}
