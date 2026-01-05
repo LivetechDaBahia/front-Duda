@@ -28,9 +28,11 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
+  RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { WorkflowLegend } from "@/components/workflow/WorkflowLegend";
 import {
   useTrafficLightList,
   useTrafficLightDetail,
@@ -125,7 +127,17 @@ export default function Workflow() {
     total,
     isLoading: isListLoading,
     error: listError,
+    refetch: refetchList,
   } = useTrafficLightList({ page, pageSize, filters: apiFilters });
+
+  // Track if currently refreshing
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetchList();
+    setIsRefreshing(false);
+  };
 
   // Fetch detail when an item is selected
   const { detail, isLoading: isDetailLoading } = useTrafficLightDetail({
@@ -193,11 +205,24 @@ export default function Workflow() {
                   {t("workflow.subtitle")}
                 </p>
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={isRefreshing || isListLoading}
+                className="shrink-0"
+              >
+                <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
+                {t("workflow.refresh")}
+              </Button>
             </div>
           </div>
         </header>
 
         <div className="container mx-auto px-4 sm:px-6 py-6 space-y-6">
+          {/* Legend */}
+          <WorkflowLegend />
+
           {/* Filters */}
           <WorkflowFilters onFilterChange={handleFilterChange} />
 
