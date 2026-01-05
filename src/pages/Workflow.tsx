@@ -29,8 +29,12 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
+  List,
+  LayoutGrid,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { WorkflowKanbanView } from "@/components/workflow/WorkflowKanbanView";
 import { cn } from "@/lib/utils";
 import { WorkflowLegend } from "@/components/workflow/WorkflowLegend";
 import {
@@ -96,6 +100,7 @@ export default function Workflow() {
   const { isAdmin } = usePermissions();
   const statusConfig = getStatusConfig(t);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
@@ -205,16 +210,31 @@ export default function Workflow() {
                   {t("workflow.subtitle")}
                 </p>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRefresh}
-                disabled={isRefreshing || isListLoading}
-                className="shrink-0"
-              >
-                <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
-                {t("workflow.refresh")}
-              </Button>
+              <div className="flex items-center gap-2">
+                <ToggleGroup
+                  type="single"
+                  value={viewMode}
+                  onValueChange={(value) => value && setViewMode(value as "list" | "kanban")}
+                  className="border rounded-md"
+                >
+                  <ToggleGroupItem value="list" aria-label={t("workflow.view.list")} className="px-3">
+                    <List className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="kanban" aria-label={t("workflow.view.kanban")} className="px-3">
+                    <LayoutGrid className="h-4 w-4" />
+                  </ToggleGroupItem>
+                </ToggleGroup>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRefresh}
+                  disabled={isRefreshing || isListLoading}
+                  className="shrink-0"
+                >
+                  <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
+                  {t("workflow.refresh")}
+                </Button>
+              </div>
             </div>
           </div>
         </header>
@@ -247,123 +267,132 @@ export default function Workflow() {
             </div>
           ) : (
             <>
-              <ScrollArea className="h-[calc(100vh-280px)]">
-                <div className="grid gap-4">
-                  {items.map((item) => {
-                    const status = getSummaryStatus(item);
-                    const config = statusConfig[status];
-                    const StatusIcon = config.icon;
+              {viewMode === "kanban" ? (
+                <WorkflowKanbanView
+                  items={items}
+                  onItemClick={(item) => handleSelectItem(item.id)}
+                />
+              ) : (
+                <ScrollArea className="h-[calc(100vh-280px)]">
+                  <div className="grid gap-4">
+                    {items.map((item) => {
+                      const status = getSummaryStatus(item);
+                      const config = statusConfig[status];
+                      const StatusIcon = config.icon;
 
-                    return (
-                      <Card
-                        key={item.id}
-                        className={cn(
-                          "p-4 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
-                          "border-l-4",
-                          status === "completed" && "border-l-success",
-                          status === "in-progress" && "border-l-primary",
-                          status === "failed" && "border-l-destructive",
-                          status === "pending" && "border-l-muted-foreground"
-                        )}
-                        onClick={() => handleSelectItem(item.id)}
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex items-start gap-3 flex-1 min-w-0">
-                            <div
-                              className={cn(
-                                "p-2 rounded-lg shrink-0",
-                                config.bgColor
-                              )}
-                            >
-                              <FileText
-                                className={cn("h-5 w-5", config.color)}
-                              />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <h3 className="font-semibold text-foreground truncate">
-                                {t("workflow.quote")}: {item.numQuote}
-                              </h3>
-                              <p className="text-sm text-muted-foreground mt-0.5">
-                                {t("workflow.salesOrder")}: {item.salesOrderNumber}
-                              </p>
-                              <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
-                                <Badge
-                                  variant="secondary"
-                                  className={cn(
-                                    "text-xs",
-                                    item.validityDate?.toUpperCase() === "C001" || item.validityDate?.toLowerCase() === "verde"
-                                      ? "bg-success/20 text-success"
-                                      : item.validityDate?.toUpperCase() === "C003" || item.validityDate?.toLowerCase() === "vermelho"
-                                      ? "bg-destructive/20 text-destructive"
-                                      : "bg-primary/20 text-primary"
+                      return (
+                        <Card
+                          key={item.id}
+                          className={cn(
+                            "p-4 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
+                            "border-l-4",
+                            status === "completed" && "border-l-success",
+                            status === "in-progress" && "border-l-primary",
+                            status === "failed" && "border-l-destructive",
+                            status === "pending" && "border-l-muted-foreground"
+                          )}
+                          onClick={() => handleSelectItem(item.id)}
+                        >
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex items-start gap-3 flex-1 min-w-0">
+                              <div
+                                className={cn(
+                                  "p-2 rounded-lg shrink-0",
+                                  config.bgColor
+                                )}
+                              >
+                                <FileText
+                                  className={cn("h-5 w-5", config.color)}
+                                />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-semibold text-foreground truncate">
+                                  {t("workflow.quote")}: {item.numQuote}
+                                </h3>
+                                <p className="text-sm text-muted-foreground mt-0.5">
+                                  {t("workflow.salesOrder")}: {item.salesOrderNumber}
+                                </p>
+                                <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
+                                  <Badge
+                                    variant="secondary"
+                                    className={cn(
+                                      "text-xs",
+                                      item.validityDate?.toUpperCase() === "C001" || item.validityDate?.toLowerCase() === "verde"
+                                        ? "bg-success/20 text-success"
+                                        : item.validityDate?.toUpperCase() === "C003" || item.validityDate?.toLowerCase() === "vermelho"
+                                        ? "bg-destructive/20 text-destructive"
+                                        : "bg-primary/20 text-primary"
+                                    )}
+                                  >
+                                    {t(getStatusLabelKey(item.validityDate))}
+                                  </Badge>
+                                  {item.startDate && (
+                                    <span>
+                                      {t("workflow.started")}:{" "}
+                                      {new Date(item.startDate).toLocaleDateString()}
+                                    </span>
                                   )}
-                                >
-                                  {t(getStatusLabelKey(item.validityDate))}
-                                </Badge>
-                                {item.startDate && (
-                                  <span>
-                                    {t("workflow.started")}:{" "}
-                                    {new Date(item.startDate).toLocaleDateString()}
-                                  </span>
-                                )}
-                                {item.finishedDate && (
-                                  <span>
-                                    {t("workflow.finished")}:{" "}
-                                    {new Date(
-                                      item.finishedDate
-                                    ).toLocaleDateString()}
-                                  </span>
-                                )}
+                                  {item.finishedDate && (
+                                    <span>
+                                      {t("workflow.finished")}:{" "}
+                                      {new Date(
+                                        item.finishedDate
+                                      ).toLocaleDateString()}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                "shrink-0 flex items-center gap-1.5",
+                                config.color
+                              )}
+                            >
+                              <StatusIcon className="h-3 w-3" />
+                              {config.label}
+                            </Badge>
                           </div>
-                          <Badge
-                            variant="outline"
-                            className={cn(
-                              "shrink-0 flex items-center gap-1.5",
-                              config.color
-                            )}
-                          >
-                            <StatusIcon className="h-3 w-3" />
-                            {config.label}
-                          </Badge>
-                        </div>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </ScrollArea>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              )}
 
-              {/* Pagination */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                <p className="text-sm text-muted-foreground">
-                  {t("workflow.showing")} {(page - 1) * pageSize + 1} {t("workflow.to")}{" "}
-                  {Math.min(page * pageSize, total)} {t("workflow.of")} {total} {t("workflow.items")}
-                </p>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page <= 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    {t("workflow.previous")}
-                  </Button>
-                  <span className="text-sm text-muted-foreground px-2">
-                    {t("workflow.page")} {page} {t("workflow.of")} {totalPages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={page >= totalPages}
-                  >
-                    {t("workflow.next")}
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
+              {/* Pagination - only show in list view */}
+              {viewMode === "list" && (
+                <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                  <p className="text-sm text-muted-foreground">
+                    {t("workflow.showing")} {(page - 1) * pageSize + 1} {t("workflow.to")}{" "}
+                    {Math.min(page * pageSize, total)} {t("workflow.of")} {total} {t("workflow.items")}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page <= 1}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      {t("workflow.previous")}
+                    </Button>
+                    <span className="text-sm text-muted-foreground px-2">
+                      {t("workflow.page")} {page} {t("workflow.of")} {totalPages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={page >= totalPages}
+                    >
+                      {t("workflow.next")}
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </div>
