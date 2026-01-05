@@ -31,6 +31,7 @@ import {
   RefreshCw,
   List,
   LayoutGrid,
+  RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -485,16 +486,33 @@ export default function Workflow() {
                 </p>
               </div>
             </div>
-            <Badge
-              variant="outline"
-              className={cn(
-                "shrink-0 flex items-center gap-1.5",
-                selectedConfig.color
-              )}
-            >
-              <selectedConfig.icon className="h-3 w-3" />
-              {selectedConfig.label}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  if (selectedItemId !== null && workflowData) {
+                    layoutCache.current.delete(selectedItemId);
+                    setNodes(workflowData.nodes);
+                    setEdges(workflowData.edges);
+                  }
+                }}
+                className="shrink-0"
+              >
+                <RotateCcw className="h-4 w-4 mr-2" />
+                {t("workflow.resetLayout")}
+              </Button>
+              <Badge
+                variant="outline"
+                className={cn(
+                  "shrink-0 flex items-center gap-1.5",
+                  selectedConfig.color
+                )}
+              >
+                <selectedConfig.icon className="h-3 w-3" />
+                {selectedConfig.label}
+              </Badge>
+            </div>
           </div>
         </div>
       </header>
