@@ -5,31 +5,31 @@ import {
   WorkflowStage,
 } from "@/types/trafficLight";
 
-// Define the workflow stages in order
+// Define the workflow stages in order - using translation keys for labels and descriptions
 const WORKFLOW_STAGES: WorkflowStage[] = [
-  { key: "si01", label: "SI", description: "Sales Invoice creation" },
-  { key: "po02", label: "PO", description: "Purchase Order processing" },
+  { key: "si01", label: "workflow.steps.si", description: "workflow.steps.siDesc" },
+  { key: "po02", label: "workflow.steps.po", description: "workflow.steps.poDesc" },
   {
     key: "customsClearance03",
-    label: "Customs Clearance",
-    description: "Customs clearance processing",
+    label: "workflow.steps.customsClearance",
+    description: "workflow.steps.customsClearanceDesc",
   },
   {
     key: "cfoAppropriation04",
-    label: "CFO Appropriation",
-    description: "CFO budget appropriation",
+    label: "workflow.steps.cfoAppropriation",
+    description: "workflow.steps.cfoAppropriationDesc",
   },
   {
     key: "generatePreNote05",
-    label: "Generate Pre-Note",
-    description: "Pre-note generation",
+    label: "workflow.steps.generatePreBilling",
+    description: "workflow.steps.generatePreBillingDesc",
   },
   {
     key: "closeCustomsClearance06",
-    label: "Close Customs",
-    description: "Close customs clearance",
+    label: "workflow.steps.closeCustoms",
+    description: "workflow.steps.closeCustomsDesc",
   },
-  { key: "invoicing07", label: "Invoicing", description: "Final invoicing" },
+  { key: "invoicing07", label: "workflow.steps.invoice", description: "workflow.steps.invoiceDesc" },
 ];
 
 // Status codes from API
@@ -186,9 +186,9 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
       type: "workflow",
       position: { x: 50 + canceledIndex * 300, y: 100 },
       data: {
-        label: "Canceled",
+        label: "workflow.steps.canceled",
         status: "failed" as TrafficLightStageStatus,
-        description: detail.canceled08 || "Process was canceled",
+        description: detail.canceled08 || "workflow.steps.canceledDesc",
         timestamp: detail.lastUpdate,
       },
     });
