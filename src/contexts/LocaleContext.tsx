@@ -621,6 +621,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.steps.invoiceDesc": "Final invoicing",
     "workflow.steps.canceled": "Canceled",
     "workflow.steps.canceledDesc": "Process was canceled",
+    "workflow.kanban.noItems": "No items in this status",
+    "workflow.view.list": "List",
+    "workflow.view.kanban": "Kanban",
   },
   "pt-BR": {
     // Navigation
@@ -1243,6 +1246,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.steps.invoiceDesc": "Faturamento final",
     "workflow.steps.canceled": "Cancelado",
     "workflow.steps.canceledDesc": "Processo foi cancelado",
+    "workflow.kanban.noItems": "Nenhum item neste status",
+    "workflow.view.list": "Lista",
+    "workflow.view.kanban": "Kanban",
   },
   "es-ES": {
     // Navigation
@@ -1862,6 +1868,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.steps.invoiceDesc": "Facturación final",
     "workflow.steps.canceled": "Cancelado",
     "workflow.steps.canceledDesc": "Proceso fue cancelado",
+    "workflow.kanban.noItems": "No hay elementos en este estado",
+    "workflow.view.list": "Lista",
+    "workflow.view.kanban": "Kanban",
   },
 };
 
