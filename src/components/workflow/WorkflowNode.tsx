@@ -10,6 +10,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/contexts/LocaleContext";
 
 type WorkflowStatus =
   | "completed"
@@ -74,8 +75,13 @@ const statusConfig = {
 };
 
 export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
+  const { t } = useLocale();
   const config = statusConfig[data.status];
   const Icon = config.icon;
+
+  // Translate label and description if they are translation keys
+  const translatedLabel = data.label.startsWith("workflow.") ? t(data.label) : data.label;
+  const translatedDescription = data.description.startsWith("workflow.") ? t(data.description) : data.description;
 
   return (
     <div className="relative">
@@ -146,10 +152,10 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
         {/* Node Content */}
         <div className="p-4 space-y-2">
           <h3 className="font-semibold text-sm text-foreground leading-tight">
-            {data.label}
+            {translatedLabel}
           </h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            {data.description}
+            {translatedDescription}
           </p>
           {data.timestamp && (
             <p className="text-xs text-muted-foreground font-mono">
