@@ -6,10 +6,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { FileText, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { FileText, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { getStatusLabelKey } from "@/lib/trafficLightTransformer";
 
-type WorkflowStatus = "pending" | "in-progress" | "completed";
+type WorkflowStatus = "pending" | "in-progress" | "completed" | "cancelled";
 
 interface WorkflowKanbanViewProps {
   items: TrafficLightSummary[];
@@ -18,6 +18,10 @@ interface WorkflowKanbanViewProps {
 
 // Derive status from summary for list display
 function getSummaryStatus(item: TrafficLightSummary): WorkflowStatus {
+  // Check if cancelled first
+  if (item.canceled08 && item.canceled08.trim() !== "") {
+    return "cancelled";
+  }
   if (item.finishedDate) {
     return "completed";
   }
@@ -56,6 +60,12 @@ export const WorkflowKanbanView = ({
       label: t("workflow.status.completed"),
       color: "border-success",
       icon: CheckCircle2,
+    },
+    {
+      status: "cancelled",
+      label: t("workflow.status.failed"),
+      color: "border-destructive",
+      icon: XCircle,
     },
   ];
 
@@ -96,14 +106,15 @@ export const WorkflowKanbanView = ({
                           const itemStatus = getSummaryStatus(item);
                           
                           return (
-                            <Card
+                          <Card
                               key={item.id}
                               className={cn(
                                 "p-3 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
                                 "border-l-4",
                                 itemStatus === "completed" && "border-l-success",
                                 itemStatus === "in-progress" && "border-l-primary",
-                                itemStatus === "pending" && "border-l-muted-foreground"
+                                itemStatus === "pending" && "border-l-muted-foreground",
+                                itemStatus === "cancelled" && "border-l-destructive"
                               )}
                               onClick={() => onItemClick(item)}
                             >
@@ -112,13 +123,15 @@ export const WorkflowKanbanView = ({
                                   "p-2 rounded-lg shrink-0",
                                   itemStatus === "completed" && "bg-success/10",
                                   itemStatus === "in-progress" && "bg-primary/10",
-                                  itemStatus === "pending" && "bg-muted"
+                                  itemStatus === "pending" && "bg-muted",
+                                  itemStatus === "cancelled" && "bg-destructive/10"
                                 )}>
                                   <FileText className={cn(
                                     "h-4 w-4",
                                     itemStatus === "completed" && "text-success",
                                     itemStatus === "in-progress" && "text-primary",
-                                    itemStatus === "pending" && "text-muted-foreground"
+                                    itemStatus === "pending" && "text-muted-foreground",
+                                    itemStatus === "cancelled" && "text-destructive"
                                   )} />
                                 </div>
                                 <div className="min-w-0 flex-1">
