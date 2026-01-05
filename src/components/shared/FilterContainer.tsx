@@ -76,7 +76,7 @@ export const FilterContainer = ({
       {/* Collapsible Filters */}
       <Collapsible open={showFilters} onOpenChange={onShowFiltersChange}>
         <CollapsibleContent className="mt-4">
-          <div className="bg-muted/50 rounded-lg p-4 space-y-4 animate-slide-in">
+          <div className="bg-muted/50 rounded-lg p-4 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {children}
             </div>
