@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -152,33 +152,90 @@ export default function Workflow() {
   // Transform detail to workflow nodes/edges
   const workflowData = detail ? transformDetailToWorkflow(detail) : null;
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(
+  // Layout cache to persist user-customized node positions
+  const layoutCache = useRef<Map<number, { nodes: Node[]; edges: Edge[] }>>(new Map());
+
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState(
     workflowData?.nodes || []
   );
   const [edges, setEdges, onEdgesChange] = useEdgesState(
     workflowData?.edges || []
   );
 
-  // Update nodes/edges when detail changes
-  const handleSelectItem = (id: number) => {
-    setSelectedItemId(id);
-  };
+  // Custom nodes change handler to cache layout after drag ends
+  const onNodesChange = useCallback(
+    (changes: Parameters<typeof onNodesChangeBase>[0]) => {
+      onNodesChangeBase(changes);
 
-  // When detail loads, update the flow
-  if (
-    detail &&
-    workflowData &&
-    (nodes.length === 0 || nodes[0]?.id !== workflowData.nodes[0]?.id)
-  ) {
-    setNodes(workflowData.nodes);
-    setEdges(workflowData.edges);
-  }
+      // Check if any node finished dragging
+      const hasDragEnd = changes.some(
+        (change) => change.type === "position" && change.dragging === false
+      );
 
-  const handleBack = () => {
+      if (hasDragEnd && selectedItemId !== null) {
+        // Use setTimeout to get updated nodes after state update
+        setTimeout(() => {
+          setNodes((currentNodes) => {
+            layoutCache.current.set(selectedItemId, {
+              nodes: [...currentNodes],
+              edges: [...edges],
+            });
+            return currentNodes;
+          });
+        }, 0);
+      }
+    },
+    [onNodesChangeBase, selectedItemId, edges, setNodes]
+  );
+
+  // Handle selecting an item - save current layout first
+  const handleSelectItem = useCallback(
+    (id: number) => {
+      // Save current layout before switching
+      if (selectedItemId !== null && nodes.length > 0) {
+        layoutCache.current.set(selectedItemId, {
+          nodes: [...nodes],
+          edges: [...edges],
+        });
+      }
+      setSelectedItemId(id);
+    },
+    [selectedItemId, nodes, edges]
+  );
+
+  // When detail loads, restore cached layout or use fresh data
+  useEffect(() => {
+    if (detail && workflowData && selectedItemId !== null) {
+      const cached = layoutCache.current.get(selectedItemId);
+      if (cached) {
+        // Merge cached positions with fresh status data
+        const mergedNodes = workflowData.nodes.map((node) => {
+          const cachedNode = cached.nodes.find((n) => n.id === node.id);
+          return cachedNode
+            ? { ...node, position: cachedNode.position }
+            : node;
+        });
+        setNodes(mergedNodes);
+        setEdges(workflowData.edges);
+      } else {
+        setNodes(workflowData.nodes);
+        setEdges(workflowData.edges);
+      }
+    }
+  }, [detail, selectedItemId, workflowData, setNodes, setEdges]);
+
+  const handleBack = useCallback(() => {
+    // Save current layout before navigating away
+    if (selectedItemId !== null && nodes.length > 0) {
+      layoutCache.current.set(selectedItemId, {
+        nodes: [...nodes],
+        edges: [...edges],
+      });
+    }
     setSelectedItemId(null);
     setNodes([]);
     setEdges([]);
-  };
+  }, [selectedItemId, nodes, edges, setNodes, setEdges]);
 
   const totalPages = Math.ceil(total / pageSize);
 
