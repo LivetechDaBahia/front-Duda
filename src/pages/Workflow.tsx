@@ -155,13 +155,11 @@ export default function Workflow() {
 
   // Layout cache to persist user-customized node positions
   const layoutCache = useRef<Map<number, { nodes: Node[]; edges: Edge[] }>>(new Map());
+  // Track which item we've loaded to prevent re-running effect
+  const loadedItemRef = useRef<number | null>(null);
 
-  const [nodes, setNodes, onNodesChangeBase] = useNodesState(
-    workflowData?.nodes || []
-  );
-  const [edges, setEdges, onEdgesChange] = useEdgesState(
-    workflowData?.edges || []
-  );
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   // Custom nodes change handler to cache layout after drag ends
   const onNodesChange = useCallback(
@@ -177,16 +175,19 @@ export default function Workflow() {
         // Use setTimeout to get updated nodes after state update
         setTimeout(() => {
           setNodes((currentNodes) => {
-            layoutCache.current.set(selectedItemId, {
-              nodes: [...currentNodes],
-              edges: [...edges],
+            setEdges((currentEdges) => {
+              layoutCache.current.set(selectedItemId, {
+                nodes: [...currentNodes],
+                edges: [...currentEdges],
+              });
+              return currentEdges;
             });
             return currentNodes;
           });
         }, 0);
       }
     },
-    [onNodesChangeBase, selectedItemId, edges, setNodes]
+    [onNodesChangeBase, selectedItemId, setNodes, setEdges]
   );
 
   // Handle selecting an item - save current layout first
@@ -199,6 +200,7 @@ export default function Workflow() {
           edges: [...edges],
         });
       }
+      loadedItemRef.current = null; // Reset so the new item gets loaded
       setSelectedItemId(id);
     },
     [selectedItemId, nodes, edges]
@@ -206,7 +208,15 @@ export default function Workflow() {
 
   // When detail loads, restore cached layout or use fresh data
   useEffect(() => {
-    if (detail && workflowData && selectedItemId !== null) {
+    // Only load if we have data and haven't loaded this item yet
+    if (
+      detail &&
+      workflowData &&
+      selectedItemId !== null &&
+      loadedItemRef.current !== selectedItemId
+    ) {
+      loadedItemRef.current = selectedItemId;
+      
       const cached = layoutCache.current.get(selectedItemId);
       if (cached) {
         // Merge cached positions with fresh status data
@@ -233,6 +243,7 @@ export default function Workflow() {
         edges: [...edges],
       });
     }
+    loadedItemRef.current = null;
     setSelectedItemId(null);
     setNodes([]);
     setEdges([]);
