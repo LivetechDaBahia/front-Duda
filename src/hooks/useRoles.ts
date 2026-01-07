@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { roleService } from "@/services/roleService";
-import { CreateRoleDto, UpdateRoleDto, Role } from "@/types/role";
+import { CreateRoleDto, UpdateRoleDto, Role, AccessLevel } from "@/types/role";
 import { useToast } from "@/hooks/use-toast";
 
 export const useRoles = () => {
@@ -15,6 +15,24 @@ export const useRoles = () => {
   } = useQuery<Role[]>({
     queryKey: ["roles"],
     queryFn: roleService.getRoles,
+  });
+
+  // Fetch permissions list
+  const {
+    data: permissionsList = [],
+    isLoading: isLoadingPermissions,
+  } = useQuery<string[]>({
+    queryKey: ["permissions-list"],
+    queryFn: roleService.getPermissionsList,
+  });
+
+  // Fetch access levels
+  const {
+    data: accessLevels = [],
+    isLoading: isLoadingAccessLevels,
+  } = useQuery<AccessLevel[]>({
+    queryKey: ["access-levels"],
+    queryFn: roleService.getAccessLevels,
   });
 
   // Create mutation
@@ -71,6 +89,10 @@ export const useRoles = () => {
     roles,
     isLoading,
     error,
+    permissionsList,
+    isLoadingPermissions,
+    accessLevels,
+    isLoadingAccessLevels,
     createRole: createMutation.mutateAsync,
     updateRole: updateMutation.mutateAsync,
     deleteRole: deleteMutation.mutateAsync,
