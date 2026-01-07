@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/apiClient";
-import { Role, CreateRoleDto, UpdateRoleDto } from "@/types/role";
+import { Role, CreateRoleDto, UpdateRoleDto, AccessLevel } from "@/types/role";
 
 class RoleService {
   // GET /roles - List all roles
@@ -25,6 +25,16 @@ class RoleService {
   // DELETE /roles/:id - Delete role
   async deleteRole(id: string): Promise<void> {
     return apiClient.delete(`/roles/${id}`);
+  }
+
+  // GET /roles/permissions/list - Fetch all available permissions
+  async getPermissionsList(): Promise<string[]> {
+    return apiClient.get("/roles/permissions/list");
+  }
+
+  // GET /roles/levels - Fetch all access levels
+  async getAccessLevels(): Promise<AccessLevel[]> {
+    return apiClient.get("/roles/levels");
   }
 }
 

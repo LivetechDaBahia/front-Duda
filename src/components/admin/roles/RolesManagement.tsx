@@ -16,9 +16,11 @@ import {
 import { useRoles } from "@/hooks/useRoles";
 import { Role, CreateRoleDto } from "@/types/role";
 import { usePermissions } from "@/hooks/usePermissions";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export function RolesManagement() {
   const { isAdmin } = usePermissions();
+  const { t } = useLocale();
   const {
     roles,
     isLoading,
@@ -28,6 +30,10 @@ export function RolesManagement() {
     isCreating,
     isUpdating,
     isDeleting,
+    accessLevels,
+    permissionsList,
+    isLoadingAccessLevels,
+    isLoadingPermissions,
   } = useRoles();
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -56,15 +62,15 @@ export function RolesManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold">Roles</h3>
+          <h3 className="text-lg font-semibold">{t("role.title")}</h3>
           <p className="text-sm text-muted-foreground">
-            Manage roles and access levels
+            {t("role.description")}
           </p>
         </div>
         {isAdmin && (
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
-            Add Role
+            {t("role.addRole")}
           </Button>
         )}
       </div>
@@ -72,9 +78,10 @@ export function RolesManagement() {
       {/* List */}
       <RoleList
         roles={roles}
+        accessLevels={accessLevels}
         onEdit={setEditingRole}
         onDelete={setDeletingRole}
-        isLoading={isLoading}
+        isLoading={isLoading || isLoadingAccessLevels}
       />
 
       {/* Create Dialog */}
@@ -83,6 +90,10 @@ export function RolesManagement() {
         onClose={() => setIsCreateDialogOpen(false)}
         onSubmit={handleCreate}
         isSubmitting={isCreating}
+        accessLevels={accessLevels}
+        permissionsList={permissionsList}
+        isLoadingAccessLevels={isLoadingAccessLevels}
+        isLoadingPermissions={isLoadingPermissions}
       />
 
       {/* Edit Dialog */}
@@ -92,6 +103,10 @@ export function RolesManagement() {
         onSubmit={handleUpdate}
         role={editingRole || undefined}
         isSubmitting={isUpdating}
+        accessLevels={accessLevels}
+        permissionsList={permissionsList}
+        isLoadingAccessLevels={isLoadingAccessLevels}
+        isLoadingPermissions={isLoadingPermissions}
       />
 
       {/* Delete Confirmation */}
@@ -101,21 +116,19 @@ export function RolesManagement() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Role</AlertDialogTitle>
+            <AlertDialogTitle>{t("role.delete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{deletingRole?.name}"? This
-              action cannot be undone. Make sure there are no positions
-              associated with this role.
+              {t("role.deleteConfirm").replace("{name}", deletingRole?.name || "")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}
               className="bg-destructive hover:bg-destructive/90"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? t("role.deleting") : t("role.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
