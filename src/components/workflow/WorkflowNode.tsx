@@ -76,7 +76,7 @@ const statusConfig = {
 
 export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
   const { t } = useLocale();
-  const config = statusConfig[data.status];
+  const config = statusConfig[data.status] || statusConfig["pending"];
   const Icon = config.icon;
 
   // Translate label and description if they are translation keys
