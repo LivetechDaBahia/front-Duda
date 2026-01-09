@@ -6,14 +6,27 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { FileText, Clock, CheckCircle2, XCircle } from "lucide-react";
+import { FileText, Clock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { getStatusLabelKey } from "@/lib/trafficLightTransformer";
 
-type WorkflowStatus = "pending" | "in-progress" | "completed" | "cancelled";
+type WorkflowStatus = "expired" | "in-progress" | "completed" | "cancelled";
 
 interface WorkflowKanbanViewProps {
   items: TrafficLightSummary[];
   onItemClick: (item: TrafficLightSummary) => void;
+}
+
+// Check if item is expired based on validityDate (due date)
+function isExpired(validityDate: string | undefined): boolean {
+  if (!validityDate) return false;
+  try {
+    const dueDate = new Date(validityDate);
+    // Check if it's a valid date
+    if (isNaN(dueDate.getTime())) return false;
+    return dueDate < new Date();
+  } catch {
+    return false;
+  }
 }
 
 // Derive status from summary for list display
@@ -25,10 +38,12 @@ function getSummaryStatus(item: TrafficLightSummary): WorkflowStatus {
   if (item.finishedDate) {
     return "completed";
   }
-  if (item.startDate) {
-    return "in-progress";
+  // Check if expired (past due date)
+  if (isExpired(item.validityDate)) {
+    return "expired";
   }
-  return "pending";
+  // Default: in execution (no pending state)
+  return "in-progress";
 }
 
 export const WorkflowKanbanView = ({
@@ -43,17 +58,17 @@ export const WorkflowKanbanView = ({
   useAutoScroll(scrollContainerRef, draggedItemId !== null);
 
   const columns: { status: WorkflowStatus; label: string; color: string; icon: typeof Clock }[] = [
-    { 
-      status: "pending", 
-      label: t("workflow.status.pending"), 
-      color: "border-muted-foreground",
+    {
+      status: "in-progress",
+      label: t("workflow.status.inExecution"),
+      color: "border-primary",
       icon: Clock,
     },
     {
-      status: "in-progress",
-      label: t("workflow.status.inProgress"),
-      color: "border-primary",
-      icon: Clock,
+      status: "expired",
+      label: t("workflow.status.expired"),
+      color: "border-warning",
+      icon: AlertTriangle,
     },
     {
       status: "completed",
@@ -113,7 +128,7 @@ export const WorkflowKanbanView = ({
                                 "border-l-4",
                                 itemStatus === "completed" && "border-l-success",
                                 itemStatus === "in-progress" && "border-l-primary",
-                                itemStatus === "pending" && "border-l-muted-foreground",
+                                itemStatus === "expired" && "border-l-warning",
                                 itemStatus === "cancelled" && "border-l-destructive"
                               )}
                               onClick={() => onItemClick(item)}
@@ -123,14 +138,14 @@ export const WorkflowKanbanView = ({
                                   "p-2 rounded-lg shrink-0",
                                   itemStatus === "completed" && "bg-success/10",
                                   itemStatus === "in-progress" && "bg-primary/10",
-                                  itemStatus === "pending" && "bg-muted",
+                                  itemStatus === "expired" && "bg-warning/10",
                                   itemStatus === "cancelled" && "bg-destructive/10"
                                 )}>
                                   <FileText className={cn(
                                     "h-4 w-4",
                                     itemStatus === "completed" && "text-success",
                                     itemStatus === "in-progress" && "text-primary",
-                                    itemStatus === "pending" && "text-muted-foreground",
+                                    itemStatus === "expired" && "text-warning",
                                     itemStatus === "cancelled" && "text-destructive"
                                   )} />
                                 </div>
@@ -141,19 +156,17 @@ export const WorkflowKanbanView = ({
                                   <p className="text-xs text-muted-foreground mt-0.5 truncate">
                                     {t("workflow.salesOrder")}: {item.salesOrderNumber}
                                   </p>
-                                  <div className="flex flex-wrap gap-2 mt-2">
+                                    <div className="flex flex-wrap gap-2 mt-2">
                                     <Badge
                                       variant="secondary"
                                       className={cn(
                                         "text-xs",
-                                        item.validityDate?.toUpperCase() === "C001" || item.validityDate?.toLowerCase() === "verde"
-                                          ? "bg-success/20 text-success"
-                                          : item.validityDate?.toUpperCase() === "C003" || item.validityDate?.toLowerCase() === "vermelho"
-                                          ? "bg-destructive/20 text-destructive"
-                                          : "bg-primary/20 text-primary"
+                                        itemStatus === "expired"
+                                          ? "bg-warning/20 text-warning"
+                                          : "bg-muted text-muted-foreground"
                                       )}
                                     >
-                                      {t(getStatusLabelKey(item.validityDate))}
+                                      {t("workflow.dueDate")}: {item.validityDate}
                                     </Badge>
                                   </div>
                                   {(item.startDate || item.finishedDate) && (
