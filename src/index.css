@@ -42,6 +42,7 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     --warning: 40 95% 55%;
+    --warning-foreground: 0 0% 100%;
     --info: 198 100% 49%;
 
     --gradient-primary: linear-gradient(
@@ -112,6 +113,9 @@ All colors MUST be HSL.
 
     --success: 145 65% 50%;
     --success-foreground: 0 0% 100%;
+
+    --warning: 40 95% 55%;
+    --warning-foreground: 0 0% 100%;
 
     --border: 216 15% 22%;
     --input: 216 15% 22%;

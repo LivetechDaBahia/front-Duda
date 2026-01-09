@@ -55,19 +55,32 @@ const nodeTypes = {
   workflow: WorkflowNode,
 };
 
+// Check if item is expired based on validityDate (due date)
+function isExpired(validityDate: string | undefined): boolean {
+  if (!validityDate) return false;
+  try {
+    const dueDate = new Date(validityDate);
+    // Check if it's a valid date
+    if (isNaN(dueDate.getTime())) return false;
+    return dueDate < new Date();
+  } catch {
+    return false;
+  }
+}
+
 // Status config uses translation keys
 const getStatusConfig = (t: (key: string) => string) => ({
-  pending: {
-    icon: Clock,
-    color: "text-muted-foreground",
-    bgColor: "bg-muted",
-    label: t("workflow.status.pending"),
+  expired: {
+    icon: AlertCircle,
+    color: "text-warning",
+    bgColor: "bg-warning/10",
+    label: t("workflow.status.expired"),
   },
   "in-progress": {
     icon: Clock,
     color: "text-primary",
     bgColor: "bg-primary/10",
-    label: t("workflow.status.inProgress"),
+    label: t("workflow.status.inExecution"),
   },
   completed: {
     icon: CheckCircle2,
@@ -86,14 +99,16 @@ const getStatusConfig = (t: (key: string) => string) => ({
 // Derive status from summary for list display
 function getSummaryStatus(
   item: TrafficLightSummary
-): "pending" | "in-progress" | "completed" | "failed" {
+): "expired" | "in-progress" | "completed" | "failed" {
   if (item.finishedDate) {
     return "completed";
   }
-  if (item.startDate) {
-    return "in-progress";
+  // Check if expired (past due date)
+  if (isExpired(item.validityDate)) {
+    return "expired";
   }
-  return "pending";
+  // Default: in execution (no pending state)
+  return "in-progress";
 }
 
 export default function Workflow() {
@@ -358,7 +373,7 @@ export default function Workflow() {
                             status === "completed" && "border-l-success",
                             status === "in-progress" && "border-l-primary",
                             status === "failed" && "border-l-destructive",
-                            status === "pending" && "border-l-muted-foreground"
+                            status === "expired" && "border-l-warning"
                           )}
                           onClick={() => handleSelectItem(item.id)}
                         >
@@ -386,14 +401,12 @@ export default function Workflow() {
                                     variant="secondary"
                                     className={cn(
                                       "text-xs",
-                                      item.validityDate?.toUpperCase() === "C001" || item.validityDate?.toLowerCase() === "verde"
-                                        ? "bg-success/20 text-success"
-                                        : item.validityDate?.toUpperCase() === "C003" || item.validityDate?.toLowerCase() === "vermelho"
-                                        ? "bg-destructive/20 text-destructive"
-                                        : "bg-primary/20 text-primary"
+                                      status === "expired"
+                                        ? "bg-warning/20 text-warning"
+                                        : "bg-muted text-muted-foreground"
                                     )}
                                   >
-                                    {t(getStatusLabelKey(item.validityDate))}
+                                    {t("workflow.dueDate")}: {item.validityDate}
                                   </Badge>
                                   {item.startDate && (
                                     <span>
