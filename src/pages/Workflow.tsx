@@ -484,7 +484,7 @@ export default function Workflow() {
 
   // Workflow View - Show when an item is selected
   const selectedItem = items.find((i) => i.id === selectedItemId);
-  const overallStatus = detail ? getOverallStatus(detail) : "pending";
+  const overallStatus = detail ? getOverallStatus(detail) : "in-progress";
   const selectedConfig = statusConfig[overallStatus];
 
   return (
