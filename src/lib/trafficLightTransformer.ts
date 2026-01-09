@@ -215,7 +215,7 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
 // Get overall status from detail
 export function getOverallStatus(
   detail: TrafficLightDetail
-): "pending" | "in-progress" | "completed" | "failed" {
+): "in-progress" | "completed" | "failed" {
   // Check if canceled
   if (detail.canceled08.trim() !== "") {
     return "failed";
@@ -226,10 +226,6 @@ export function getOverallStatus(
     return "completed";
   }
 
-  // Check if started
-  if (detail.startDate) {
-    return "in-progress";
-  }
-
-  return "pending";
+  // No "pending" state for traffic lights: if it's not finished/canceled, it's in execution
+  return "in-progress";
 }
