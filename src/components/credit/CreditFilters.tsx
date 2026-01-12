@@ -19,7 +19,7 @@ import type {
   CreditBadge,
 } from "@/types/credit";
 import { FilterContainer } from "@/components/shared/FilterContainer";
-import { FilterDateRange } from "@/components/shared/FilterDateRange";
+import { FilterDateRangeSingle } from "@/components/shared/FilterDateRangeSingle";
 import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditFiltersProps {
@@ -273,14 +273,19 @@ export const CreditFilters = ({
         </div>
       )}
 
-      <FilterDateRange
+      <FilterDateRangeSingle
         dateFrom={filters.dateBegin}
         dateTo={filters.dateEnd}
-        onDateFromChange={(date) => updateFilter("dateBegin", date)}
-        onDateToChange={(date) => updateFilter("dateEnd", date)}
-        dateFromLabel={t("startDate")}
-        dateToLabel={t("endDate")}
-        selectDateLabel={t("startDate")}
+        onDateRangeChange={(from, to) => {
+          onFiltersChange({
+            ...filters,
+            dateBegin: from,
+            dateEnd: to,
+          });
+        }}
+        label={t("credit.dateRange")}
+        selectLabel={t("filters.selectDate")}
+        numberOfMonths={2}
       />
 
       {/* Value Range Slider */}
