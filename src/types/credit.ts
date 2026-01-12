@@ -1,5 +1,5 @@
 export interface CreditItemDetails {
-  date: Date;
+  date: Date | null;
   sellerGroup: string;
   operation: string;
   financial: string;
