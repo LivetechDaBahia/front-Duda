@@ -158,6 +158,31 @@ const Credit = () => {
         if (!hasBadge) return false;
       }
 
+      // Date range filter
+      if (filters.dateBegin || filters.dateEnd) {
+        const creditDate = credit.details.date
+          ? new Date(credit.details.date)
+          : null;
+
+        if (creditDate) {
+          // Normalize dates to start/end of day for comparison
+          if (filters.dateBegin) {
+            const startOfDay = new Date(filters.dateBegin);
+            startOfDay.setHours(0, 0, 0, 0);
+            if (creditDate < startOfDay) return false;
+          }
+
+          if (filters.dateEnd) {
+            const endOfDay = new Date(filters.dateEnd);
+            endOfDay.setHours(23, 59, 59, 999);
+            if (creditDate > endOfDay) return false;
+          }
+        } else {
+          // If credit has no date, exclude it when date filter is active
+          return false;
+        }
+      }
+
       return true;
     });
   }, [credits, filters, isCreditManager, user?.email]);
