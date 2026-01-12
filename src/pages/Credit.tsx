@@ -160,9 +160,7 @@ const Credit = () => {
 
       // Date range filter
       if (filters.dateBegin || filters.dateEnd) {
-        const creditDate = credit.details.date
-          ? new Date(credit.details.date)
-          : null;
+        const creditDate = credit.details.date;
 
         if (creditDate) {
           // Normalize dates to start/end of day for comparison

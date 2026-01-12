@@ -25,6 +25,36 @@ export const parseYYYYMMDD = (dateStr: string): Date | null => {
 };
 
 /**
+ * Parse credit details date coming from the API.
+ * We see multiple formats across environments: Date, ISO strings, and YYYYMMDD.
+ */
+const parseCreditDetailsDate = (raw: unknown): Date | null => {
+  if (!raw) return null;
+
+  if (raw instanceof Date) {
+    return isNaN(raw.getTime()) ? null : raw;
+  }
+
+  if (typeof raw === "number") {
+    const d = new Date(raw);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  const str = String(raw).trim();
+  if (!str) return null;
+
+  // YYYYMMDD (common in some legacy APIs)
+  if (/^\d{8}$/.test(str)) {
+    return parseYYYYMMDD(str);
+  }
+
+  // ISO-ish strings: strip trailing "Z" so it's interpreted as local time (keeps UI consistent)
+  const normalized = str.endsWith("Z") ? str.slice(0, -1) : str;
+  const d = new Date(normalized);
+  return isNaN(d.getTime()) ? null : d;
+};
+
+/**
  * Transform credit elements from API to UI format
  */
 export const transformCreditElementsToUI = (
@@ -32,6 +62,10 @@ export const transformCreditElementsToUI = (
 ): CreditElementItem[] => {
   return elements.map((element) => ({
     ...element,
+    details: {
+      ...element.details,
+      date: parseCreditDetailsDate(element.details?.date),
+    },
     // Provide fallbacks if borders are empty
     borders: {
       left: element.borders?.left || DEFAULT_BORDER_COLOR,
