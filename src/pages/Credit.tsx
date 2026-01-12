@@ -134,7 +134,9 @@ const Credit = () => {
 
       // Value range filter (using slider range)
       if (filters.valueRange) {
-        const [min, max] = filters.valueRange;
+        const [a, b] = filters.valueRange;
+        const min = Math.min(a, b);
+        const max = Math.max(a, b);
         if (credit.details.value < min || credit.details.value > max) {
           return false;
         }
