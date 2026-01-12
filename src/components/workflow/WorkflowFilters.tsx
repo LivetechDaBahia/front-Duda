@@ -249,6 +249,15 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
           onDateRangeChange={(from, to) => {
             setDateFrom(from);
             setDateTo(to);
+            // Auto-apply when both dates are selected
+            if (from && to) {
+              onFilterChange({
+                search,
+                status,
+                dateFrom: from,
+                dateTo: to,
+              });
+            }
           }}
           label={t("workflow.filters.dateRange")}
           selectLabel={t("workflow.filters.selectDate")}
