@@ -13,7 +13,7 @@ import { X } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { UIOrderStatus, Branch } from "@/types/order";
 import { FilterContainer } from "@/components/shared/FilterContainer";
-import { FilterDateRange } from "@/components/shared/FilterDateRange";
+import { FilterDateRangeSingle } from "@/components/shared/FilterDateRangeSingle";
 import { format } from "date-fns";
 
 const STORAGE_KEY = "orderFilters";
@@ -212,10 +212,8 @@ export const OrderFilters = ({
       case "status":
         setStatus("all");
         break;
-      case "dateFrom":
+      case "dateRange":
         setDateFrom(undefined);
-        break;
-      case "dateTo":
         setDateTo(undefined);
         break;
       case "showInBRL":
@@ -264,22 +262,16 @@ export const OrderFilters = ({
               </button>
             </Badge>
           )}
-          {dateFrom && (
+          {(dateFrom || dateTo) && (
             <Badge variant="secondary" className="gap-1 pr-1">
-              {t("filters.dateFrom")}: {format(dateFrom, "dd/MM/yyyy")}
+              {t("filters.dateRange")}:{" "}
+              {dateFrom && dateTo
+                ? `${format(dateFrom, "dd/MM/yyyy")} - ${format(dateTo, "dd/MM/yyyy")}`
+                : dateFrom
+                  ? `${format(dateFrom, "dd/MM/yyyy")} - ...`
+                  : `... - ${format(dateTo!, "dd/MM/yyyy")}`}
               <button
-                onClick={() => removeFilter("dateFrom")}
-                className="ml-1 hover:bg-muted rounded-full p-0.5"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {dateTo && (
-            <Badge variant="secondary" className="gap-1 pr-1">
-              {t("filters.dateTo")}: {format(dateTo, "dd/MM/yyyy")}
-              <button
-                onClick={() => removeFilter("dateTo")}
+                onClick={() => removeFilter("dateRange")}
                 className="ml-1 hover:bg-muted rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
@@ -365,22 +357,22 @@ export const OrderFilters = ({
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <FilterDateRange
-            dateFrom={dateFrom}
-            dateTo={dateTo}
-            onDateFromChange={setDateFrom}
-            onDateToChange={setDateTo}
-            dateFromLabel={t("filters.dateFrom")}
-            dateToLabel={t("filters.dateTo")}
-            selectDateLabel={t("filters.selectDate")}
-          />
-          {!dateFrom && !dateTo && (
-            <p className="text-xs text-muted-foreground">
-              {t("filters.defaultDateRangeInfo")}
-            </p>
-          )}
-        </div>
+        <FilterDateRangeSingle
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          onDateRangeChange={(from, to) => {
+            setDateFrom(from);
+            setDateTo(to);
+          }}
+          label={t("filters.dateRange")}
+          selectLabel={t("filters.selectDate")}
+          numberOfMonths={2}
+        />
+        {!dateFrom && !dateTo && (
+          <p className="text-xs text-muted-foreground">
+            {t("filters.defaultDateRangeInfo")}
+          </p>
+        )}
 
         {/* Currency Toggle */}
         <div className="flex items-center justify-between space-x-2 pt-2">

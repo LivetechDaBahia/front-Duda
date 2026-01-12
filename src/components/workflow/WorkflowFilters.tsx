@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { FilterContainer } from "@/components/shared/FilterContainer";
-import { FilterDateRange } from "@/components/shared/FilterDateRange";
+import { FilterDateRangeSingle } from "@/components/shared/FilterDateRangeSingle";
 import { format } from "date-fns";
 
 const STORAGE_KEY = "workflowFilters";
@@ -138,10 +138,8 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
       case "status":
         setStatus("all");
         break;
-      case "dateFrom":
+      case "dateRange":
         setDateFrom(undefined);
-        break;
-      case "dateTo":
         setDateTo(undefined);
         break;
     }
@@ -189,22 +187,16 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
               </button>
             </Badge>
           )}
-          {dateFrom && (
+          {(dateFrom || dateTo) && (
             <Badge variant="secondary" className="gap-1 pr-1">
-              {t("workflow.filters.dateFrom")}: {format(dateFrom, "dd/MM/yyyy")}
+              {t("workflow.filters.dateRange")}:{" "}
+              {dateFrom && dateTo
+                ? `${format(dateFrom, "dd/MM/yyyy")} - ${format(dateTo, "dd/MM/yyyy")}`
+                : dateFrom
+                  ? `${format(dateFrom, "dd/MM/yyyy")} - ...`
+                  : `... - ${format(dateTo!, "dd/MM/yyyy")}`}
               <button
-                onClick={() => removeFilter("dateFrom")}
-                className="ml-1 hover:bg-muted rounded-full p-0.5"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {dateTo && (
-            <Badge variant="secondary" className="gap-1 pr-1">
-              {t("workflow.filters.dateTo")}: {format(dateTo, "dd/MM/yyyy")}
-              <button
-                onClick={() => removeFilter("dateTo")}
+                onClick={() => removeFilter("dateRange")}
                 className="ml-1 hover:bg-muted rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
@@ -251,14 +243,16 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
         </div>
 
         {/* Date Range */}
-        <FilterDateRange
+        <FilterDateRangeSingle
           dateFrom={dateFrom}
           dateTo={dateTo}
-          onDateFromChange={setDateFrom}
-          onDateToChange={setDateTo}
-          dateFromLabel={t("workflow.filters.dateFrom")}
-          dateToLabel={t("workflow.filters.dateTo")}
-          selectDateLabel={t("workflow.filters.selectDate")}
+          onDateRangeChange={(from, to) => {
+            setDateFrom(from);
+            setDateTo(to);
+          }}
+          label={t("workflow.filters.dateRange")}
+          selectLabel={t("workflow.filters.selectDate")}
+          numberOfMonths={2}
         />
       </FilterContainer>
     </div>

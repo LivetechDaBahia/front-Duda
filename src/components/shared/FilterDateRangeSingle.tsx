@@ -8,9 +8,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { format, subDays, startOfMonth, endOfMonth, subMonths } from "date-fns";
 import { cn } from "@/lib/utils";
 import type { DateRange } from "react-day-picker";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface FilterDateRangeSingleProps {
   dateFrom: Date | undefined;
@@ -19,7 +20,61 @@ interface FilterDateRangeSingleProps {
   label: string;
   selectLabel: string;
   numberOfMonths?: number;
+  showPresets?: boolean;
 }
+
+interface DatePreset {
+  labelKey: string;
+  getValue: () => { from: Date; to: Date };
+}
+
+const getPresets = (): DatePreset[] => [
+  {
+    labelKey: "filters.presets.today",
+    getValue: () => {
+      const today = new Date();
+      return { from: today, to: today };
+    },
+  },
+  {
+    labelKey: "filters.presets.last7Days",
+    getValue: () => ({
+      from: subDays(new Date(), 6),
+      to: new Date(),
+    }),
+  },
+  {
+    labelKey: "filters.presets.last30Days",
+    getValue: () => ({
+      from: subDays(new Date(), 29),
+      to: new Date(),
+    }),
+  },
+  {
+    labelKey: "filters.presets.thisMonth",
+    getValue: () => ({
+      from: startOfMonth(new Date()),
+      to: endOfMonth(new Date()),
+    }),
+  },
+  {
+    labelKey: "filters.presets.lastMonth",
+    getValue: () => {
+      const lastMonth = subMonths(new Date(), 1);
+      return {
+        from: startOfMonth(lastMonth),
+        to: endOfMonth(lastMonth),
+      };
+    },
+  },
+  {
+    labelKey: "filters.presets.last90Days",
+    getValue: () => ({
+      from: subDays(new Date(), 89),
+      to: new Date(),
+    }),
+  },
+];
 
 export const FilterDateRangeSingle = ({
   dateFrom,
@@ -28,7 +83,9 @@ export const FilterDateRangeSingle = ({
   label,
   selectLabel,
   numberOfMonths = 2,
+  showPresets = true,
 }: FilterDateRangeSingleProps) => {
+  const { t } = useLocale();
   const [open, setOpen] = useState(false);
 
   const range: DateRange = {
@@ -49,6 +106,17 @@ export const FilterDateRangeSingle = ({
     }
   };
 
+  const handlePresetClick = (preset: DatePreset) => {
+    const { from, to } = preset.getValue();
+    onDateRangeChange(from, to);
+    setOpen(false);
+  };
+
+  const handleClear = () => {
+    onDateRangeChange(undefined, undefined);
+    setOpen(false);
+  };
+
   const formatDateRange = () => {
     if (dateFrom && dateTo) {
       return `${format(dateFrom, "MMM d, yyyy")} - ${format(dateTo, "MMM d, yyyy")}`;
@@ -58,6 +126,8 @@ export const FilterDateRangeSingle = ({
     }
     return selectLabel;
   };
+
+  const presets = getPresets();
 
   return (
     <div className="space-y-2">
@@ -76,14 +146,49 @@ export const FilterDateRangeSingle = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="range"
-            selected={range}
-            onSelect={handleSelect}
-            numberOfMonths={numberOfMonths}
-            initialFocus
-            className={cn("p-3 pointer-events-auto")}
-          />
+          <div className="flex">
+            {/* Presets sidebar */}
+            {showPresets && (
+              <div className="border-r p-3 flex flex-col gap-1 min-w-[140px]">
+                <span className="text-xs font-medium text-muted-foreground mb-2">
+                  {t("filters.presets.title")}
+                </span>
+                {presets.map((preset) => (
+                  <Button
+                    key={preset.labelKey}
+                    variant="ghost"
+                    size="sm"
+                    className="justify-start h-8 px-2 text-sm"
+                    onClick={() => handlePresetClick(preset)}
+                  >
+                    {t(preset.labelKey)}
+                  </Button>
+                ))}
+                {(dateFrom || dateTo) && (
+                  <>
+                    <div className="border-t my-2" />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="justify-start h-8 px-2 text-sm text-muted-foreground"
+                      onClick={handleClear}
+                    >
+                      {t("filters.presets.clear")}
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
+            {/* Calendar */}
+            <Calendar
+              mode="range"
+              selected={range}
+              onSelect={handleSelect}
+              numberOfMonths={numberOfMonths}
+              initialFocus
+              className={cn("p-3 pointer-events-auto")}
+            />
+          </div>
         </PopoverContent>
       </Popover>
     </div>
