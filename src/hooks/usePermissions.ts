@@ -40,7 +40,7 @@ export const usePermissions = () => {
     return 0;
   };
 
-  // Check if user has a specific permission
+  // Check if user has a specific permission (with level-based fallback for generic permissions)
   const hasPermission = (requiredPermission: string): boolean => {
     if (!user) return false;
 
@@ -52,7 +52,7 @@ export const usePermissions = () => {
       return true;
     }
 
-    // Check by level
+    // Check by level (for generic/admin permissions)
     if (userLevel && Object.keys(LEVEL_RANK).includes(userLevel)) {
       const userLevelRank = LEVEL_RANK[userLevel as Level];
       const requiredLevelRank = getRequiredLevel(requiredPermission);
@@ -60,6 +60,19 @@ export const usePermissions = () => {
     }
 
     return false;
+  };
+
+  // Check if user has explicit permission (NO level-based fallback)
+  // Use this for feature-specific access control
+  const hasExplicitPermission = (...permissions: string[]): boolean => {
+    if (!user) return false;
+    const userPermissions = user.permissions || [];
+    return permissions.some((perm) => userPermissions.includes(perm));
+  };
+
+  // Check if user is admin (full access to everything)
+  const isAdmin = (): boolean => {
+    return hasMinimumLevel("Administrator");
   };
 
   // Check if user has minimum level
@@ -72,22 +85,44 @@ export const usePermissions = () => {
     return LEVEL_RANK[userLevel] >= LEVEL_RANK[minimumLevel];
   };
 
-  // Check if user can view and update purchase orders
-  const canManagePurchaseOrders = (): boolean => {
-    return (
-      hasPermission("purchase_orders:read") &&
-      hasPermission("purchase_orders:update")
+  // Check if user can view purchase orders (explicit permission OR admin)
+  const canViewPurchaseOrders = (): boolean => {
+    if (isAdmin()) return true;
+    return hasExplicitPermission(
+      "purchase_orders:read",
+      "purchase_orders.read",
+      "purchaseOrders:read",
+      "purchaseOrders.read"
     );
   };
 
-  // Check if user can view credit (read-only access)
+  // Check if user can view and update purchase orders
+  const canManagePurchaseOrders = (): boolean => {
+    if (isAdmin()) return true;
+    return (
+      canViewPurchaseOrders() &&
+      hasExplicitPermission(
+        "purchase_orders:update",
+        "purchase_orders.update",
+        "purchaseOrders:update",
+        "purchaseOrders.update"
+      )
+    );
+  };
+
+  // Check if user can view credit (explicit permission OR admin)
   const canViewCredit = (): boolean => {
-    return hasPermission("credit:read");
+    if (isAdmin()) return true;
+    return hasExplicitPermission("credit:read", "credit.read");
   };
 
   // Check if user can view and update credit
   const canManageCredit = (): boolean => {
-    return hasPermission("credit:read") && hasPermission("credit:update");
+    if (isAdmin()) return true;
+    return (
+      canViewCredit() &&
+      hasExplicitPermission("credit:update", "credit.update")
+    );
   };
 
   // Check if user is a credit manager (can assign to others and see all items)
@@ -100,40 +135,36 @@ export const usePermissions = () => {
     return hasMinimumLevel("Administrator");
   };
 
-  // Check if user can view traffic lights / workflow
+  // Check if user can view traffic lights / workflow (explicit permission OR admin)
   const canViewTrafficLight = (): boolean => {
-    return (
-      hasPermission("trafficLight.read") ||
-      hasPermission("trafficLight:read") ||
-      hasPermission("trafficLights.read") ||
-      hasPermission("trafficLights:read")
+    if (isAdmin()) return true;
+    return hasExplicitPermission(
+      "trafficLight.read",
+      "trafficLight:read",
+      "trafficLights.read",
+      "trafficLights:read"
     );
   };
 
   // Check if user can manage traffic lights / workflow
   const canManageTrafficLight = (): boolean => {
+    if (isAdmin()) return true;
     return (
       canViewTrafficLight() &&
-      (hasPermission("trafficLight.update") ||
-        hasPermission("trafficLight:update") ||
-        hasPermission("trafficLights.update") ||
-        hasPermission("trafficLights:update"))
-    );
-  };
-
-  // Check if user can view purchase orders
-  const canViewPurchaseOrders = (): boolean => {
-    return (
-      hasPermission("purchase_orders:read") ||
-      hasPermission("purchaseOrders:read") ||
-      hasPermission("purchaseOrders.read")
+      hasExplicitPermission(
+        "trafficLight.update",
+        "trafficLight:update",
+        "trafficLights.update",
+        "trafficLights:update"
+      )
     );
   };
 
   return {
     hasPermission,
+    hasExplicitPermission,
     hasMinimumLevel,
-    isAdmin: hasMinimumLevel("Administrator"),
+    isAdmin: isAdmin(),
     canManageUsers: hasPermission("users:update") || hasMinimumLevel("Editor"),
     canDeleteUsers:
       hasPermission("users:delete") || hasMinimumLevel("Administrator"),
