@@ -8,6 +8,7 @@ export interface TrafficLightSummary {
   startDate: string | null;
   finishedDate: string | null;
   canceled08?: string;
+  lvts: string;
 }
 
 export interface TrafficLightDetail {
