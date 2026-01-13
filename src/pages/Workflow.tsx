@@ -14,12 +14,12 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { WorkflowNode } from "@/components/workflow/WorkflowNode";
 import { WorkflowFilters, WorkflowFilterValues } from "@/components/workflow/WorkflowFilters";
 import { usePermissions } from "@/hooks/usePermissions";
+import { AccessDenied } from "@/components/shared/AccessDenied";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  ShieldAlert,
   ArrowLeft,
   FileText,
   Clock,
@@ -267,16 +267,7 @@ export default function Workflow() {
   const totalPages = Math.ceil(total / pageSize);
 
   if (!canViewTrafficLight) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <ShieldAlert className="h-4 w-4" />
-          <AlertDescription>
-            {t("workflow.noPermission")}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
+    return <AccessDenied />;
   }
 
   // List View - Show when no item is selected

@@ -14,7 +14,7 @@ import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, ShieldAlert } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
   CreditFilters as CreditFiltersType,
@@ -22,7 +22,7 @@ import type {
 } from "@/types/credit";
 import { formatOfferId } from "@/utils/offer";
 import { usePermissions } from "@/hooks/usePermissions";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AccessDenied } from "@/components/shared/AccessDenied";
 
 const Credit = () => {
   const { canViewCredit, canManageCredit, isCreditManager } = usePermissions();
@@ -63,16 +63,7 @@ const Credit = () => {
 
   // Early permission check - before loading any data
   if (!canViewCredit) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <ShieldAlert className="h-4 w-4" />
-          <AlertDescription>
-            You don't have permission to access this page.
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
+    return <AccessDenied />;
   }
 
   const {

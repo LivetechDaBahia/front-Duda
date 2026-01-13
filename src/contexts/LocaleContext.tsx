@@ -653,6 +653,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.kanban.noItems": "No items in this status",
     "workflow.view.list": "List",
     "workflow.view.kanban": "Kanban",
+
+    // Errors
+    "errors.accessDenied": "Access Denied",
+    "errors.noPermission": "You don't have permission to access this page.",
   },
   "pt-BR": {
     // Navigation
@@ -1307,6 +1311,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.kanban.noItems": "Nenhum item neste status",
     "workflow.view.list": "Lista",
     "workflow.view.kanban": "Kanban",
+
+    // Errors
+    "errors.accessDenied": "Acesso Negado",
+    "errors.noPermission": "Você não tem permissão para acessar esta página.",
   },
   "es-ES": {
     // Navigation
@@ -1958,6 +1966,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.kanban.noItems": "No hay elementos en este estado",
     "workflow.view.list": "Lista",
     "workflow.view.kanban": "Kanban",
+
+    // Errors
+    "errors.accessDenied": "Acceso Denegado",
+    "errors.noPermission": "No tienes permiso para acceder a esta página.",
   },
 };
 
