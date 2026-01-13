@@ -393,9 +393,12 @@ export default function Workflow() {
                                 <h3 className="font-semibold text-foreground truncate">
                                   {t("workflow.quote")}: {item.numQuote}
                                 </h3>
-                                <p className="text-sm text-muted-foreground mt-0.5">
-                                  {t("workflow.salesOrder")}: {item.salesOrderNumber}
-                                </p>
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
+                                  <span>{t("workflow.salesOrder")}: {item.salesOrderNumber}</span>
+                                  {item.lvts && (
+                                    <span>{t("workflow.lvts")}: {item.lvts}</span>
+                                  )}
+                                </div>
                                 <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
                                   <Badge
                                     variant="secondary"
