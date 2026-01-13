@@ -61,6 +61,20 @@ const Credit = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
+  // Early permission check - before loading any data
+  if (!canViewCredit) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <ShieldAlert className="h-4 w-4" />
+          <AlertDescription>
+            You don't have permission to access this page.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   const {
     credits,
     isLoading: isLoadingCredits,
@@ -376,19 +390,6 @@ const Credit = () => {
             </div>
           </div>
         </main>
-      </div>
-    );
-  }
-
-  if (!canViewCredit) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <ShieldAlert className="h-4 w-4" />
-          <AlertDescription>
-            You don't have permission to access this page.
-          </AlertDescription>
-        </Alert>
       </div>
     );
   }

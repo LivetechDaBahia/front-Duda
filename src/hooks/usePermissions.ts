@@ -102,14 +102,31 @@ export const usePermissions = () => {
 
   // Check if user can view traffic lights / workflow
   const canViewTrafficLight = (): boolean => {
-    return hasPermission("trafficLight.read") || hasPermission("trafficLight:read");
+    return (
+      hasPermission("trafficLight.read") ||
+      hasPermission("trafficLight:read") ||
+      hasPermission("trafficLights.read") ||
+      hasPermission("trafficLights:read")
+    );
   };
 
   // Check if user can manage traffic lights / workflow
   const canManageTrafficLight = (): boolean => {
     return (
       canViewTrafficLight() &&
-      (hasPermission("trafficLight.update") || hasPermission("trafficLight:update"))
+      (hasPermission("trafficLight.update") ||
+        hasPermission("trafficLight:update") ||
+        hasPermission("trafficLights.update") ||
+        hasPermission("trafficLights:update"))
+    );
+  };
+
+  // Check if user can view purchase orders
+  const canViewPurchaseOrders = (): boolean => {
+    return (
+      hasPermission("purchase_orders:read") ||
+      hasPermission("purchaseOrders:read") ||
+      hasPermission("purchaseOrders.read")
     );
   };
 
@@ -120,6 +137,7 @@ export const usePermissions = () => {
     canManageUsers: hasPermission("users:update") || hasMinimumLevel("Editor"),
     canDeleteUsers:
       hasPermission("users:delete") || hasMinimumLevel("Administrator"),
+    canViewPurchaseOrders: canViewPurchaseOrders(),
     canManagePurchaseOrders: canManagePurchaseOrders(),
     canViewCredit: canViewCredit(),
     canManageCredit: canManageCredit(),
