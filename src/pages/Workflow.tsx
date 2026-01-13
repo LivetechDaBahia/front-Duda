@@ -113,7 +113,7 @@ function getSummaryStatus(
 
 export default function Workflow() {
   const { t } = useLocale();
-  const { isAdmin } = usePermissions();
+  const { canViewTrafficLight } = usePermissions();
   const statusConfig = getStatusConfig(t);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
@@ -266,7 +266,7 @@ export default function Workflow() {
 
   const totalPages = Math.ceil(total / pageSize);
 
-  if (!isAdmin) {
+  if (!canViewTrafficLight) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">

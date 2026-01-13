@@ -100,6 +100,19 @@ export const usePermissions = () => {
     return hasMinimumLevel("Administrator");
   };
 
+  // Check if user can view traffic lights / workflow
+  const canViewTrafficLight = (): boolean => {
+    return hasPermission("trafficLight.read") || hasPermission("trafficLight:read");
+  };
+
+  // Check if user can manage traffic lights / workflow
+  const canManageTrafficLight = (): boolean => {
+    return (
+      canViewTrafficLight() &&
+      (hasPermission("trafficLight.update") || hasPermission("trafficLight:update"))
+    );
+  };
+
   return {
     hasPermission,
     hasMinimumLevel,
@@ -112,5 +125,7 @@ export const usePermissions = () => {
     canManageCredit: canManageCredit(),
     isCreditManager: isCreditManager(),
     canImpersonate: canImpersonate(),
+    canViewTrafficLight: canViewTrafficLight(),
+    canManageTrafficLight: canManageTrafficLight(),
   };
 };
