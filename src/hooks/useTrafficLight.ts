@@ -3,6 +3,7 @@ import { trafficLightService, TrafficLightFilters } from "@/services/trafficLigh
 import {
   TrafficLightListResponse,
   TrafficLightDetail,
+  TrafficLightSummary,
 } from "@/types/trafficLight";
 
 interface UseTrafficLightListParams {
@@ -12,6 +13,18 @@ interface UseTrafficLightListParams {
   enabled?: boolean;
 }
 
+// Transform API response to map numLvts -> lvts
+const transformSummary = (item: Record<string, unknown>): TrafficLightSummary => ({
+  id: item.id as number,
+  numQuote: item.numQuote as string,
+  salesOrderNumber: item.salesOrderNumber as string,
+  validityDate: item.validityDate as string,
+  startDate: item.startDate as string | null,
+  finishedDate: item.finishedDate as string | null,
+  canceled08: item.canceled08 as string | undefined,
+  lvts: (item.numLvts as string) || (item.lvts as string) || "",
+});
+
 export const useTrafficLightList = ({
   page = 1,
   pageSize = 10,
@@ -20,7 +33,13 @@ export const useTrafficLightList = ({
 }: UseTrafficLightListParams = {}) => {
   const query = useQuery<TrafficLightListResponse>({
     queryKey: ["trafficLight", "list", page, pageSize, filters],
-    queryFn: () => trafficLightService.getList(page, pageSize, filters),
+    queryFn: async () => {
+      const response = await trafficLightService.getList(page, pageSize, filters);
+      return {
+        ...response,
+        data: response.data.map((item) => transformSummary(item as unknown as Record<string, unknown>)),
+      };
+    },
     enabled,
   });
 
