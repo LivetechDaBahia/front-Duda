@@ -42,7 +42,7 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin, canViewCredit, canImpersonate } = usePermissions();
+  const { isAdmin, canViewCredit, canViewPurchaseOrders, canViewTrafficLight, canImpersonate } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [impersonationDialogOpen, setImpersonationDialogOpen] = useState(false);
   const isImpersonating = user?.impersonating ?? false;
@@ -78,20 +78,24 @@ const SidebarContent = () => {
         />
       ),
     },
-    {
-      label: t("nav.purchaseOrders"),
-      href: "/purchase-orders",
-      icon: (
-        <FileCheck
-          className={cn(
-            "w-5 h-5 flex-shrink-0",
-            location.pathname === "/purchase-orders"
-              ? "text-primary"
-              : "text-muted-foreground",
-          )}
-        />
-      ),
-    },
+    ...(canViewPurchaseOrders
+      ? [
+          {
+            label: t("nav.purchaseOrders"),
+            href: "/purchase-orders",
+            icon: (
+              <FileCheck
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/purchase-orders"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
+        ]
+      : []),
     ...(canViewCredit
       ? [
           {
@@ -110,7 +114,7 @@ const SidebarContent = () => {
           },
         ]
       : []),
-    ...(isAdmin
+    ...(canViewTrafficLight
       ? [
           {
             label: t("nav.workflow"),
@@ -126,6 +130,10 @@ const SidebarContent = () => {
               />
             ),
           },
+        ]
+      : []),
+    ...(isAdmin
+      ? [
           {
             label: "AI Assistant",
             href: "/ai-assistant",

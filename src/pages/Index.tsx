@@ -10,10 +10,13 @@ import {
 import { PurchaseOrder, UIOrderStatus } from "@/types/order";
 import { useOrders } from "@/hooks/useOrders";
 import { useBranches } from "@/hooks/useBranches";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { mapUIStatusToAPITypes, formatDateForAPI } from "@/lib/statusMapper";
+import { usePermissions } from "@/hooks/usePermissions";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Index = () => {
+  const { canViewPurchaseOrders } = usePermissions();
   const isDev = (import.meta as any).env?.DEV;
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(
@@ -149,6 +152,19 @@ const Index = () => {
             </div>
           </div>
         </main>
+      </div>
+    );
+  }
+
+  if (!canViewPurchaseOrders) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <ShieldAlert className="h-4 w-4" />
+          <AlertDescription>
+            You don't have permission to access this page.
+          </AlertDescription>
+        </Alert>
       </div>
     );
   }
