@@ -153,9 +153,12 @@ export const WorkflowKanbanView = ({
                                   <h4 className="font-medium text-sm text-foreground truncate">
                                     {t("workflow.quote")}: {item.numQuote}
                                   </h4>
-                                  <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                                    {t("workflow.salesOrder")}: {item.salesOrderNumber} - {t("workflow.lvts")}: {item.lvts}
-                                  </p>
+                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground mt-0.5">
+                                    <span>{t("workflow.salesOrder")}: {item.salesOrderNumber}</span>
+                                    {item.lvts && (
+                                      <span>{t("workflow.lvts")}: {item.lvts}</span>
+                                    )}
+                                  </div>
                                     <div className="flex flex-wrap gap-2 mt-2">
                                     <Badge
                                       variant="secondary"
