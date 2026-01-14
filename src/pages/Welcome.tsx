@@ -15,6 +15,7 @@ import { UserProfile } from "@/components/welcome/UserProfile";
 import { TodayStats } from "@/components/welcome/TodayStats";
 import { PendingItemCard } from "@/components/welcome/PendingItemCard";
 import { NotificationsSection } from "@/components/welcome/NotificationsSection";
+import { PermissionsDebugPanel } from "@/components/shared/PermissionsDebugPanel";
 import { OrderDetailPanel } from "@/components/dashboard/OrderDetailPanel";
 import { PendingItem } from "@/types/order";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -194,6 +195,11 @@ const Welcome = () => {
         {/* Notifications */}
         <div className="mb-8">
           <NotificationsSection />
+        </div>
+
+        {/* Permissions Debug Panel */}
+        <div className="mb-8">
+          <PermissionsDebugPanel />
         </div>
 
         {/* Pending Approvals - Only show if user has permissions */}
