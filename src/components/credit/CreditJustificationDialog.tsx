@@ -27,7 +27,7 @@ export const CreditJustificationDialog = ({
 }: CreditJustificationDialogProps) => {
   const { t } = useLocale();
   const [justification, setJustification] = useState("");
-  const maxLength = 50;
+  const maxLength = 200;
 
   const handleConfirm = () => {
     if (justification.trim()) {
