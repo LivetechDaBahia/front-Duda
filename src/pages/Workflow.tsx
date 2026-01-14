@@ -49,7 +49,7 @@ import {
 } from "@/lib/trafficLightTransformer";
 import { TrafficLightSummary } from "@/types/trafficLight";
 import { TrafficLightFilters } from "@/services/trafficLightService";
-import { format } from "date-fns";
+
 
 const nodeTypes = {
   workflow: WorkflowNode,
@@ -128,22 +128,63 @@ export default function Workflow() {
     dateTo: undefined,
   });
 
-  // Convert filter values to API format (search is handled client-side)
-  const apiFilters: TrafficLightFilters = useMemo(() => ({
-    status: filters.status !== "all" ? filters.status : undefined,
-    dateFrom: filters.dateFrom ? format(filters.dateFrom, "yyyy-MM-dd") : undefined,
-    dateTo: filters.dateTo ? format(filters.dateTo, "yyyy-MM-dd") : undefined,
-  }), [filters.status, filters.dateFrom, filters.dateTo]);
+  // All filtering is handled client-side
+  const apiFilters: TrafficLightFilters = useMemo(() => ({}), []);
 
-  // Client-side search filtering by quote, sales order, or LVTS number
-  const filterItemsBySearch = useCallback((items: TrafficLightSummary[], searchTerm: string): TrafficLightSummary[] => {
-    if (!searchTerm.trim()) return items;
-    const term = searchTerm.toLowerCase().trim();
+  // Client-side filtering function for all filter types
+  const filterItems = useCallback((items: TrafficLightSummary[], filterValues: WorkflowFilterValues): TrafficLightSummary[] => {
     return items.filter((item) => {
-      const quote = (item.numQuote || "").toLowerCase();
-      const salesOrder = (item.salesOrderNumber || "").toLowerCase();
-      const lvts = (item.lvts || "").toLowerCase();
-      return quote.includes(term) || salesOrder.includes(term) || lvts.includes(term);
+      // Search filter: match quote, sales order, or LVTS number
+      if (filterValues.search.trim()) {
+        const term = filterValues.search.toLowerCase().trim();
+        const quote = (item.numQuote || "").toLowerCase();
+        const salesOrder = (item.salesOrderNumber || "").toLowerCase();
+        const lvts = (item.lvts || "").toLowerCase();
+        if (!quote.includes(term) && !salesOrder.includes(term) && !lvts.includes(term)) {
+          return false;
+        }
+      }
+
+      // Status filter
+      if (filterValues.status !== "all") {
+        const itemStatus = getSummaryStatus(item);
+        // Map filter status to item status
+        const statusMap: Record<string, string> = {
+          "pending": "in-progress", // pending maps to in-progress since we don't have pending state
+          "in-progress": "in-progress",
+          "completed": "completed",
+          "failed": "failed",
+        };
+        if (itemStatus !== statusMap[filterValues.status] && itemStatus !== filterValues.status) {
+          return false;
+        }
+      }
+
+      // Date period filter: filter by validityDate
+      if (filterValues.dateFrom || filterValues.dateTo) {
+        const itemDate = item.validityDate ? new Date(item.validityDate) : null;
+        if (!itemDate || isNaN(itemDate.getTime())) {
+          return false; // Exclude items without valid date
+        }
+
+        if (filterValues.dateFrom) {
+          const fromDate = new Date(filterValues.dateFrom);
+          fromDate.setHours(0, 0, 0, 0);
+          if (itemDate < fromDate) {
+            return false;
+          }
+        }
+
+        if (filterValues.dateTo) {
+          const toDate = new Date(filterValues.dateTo);
+          toDate.setHours(23, 59, 59, 999);
+          if (itemDate > toDate) {
+            return false;
+          }
+        }
+      }
+
+      return true;
     });
   }, []);
 
@@ -162,8 +203,8 @@ export default function Workflow() {
     refetch: refetchList,
   } = useTrafficLightList({ page, pageSize, filters: apiFilters });
 
-  // Apply client-side search filter
-  const items = useMemo(() => filterItemsBySearch(rawItems, filters.search), [rawItems, filters.search, filterItemsBySearch]);
+  // Apply client-side filters
+  const items = useMemo(() => filterItems(rawItems, filters), [rawItems, filters, filterItems]);
 
   // Track if currently refreshing
   const [isRefreshing, setIsRefreshing] = useState(false);
