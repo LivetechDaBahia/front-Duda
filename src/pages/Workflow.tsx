@@ -128,13 +128,24 @@ export default function Workflow() {
     dateTo: undefined,
   });
 
-  // Convert filter values to API format
+  // Convert filter values to API format (search is handled client-side)
   const apiFilters: TrafficLightFilters = useMemo(() => ({
-    search: filters.search || undefined,
     status: filters.status !== "all" ? filters.status : undefined,
     dateFrom: filters.dateFrom ? format(filters.dateFrom, "yyyy-MM-dd") : undefined,
     dateTo: filters.dateTo ? format(filters.dateTo, "yyyy-MM-dd") : undefined,
-  }), [filters]);
+  }), [filters.status, filters.dateFrom, filters.dateTo]);
+
+  // Client-side search filtering by quote, sales order, or LVTS number
+  const filterItemsBySearch = useCallback((items: TrafficLightSummary[], searchTerm: string): TrafficLightSummary[] => {
+    if (!searchTerm.trim()) return items;
+    const term = searchTerm.toLowerCase().trim();
+    return items.filter((item) => {
+      const quote = (item.numQuote || "").toLowerCase();
+      const salesOrder = (item.salesOrderNumber || "").toLowerCase();
+      const lvts = (item.lvts || "").toLowerCase();
+      return quote.includes(term) || salesOrder.includes(term) || lvts.includes(term);
+    });
+  }, []);
 
   // Handle filter changes
   const handleFilterChange = (newFilters: WorkflowFilterValues) => {
@@ -144,12 +155,15 @@ export default function Workflow() {
 
   // Fetch list of traffic lights
   const {
-    items,
+    items: rawItems,
     total,
     isLoading: isListLoading,
     error: listError,
     refetch: refetchList,
   } = useTrafficLightList({ page, pageSize, filters: apiFilters });
+
+  // Apply client-side search filter
+  const items = useMemo(() => filterItemsBySearch(rawItems, filters.search), [rawItems, filters.search, filterItemsBySearch]);
 
   // Track if currently refreshing
   const [isRefreshing, setIsRefreshing] = useState(false);
