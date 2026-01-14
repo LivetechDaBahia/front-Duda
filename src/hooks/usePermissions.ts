@@ -92,7 +92,9 @@ export const usePermissions = () => {
       "purchase_orders:read",
       "purchase_orders.read",
       "purchaseOrders:read",
-      "purchaseOrders.read"
+      "purchaseOrders.read",
+      "orders:read",
+      "orders.read",
     );
   };
 
@@ -105,7 +107,9 @@ export const usePermissions = () => {
         "purchase_orders:update",
         "purchase_orders.update",
         "purchaseOrders:update",
-        "purchaseOrders.update"
+        "purchaseOrders.update",
+        "orders:update",
+        "orders.update",
       )
     );
   };
@@ -117,7 +121,9 @@ export const usePermissions = () => {
       "credit:read",
       "credit.read",
       "credits:read",
-      "credits.read"
+      "credits.read",
+      "flows:credit.read",
+      "flows:credit:read",
     );
   };
 
@@ -130,7 +136,9 @@ export const usePermissions = () => {
         "credit:update",
         "credit.update",
         "credits:update",
-        "credits.update"
+        "credits.update",
+        "flows:credit.update",
+        "flows:credit:update",
       )
     );
   };
