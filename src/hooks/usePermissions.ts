@@ -113,7 +113,12 @@ export const usePermissions = () => {
   // Check if user can view credit (explicit permission OR admin)
   const canViewCredit = (): boolean => {
     if (isAdmin()) return true;
-    return hasExplicitPermission("credit:read", "credit.read");
+    return hasExplicitPermission(
+      "credit:read",
+      "credit.read",
+      "credits:read",
+      "credits.read"
+    );
   };
 
   // Check if user can view and update credit
@@ -121,7 +126,12 @@ export const usePermissions = () => {
     if (isAdmin()) return true;
     return (
       canViewCredit() &&
-      hasExplicitPermission("credit:update", "credit.update")
+      hasExplicitPermission(
+        "credit:update",
+        "credit.update",
+        "credits:update",
+        "credits.update"
+      )
     );
   };
 
