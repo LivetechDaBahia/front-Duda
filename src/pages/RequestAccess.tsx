@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useLocale } from "@/contexts/LocaleContext";
+import { LanguageSwitcher } from "@/components/navigation/LanguageSwitcher";
 import { ComboboxWithCustom } from "@/components/shared/ComboboxWithCustom";
 import { usePublicDepartments } from "@/hooks/usePublicDepartments";
 import { usePublicPositions } from "@/hooks/usePublicPositions";
@@ -166,7 +167,10 @@ export default function RequestAccess() {
   // Success screen
   if (isSuccess) {
     return (
-      <div className="flex min-h-full items-center justify-center bg-background p-4">
+      <div className="flex min-h-full items-center justify-center bg-background p-4 relative">
+        <div className="absolute top-4 right-4">
+          <LanguageSwitcher />
+        </div>
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-4">
             <div className="flex justify-center">
@@ -209,7 +213,10 @@ export default function RequestAccess() {
   }));
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-background p-4">
+    <div className="flex min-h-full items-center justify-center bg-background p-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <div className="flex justify-center">
