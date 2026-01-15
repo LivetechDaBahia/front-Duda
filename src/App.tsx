@@ -27,6 +27,7 @@ import AIAssistant from "./pages/AIAssistant";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
+import RequestAccess from "./pages/RequestAccess";
 import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
@@ -34,7 +35,7 @@ const AppRoutes = () => {
   const isImpersonating = useImpersonationActive();
 
   // Pages that should not show the sidebar
-  const noSidebarRoutes = ["/login", "/logout", "/auth/callback"];
+  const noSidebarRoutes = ["/login", "/logout", "/auth/callback", "/request-access"];
   const showSidebar =
     !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 
@@ -61,6 +62,7 @@ const AppRoutes = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route path="/request-access" element={<RequestAccess />} />
               <Route
                 path="/purchase-orders"
                 element={

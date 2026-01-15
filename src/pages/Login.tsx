@@ -63,6 +63,26 @@ export default function Login() {
             </svg>
             {isLoading ? t("login.verifying") : t("login.signInMicrosoft")}
           </Button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">
+                {t("accessRequest.noAccount")}
+              </span>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/request-access"
+              className="text-sm text-primary hover:underline"
+            >
+              {t("accessRequest.requestAccess")}
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
