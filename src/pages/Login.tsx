@@ -11,6 +11,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useLocale } from "@/contexts/LocaleContext";
+import { LanguageSwitcher } from "@/components/navigation/LanguageSwitcher";
 import { Package } from "lucide-react";
 
 export default function Login() {
@@ -33,7 +34,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-background p-4">
+    <div className="flex min-h-full items-center justify-center bg-background p-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <div className="flex justify-center">
