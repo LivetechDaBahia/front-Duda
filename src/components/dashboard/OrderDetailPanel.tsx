@@ -38,6 +38,7 @@ import {
   XCircle,
   Building2,
   CreditCard,
+  FileText,
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useOrderDetails } from "@/hooks/useOrderDetails";
@@ -309,6 +310,19 @@ export const OrderDetailPanel = ({
                         </p>
                       </div>
                     </div>
+                    {orderDetails.salesOrder && (
+                      <div className="flex items-center gap-3">
+                        <FileText className="w-5 h-5 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">
+                            {t("orderDetail.salesOrder")}
+                          </p>
+                          <p className="font-medium">
+                            {orderDetails.salesOrder}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </>
