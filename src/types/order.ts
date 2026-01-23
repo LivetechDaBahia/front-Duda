@@ -166,6 +166,7 @@ export interface ApiDetailedOrder {
   coinSymbol: string;
   buyerCode: string;
   buyerName: string;
+  salesOrder: string;
   itens: ApiProduct[];
 }
 
@@ -220,6 +221,7 @@ export interface DetailedPurchaseOrder {
   coinSymbol: string;
   buyerCode: string;
   buyerName: string;
+  salesOrder: string;
   items: Product[];
 }
 

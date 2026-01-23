@@ -68,6 +68,7 @@ export const transformApiDetailedOrder = (
     coinSymbol: apiOrder.coinSymbol || "$",
     buyerCode: apiOrder.buyerCode,
     buyerName: apiOrder.buyerName,
+    salesOrder: apiOrder.salesOrder || "",
     items: transformApiProducts(apiOrder.itens || []),
   };
 };
