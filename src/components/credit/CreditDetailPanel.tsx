@@ -27,7 +27,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Info, AlertTriangle, Upload } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -44,10 +45,12 @@ import { FinancialHistoryFilters } from "@/components/credit/FinancialHistoryFil
 import { FinancialHistorySummary } from "@/components/credit/FinancialHistorySummary";
 import { FinancialHistoryTable } from "@/components/credit/FinancialHistoryTable";
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
+import { DocumentUploadDialog } from "@/components/credit/DocumentUploadDialog";
 import { formatDate } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
+import { usePermissions } from "@/hooks/usePermissions";
 
 interface CreditDetailPanelProps {
   credit: CreditElementItem | null;
@@ -61,6 +64,8 @@ export const CreditDetailPanel = ({
   onClose,
 }: CreditDetailPanelProps) => {
   const { t, locale } = useLocale();
+  const { canManageCredit } = usePermissions();
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const DOCUMENTS_BASE_PATH = import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH;
@@ -444,6 +449,20 @@ export const CreditDetailPanel = ({
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-4 mt-4">
+              {/* Upload Button - only visible for users with update permission */}
+              {canManageCredit && credit?.details.offer && (
+                <div className="flex justify-end">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsUploadDialogOpen(true)}
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    {t("credit.upload.title")}
+                  </Button>
+                </div>
+              )}
+
               <Tabs defaultValue="sales" className="w-full">
                 <TabsList>
                   <TabsTrigger value="sales">
@@ -1173,6 +1192,15 @@ export const CreditDetailPanel = ({
               )}
             </TabsContent>
           </Tabs>
+        )}
+
+        {/* Document Upload Dialog */}
+        {credit?.details.offer && (
+          <DocumentUploadDialog
+            isOpen={isUploadDialogOpen}
+            onClose={() => setIsUploadDialogOpen(false)}
+            proposalId={credit.details.offer}
+          />
         )}
       </SheetContent>
     </Sheet>

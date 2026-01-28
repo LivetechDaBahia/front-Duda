@@ -530,6 +530,25 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.defaultProbability.explanation":
       "The delinquency calculation is based on the values of outstanding invoices (dueValue / (dueValue + pendingValue) * 100)",
 
+    // Credit Document Upload
+    "credit.upload.title": "Upload Document",
+    "credit.upload.description": "Upload a document associated with this proposal",
+    "credit.upload.selectType": "Document Type",
+    "credit.upload.selectTypePlaceholder": "Select document type",
+    "credit.upload.fileLabel": "Document File",
+    "credit.upload.dragDrop": "Drag and drop your document here",
+    "credit.upload.orClick": "or click to select a file",
+    "credit.upload.uploadButton": "Upload",
+    "credit.upload.uploading": "Uploading...",
+    "credit.upload.success": "Document uploaded successfully",
+    "credit.upload.error": "Failed to upload document",
+    "credit.upload.docType.A": "Signed Proposal",
+    "credit.upload.docType.B": "Signed Amendment",
+    "credit.upload.docType.C": "Miscellaneous Files",
+    "credit.upload.docType.D": "Demo Terms",
+    "credit.upload.docType.E": "Virtual Acceptance",
+    "credit.upload.docType.F": "Signed Financial Client Proposal",
+
     // Home Page
     "home.pending": "Pending",
     "home.urgent": "Urgent",
@@ -1214,6 +1233,25 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.defaultProbability.dueItems": "Vencidos",
     "credit.defaultProbability.explanation":
       "O cálculo de inadimplência é feito com base nos valores dos títulos em aberto (ValorVencidos / (ValorVencidos + ValorAberto) * 100)",
+
+    // Credit Document Upload
+    "credit.upload.title": "Enviar Documento",
+    "credit.upload.description": "Envie um documento associado a esta proposta",
+    "credit.upload.selectType": "Tipo de Documento",
+    "credit.upload.selectTypePlaceholder": "Selecione o tipo de documento",
+    "credit.upload.fileLabel": "Arquivo do Documento",
+    "credit.upload.dragDrop": "Arraste e solte seu documento aqui",
+    "credit.upload.orClick": "ou clique para selecionar um arquivo",
+    "credit.upload.uploadButton": "Enviar",
+    "credit.upload.uploading": "Enviando...",
+    "credit.upload.success": "Documento enviado com sucesso",
+    "credit.upload.error": "Falha ao enviar documento",
+    "credit.upload.docType.A": "Proposta Assinada",
+    "credit.upload.docType.B": "Aditivo Assinado",
+    "credit.upload.docType.C": "Arquivos Diversos",
+    "credit.upload.docType.D": "Termo Demons",
+    "credit.upload.docType.E": "Aceite Virtual",
+    "credit.upload.docType.F": "Prop.Cli.Fin.Assinada",
 
     // Home Page
     "home.pending": "Pendente",
@@ -1916,6 +1954,25 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.defaultProbability.dueItems": "Elementos Vencidos",
     "credit.defaultProbability.explanation":
       "El cálculo de la morosidad se basa en el valor de las facturas pendientes de pago (ValorVencidos / (ValorVencidos + ValorAberto) * 100)",
+
+    // Credit Document Upload
+    "credit.upload.title": "Subir Documento",
+    "credit.upload.description": "Suba un documento asociado a esta propuesta",
+    "credit.upload.selectType": "Tipo de Documento",
+    "credit.upload.selectTypePlaceholder": "Seleccione el tipo de documento",
+    "credit.upload.fileLabel": "Archivo del Documento",
+    "credit.upload.dragDrop": "Arrastre y suelte su documento aquí",
+    "credit.upload.orClick": "o haga clic para seleccionar un archivo",
+    "credit.upload.uploadButton": "Subir",
+    "credit.upload.uploading": "Subiendo...",
+    "credit.upload.success": "Documento subido exitosamente",
+    "credit.upload.error": "Error al subir el documento",
+    "credit.upload.docType.A": "Propuesta Firmada",
+    "credit.upload.docType.B": "Adición Firmada",
+    "credit.upload.docType.C": "Archivos Diversos",
+    "credit.upload.docType.D": "Término Demos",
+    "credit.upload.docType.E": "Aceptación Virtual",
+    "credit.upload.docType.F": "Prop.Cli.Fin.Firmada",
 
     // Home Page
     "home.pending": "Pendiente",
