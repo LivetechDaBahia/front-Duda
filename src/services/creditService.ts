@@ -98,4 +98,9 @@ export const creditService = {
     const params = new URLSearchParams({ userEmail: userEmail });
     return apiClient.get(`/credit/indicators?${params}`);
   },
+
+  async getRentalDocuments(proposalId: string): Promise<CreditDocument[]> {
+    const params = new URLSearchParams({ proposalId });
+    return apiClient.get(`/credit/rentalDocuments?${params}`);
+  },
 };

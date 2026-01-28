@@ -14,12 +14,14 @@ interface UseCreditDetailsParams {
   creditId: string | null;
   clientBranch?: string;
   clientId?: string;
+  proposalId?: string;
 }
 
 export const useCreditDetails = ({
   creditId,
   clientBranch,
   clientId,
+  proposalId,
 }: UseCreditDetailsParams) => {
   const {
     data: elementDetails,
@@ -55,6 +57,18 @@ export const useCreditDetails = ({
       return creditService.getQuoteDocuments(creditId!);
     },
     enabled: !!creditId,
+  });
+
+  const {
+    data: rentalDocuments,
+    isLoading: isLoadingRentalDocs,
+    error: rentalDocsError,
+  } = useQuery<CreditDocument[]>({
+    queryKey: ["creditRentalDocuments", proposalId],
+    queryFn: async () => {
+      return creditService.getRentalDocuments(proposalId!);
+    },
+    enabled: !!proposalId,
   });
 
   const {
@@ -109,6 +123,7 @@ export const useCreditDetails = ({
     isLoadingDetails ||
     isLoadingDocuments ||
     isLoadingQuoteDocs ||
+    isLoadingRentalDocs ||
     isLoadingClientDocs ||
     isLoadingClientDetails ||
     isLoadingClientHistory ||
@@ -118,6 +133,7 @@ export const useCreditDetails = ({
     detailsError ||
     documentsError ||
     quoteDocsError ||
+    rentalDocsError ||
     clientDocsError ||
     clientDetailsError ||
     clientHistoryError ||
@@ -130,6 +146,7 @@ export const useCreditDetails = ({
     elementDetails: elementDetails?.[0] || null,
     documents: documents || [],
     quoteDocuments: quoteDocuments || [],
+    rentalDocuments: rentalDocuments || [],
     clientDocuments: clientDocuments || [],
     clientDetails: clientDetails || null,
     clientHistory: clientHistory || [],
