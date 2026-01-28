@@ -93,6 +93,15 @@ export const creditService = {
     return apiClient.post("/credit/creditElement/limit", payload);
   },
 
+  async uploadDocument(payload: {
+    base64: string;
+    name: string;
+    type: string;
+    proposal: string;
+  }): Promise<{ message: string }> {
+    return apiClient.post("/documents/uploadFile", payload);
+  },
+
   // Fetch indicators for dashboard
   async getIndicators(userEmail: string): Promise<BranchCreditIndicators[]> {
     const params = new URLSearchParams({ userEmail: userEmail });
