@@ -150,6 +150,7 @@ export const CreditDetailPanel = ({
     elementDetailsList,
     documents,
     quoteDocuments,
+    rentalDocuments,
     clientDocuments,
     clientDetails,
     clientHistory,
@@ -159,6 +160,7 @@ export const CreditDetailPanel = ({
     creditId: credit?.key || null,
     clientBranch: credit?.details.clientBranch || undefined,
     clientId: credit?.details.client || undefined,
+    proposalId: credit?.details.offer || undefined,
   });
 
   // Fetch credit limit data
@@ -448,7 +450,7 @@ export const CreditDetailPanel = ({
                     {t("credit.salesDocuments")} ({documents.length})
                   </TabsTrigger>
                   <TabsTrigger value="quote">
-                    {t("credit.quoteDocuments")} ({quoteDocuments.length})
+                    {t("credit.quoteDocuments")} ({quoteDocuments.length + rentalDocuments.length})
                   </TabsTrigger>
                   <TabsTrigger value="client">
                     {t("credit.clientDocuments")} ({clientDocuments.length})
@@ -496,33 +498,66 @@ export const CreditDetailPanel = ({
                     <div className="space-y-2">
                       <Skeleton className="h-20 w-full" />
                     </div>
-                  ) : quoteDocuments.length === 0 ? (
+                  ) : quoteDocuments.length === 0 && rentalDocuments.length === 0 ? (
                     <p className="text-sm text-muted-foreground text-center py-8">
                       {t("credit.noDocuments")}
                     </p>
                   ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>{t("credit.docTitle")}</TableHead>
-                          <TableHead>{t("credit.docDescription")}</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {quoteDocuments.map((doc, idx) => (
-                          <TableRow
-                            key={idx}
-                            className="cursor-pointer hover:bg-muted/50"
-                            onClick={() =>
-                              openDocument(doc.docObject, doc.path)
-                            }
-                          >
-                            <TableCell>{doc.docTitle}</TableCell>
-                            <TableCell>{doc.docDescription}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                    <div className="space-y-4">
+                      {quoteDocuments.length > 0 && (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>{t("credit.docTitle")}</TableHead>
+                              <TableHead>{t("credit.docDescription")}</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {quoteDocuments.map((doc, idx) => (
+                              <TableRow
+                                key={idx}
+                                className="cursor-pointer hover:bg-muted/50"
+                                onClick={() =>
+                                  openDocument(doc.docObject, doc.path)
+                                }
+                              >
+                                <TableCell>{doc.docTitle}</TableCell>
+                                <TableCell>{doc.docDescription}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      )}
+                      {rentalDocuments.length > 0 && (
+                        <>
+                          <h4 className="font-medium text-sm text-muted-foreground pt-2">
+                            {t("credit.rentalDocuments")}
+                          </h4>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>{t("credit.docTitle")}</TableHead>
+                                <TableHead>{t("credit.docDescription")}</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {rentalDocuments.map((doc, idx) => (
+                                <TableRow
+                                  key={`rental-${idx}`}
+                                  className="cursor-pointer hover:bg-muted/50"
+                                  onClick={() =>
+                                    openDocument(doc.docObject, doc.path)
+                                  }
+                                >
+                                  <TableCell>{doc.docTitle}</TableCell>
+                                  <TableCell>{doc.docDescription}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </>
+                      )}
+                    </div>
                   )}
                 </TabsContent>
 
