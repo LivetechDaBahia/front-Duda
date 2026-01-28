@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import { creditService } from "@/services/creditService";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import formatOfferId from "@/utils/offer";
 
 interface DocumentUploadDialogProps {
   isOpen: boolean;
@@ -137,14 +136,12 @@ export const DocumentUploadDialog = ({
 
     try {
       const base64 = await convertToBase64(file);
-      // Format proposal ID: remove branch and revision (01-825295/00 -> 825295)
-      const cleanProposalId = formatOfferId(proposalId);
 
       uploadMutation.mutate({
         base64,
         name: file.name,
         type: selectedType,
-        proposal: cleanProposalId,
+        proposal: proposalId,
       });
     } catch (error) {
       toast.error(t("credit.upload.error"));
