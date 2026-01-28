@@ -17,12 +17,25 @@ interface UseCreditDetailsParams {
   proposalId?: string;
 }
 
+/**
+ * Extract clean proposal ID from full format "XX-NNNNNN/RR"
+ * where XX is branch, NNNNNN is proposal ID, RR is revision
+ * Returns just NNNNNN for the API
+ */
+const extractProposalId = (fullProposalId: string): string => {
+  // Format: "01-825295/00" -> extract "825295"
+  const afterBranch = fullProposalId.split("-")[1] || fullProposalId;
+  const beforeRevision = afterBranch.split("/")[0] || afterBranch;
+  return beforeRevision.trim();
+};
+
 export const useCreditDetails = ({
   creditId,
   clientBranch,
   clientId,
   proposalId,
 }: UseCreditDetailsParams) => {
+  const cleanProposalId = proposalId ? extractProposalId(proposalId) : undefined;
   const {
     data: elementDetails,
     isLoading: isLoadingDetails,
@@ -64,11 +77,11 @@ export const useCreditDetails = ({
     isLoading: isLoadingRentalDocs,
     error: rentalDocsError,
   } = useQuery<CreditDocument[]>({
-    queryKey: ["creditRentalDocuments", proposalId],
+    queryKey: ["creditRentalDocuments", cleanProposalId],
     queryFn: async () => {
-      return creditService.getRentalDocuments(proposalId!);
+      return creditService.getRentalDocuments(cleanProposalId!);
     },
-    enabled: !!proposalId,
+    enabled: !!cleanProposalId,
   });
 
   const {
