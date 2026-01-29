@@ -33,9 +33,10 @@ type DocumentType = "A" | "B" | "C" | "D" | "E" | "F";
 
 const DOCUMENT_TYPES: DocumentType[] = ["A", "B", "C", "D", "E", "F"];
 
-// Backend has ~100KB JSON body limit; Base64 adds ~33% overhead
-// So max original file size should be ~70KB to be safe
-const MAX_FILE_SIZE_BYTES = 70 * 1024; // 70KB
+// Backend has 50MB JSON body limit; Base64 adds ~33% overhead
+// So max original file size should be ~37MB to be safe
+const MAX_FILE_SIZE_BYTES = 37 * 1024 * 1024; // 37MB
+const MAX_FILE_SIZE_DISPLAY = "37MB";
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
 
 // Compress image using canvas
@@ -170,7 +171,7 @@ export const DocumentUploadDialog = ({
       // Non-image file - check size limit
       if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
         setFileSizeError(
-          t("credit.upload.fileTooLarge").replace("{maxSize}", "70KB")
+          t("credit.upload.fileTooLarge").replace("{maxSize}", MAX_FILE_SIZE_DISPLAY)
         );
       } else {
         setFile(selectedFile);
@@ -318,6 +319,9 @@ export const DocumentUploadDialog = ({
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {t("credit.upload.orClick")}
+                    </p>
+                    <p className="text-xs text-muted-foreground/70 mt-2">
+                      {t("credit.upload.maxSize").replace("{maxSize}", MAX_FILE_SIZE_DISPLAY)}
                     </p>
                   </>
                 )}
