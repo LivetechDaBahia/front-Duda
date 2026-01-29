@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useLocale } from "@/contexts/LocaleContext";
-import { Upload, FileUp, X, Loader2 } from "lucide-react";
+import { Upload, FileUp, X, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { creditService } from "@/services/creditService";
 import { toast } from "sonner";
@@ -33,6 +33,67 @@ type DocumentType = "A" | "B" | "C" | "D" | "E" | "F";
 
 const DOCUMENT_TYPES: DocumentType[] = ["A", "B", "C", "D", "E", "F"];
 
+// Backend has ~100KB JSON body limit; Base64 adds ~33% overhead
+// So max original file size should be ~70KB to be safe
+const MAX_FILE_SIZE_BYTES = 70 * 1024; // 70KB
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+
+// Compress image using canvas
+const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    img.onload = () => {
+      let { width, height } = img;
+      let quality = 0.8;
+      
+      // Start with original dimensions, reduce if needed
+      canvas.width = width;
+      canvas.height = height;
+      
+      const tryCompress = (currentQuality: number, scale: number): void => {
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Failed to compress image"));
+              return;
+            }
+
+            if (blob.size <= maxSizeBytes || currentQuality <= 0.1 || scale <= 0.3) {
+              // Accept this result
+              const compressedFile = new File([blob], file.name, {
+                type: "image/jpeg",
+                lastModified: Date.now(),
+              });
+              resolve(compressedFile);
+            } else {
+              // Try with lower quality or smaller scale
+              if (currentQuality > 0.3) {
+                tryCompress(currentQuality - 0.15, scale);
+              } else {
+                tryCompress(0.5, scale - 0.2);
+              }
+            }
+          },
+          "image/jpeg",
+          currentQuality
+        );
+      };
+
+      tryCompress(quality, 1);
+    };
+
+    img.onerror = () => reject(new Error("Failed to load image"));
+    img.src = URL.createObjectURL(file);
+  });
+};
+
 export const DocumentUploadDialog = ({
   isOpen,
   onClose,
@@ -44,6 +105,8 @@ export const DocumentUploadDialog = ({
   const [selectedType, setSelectedType] = useState<DocumentType | "">("");
   const [file, setFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState<string | null>(null);
 
   const getDocumentTypeLabel = (type: DocumentType): string => {
     return t(`credit.upload.docType.${type}`);
@@ -80,7 +143,39 @@ export const DocumentUploadDialog = ({
     setSelectedType("");
     setFile(null);
     setIsDragOver(false);
+    setFileSizeError(null);
     onClose();
+  };
+
+  const processFile = async (selectedFile: File): Promise<void> => {
+    setFileSizeError(null);
+    
+    // Check if it's an image that can be compressed
+    if (IMAGE_TYPES.includes(selectedFile.type)) {
+      if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+        setIsCompressing(true);
+        try {
+          const compressedFile = await compressImage(selectedFile, MAX_FILE_SIZE_BYTES);
+          setFile(compressedFile);
+          toast.info(t("credit.upload.compressed"));
+        } catch {
+          setFileSizeError(t("credit.upload.compressionFailed"));
+        } finally {
+          setIsCompressing(false);
+        }
+      } else {
+        setFile(selectedFile);
+      }
+    } else {
+      // Non-image file - check size limit
+      if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+        setFileSizeError(
+          t("credit.upload.fileTooLarge").replace("{maxSize}", "70KB")
+        );
+      } else {
+        setFile(selectedFile);
+      }
+    }
   };
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -102,18 +197,19 @@ export const DocumentUploadDialog = ({
 
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
-      setFile(droppedFile);
+      processFile(droppedFile);
     }
   }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      setFile(selectedFile);
+      processFile(selectedFile);
     }
   };
 
   const handleRemoveFile = () => {
+    setFileSizeError(null);
     setFile(null);
   };
 
@@ -182,26 +278,49 @@ export const DocumentUploadDialog = ({
           {/* Drop Zone */}
           <div className="space-y-2">
             <Label>{t("credit.upload.fileLabel")}</Label>
-            {!file ? (
+            {isCompressing ? (
+              <div className="border-2 border-dashed rounded-lg p-8 text-center border-muted-foreground/25">
+                <Loader2 className="h-10 w-10 mx-auto mb-3 text-primary animate-spin" />
+                <p className="text-sm text-muted-foreground">
+                  Compressing image...
+                </p>
+              </div>
+            ) : !file ? (
               <div
                 className={cn(
                   "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
-                  isDragOver
-                    ? "border-primary bg-primary/5"
-                    : "border-muted-foreground/25 hover:border-primary/50"
+                  fileSizeError
+                    ? "border-destructive bg-destructive/5"
+                    : isDragOver
+                      ? "border-primary bg-primary/5"
+                      : "border-muted-foreground/25 hover:border-primary/50"
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById("file-input")?.click()}
               >
-                <Upload className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  {t("credit.upload.dragDrop")}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("credit.upload.orClick")}
-                </p>
+                {fileSizeError ? (
+                  <>
+                    <AlertCircle className="h-10 w-10 mx-auto mb-3 text-destructive" />
+                    <p className="text-sm text-destructive mb-1">
+                      {fileSizeError}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("credit.upload.orClick")}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {t("credit.upload.dragDrop")}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("credit.upload.orClick")}
+                    </p>
+                  </>
+                )}
                 <input
                   id="file-input"
                   type="file"
