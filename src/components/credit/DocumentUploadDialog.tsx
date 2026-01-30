@@ -20,6 +20,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { Upload, FileUp, X, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { creditService } from "@/services/creditService";
+import { ApiError, getLocalizedErrorMessage } from "@/services/errorService";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -135,8 +136,13 @@ export const DocumentUploadDialog = ({
       queryClient.invalidateQueries({ queryKey: ["creditRentalDocuments"] });
       handleClose();
     },
-    onError: (error: Error) => {
-      toast.error(error.message || t("credit.upload.error"));
+    onError: (error: unknown) => {
+      if (error instanceof ApiError) {
+        const { title, description } = getLocalizedErrorMessage(error.parsed, t);
+        toast.error(title, { description });
+      } else {
+        toast.error(t("credit.upload.error"));
+      }
     },
   });
 

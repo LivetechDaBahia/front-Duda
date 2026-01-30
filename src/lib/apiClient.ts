@@ -1,3 +1,5 @@
+import { ApiError, parseError, ERROR_CODES } from "@/services/errorService";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 class ApiClient {
@@ -13,16 +15,23 @@ class ApiClient {
       ...options.headers,
     };
 
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      ...options,
-      headers,
-      credentials: "include", // Send cookies with every request
-    });
+    let response: Response;
+    
+    try {
+      response = await fetch(`${this.baseURL}${endpoint}`, {
+        ...options,
+        headers,
+        credentials: "include", // Send cookies with every request
+      });
+    } catch (error) {
+      // Network errors (no response from server)
+      throw new ApiError(error);
+    }
 
     // Handle 401 - redirect to backend login
     if (response.status === 401) {
       window.location.href = `${this.baseURL}/auth/login`;
-      throw new Error("Unauthorized - Please log in again");
+      throw new ApiError({ code: ERROR_CODES.UNAUTHORIZED, message: "Please log in again" }, 401);
     }
 
     // Handle 403 - permissions issue or impersonation read-only
@@ -35,22 +44,21 @@ class ApiClient {
         errorText.toLowerCase().includes("read-only") ||
         response.headers.get("X-Impersonating") === "true"
       ) {
-        throw new Error(
-          "You're in view-as mode (read-only). Stop impersonation to perform this action.",
-        );
+        throw new ApiError({ code: ERROR_CODES.IMPERSONATION_READONLY, message: errorText }, 403);
       }
 
-      throw new Error(
-        errorText ||
-          "Access Denied: Your account doesn't have the required permissions. Please contact your system administrator.",
-      );
+      throw new ApiError({ code: ERROR_CODES.FORBIDDEN, message: errorText }, 403);
+    }
+
+    // Handle 413 - Payload too large (often from Nginx)
+    if (response.status === 413) {
+      const errorText = await response.text();
+      throw new ApiError({ code: ERROR_CODES.PAYLOAD_TOO_LARGE, message: errorText }, 413);
     }
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(
-        errorText || `API Error: ${response.status} ${response.statusText}`,
-      );
+      throw new ApiError(errorText, response.status);
     }
 
     // Handle empty responses (204 No Content or empty body)
