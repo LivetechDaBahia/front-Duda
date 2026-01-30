@@ -12,6 +12,57 @@ const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 
 const translations: Record<Locale, Record<string, string>> = {
   en: {
+    // Error messages
+    "errors.NETWORK_ERROR": "Connection Failed",
+    "errors.NETWORK_ERROR.description": "Unable to connect to the server. Please check your internet connection and try again.",
+    "errors.TIMEOUT": "Request Timeout",
+    "errors.TIMEOUT.description": "The server took too long to respond. Please try again.",
+    "errors.CONNECTION_REFUSED": "Server Unavailable",
+    "errors.CONNECTION_REFUSED.description": "Could not connect to the server. Please try again later.",
+    
+    "errors.UNAUTHORIZED": "Authentication Required",
+    "errors.UNAUTHORIZED.description": "Your session has expired. Please log in again.",
+    "errors.SESSION_EXPIRED": "Session Expired",
+    "errors.SESSION_EXPIRED.description": "Your session has expired. Please log in again to continue.",
+    "errors.INVALID_CREDENTIALS": "Invalid Credentials",
+    "errors.INVALID_CREDENTIALS.description": "The email or password you entered is incorrect.",
+    
+    "errors.FORBIDDEN": "Access Denied",
+    "errors.FORBIDDEN.description": "You don't have permission to perform this action. Contact your administrator if you need access.",
+    "errors.IMPERSONATION_READONLY": "View-Only Mode",
+    "errors.IMPERSONATION_READONLY.description": "You're viewing as another user (read-only). Stop impersonation to make changes.",
+    "errors.INSUFFICIENT_PERMISSIONS": "Insufficient Permissions",
+    "errors.INSUFFICIENT_PERMISSIONS.description": "Your account doesn't have the required permissions for this action.",
+    
+    "errors.VALIDATION_ERROR": "Invalid Request",
+    "errors.VALIDATION_ERROR.description": "Please check the information you provided and try again.",
+    "errors.INVALID_INPUT": "Invalid Input",
+    "errors.INVALID_INPUT.description": "Some of the provided values are invalid. Please review and correct them.",
+    "errors.MISSING_REQUIRED_FIELD": "Missing Information",
+    "errors.MISSING_REQUIRED_FIELD.description": "Please fill in all required fields.",
+    
+    "errors.PAYLOAD_TOO_LARGE": "File Too Large",
+    "errors.PAYLOAD_TOO_LARGE.description": "The file you're trying to upload exceeds the maximum allowed size. Please reduce the file size and try again.",
+    "errors.FILE_TOO_LARGE": "File Too Large",
+    "errors.FILE_TOO_LARGE.description": "The selected file is too large. Please choose a smaller file or compress it.",
+    
+    "errors.INTERNAL_SERVER_ERROR": "Server Error",
+    "errors.INTERNAL_SERVER_ERROR.description": "Something went wrong on our end. Please try again later.",
+    "errors.SERVICE_UNAVAILABLE": "Service Unavailable",
+    "errors.SERVICE_UNAVAILABLE.description": "The service is temporarily unavailable. Please try again in a few minutes.",
+    "errors.BAD_GATEWAY": "Connection Error",
+    "errors.BAD_GATEWAY.description": "There was a problem connecting to the server. Please try again.",
+    
+    "errors.NOT_FOUND": "Not Found",
+    "errors.NOT_FOUND.description": "The requested resource could not be found.",
+    "errors.CONFLICT": "Conflict",
+    "errors.CONFLICT.description": "This action conflicts with existing data. Please refresh and try again.",
+    "errors.ALREADY_EXISTS": "Already Exists",
+    "errors.ALREADY_EXISTS.description": "This item already exists. Please use a different value.",
+    
+    "errors.UNKNOWN_ERROR": "Unexpected Error",
+    "errors.UNKNOWN_ERROR.description": "An unexpected error occurred. Please try again or contact support.",
+
     // Navigation
     "nav.home": "Home",
     "nav.purchaseOrders": "Purchase Orders",
@@ -719,6 +770,57 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.error.generic": "An error occurred. Please try again.",
   },
   "pt-BR": {
+    // Error messages
+    "errors.NETWORK_ERROR": "Falha na Conexão",
+    "errors.NETWORK_ERROR.description": "Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.",
+    "errors.TIMEOUT": "Tempo Esgotado",
+    "errors.TIMEOUT.description": "O servidor demorou muito para responder. Por favor, tente novamente.",
+    "errors.CONNECTION_REFUSED": "Servidor Indisponível",
+    "errors.CONNECTION_REFUSED.description": "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+    
+    "errors.UNAUTHORIZED": "Autenticação Necessária",
+    "errors.UNAUTHORIZED.description": "Sua sessão expirou. Por favor, faça login novamente.",
+    "errors.SESSION_EXPIRED": "Sessão Expirada",
+    "errors.SESSION_EXPIRED.description": "Sua sessão expirou. Faça login novamente para continuar.",
+    "errors.INVALID_CREDENTIALS": "Credenciais Inválidas",
+    "errors.INVALID_CREDENTIALS.description": "O e-mail ou senha informados estão incorretos.",
+    
+    "errors.FORBIDDEN": "Acesso Negado",
+    "errors.FORBIDDEN.description": "Você não tem permissão para realizar esta ação. Entre em contato com o administrador se precisar de acesso.",
+    "errors.IMPERSONATION_READONLY": "Modo Visualização",
+    "errors.IMPERSONATION_READONLY.description": "Você está visualizando como outro usuário (somente leitura). Pare a personificação para fazer alterações.",
+    "errors.INSUFFICIENT_PERMISSIONS": "Permissões Insuficientes",
+    "errors.INSUFFICIENT_PERMISSIONS.description": "Sua conta não possui as permissões necessárias para esta ação.",
+    
+    "errors.VALIDATION_ERROR": "Requisição Inválida",
+    "errors.VALIDATION_ERROR.description": "Verifique as informações fornecidas e tente novamente.",
+    "errors.INVALID_INPUT": "Entrada Inválida",
+    "errors.INVALID_INPUT.description": "Alguns valores fornecidos são inválidos. Revise e corrija-os.",
+    "errors.MISSING_REQUIRED_FIELD": "Informação Faltando",
+    "errors.MISSING_REQUIRED_FIELD.description": "Por favor, preencha todos os campos obrigatórios.",
+    
+    "errors.PAYLOAD_TOO_LARGE": "Arquivo Muito Grande",
+    "errors.PAYLOAD_TOO_LARGE.description": "O arquivo que você está tentando enviar excede o tamanho máximo permitido. Reduza o tamanho do arquivo e tente novamente.",
+    "errors.FILE_TOO_LARGE": "Arquivo Muito Grande",
+    "errors.FILE_TOO_LARGE.description": "O arquivo selecionado é muito grande. Escolha um arquivo menor ou comprima-o.",
+    
+    "errors.INTERNAL_SERVER_ERROR": "Erro no Servidor",
+    "errors.INTERNAL_SERVER_ERROR.description": "Algo deu errado do nosso lado. Por favor, tente novamente mais tarde.",
+    "errors.SERVICE_UNAVAILABLE": "Serviço Indisponível",
+    "errors.SERVICE_UNAVAILABLE.description": "O serviço está temporariamente indisponível. Tente novamente em alguns minutos.",
+    "errors.BAD_GATEWAY": "Erro de Conexão",
+    "errors.BAD_GATEWAY.description": "Houve um problema ao conectar com o servidor. Tente novamente.",
+    
+    "errors.NOT_FOUND": "Não Encontrado",
+    "errors.NOT_FOUND.description": "O recurso solicitado não foi encontrado.",
+    "errors.CONFLICT": "Conflito",
+    "errors.CONFLICT.description": "Esta ação conflita com dados existentes. Atualize a página e tente novamente.",
+    "errors.ALREADY_EXISTS": "Já Existe",
+    "errors.ALREADY_EXISTS.description": "Este item já existe. Use um valor diferente.",
+    
+    "errors.UNKNOWN_ERROR": "Erro Inesperado",
+    "errors.UNKNOWN_ERROR.description": "Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.",
+
     // Navigation
     "nav.home": "Início",
     "nav.purchaseOrders": "Pedidos de Compra",
@@ -1437,6 +1539,57 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.error.generic": "Ocorreu um erro. Por favor, tente novamente.",
   },
   "es-ES": {
+    // Error messages
+    "errors.NETWORK_ERROR": "Error de Conexión",
+    "errors.NETWORK_ERROR.description": "No se pudo conectar al servidor. Verifique su conexión a internet e intente nuevamente.",
+    "errors.TIMEOUT": "Tiempo Agotado",
+    "errors.TIMEOUT.description": "El servidor tardó demasiado en responder. Por favor, intente nuevamente.",
+    "errors.CONNECTION_REFUSED": "Servidor No Disponible",
+    "errors.CONNECTION_REFUSED.description": "No se pudo conectar al servidor. Intente más tarde.",
+    
+    "errors.UNAUTHORIZED": "Autenticación Requerida",
+    "errors.UNAUTHORIZED.description": "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
+    "errors.SESSION_EXPIRED": "Sesión Expirada",
+    "errors.SESSION_EXPIRED.description": "Su sesión ha expirado. Inicie sesión nuevamente para continuar.",
+    "errors.INVALID_CREDENTIALS": "Credenciales Inválidas",
+    "errors.INVALID_CREDENTIALS.description": "El correo o contraseña ingresados son incorrectos.",
+    
+    "errors.FORBIDDEN": "Acceso Denegado",
+    "errors.FORBIDDEN.description": "No tiene permiso para realizar esta acción. Contacte a su administrador si necesita acceso.",
+    "errors.IMPERSONATION_READONLY": "Modo Solo Lectura",
+    "errors.IMPERSONATION_READONLY.description": "Está viendo como otro usuario (solo lectura). Detenga la suplantación para hacer cambios.",
+    "errors.INSUFFICIENT_PERMISSIONS": "Permisos Insuficientes",
+    "errors.INSUFFICIENT_PERMISSIONS.description": "Su cuenta no tiene los permisos necesarios para esta acción.",
+    
+    "errors.VALIDATION_ERROR": "Solicitud Inválida",
+    "errors.VALIDATION_ERROR.description": "Verifique la información proporcionada e intente nuevamente.",
+    "errors.INVALID_INPUT": "Entrada Inválida",
+    "errors.INVALID_INPUT.description": "Algunos valores proporcionados son inválidos. Revise y corríjalos.",
+    "errors.MISSING_REQUIRED_FIELD": "Información Faltante",
+    "errors.MISSING_REQUIRED_FIELD.description": "Por favor, complete todos los campos requeridos.",
+    
+    "errors.PAYLOAD_TOO_LARGE": "Archivo Muy Grande",
+    "errors.PAYLOAD_TOO_LARGE.description": "El archivo que intenta subir excede el tamaño máximo permitido. Reduzca el tamaño del archivo e intente nuevamente.",
+    "errors.FILE_TOO_LARGE": "Archivo Muy Grande",
+    "errors.FILE_TOO_LARGE.description": "El archivo seleccionado es muy grande. Elija un archivo más pequeño o comprímalo.",
+    
+    "errors.INTERNAL_SERVER_ERROR": "Error del Servidor",
+    "errors.INTERNAL_SERVER_ERROR.description": "Algo salió mal de nuestro lado. Por favor, intente más tarde.",
+    "errors.SERVICE_UNAVAILABLE": "Servicio No Disponible",
+    "errors.SERVICE_UNAVAILABLE.description": "El servicio está temporalmente no disponible. Intente en unos minutos.",
+    "errors.BAD_GATEWAY": "Error de Conexión",
+    "errors.BAD_GATEWAY.description": "Hubo un problema al conectar con el servidor. Intente nuevamente.",
+    
+    "errors.NOT_FOUND": "No Encontrado",
+    "errors.NOT_FOUND.description": "El recurso solicitado no fue encontrado.",
+    "errors.CONFLICT": "Conflicto",
+    "errors.CONFLICT.description": "Esta acción conflicta con datos existentes. Actualice la página e intente nuevamente.",
+    "errors.ALREADY_EXISTS": "Ya Existe",
+    "errors.ALREADY_EXISTS.description": "Este elemento ya existe. Use un valor diferente.",
+    
+    "errors.UNKNOWN_ERROR": "Error Inesperado",
+    "errors.UNKNOWN_ERROR.description": "Ocurrió un error inesperado. Intente nuevamente o contacte a soporte.",
+
     // Navigation
     "nav.home": "Inicio",
     "nav.purchaseOrders": "Órdenes de Compra",
