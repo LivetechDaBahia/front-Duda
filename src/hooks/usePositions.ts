@@ -6,10 +6,14 @@ import {
   Position,
 } from "@/types/position";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export const usePositions = (departmentId?: string) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { handleError } = useErrorHandler();
+  const { t } = useLocale();
 
   // Fetch positions
   const {
@@ -27,15 +31,9 @@ export const usePositions = (departmentId?: string) => {
       positionService.createPosition(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["positions"] });
-      toast({ title: "Position created successfully" });
+      toast({ title: t("admin.positions.createSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to create position",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Update mutation
@@ -44,15 +42,9 @@ export const usePositions = (departmentId?: string) => {
       positionService.updatePosition(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["positions"] });
-      toast({ title: "Position updated successfully" });
+      toast({ title: t("admin.positions.updateSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to update position",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Delete mutation
@@ -61,15 +53,9 @@ export const usePositions = (departmentId?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["positions"] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast({ title: "Position deleted successfully" });
+      toast({ title: t("admin.positions.deleteSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to delete position",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   return {

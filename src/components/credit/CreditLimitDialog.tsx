@@ -29,6 +29,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface CreditLimitDialogProps {
@@ -46,6 +47,7 @@ export function CreditLimitDialog({
 }: CreditLimitDialogProps) {
   const { t } = useLocale();
   const { toast } = useToast();
+  const { handleError } = useErrorHandler();
   const queryClient = useQueryClient();
   const [limit, setLimit] = useState("");
   const [risk, setRisk] = useState("");
@@ -71,13 +73,7 @@ export function CreditLimitDialog({
       setDueDate(undefined);
       onSuccess?.();
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: t("credit.limit.errorTitle"),
-        description: error.message || t("credit.limit.errorDesc"),
-      });
-    },
+    onError: handleError,
   });
 
   const handleSubmit = () => {

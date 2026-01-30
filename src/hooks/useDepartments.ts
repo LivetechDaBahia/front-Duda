@@ -6,10 +6,14 @@ import {
   Department,
 } from "@/types/department";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export const useDepartments = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { handleError } = useErrorHandler();
+  const { t } = useLocale();
 
   // Fetch departments
   const {
@@ -27,15 +31,9 @@ export const useDepartments = () => {
       departmentService.createDepartment(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["departments"] });
-      toast({ title: "Department created successfully" });
+      toast({ title: t("admin.departments.createSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to create department",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Update mutation
@@ -44,15 +42,9 @@ export const useDepartments = () => {
       departmentService.updateDepartment(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["departments"] });
-      toast({ title: "Department updated successfully" });
+      toast({ title: t("admin.departments.updateSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to update department",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Delete mutation
@@ -61,15 +53,9 @@ export const useDepartments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["departments"] });
       queryClient.invalidateQueries({ queryKey: ["positions"] });
-      toast({ title: "Department deleted successfully" });
+      toast({ title: t("admin.departments.deleteSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to delete department",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   return {

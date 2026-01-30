@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { userService } from "@/services/userService";
 import { User, CreateUserDto, UpdateUserDto } from "@/types/user";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +23,7 @@ export function UsersManagement() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { t } = useLocale();
+  const { handleError } = useErrorHandler();
 
   // State
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,17 +58,11 @@ export function UsersManagement() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setIsCreateDialogOpen(false);
       toast({
-        title: "User created",
-        description: "The user has been successfully created.",
+        title: t("user.createSuccess") || "User created",
+        description: t("user.createSuccessDesc") || "The user has been successfully created.",
       });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to create user",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Update user mutation
@@ -77,17 +73,11 @@ export function UsersManagement() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setEditingUser(null);
       toast({
-        title: "User updated",
-        description: "The user has been successfully updated.",
+        title: t("user.updateSuccess") || "User updated",
+        description: t("user.updateSuccessDesc") || "The user has been successfully updated.",
       });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to update user",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Delete user mutation
@@ -97,17 +87,11 @@ export function UsersManagement() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setDeletingUser(null);
       toast({
-        title: "User deleted",
-        description: "The user has been successfully deleted.",
+        title: t("user.deleteSuccess") || "User deleted",
+        description: t("user.deleteSuccessDesc") || "The user has been successfully deleted.",
       });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to delete user",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Handlers

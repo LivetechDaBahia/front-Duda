@@ -768,6 +768,31 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.error.customPositionRequired": "Please enter a position name",
     "accessRequest.error.submitFailed": "Failed to submit request",
     "accessRequest.error.generic": "An error occurred. Please try again.",
+
+    // Admin success messages
+    "admin.roles.createSuccess": "Role created successfully",
+    "admin.roles.updateSuccess": "Role updated successfully",
+    "admin.roles.deleteSuccess": "Role deleted successfully",
+    "admin.positions.createSuccess": "Position created successfully",
+    "admin.positions.updateSuccess": "Position updated successfully",
+    "admin.positions.deleteSuccess": "Position deleted successfully",
+    "admin.departments.createSuccess": "Department created successfully",
+    "admin.departments.updateSuccess": "Department updated successfully",
+    "admin.departments.deleteSuccess": "Department deleted successfully",
+
+    // User success messages
+    "user.createSuccess": "User created",
+    "user.createSuccessDesc": "The user has been successfully created.",
+    "user.updateSuccess": "User updated",
+    "user.updateSuccessDesc": "The user has been successfully updated.",
+    "user.deleteSuccess": "User deleted",
+    "user.deleteSuccessDesc": "The user has been successfully deleted.",
+
+    // Credit success messages
+    "credit.statusUpdated": "Status updated",
+    "credit.statusUpdatedDesc": "Credit status has been successfully updated.",
+    "credit.itemAssigned": "Item assigned",
+    "credit.itemAssignedDesc": "Successfully assigned to you.",
   },
   "pt-BR": {
     // Error messages
@@ -1537,6 +1562,31 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.error.customPositionRequired": "Por favor, digite o nome do cargo",
     "accessRequest.error.submitFailed": "Falha ao enviar solicitação",
     "accessRequest.error.generic": "Ocorreu um erro. Por favor, tente novamente.",
+
+    // Admin success messages
+    "admin.roles.createSuccess": "Função criada com sucesso",
+    "admin.roles.updateSuccess": "Função atualizada com sucesso",
+    "admin.roles.deleteSuccess": "Função excluída com sucesso",
+    "admin.positions.createSuccess": "Cargo criado com sucesso",
+    "admin.positions.updateSuccess": "Cargo atualizado com sucesso",
+    "admin.positions.deleteSuccess": "Cargo excluído com sucesso",
+    "admin.departments.createSuccess": "Departamento criado com sucesso",
+    "admin.departments.updateSuccess": "Departamento atualizado com sucesso",
+    "admin.departments.deleteSuccess": "Departamento excluído com sucesso",
+
+    // User success messages
+    "user.createSuccess": "Usuário criado",
+    "user.createSuccessDesc": "O usuário foi criado com sucesso.",
+    "user.updateSuccess": "Usuário atualizado",
+    "user.updateSuccessDesc": "O usuário foi atualizado com sucesso.",
+    "user.deleteSuccess": "Usuário excluído",
+    "user.deleteSuccessDesc": "O usuário foi excluído com sucesso.",
+
+    // Credit success messages
+    "credit.statusUpdated": "Status atualizado",
+    "credit.statusUpdatedDesc": "O status do crédito foi atualizado com sucesso.",
+    "credit.itemAssigned": "Item atribuído",
+    "credit.itemAssignedDesc": "Atribuído a você com sucesso.",
   },
   "es-ES": {
     // Error messages
@@ -2303,6 +2353,31 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.error.customPositionRequired": "Por favor, ingrese el nombre del cargo",
     "accessRequest.error.submitFailed": "Error al enviar la solicitud",
     "accessRequest.error.generic": "Ocurrió un error. Por favor, inténtelo de nuevo.",
+
+    // Admin success messages
+    "admin.roles.createSuccess": "Rol creado exitosamente",
+    "admin.roles.updateSuccess": "Rol actualizado exitosamente",
+    "admin.roles.deleteSuccess": "Rol eliminado exitosamente",
+    "admin.positions.createSuccess": "Cargo creado exitosamente",
+    "admin.positions.updateSuccess": "Cargo actualizado exitosamente",
+    "admin.positions.deleteSuccess": "Cargo eliminado exitosamente",
+    "admin.departments.createSuccess": "Departamento creado exitosamente",
+    "admin.departments.updateSuccess": "Departamento actualizado exitosamente",
+    "admin.departments.deleteSuccess": "Departamento eliminado exitosamente",
+
+    // User success messages
+    "user.createSuccess": "Usuario creado",
+    "user.createSuccessDesc": "El usuario ha sido creado exitosamente.",
+    "user.updateSuccess": "Usuario actualizado",
+    "user.updateSuccessDesc": "El usuario ha sido actualizado exitosamente.",
+    "user.deleteSuccess": "Usuario eliminado",
+    "user.deleteSuccessDesc": "El usuario ha sido eliminado exitosamente.",
+
+    // Credit success messages
+    "credit.statusUpdated": "Estado actualizado",
+    "credit.statusUpdatedDesc": "El estado del crédito ha sido actualizado exitosamente.",
+    "credit.itemAssigned": "Elemento asignado",
+    "credit.itemAssignedDesc": "Asignado a usted exitosamente.",
   },
 };
 
