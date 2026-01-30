@@ -2,10 +2,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { roleService } from "@/services/roleService";
 import { CreateRoleDto, UpdateRoleDto, Role, AccessLevel } from "@/types/role";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export const useRoles = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { handleError } = useErrorHandler();
+  const { t } = useLocale();
 
   // Fetch roles
   const {
@@ -40,15 +44,9 @@ export const useRoles = () => {
     mutationFn: (data: CreateRoleDto) => roleService.createRole(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      toast({ title: "Role created successfully" });
+      toast({ title: t("admin.roles.createSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to create role",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Update mutation
@@ -57,15 +55,9 @@ export const useRoles = () => {
       roleService.updateRole(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      toast({ title: "Role updated successfully" });
+      toast({ title: t("admin.roles.updateSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to update role",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   // Delete mutation
@@ -74,15 +66,9 @@ export const useRoles = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
       queryClient.invalidateQueries({ queryKey: ["positions"] });
-      toast({ title: "Role deleted successfully" });
+      toast({ title: t("admin.roles.deleteSuccess") });
     },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Failed to delete role",
-        description: error.message,
-      });
-    },
+    onError: handleError,
   });
 
   return {

@@ -12,8 +12,10 @@ import { useCredits } from "@/hooks/useCredits";
 import { useCreditStatuses } from "@/hooks/useCreditStatuses";
 import { creditService } from "@/services/creditService";
 import { useToast } from "@/hooks/use-toast";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { useAuth } from "@/contexts/AuthContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
@@ -25,7 +27,26 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { AccessDenied } from "@/components/shared/AccessDenied";
 
 const Credit = () => {
+  // All hooks must be called first, before any conditional returns
   const { canViewCredit, canManageCredit, isCreditManager } = usePermissions();
+  const { toast } = useToast();
+  const { handleError } = useErrorHandler();
+  const { t } = useLocale();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  
+  const {
+    credits,
+    isLoading: isLoadingCredits,
+    error: creditsError,
+    refetch: refetchCredits,
+  } = useCredits();
+  const {
+    statuses,
+    isLoading: isLoadingStatuses,
+    error: statusesError,
+  } = useCreditStatuses();
+
   const isReadOnly = canViewCredit && !canManageCredit;
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedCredit, setSelectedCredit] =
@@ -57,28 +78,8 @@ const Credit = () => {
     operation: undefined,
   });
 
-  const { toast } = useToast();
-  const { user } = useAuth();
-  const queryClient = useQueryClient();
-
-  // Early permission check - before loading any data
-  if (!canViewCredit) {
-    return <AccessDenied />;
-  }
-
-  const {
-    credits,
-    isLoading: isLoadingCredits,
-    error: creditsError,
-    refetch: refetchCredits,
-  } = useCredits();
-  const {
-    statuses,
-    isLoading: isLoadingStatuses,
-    error: statusesError,
-  } = useCreditStatuses();
-
   const filteredCredits = useMemo(() => {
+    if (!canViewCredit) return [];
     return credits.filter((credit) => {
       // Role-based visibility: agents only see unassigned or their own items
       if (!isCreditManager) {
@@ -190,7 +191,12 @@ const Credit = () => {
 
       return true;
     });
-  }, [credits, filters, isCreditManager, user?.email]);
+  }, [credits, filters, isCreditManager, user?.email, canViewCredit]);
+
+  // Early permission check - after all hooks
+  if (!canViewCredit) {
+    return <AccessDenied />;
+  }
 
   const handleStatusChange = async (
     creditId: number,
@@ -281,17 +287,13 @@ const Credit = () => {
       await creditService.updateCreditStatus(payload);
 
       toast({
-        title: "Status updated",
-        description: "Credit status has been successfully updated.",
+        title: t("credit.statusUpdated") || "Status updated",
+        description: t("credit.statusUpdatedDesc") || "Credit status has been successfully updated.",
       });
 
       await refetchCredits();
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update credit status.",
-      });
+      handleError(error);
     } finally {
       setLoadingCreditId(null);
     }
@@ -315,25 +317,13 @@ const Credit = () => {
         });
 
         toast({
-          title: "Item assigned",
-          description: "Successfully assigned to you.",
+          title: t("credit.itemAssigned") || "Item assigned",
+          description: t("credit.itemAssignedDesc") || "Successfully assigned to you.",
         });
 
         await refetchCredits();
-      } catch (error: any) {
-        if (error?.response?.status === 403) {
-          toast({
-            variant: "destructive",
-            title: "Permission denied",
-            description: "You can only assign unassigned items to yourself.",
-          });
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Assignment failed",
-            description: "Could not assign item. Please try again.",
-          });
-        }
+      } catch (error) {
+        handleError(error);
       } finally {
         setLoadingCreditId(null);
       }

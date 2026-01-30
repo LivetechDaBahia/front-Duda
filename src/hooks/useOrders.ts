@@ -6,6 +6,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { transformAPIToUIOrders } from "@/lib/orderTransformer";
 import { formatDateToYYYYMMDD } from "@/lib/utils";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 interface UseOrdersParams {
   dateBegin?: string;
@@ -30,6 +31,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
   const queryClient = useQueryClient();
   const { t } = useLocale();
   const { user } = useAuth();
+  const { handleError } = useErrorHandler({ useSonner: true });
   const isDev = (import.meta as any).env?.DEV;
 
   // Default date range: current month
@@ -73,7 +75,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
             itemsCount: (apiData as any)?.items?.length,
             tenantSent: params?.tenantId || "01",
           });
-        } catch (e) {
+        } catch {
           // no-op
         }
       }
@@ -172,10 +174,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success(t("order.approveSuccess") || "Order approved successfully");
     },
-    onError: (error: any) => {
-      console.error("[useOrders] approve.onError", error);
-      toast.error(error?.message || "Failed to approve order");
-    },
+    onError: handleError,
   });
 
   const declineMutation = useMutation({
@@ -219,10 +218,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success(t("order.declineSuccess") || "Order declined successfully");
     },
-    onError: (error: any) => {
-      console.error("[useOrders] decline.onError", error);
-      toast.error(error.message || "Failed to decline order");
-    },
+    onError: handleError,
   });
 
   const revertMutation = useMutation({
@@ -267,10 +263,7 @@ export const useOrders = (params?: UseOrdersParams): UseOrdersReturn => {
         t("order.revertSuccess") || "Order reverted to pending successfully",
       );
     },
-    onError: (error: any) => {
-      console.error("[useOrders] revert.onError", error);
-      toast.error(error.message || "Failed to revert order");
-    },
+    onError: handleError,
   });
 
   return {
