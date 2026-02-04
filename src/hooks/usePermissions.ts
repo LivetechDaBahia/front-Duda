@@ -148,6 +148,14 @@ export const usePermissions = () => {
     return hasMinimumLevel("Manager") && canManageCredit();
   };
 
+  // Check if user can assign credit items to other users (not just self-assign)
+  // Admins and Credit Managers can assign to anyone, Credit Agents can only self-assign or assign within department
+  const canAssignCreditToOthers = (): boolean => {
+    if (isAdmin()) return true;
+    if (isCreditManager()) return true;
+    return false;
+  };
+
   // Check if user can impersonate other users (admin only)
   const canImpersonate = (): boolean => {
     return hasMinimumLevel("Administrator");
@@ -191,6 +199,7 @@ export const usePermissions = () => {
     canViewCredit: canViewCredit(),
     canManageCredit: canManageCredit(),
     isCreditManager: isCreditManager(),
+    canAssignCreditToOthers: canAssignCreditToOthers(),
     canImpersonate: canImpersonate(),
     canViewTrafficLight: canViewTrafficLight(),
     canManageTrafficLight: canManageTrafficLight(),
