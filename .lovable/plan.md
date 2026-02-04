@@ -1,15 +1,16 @@
 
-# Sentry Observability Implementation Plan
+
+# Sentry Observability Re-Implementation Plan
 
 ## Overview
-Implement Sentry for comprehensive error tracking, performance monitoring, and session replay to help debug production issues effectively. This integration will capture JavaScript errors, API failures, and user context automatically.
 
-## What Sentry Will Provide
-- **Automatic error capture**: Stack traces, browser info, and user context for all JavaScript errors
-- **Performance monitoring**: Track slow pages, API latency, and Core Web Vitals
-- **Session replay**: See what users did before an error occurred
-- **User identification**: Link errors to specific users/departments for faster triage
-- **Breadcrumbs**: Automatic trail of user actions leading to errors
+Re-implement Sentry for comprehensive error tracking, performance monitoring, and session replay. This time, the `.env` file will **not be modified** since it's already in `.gitignore` and should not be committed.
+
+## Key Change from Previous Implementation
+
+Instead of modifying `.env` directly, I will:
+1. Create an `.env.example` file documenting the required Sentry variables
+2. You'll need to manually add the Sentry DSN to your local `.env` file
 
 ---
 
@@ -17,58 +18,68 @@ Implement Sentry for comprehensive error tracking, performance monitoring, and s
 
 ### Step 1: Install Sentry Packages
 
-Add the required Sentry packages:
-- `@sentry/react` - Core React integration
+Add the required dependencies:
+- `@sentry/react` - Core React integration with error boundary
 - `@sentry/vite-plugin` - Source map uploads for readable stack traces
 
-### Step 2: Create Sentry Configuration
+### Step 2: Create `.env.example`
 
-Create a new file `src/lib/sentry.ts` that:
-- Initializes Sentry with your DSN
-- Configures browser tracing for performance monitoring
-- Sets up session replay integration
-- Configures environment-based sampling rates (higher in production)
-- Filters out development noise
+Create a template file showing required environment variables (without actual values):
+```
+# Sentry Configuration (add these to your .env)
+VITE_SENTRY_DSN=
+VITE_SENTRY_ENVIRONMENT=development
+# SENTRY_AUTH_TOKEN= (build-time only, for source map uploads)
+```
 
-### Step 3: Integrate with Application Entry Point
+### Step 3: Create Sentry Configuration
 
-Update `src/main.tsx` to:
-- Import and initialize Sentry before React renders
-- Wrap the app in Sentry's error boundary
+Create `src/lib/sentry.ts` with:
+- DSN-based initialization
+- Environment detection (only runs in production)
+- Browser tracing and session replay integrations
+- Helper functions for user context and API breadcrumbs
 
-### Step 4: Add User Context
-
-Update `src/contexts/AuthContext.tsx` to:
-- Call `Sentry.setUser()` when a user logs in (email, department, role)
-- Call `Sentry.setUser(null)` on logout
-- Include impersonation context when active
-
-### Step 5: Integrate with Error Service
-
-Update `src/services/errorService.ts` and `src/hooks/useErrorHandler.ts` to:
-- Capture API errors with `Sentry.captureException()`
-- Add custom context (endpoint, status code, error code)
-- Create breadcrumbs for API calls
-
-### Step 6: Add React Error Boundary
+### Step 4: Create Error Boundary Component
 
 Create `src/components/shared/ErrorBoundary.tsx`:
 - Catches React rendering errors
-- Displays a user-friendly fallback UI
-- Automatically reports to Sentry
+- Displays locale-compatible fallback UI
+- Reports errors to Sentry automatically
+- Includes "Try Again" and "Report Issue" buttons
 
-### Step 7: Configure Vite Plugin for Source Maps
+### Step 5: Update Application Entry Point
 
-Update `vite.config.ts` to:
-- Upload source maps during production builds
-- Associate releases with commits for easier debugging
+Modify `src/main.tsx` to:
+- Import and initialize Sentry before rendering
+- Wrap app with ErrorBoundary component
 
-### Step 8: Add Environment Variables
+### Step 6: Add User Context to Auth
 
-Add to `.env`:
-- `VITE_SENTRY_DSN` - Your Sentry project DSN (public key)
-- `SENTRY_AUTH_TOKEN` - For source map uploads (build-time only, not exposed)
-- `VITE_SENTRY_ENVIRONMENT` - production/staging/development
+Update `src/contexts/AuthContext.tsx` to:
+- Set Sentry user on successful login
+- Clear Sentry user on logout
+- Track impersonation context
+
+### Step 7: Integrate with Error Service
+
+Update `src/services/errorService.ts`:
+- Add Sentry.captureException in ApiError class
+
+### Step 8: Integrate with Error Handler Hook
+
+Update `src/hooks/useErrorHandler.ts`:
+- Report handled errors to Sentry with context
+
+### Step 9: Add API Breadcrumbs
+
+Update `src/lib/apiClient.ts`:
+- Add breadcrumbs for API requests/failures
+
+### Step 10: Configure Vite Plugin
+
+Update `vite.config.ts`:
+- Add Sentry plugin for source map uploads (production builds only)
 
 ---
 
@@ -76,115 +87,66 @@ Add to `.env`:
 
 | File | Action | Purpose |
 |------|--------|---------|
-| `src/lib/sentry.ts` | Create | Sentry configuration and initialization |
-| `src/components/shared/ErrorBoundary.tsx` | Create | React error boundary with Sentry integration |
-| `src/main.tsx` | Modify | Initialize Sentry, wrap app in error boundary |
-| `src/contexts/AuthContext.tsx` | Modify | Set user context on login/logout |
-| `src/services/errorService.ts` | Modify | Add Sentry.captureException calls |
-| `src/hooks/useErrorHandler.ts` | Modify | Report handled errors to Sentry |
-| `src/lib/apiClient.ts` | Modify | Add breadcrumbs for API requests |
-| `vite.config.ts` | Modify | Add Sentry Vite plugin for source maps |
-| `.env` | Modify | Add Sentry configuration variables |
+| `.env.example` | Create | Template for required Sentry env vars |
+| `src/lib/sentry.ts` | Create | Sentry configuration and utilities |
+| `src/components/shared/ErrorBoundary.tsx` | Create | React error boundary with Sentry |
+| `src/main.tsx` | Modify | Initialize Sentry, wrap with ErrorBoundary |
+| `src/contexts/AuthContext.tsx` | Modify | Set user context on auth changes |
+| `src/services/errorService.ts` | Modify | Capture exceptions in ApiError |
+| `src/hooks/useErrorHandler.ts` | Modify | Report handled errors |
+| `src/lib/apiClient.ts` | Modify | Add API breadcrumbs |
+| `vite.config.ts` | Modify | Add Sentry Vite plugin |
+| `package.json` | Modify | Add @sentry/react and @sentry/vite-plugin |
+
+---
+
+## After Implementation - Manual Setup Required
+
+You'll need to:
+
+1. **Create a Sentry project** at sentry.io
+2. **Get your DSN** from Project Settings → Client Keys
+3. **Add to your local `.env`**:
+   ```
+   VITE_SENTRY_DSN=https://your-key@sentry.io/your-project-id
+   VITE_SENTRY_ENVIRONMENT=production
+   ```
+4. **(Optional)** For source map uploads, set `SENTRY_AUTH_TOKEN` in your CI/CD environment
 
 ---
 
 ## Technical Details
 
-### Sentry Initialization (`src/lib/sentry.ts`)
+### Sentry Initialization Logic
 
 ```text
-┌─────────────────────────────────────────────┐
-│           Sentry.init() Config              │
-├─────────────────────────────────────────────┤
-│ • DSN from environment variable             │
-│ • browserTracingIntegration()               │
-│ • replayIntegration() for session replay    │
-│ • tracePropagationTargets for API URLs      │
-│ • tracesSampleRate: 0.1 (10% of traffic)    │
-│ • replaysSessionSampleRate: 0.1             │
-│ • replaysOnErrorSampleRate: 1.0 (100%)      │
-│ • environment: production/staging/dev       │
-└─────────────────────────────────────────────┘
+if (VITE_SENTRY_DSN is set AND environment !== 'development') {
+  → Initialize Sentry with tracing + replay
+} else {
+  → Skip initialization (dev mode or no DSN)
+}
 ```
+
+### Sampling Configuration
+
+| Environment | Errors | Traces | Session Replay |
+|-------------|--------|--------|----------------|
+| Production  | 100%   | 10%    | 10% normal, 100% on error |
+| Development | Skip   | Skip   | Skip |
 
 ### User Context Flow
 
 ```text
-User Logs In → AuthContext.checkAuth()
-                    │
-                    ▼
-            Sentry.setUser({
-              id: user.email,
-              email: user.email,
-              username: user.name,
-              segment: user.department
-            })
-                    │
-                    ▼
-            Sentry.setTag('role', user.role)
-            Sentry.setTag('level', user.level)
-                    │
-                    ▼
-            If impersonating:
-              Sentry.setContext('impersonation', {
-                actualUser: impersonatedBy.email,
-                impersonating: user.email
-              })
+Login Success → setSentryUser({email, name, role, department})
+               → Set impersonation context if applicable
+
+Logout → clearSentryUser()
 ```
 
-### Error Capture Integration
+### Error Capture Points
 
-```text
-API Error Occurs
-       │
-       ▼
-  apiClient catches error
-       │
-       ├──► Sentry.addBreadcrumb({
-       │      category: 'api',
-       │      message: 'API request failed',
-       │      data: { endpoint, status }
-       │    })
-       │
-       ▼
-  useErrorHandler.handleError()
-       │
-       ├──► Sentry.captureException(error, {
-       │      tags: { errorCode, isNetworkError },
-       │      extra: { endpoint, parsedError }
-       │    })
-       │
-       ▼
-  Toast notification shown to user
-```
+1. **ApiError class** - Captures all API errors with status codes
+2. **useErrorHandler hook** - Captures handled errors shown to users
+3. **ErrorBoundary** - Catches React rendering crashes
+4. **apiClient breadcrumbs** - Tracks API request trail for debugging
 
-### Error Boundary Component
-
-The error boundary will:
-1. Catch React component errors during rendering
-2. Display a locale-compatible error message with "Try Again" and "Report Issue" buttons
-3. Automatically submit error to Sentry with component stack
-4. Show Sentry's feedback dialog when user clicks "Report Issue"
-
----
-
-## Setup Requirements
-
-After implementation, you'll need to:
-
-1. **Create a Sentry project** at sentry.io (free tier available)
-2. **Get your DSN** from Project Settings → Client Keys
-3. **Add environment variables** to your deployment pipeline
-4. **Get an auth token** for source map uploads (optional but recommended)
-
----
-
-## Sampling Strategy
-
-| Environment | Error Rate | Trace Rate | Session Replay |
-|-------------|------------|------------|----------------|
-| Production  | 100%       | 10%        | 10% normal, 100% on error |
-| Staging     | 100%       | 50%        | 50% |
-| Development | 0%         | 0%         | 0% (disabled) |
-
-This ensures you capture all errors while keeping performance monitoring costs manageable.
