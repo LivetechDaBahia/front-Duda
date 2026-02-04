@@ -518,7 +518,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
     "credit.assign.description":
-      "Assign this credit item to another user by entering their email address.",
+      "Select a user to assign this credit item to. Search by name or email to find users from other departments.",
     "credit.assign.currentAssignee": "Current Assignee",
     "credit.assign.unassigned": "Unassigned",
     "credit.assign.emailLabel": "Assignee Email *",
@@ -541,6 +541,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.failedTitle": "Assignment failed",
     "credit.assign.notFoundOrInvalid": "Item not found or invalid data.",
     "credit.assign.genericError": "Could not assign item. Please try again.",
+    "credit.assign.selectUser": "Select User",
+    "credit.assign.searchPlaceholder": "Search by name or email...",
+    "credit.assign.searchHint": "Search to find users from other departments",
+    "credit.assign.loadingUsers": "Loading users...",
+    "credit.assign.noUsersAvailable": "No users available for assignment.",
+    "credit.assign.myDepartment": "My Department",
+    "credit.assign.otherDepartments": "Other Departments",
+    "credit.assign.noResults": "No users found matching your search.",
+    "credit.assign.selected": "Selected",
+    "credit.assign.willAssignTo": "Will assign to",
+    "credit.assign.selectUserRequired": "Please select a user to assign to.",
 
     // Credit Limit
     "credit.limit.setLimit": "Set Credit Limit",
@@ -1296,7 +1307,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
     "credit.assign.description":
-      "Atribua este item de crédito a outro usuário informando o e-mail dele.",
+      "Selecione um usuário para atribuir este item de crédito. Pesquise por nome ou e-mail para encontrar usuários de outros departamentos.",
     "credit.assign.currentAssignee": "Responsável Atual",
     "credit.assign.unassigned": "Sem responsável",
     "credit.assign.emailLabel": "E-mail do Responsável *",
@@ -1323,6 +1334,17 @@ const translations: Record<Locale, Record<string, string>> = {
       "Item não encontrado ou dados inválidos.",
     "credit.assign.genericError":
       "Não foi possível atribuir o item. Tente novamente.",
+    "credit.assign.selectUser": "Selecionar Usuário",
+    "credit.assign.searchPlaceholder": "Buscar por nome ou e-mail...",
+    "credit.assign.searchHint": "Pesquise para encontrar usuários de outros departamentos",
+    "credit.assign.loadingUsers": "Carregando usuários...",
+    "credit.assign.noUsersAvailable": "Nenhum usuário disponível para atribuição.",
+    "credit.assign.myDepartment": "Meu Departamento",
+    "credit.assign.otherDepartments": "Outros Departamentos",
+    "credit.assign.noResults": "Nenhum usuário encontrado com sua busca.",
+    "credit.assign.selected": "Selecionado",
+    "credit.assign.willAssignTo": "Será atribuído a",
+    "credit.assign.selectUserRequired": "Por favor, selecione um usuário para atribuir.",
 
     // Credit Limit
     "credit.limit.setLimit": "Definir Limite de Crédito",
@@ -2099,7 +2121,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
     "credit.assign.description":
-      "Asigna este elemento de crédito a otro usuario ingresando su correo electrónico.",
+      "Selecciona un usuario para asignar este elemento de crédito. Busca por nombre o correo para encontrar usuarios de otros departamentos.",
     "credit.assign.currentAssignee": "Responsable actual",
     "credit.assign.unassigned": "Sin asignar",
     "credit.assign.emailLabel": "Correo del asignado *",
@@ -2125,6 +2147,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.assign.selfSuccessDesc": "Asignado exitosamente a ti.",
     "credit.assign.selfPermissionDeniedDesc":
       "Solo puedes asignarte elementos que no tengan responsable.",
+    "credit.assign.selectUser": "Seleccionar Usuario",
+    "credit.assign.searchPlaceholder": "Buscar por nombre o correo...",
+    "credit.assign.searchHint": "Busca para encontrar usuarios de otros departamentos",
+    "credit.assign.loadingUsers": "Cargando usuarios...",
+    "credit.assign.noUsersAvailable": "No hay usuarios disponibles para asignación.",
+    "credit.assign.myDepartment": "Mi Departamento",
+    "credit.assign.otherDepartments": "Otros Departamentos",
+    "credit.assign.noResults": "No se encontraron usuarios con tu búsqueda.",
+    "credit.assign.selected": "Seleccionado",
+    "credit.assign.willAssignTo": "Se asignará a",
+    "credit.assign.selectUserRequired": "Por favor, selecciona un usuario para asignar.",
 
     // Credit Limit
     "credit.limit.setLimit": "Establecer Límite de Crédito",
