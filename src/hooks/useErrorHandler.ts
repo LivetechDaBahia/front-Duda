@@ -2,6 +2,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
 import { ApiError, getLocalizedErrorMessage, parseError } from "@/services/errorService";
+import { captureException } from "@/lib/sentry";
 
 type ToastVariant = "default" | "destructive";
 
@@ -40,6 +41,15 @@ export const useErrorHandler = (options: ErrorHandlerOptions = {}) => {
     // Get localized messages
     const { title, description } = getLocalizedErrorMessage(parsedError, t);
 
+    // Report to Sentry if not already reported via ApiError
+    if (!(error instanceof ApiError)) {
+      captureException(error, {
+        errorCode: parsedError.code,
+        statusCode: parsedError.statusCode,
+        handledBy: "useErrorHandler",
+      });
+    }
+
     if (useSonner) {
       sonnerToast.error(title, { description });
     } else {
@@ -64,6 +74,16 @@ export const useErrorHandler = (options: ErrorHandlerOptions = {}) => {
       
       // Use fallback title if the error code doesn't have a translation
       const finalTitle = title || (fallbackTitleKey ? t(fallbackTitleKey) : "Error");
+
+      // Report to Sentry if not already reported via ApiError
+      if (!(error instanceof ApiError)) {
+        captureException(error, {
+          errorCode: parsedError.code,
+          statusCode: parsedError.statusCode,
+          handledBy: "createErrorHandler",
+          fallbackTitleKey,
+        });
+      }
 
       if (useSonner) {
         sonnerToast.error(finalTitle, { description });
