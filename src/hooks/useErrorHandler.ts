@@ -2,7 +2,6 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
 import { ApiError, getLocalizedErrorMessage, parseError } from "@/services/errorService";
-import { captureApiError } from "@/lib/sentry";
 
 type ToastVariant = "default" | "destructive";
 
@@ -37,18 +36,6 @@ export const useErrorHandler = (options: ErrorHandlerOptions = {}) => {
     const parsedError = error instanceof ApiError 
       ? error.parsed 
       : parseError(error);
-
-    // Report to Sentry if not already an ApiError (which auto-reports)
-    if (!(error instanceof ApiError)) {
-      captureApiError(
-        error instanceof Error ? error : new Error(String(error)),
-        {
-          errorCode: parsedError.code,
-          statusCode: parsedError.statusCode,
-          isNetworkError: parsedError.isNetworkError,
-        }
-      );
-    }
 
     // Get localized messages
     const { title, description } = getLocalizedErrorMessage(parsedError, t);

@@ -2,7 +2,6 @@
  * Error handling service with locale support
  * Parses backend errors and maps them to user-friendly messages
  */
-import { captureApiError } from "@/lib/sentry";
 
 export interface ApiErrorResponse {
   code?: string;
@@ -307,7 +306,6 @@ function getDefaultTitle(error: ParsedError): string {
 
 /**
  * Create an enhanced Error with parsed information
- * Automatically reports to Sentry when created
  */
 export class ApiError extends Error {
   public readonly parsed: ParsedError;
@@ -317,12 +315,5 @@ export class ApiError extends Error {
     super(parsed.message);
     this.name = "ApiError";
     this.parsed = parsed;
-
-    // Report to Sentry with context
-    captureApiError(this, {
-      statusCode: parsed.statusCode,
-      errorCode: parsed.code,
-      isNetworkError: parsed.isNetworkError,
-    });
   }
 }
