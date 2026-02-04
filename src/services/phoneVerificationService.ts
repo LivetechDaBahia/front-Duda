@@ -1,3 +1,5 @@
+import { addApiBreadcrumb, captureException } from "@/lib/sentry";
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 /**
@@ -49,18 +51,60 @@ export interface ApiError {
 }
 
 /**
+ * Helper to handle API responses with Sentry tracking
+ */
+async function handleResponse<T>(
+  res: Response, 
+  method: string, 
+  endpoint: string
+): Promise<T> {
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    const errorMessage = errorData.message || errorData.error || `API Error: ${res.status}`;
+    
+    addApiBreadcrumb(method, `[phone-verification] ${endpoint}`, res.status, errorMessage);
+    
+    const error = {
+      status: res.status,
+      ...errorData,
+    };
+    
+    // Report to Sentry for server errors
+    if (res.status >= 500) {
+      captureException(new Error(errorMessage), { 
+        endpoint, 
+        status: res.status,
+        service: "phone-verification" 
+      });
+    }
+    
+    throw error;
+  }
+  
+  addApiBreadcrumb(method, `[phone-verification] ${endpoint}`, res.status);
+  return res.json();
+}
+
+/**
  * Check if user needs to complete first access (phone verification)
  */
 export async function getFirstAccess(): Promise<FirstAccessResponse> {
-  const res = await fetch(`${API_BASE}/auth/first-access`, {
-    credentials: "include",
-  });
-  if (!res.ok)
-    throw {
-      status: res.status,
-      ...(await res.json().catch(() => ({}))),
-    };
-  return res.json();
+  const endpoint = "/auth/first-access";
+  addApiBreadcrumb("GET", `[phone-verification] ${endpoint}`);
+  
+  try {
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+      credentials: "include",
+    });
+    return handleResponse(res, "GET", endpoint);
+  } catch (error) {
+    if (!(error as ApiError).status) {
+      // Network error
+      addApiBreadcrumb("GET", `[phone-verification] ${endpoint}`, 0, "Network error");
+      captureException(error, { endpoint, service: "phone-verification" });
+    }
+    throw error;
+  }
 }
 
 /**
@@ -70,18 +114,25 @@ export async function sendPhoneCode(
   phone: string,
   name: string,
 ): Promise<SendCodeResponse> {
-  const res = await fetch(`${API_BASE}/auth/phone/send-code`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ phone: toDigits(phone), name }),
-  });
-  if (!res.ok)
-    throw {
-      status: res.status,
-      ...(await res.json().catch(() => ({}))),
-    };
-  return res.json();
+  const endpoint = "/auth/phone/send-code";
+  addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`);
+  
+  try {
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ phone: toDigits(phone), name }),
+    });
+    return handleResponse(res, "POST", endpoint);
+  } catch (error) {
+    if (!(error as ApiError).status) {
+      // Network error
+      addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`, 0, "Network error");
+      captureException(error, { endpoint, service: "phone-verification" });
+    }
+    throw error;
+  }
 }
 
 /**
@@ -91,19 +142,26 @@ export async function verifyPhoneCode(
   phone: string,
   code: string,
 ): Promise<VerifyCodeResponse> {
-  const res = await fetch(`${API_BASE}/auth/phone/verify`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      phone: toDigits(phone),
-      code: String(code).padStart(6, "0"),
-    }),
-  });
-  if (!res.ok)
-    throw {
-      status: res.status,
-      ...(await res.json().catch(() => ({}))),
-    };
-  return res.json();
+  const endpoint = "/auth/phone/verify";
+  addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`);
+  
+  try {
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        phone: toDigits(phone),
+        code: String(code).padStart(6, "0"),
+      }),
+    });
+    return handleResponse(res, "POST", endpoint);
+  } catch (error) {
+    if (!(error as ApiError).status) {
+      // Network error
+      addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`, 0, "Network error");
+      captureException(error, { endpoint, service: "phone-verification" });
+    }
+    throw error;
+  }
 }

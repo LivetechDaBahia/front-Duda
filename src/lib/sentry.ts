@@ -199,5 +199,71 @@ export function captureMessage(
   Sentry.captureMessage(message, level);
 }
 
+/**
+ * Add a navigation breadcrumb (route changes)
+ */
+export function addNavigationBreadcrumb(
+  from: string,
+  to: string
+): void {
+  if (!isInitialized) return;
+
+  Sentry.addBreadcrumb({
+    category: "navigation",
+    message: `${from} → ${to}`,
+    level: "info",
+    data: { from, to },
+  });
+}
+
+/**
+ * Add a UI action breadcrumb (button clicks, form submissions, etc.)
+ */
+export function addUIBreadcrumb(
+  action: string,
+  component?: string,
+  data?: Record<string, unknown>
+): void {
+  if (!isInitialized) return;
+
+  Sentry.addBreadcrumb({
+    category: "ui",
+    message: component ? `${component}: ${action}` : action,
+    level: "info",
+    data,
+  });
+}
+
+/**
+ * Start a performance transaction for custom spans
+ */
+export function startTransaction(
+  name: string,
+  op: string
+): ReturnType<typeof Sentry.startInactiveSpan> | null {
+  if (!isInitialized) return null;
+
+  return Sentry.startInactiveSpan({
+    name,
+    op,
+  });
+}
+
+/**
+ * Set a tag for the current scope (useful for filtering in Sentry)
+ */
+export function setTag(key: string, value: string | null): void {
+  if (!isInitialized) return;
+  Sentry.setTag(key, value);
+}
+
+/**
+ * Set extra context for the current scope
+ */
+export function setExtra(key: string, value: unknown): void {
+  if (!isInitialized) return;
+  Sentry.setExtra(key, value);
+}
+
 // Re-export Sentry for direct access if needed
 export { Sentry };

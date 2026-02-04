@@ -18,6 +18,7 @@ import {
   useImpersonationActive,
 } from "./components/impersonation";
 import { AppSidebar } from "./components/navigation/AppSidebar";
+import { RouteTracker } from "./components/shared/RouteTracker";
 import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Credit from "./pages/Credit";
@@ -41,6 +42,7 @@ const AppRoutes = () => {
 
   return (
     <>
+      <RouteTracker />
       <ImpersonationBanner />
       <div
         className="flex w-full min-h-[100dvh]"
