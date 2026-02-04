@@ -5,6 +5,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { setSentryUser, clearSentryUser } from "@/lib/sentry";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const DISABLE_PHONE_VERIFICATION_MODAL =
@@ -65,6 +66,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const userData = await response.json();
         setUser(userData);
 
+        // Set Sentry user context
+        setSentryUser({
+          email: userData.email,
+          name: userData.name,
+          role: userData.role,
+          department: userData.department,
+          impersonating: userData.impersonating,
+          impersonatedBy: userData.impersonatedBy,
+        });
+
         // Check first access immediately after getting user data
         try {
           if (DISABLE_PHONE_VERIFICATION_MODAL) {
@@ -99,12 +110,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
         setFirstAccess(null);
         setShowPhoneVerificationModal(false);
+        clearSentryUser();
       }
     } catch (error) {
       console.error("Auth check failed:", error);
       setUser(null);
       setFirstAccess(null);
       setShowPhoneVerificationModal(false);
+      clearSentryUser();
     } finally {
       setIsLoading(false);
     }
@@ -127,6 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       setFirstAccess(null);
       setShowPhoneVerificationModal(false);
+      clearSentryUser();
       window.location.href = "/logout";
     }
   };

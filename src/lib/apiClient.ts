@@ -1,4 +1,5 @@
-import { ApiError, parseError, ERROR_CODES } from "@/services/errorService";
+import { ApiError, ERROR_CODES } from "@/services/errorService";
+import { addApiBreadcrumb } from "@/lib/sentry";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -15,21 +16,29 @@ class ApiClient {
       ...options.headers,
     };
 
+    const method = options.method || "GET";
+    const url = `${this.baseURL}${endpoint}`;
+
+    // Add breadcrumb for request start
+    addApiBreadcrumb(method, endpoint);
+
     let response: Response;
     
     try {
-      response = await fetch(`${this.baseURL}${endpoint}`, {
+      response = await fetch(url, {
         ...options,
         headers,
         credentials: "include", // Send cookies with every request
       });
     } catch (error) {
       // Network errors (no response from server)
+      addApiBreadcrumb(method, endpoint, 0, error instanceof Error ? error.message : "Network error");
       throw new ApiError(error);
     }
 
     // Handle 401 - redirect to backend login
     if (response.status === 401) {
+      addApiBreadcrumb(method, endpoint, 401, "Unauthorized - redirecting to login");
       window.location.href = `${this.baseURL}/auth/login`;
       throw new ApiError({ code: ERROR_CODES.UNAUTHORIZED, message: "Please log in again" }, 401);
     }
@@ -37,6 +46,7 @@ class ApiClient {
     // Handle 403 - permissions issue or impersonation read-only
     if (response.status === 403) {
       const errorText = await response.text();
+      addApiBreadcrumb(method, endpoint, 403, errorText);
 
       // Check if this is an impersonation read-only error
       if (
@@ -53,13 +63,18 @@ class ApiClient {
     // Handle 413 - Payload too large (often from Nginx)
     if (response.status === 413) {
       const errorText = await response.text();
+      addApiBreadcrumb(method, endpoint, 413, "Payload too large");
       throw new ApiError({ code: ERROR_CODES.PAYLOAD_TOO_LARGE, message: errorText }, 413);
     }
 
     if (!response.ok) {
       const errorText = await response.text();
+      addApiBreadcrumb(method, endpoint, response.status, errorText);
       throw new ApiError(errorText, response.status);
     }
+
+    // Success breadcrumb
+    addApiBreadcrumb(method, endpoint, response.status);
 
     // Handle empty responses (204 No Content or empty body)
     const contentType = response.headers.get("content-type");
