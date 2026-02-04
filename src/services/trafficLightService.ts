@@ -1,4 +1,5 @@
 import { apiClient } from "@/lib/apiClient";
+import { addUIBreadcrumb } from "@/lib/sentry";
 import {
   TrafficLightListResponse,
   TrafficLightDetail,
@@ -20,6 +21,8 @@ export const trafficLightService = {
     pageSize: number = 10,
     filters?: TrafficLightFilters
   ): Promise<TrafficLightListResponse> {
+    addUIBreadcrumb("getList", "trafficLightService", { page, pageSize, ...filters });
+    
     const params = new URLSearchParams();
     params.append("page", String(page));
     params.append("pageSize", String(pageSize));
@@ -44,6 +47,7 @@ export const trafficLightService = {
    * Get traffic light details by ID
    */
   async getDetail(id: number): Promise<TrafficLightDetail> {
+    addUIBreadcrumb("getDetail", "trafficLightService", { id });
     return apiClient.get(`/sophos/trafficLight/${id}`);
   },
 };
