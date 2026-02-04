@@ -1,4 +1,5 @@
-import { ApiError, parseError, ERROR_CODES } from "@/services/errorService";
+import { ApiError, ERROR_CODES } from "@/services/errorService";
+import { addApiBreadcrumb } from "@/lib/sentry";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -10,6 +11,7 @@ class ApiClient {
   }
 
   private async request(endpoint: string, options: RequestInit = {}) {
+    const method = options.method || "GET";
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       ...options.headers,
@@ -25,11 +27,13 @@ class ApiClient {
       });
     } catch (error) {
       // Network errors (no response from server)
+      addApiBreadcrumb(endpoint, method, undefined, false);
       throw new ApiError(error);
     }
 
     // Handle 401 - redirect to backend login
     if (response.status === 401) {
+      addApiBreadcrumb(endpoint, method, 401, false);
       window.location.href = `${this.baseURL}/auth/login`;
       throw new ApiError({ code: ERROR_CODES.UNAUTHORIZED, message: "Please log in again" }, 401);
     }
@@ -37,6 +41,7 @@ class ApiClient {
     // Handle 403 - permissions issue or impersonation read-only
     if (response.status === 403) {
       const errorText = await response.text();
+      addApiBreadcrumb(endpoint, method, 403, false);
 
       // Check if this is an impersonation read-only error
       if (
@@ -53,13 +58,18 @@ class ApiClient {
     // Handle 413 - Payload too large (often from Nginx)
     if (response.status === 413) {
       const errorText = await response.text();
+      addApiBreadcrumb(endpoint, method, 413, false);
       throw new ApiError({ code: ERROR_CODES.PAYLOAD_TOO_LARGE, message: errorText }, 413);
     }
 
     if (!response.ok) {
       const errorText = await response.text();
+      addApiBreadcrumb(endpoint, method, response.status, false);
       throw new ApiError(errorText, response.status);
     }
+
+    // Success - add breadcrumb
+    addApiBreadcrumb(endpoint, method, response.status, true);
 
     // Handle empty responses (204 No Content or empty body)
     const contentType = response.headers.get("content-type");
