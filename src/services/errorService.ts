@@ -33,36 +33,36 @@ export const ERROR_CODES = {
   NETWORK_ERROR: "NETWORK_ERROR",
   TIMEOUT: "TIMEOUT",
   CONNECTION_REFUSED: "CONNECTION_REFUSED",
-  
+
   // Auth errors
   UNAUTHORIZED: "UNAUTHORIZED",
   SESSION_EXPIRED: "SESSION_EXPIRED",
   INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
-  
+
   // Permission errors
   FORBIDDEN: "FORBIDDEN",
   IMPERSONATION_READONLY: "IMPERSONATION_READONLY",
   INSUFFICIENT_PERMISSIONS: "INSUFFICIENT_PERMISSIONS",
-  
+
   // Validation errors
   VALIDATION_ERROR: "VALIDATION_ERROR",
   INVALID_INPUT: "INVALID_INPUT",
   MISSING_REQUIRED_FIELD: "MISSING_REQUIRED_FIELD",
-  
+
   // Payload errors
   PAYLOAD_TOO_LARGE: "PAYLOAD_TOO_LARGE",
   FILE_TOO_LARGE: "FILE_TOO_LARGE",
-  
+
   // Server errors
   INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
   SERVICE_UNAVAILABLE: "SERVICE_UNAVAILABLE",
   BAD_GATEWAY: "BAD_GATEWAY",
-  
+
   // Resource errors
   NOT_FOUND: "NOT_FOUND",
   CONFLICT: "CONFLICT",
   ALREADY_EXISTS: "ALREADY_EXISTS",
-  
+
   // Generic
   UNKNOWN_ERROR: "UNKNOWN_ERROR",
 } as const;
@@ -92,9 +92,13 @@ export function parseError(error: unknown, statusCode?: number): ParsedError {
   // Handle Error objects with message
   if (error instanceof Error) {
     const message = error.message.toLowerCase();
-    
+
     // Check for payload too large (413)
-    if (message.includes("413") || message.includes("too large") || message.includes("payload")) {
+    if (
+      message.includes("413") ||
+      message.includes("too large") ||
+      message.includes("payload")
+    ) {
       return {
         code: ERROR_CODES.PAYLOAD_TOO_LARGE,
         message: error.message,
@@ -153,13 +157,13 @@ export function parseError(error: unknown, statusCode?: number): ParsedError {
 
 function parseStringError(error: string, statusCode?: number): ParsedError {
   const lowerError = error.toLowerCase();
-  
+
   // Check for HTML error pages (like Nginx 413)
   if (error.includes("<html>") || error.includes("<!DOCTYPE")) {
     // Extract title if present
     const titleMatch = error.match(/<title>([^<]+)<\/title>/i);
     const extractedMessage = titleMatch?.[1] || "Server Error";
-    
+
     if (lowerError.includes("413") || lowerError.includes("too large")) {
       return {
         code: ERROR_CODES.PAYLOAD_TOO_LARGE,
@@ -175,7 +179,7 @@ function parseStringError(error: string, statusCode?: number): ParsedError {
         raw: error,
       };
     }
-    
+
     if (lowerError.includes("502") || lowerError.includes("bad gateway")) {
       return {
         code: ERROR_CODES.BAD_GATEWAY,
@@ -190,7 +194,7 @@ function parseStringError(error: string, statusCode?: number): ParsedError {
         raw: error,
       };
     }
-    
+
     if (lowerError.includes("503") || lowerError.includes("unavailable")) {
       return {
         code: ERROR_CODES.SERVICE_UNAVAILABLE,
@@ -229,10 +233,14 @@ function parseStringError(error: string, statusCode?: number): ParsedError {
   };
 }
 
-function parseObjectError(error: ApiErrorResponse, statusCode?: number): ParsedError {
-  const code = error.code || mapStatusCodeToErrorCode(statusCode || error.statusCode);
+function parseObjectError(
+  error: ApiErrorResponse,
+  statusCode?: number,
+): ParsedError {
+  const code =
+    error.code || mapStatusCodeToErrorCode(statusCode || error.statusCode);
   const effectiveStatus = statusCode || error.statusCode || 500;
-  
+
   return {
     code,
     message: error.message || error.error || "An error occurred",
@@ -240,10 +248,15 @@ function parseObjectError(error: ApiErrorResponse, statusCode?: number): ParsedE
     statusCode: effectiveStatus,
     isNetworkError: false,
     isAuthError: effectiveStatus === 401 || code === ERROR_CODES.UNAUTHORIZED,
-    isPermissionError: effectiveStatus === 403 || code === ERROR_CODES.FORBIDDEN,
-    isValidationError: effectiveStatus === 400 || effectiveStatus === 422 || code === ERROR_CODES.VALIDATION_ERROR,
+    isPermissionError:
+      effectiveStatus === 403 || code === ERROR_CODES.FORBIDDEN,
+    isValidationError:
+      effectiveStatus === 400 ||
+      effectiveStatus === 422 ||
+      code === ERROR_CODES.VALIDATION_ERROR,
     isServerError: effectiveStatus >= 500,
-    isPayloadTooLarge: effectiveStatus === 413 || code === ERROR_CODES.PAYLOAD_TOO_LARGE,
+    isPayloadTooLarge:
+      effectiveStatus === 413 || code === ERROR_CODES.PAYLOAD_TOO_LARGE,
     raw: error,
   };
 }
@@ -281,18 +294,21 @@ function mapStatusCodeToErrorCode(statusCode?: number): ErrorCode {
  */
 export function getLocalizedErrorMessage(
   parsedError: ParsedError,
-  t: (key: string) => string
+  t: (key: string) => string,
 ): { title: string; description: string } {
   const translationKey = `errors.${parsedError.code}`;
   const translatedTitle = t(translationKey);
-  
+
   // If translation exists (different from key), use it
   const hasTranslation = translatedTitle !== translationKey;
-  
+
   const title = hasTranslation ? translatedTitle : getDefaultTitle(parsedError);
-  const description = parsedError.details || 
-    (hasTranslation ? t(`errors.${parsedError.code}.description`) : parsedError.message);
-  
+  const description =
+    parsedError.details ||
+    (hasTranslation
+      ? t(`errors.${parsedError.code}.description`)
+      : parsedError.message);
+
   return { title, description };
 }
 

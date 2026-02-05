@@ -7,8 +7,16 @@ import {
 
 // Define the workflow stages in order - using translation keys for labels and descriptions
 const WORKFLOW_STAGES: WorkflowStage[] = [
-  { key: "si01", label: "workflow.steps.si", description: "workflow.steps.siDesc" },
-  { key: "po02", label: "workflow.steps.po", description: "workflow.steps.poDesc" },
+  {
+    key: "si01",
+    label: "workflow.steps.si",
+    description: "workflow.steps.siDesc",
+  },
+  {
+    key: "po02",
+    label: "workflow.steps.po",
+    description: "workflow.steps.poDesc",
+  },
   {
     key: "customsClearance03",
     label: "workflow.steps.customsClearance",
@@ -29,7 +37,11 @@ const WORKFLOW_STAGES: WorkflowStage[] = [
     label: "workflow.steps.closeCustoms",
     description: "workflow.steps.closeCustomsDesc",
   },
-  { key: "invoicing07", label: "workflow.steps.invoice", description: "workflow.steps.invoiceDesc" },
+  {
+    key: "invoicing07",
+    label: "workflow.steps.invoice",
+    description: "workflow.steps.invoiceDesc",
+  },
 ];
 
 // Status codes from API
@@ -59,7 +71,7 @@ export function getStatusLabelKey(code: string): string {
 // Map raw status code to workflow status
 function mapStatusToWorkflow(
   statusValue: string,
-  isCanceled: boolean
+  isCanceled: boolean,
 ): TrafficLightStageStatus {
   if (isCanceled) {
     return "failed";
@@ -93,7 +105,7 @@ function mapStatusToWorkflow(
 // Get edge style based on status
 function getEdgeStyle(
   sourceStatus: TrafficLightStageStatus,
-  targetStatus: TrafficLightStageStatus
+  targetStatus: TrafficLightStageStatus,
 ): { style: Edge["style"]; animated: boolean; color: string } {
   if (sourceStatus === "completed" && targetStatus === "completed") {
     return {
@@ -152,7 +164,9 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
       data: {
         label: stage.label,
         status,
-        description: statusValue ? getStatusLabelKey(statusValue) : stage.description,
+        description: statusValue
+          ? getStatusLabelKey(statusValue)
+          : stage.description,
         timestamp: detail.lastUpdate,
       },
     });
@@ -214,7 +228,7 @@ export function transformDetailToWorkflow(detail: TrafficLightDetail): {
 
 // Get overall status from detail
 export function getOverallStatus(
-  detail: TrafficLightDetail
+  detail: TrafficLightDetail,
 ): "in-progress" | "completed" | "failed" {
   // Check if canceled
   if (detail.canceled08.trim() !== "") {

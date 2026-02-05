@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { trafficLightService, TrafficLightFilters } from "@/services/trafficLightService";
+import {
+  trafficLightService,
+  TrafficLightFilters,
+} from "@/services/trafficLightService";
 import {
   TrafficLightListResponse,
   TrafficLightDetail,
@@ -14,7 +17,9 @@ interface UseTrafficLightListParams {
 }
 
 // Transform API response to map numLvts -> lvts
-const transformSummary = (item: Record<string, unknown>): TrafficLightSummary => ({
+const transformSummary = (
+  item: Record<string, unknown>,
+): TrafficLightSummary => ({
   id: item.id as number,
   numQuote: item.numQuote as string,
   salesOrderNumber: item.salesOrderNumber as string,
@@ -34,10 +39,16 @@ export const useTrafficLightList = ({
   const query = useQuery<TrafficLightListResponse>({
     queryKey: ["trafficLight", "list", page, pageSize, filters],
     queryFn: async () => {
-      const response = await trafficLightService.getList(page, pageSize, filters);
+      const response = await trafficLightService.getList(
+        page,
+        pageSize,
+        filters,
+      );
       return {
         ...response,
-        data: response.data.map((item) => transformSummary(item as unknown as Record<string, unknown>)),
+        data: response.data.map((item) =>
+          transformSummary(item as unknown as Record<string, unknown>),
+        ),
       };
     },
     enabled,

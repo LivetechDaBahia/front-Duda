@@ -12,7 +12,10 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useLocale } from "@/contexts/LocaleContext";
 import { WorkflowNode } from "@/components/workflow/WorkflowNode";
-import { WorkflowFilters, WorkflowFilterValues } from "@/components/workflow/WorkflowFilters";
+import {
+  WorkflowFilters,
+  WorkflowFilterValues,
+} from "@/components/workflow/WorkflowFilters";
 import { usePermissions } from "@/hooks/usePermissions";
 import { AccessDenied } from "@/components/shared/AccessDenied";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -49,7 +52,6 @@ import {
 } from "@/lib/trafficLightTransformer";
 import { TrafficLightSummary } from "@/types/trafficLight";
 import { TrafficLightFilters } from "@/services/trafficLightService";
-
 
 const nodeTypes = {
   workflow: WorkflowNode,
@@ -98,7 +100,7 @@ const getStatusConfig = (t: (key: string) => string) => ({
 
 // Derive status from summary for list display
 function getSummaryStatus(
-  item: TrafficLightSummary
+  item: TrafficLightSummary,
 ): "expired" | "in-progress" | "completed" | "failed" {
   if (item.finishedDate) {
     return "completed";
@@ -132,61 +134,76 @@ export default function Workflow() {
   const apiFilters: TrafficLightFilters = useMemo(() => ({}), []);
 
   // Client-side filtering function for all filter types
-  const filterItems = useCallback((items: TrafficLightSummary[], filterValues: WorkflowFilterValues): TrafficLightSummary[] => {
-    return items.filter((item) => {
-      // Search filter: match quote, sales order, or LVTS number
-      if (filterValues.search.trim()) {
-        const term = filterValues.search.toLowerCase().trim();
-        const quote = (item.numQuote || "").toLowerCase();
-        const salesOrder = (item.salesOrderNumber || "").toLowerCase();
-        const lvts = (item.lvts || "").toLowerCase();
-        if (!quote.includes(term) && !salesOrder.includes(term) && !lvts.includes(term)) {
-          return false;
-        }
-      }
-
-      // Status filter
-      if (filterValues.status !== "all") {
-        const itemStatus = getSummaryStatus(item);
-        // Map filter status to item status
-        const statusMap: Record<string, string> = {
-          "pending": "in-progress", // pending maps to in-progress since we don't have pending state
-          "in-progress": "in-progress",
-          "completed": "completed",
-          "failed": "failed",
-        };
-        if (itemStatus !== statusMap[filterValues.status] && itemStatus !== filterValues.status) {
-          return false;
-        }
-      }
-
-      // Date period filter: filter by validityDate
-      if (filterValues.dateFrom || filterValues.dateTo) {
-        const itemDate = item.validityDate ? new Date(item.validityDate) : null;
-        if (!itemDate || isNaN(itemDate.getTime())) {
-          return false; // Exclude items without valid date
-        }
-
-        if (filterValues.dateFrom) {
-          const fromDate = new Date(filterValues.dateFrom);
-          fromDate.setHours(0, 0, 0, 0);
-          if (itemDate < fromDate) {
+  const filterItems = useCallback(
+    (
+      items: TrafficLightSummary[],
+      filterValues: WorkflowFilterValues,
+    ): TrafficLightSummary[] => {
+      return items.filter((item) => {
+        // Search filter: match quote, sales order, or LVTS number
+        if (filterValues.search.trim()) {
+          const term = filterValues.search.toLowerCase().trim();
+          const quote = (item.numQuote || "").toLowerCase();
+          const salesOrder = (item.salesOrderNumber || "").toLowerCase();
+          const lvts = (item.lvts || "").toLowerCase();
+          if (
+            !quote.includes(term) &&
+            !salesOrder.includes(term) &&
+            !lvts.includes(term)
+          ) {
             return false;
           }
         }
 
-        if (filterValues.dateTo) {
-          const toDate = new Date(filterValues.dateTo);
-          toDate.setHours(23, 59, 59, 999);
-          if (itemDate > toDate) {
+        // Status filter
+        if (filterValues.status !== "all") {
+          const itemStatus = getSummaryStatus(item);
+          // Map filter status to item status
+          const statusMap: Record<string, string> = {
+            pending: "in-progress", // pending maps to in-progress since we don't have pending state
+            "in-progress": "in-progress",
+            completed: "completed",
+            failed: "failed",
+          };
+          if (
+            itemStatus !== statusMap[filterValues.status] &&
+            itemStatus !== filterValues.status
+          ) {
             return false;
           }
         }
-      }
 
-      return true;
-    });
-  }, []);
+        // Date period filter: filter by validityDate
+        if (filterValues.dateFrom || filterValues.dateTo) {
+          const itemDate = item.validityDate
+            ? new Date(item.validityDate)
+            : null;
+          if (!itemDate || isNaN(itemDate.getTime())) {
+            return false; // Exclude items without valid date
+          }
+
+          if (filterValues.dateFrom) {
+            const fromDate = new Date(filterValues.dateFrom);
+            fromDate.setHours(0, 0, 0, 0);
+            if (itemDate < fromDate) {
+              return false;
+            }
+          }
+
+          if (filterValues.dateTo) {
+            const toDate = new Date(filterValues.dateTo);
+            toDate.setHours(23, 59, 59, 999);
+            if (itemDate > toDate) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      });
+    },
+    [],
+  );
 
   // Handle filter changes
   const handleFilterChange = (newFilters: WorkflowFilterValues) => {
@@ -204,7 +221,10 @@ export default function Workflow() {
   } = useTrafficLightList({ page, pageSize, filters: apiFilters });
 
   // Apply client-side filters
-  const items = useMemo(() => filterItems(rawItems, filters), [rawItems, filters, filterItems]);
+  const items = useMemo(
+    () => filterItems(rawItems, filters),
+    [rawItems, filters, filterItems],
+  );
 
   // Track if currently refreshing
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -224,7 +244,9 @@ export default function Workflow() {
   const workflowData = detail ? transformDetailToWorkflow(detail) : null;
 
   // Layout cache to persist user-customized node positions
-  const layoutCache = useRef<Map<number, { nodes: Node[]; edges: Edge[] }>>(new Map());
+  const layoutCache = useRef<Map<number, { nodes: Node[]; edges: Edge[] }>>(
+    new Map(),
+  );
   // Track which item we've loaded to prevent re-running effect
   const loadedItemRef = useRef<number | null>(null);
 
@@ -238,7 +260,7 @@ export default function Workflow() {
 
       // Check if any node finished dragging
       const hasDragEnd = changes.some(
-        (change) => change.type === "position" && change.dragging === false
+        (change) => change.type === "position" && change.dragging === false,
       );
 
       if (hasDragEnd && selectedItemId !== null) {
@@ -257,7 +279,7 @@ export default function Workflow() {
         }, 0);
       }
     },
-    [onNodesChangeBase, selectedItemId, setNodes, setEdges]
+    [onNodesChangeBase, selectedItemId, setNodes, setEdges],
   );
 
   // Handle selecting an item - save current layout first
@@ -273,7 +295,7 @@ export default function Workflow() {
       loadedItemRef.current = null; // Reset so the new item gets loaded
       setSelectedItemId(id);
     },
-    [selectedItemId, nodes, edges]
+    [selectedItemId, nodes, edges],
   );
 
   // When detail loads, restore cached layout or use fresh data
@@ -286,15 +308,13 @@ export default function Workflow() {
       loadedItemRef.current !== selectedItemId
     ) {
       loadedItemRef.current = selectedItemId;
-      
+
       const cached = layoutCache.current.get(selectedItemId);
       if (cached) {
         // Merge cached positions with fresh status data
         const mergedNodes = workflowData.nodes.map((node) => {
           const cachedNode = cached.nodes.find((n) => n.id === node.id);
-          return cachedNode
-            ? { ...node, position: cachedNode.position }
-            : node;
+          return cachedNode ? { ...node, position: cachedNode.position } : node;
         });
         setNodes(mergedNodes);
         setEdges(workflowData.edges);
@@ -344,13 +364,23 @@ export default function Workflow() {
                 <ToggleGroup
                   type="single"
                   value={viewMode}
-                  onValueChange={(value) => value && setViewMode(value as "list" | "kanban")}
+                  onValueChange={(value) =>
+                    value && setViewMode(value as "list" | "kanban")
+                  }
                   className="border rounded-md"
                 >
-                  <ToggleGroupItem value="list" aria-label={t("workflow.view.list")} className="px-3">
+                  <ToggleGroupItem
+                    value="list"
+                    aria-label={t("workflow.view.list")}
+                    className="px-3"
+                  >
                     <List className="h-4 w-4" />
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="kanban" aria-label={t("workflow.view.kanban")} className="px-3">
+                  <ToggleGroupItem
+                    value="kanban"
+                    aria-label={t("workflow.view.kanban")}
+                    className="px-3"
+                  >
                     <LayoutGrid className="h-4 w-4" />
                   </ToggleGroupItem>
                 </ToggleGroup>
@@ -361,7 +391,12 @@ export default function Workflow() {
                   disabled={isRefreshing || isListLoading}
                   className="shrink-0"
                 >
-                  <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
+                  <RefreshCw
+                    className={cn(
+                      "h-4 w-4 mr-2",
+                      isRefreshing && "animate-spin",
+                    )}
+                  />
                   {t("workflow.refresh")}
                 </Button>
               </div>
@@ -379,7 +414,9 @@ export default function Workflow() {
           {isListLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-2 text-muted-foreground">{t("workflow.loading")}</span>
+              <span className="ml-2 text-muted-foreground">
+                {t("workflow.loading")}
+              </span>
             </div>
           ) : listError ? (
             <Alert variant="destructive">
@@ -419,7 +456,7 @@ export default function Workflow() {
                             status === "completed" && "border-l-success",
                             status === "in-progress" && "border-l-primary",
                             status === "failed" && "border-l-destructive",
-                            status === "expired" && "border-l-warning"
+                            status === "expired" && "border-l-warning",
                           )}
                           onClick={() => handleSelectItem(item.id)}
                         >
@@ -428,7 +465,7 @@ export default function Workflow() {
                               <div
                                 className={cn(
                                   "p-2 rounded-lg shrink-0",
-                                  config.bgColor
+                                  config.bgColor,
                                 )}
                               >
                                 <FileText
@@ -440,9 +477,14 @@ export default function Workflow() {
                                   {t("workflow.quote")}: {item.numQuote}
                                 </h3>
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
-                                  <span>{t("workflow.salesOrder")}: {item.salesOrderNumber}</span>
+                                  <span>
+                                    {t("workflow.salesOrder")}:{" "}
+                                    {item.salesOrderNumber}
+                                  </span>
                                   {item.lvts && (
-                                    <span>{t("workflow.lvts")}: {item.lvts}</span>
+                                    <span>
+                                      {t("workflow.lvts")}: {item.lvts}
+                                    </span>
                                   )}
                                 </div>
                                 <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-2">
@@ -452,7 +494,7 @@ export default function Workflow() {
                                       "text-xs",
                                       status === "expired"
                                         ? "bg-warning/20 text-warning"
-                                        : "bg-muted text-muted-foreground"
+                                        : "bg-muted text-muted-foreground",
                                     )}
                                   >
                                     {t("workflow.dueDate")}: {item.validityDate}
@@ -460,14 +502,16 @@ export default function Workflow() {
                                   {item.startDate && (
                                     <span>
                                       {t("workflow.started")}:{" "}
-                                      {new Date(item.startDate).toLocaleDateString()}
+                                      {new Date(
+                                        item.startDate,
+                                      ).toLocaleDateString()}
                                     </span>
                                   )}
                                   {item.finishedDate && (
                                     <span>
                                       {t("workflow.finished")}:{" "}
                                       {new Date(
-                                        item.finishedDate
+                                        item.finishedDate,
                                       ).toLocaleDateString()}
                                     </span>
                                   )}
@@ -478,7 +522,7 @@ export default function Workflow() {
                               variant="outline"
                               className={cn(
                                 "shrink-0 flex items-center gap-1.5",
-                                config.color
+                                config.color,
                               )}
                             >
                               <StatusIcon className="h-3 w-3" />
@@ -496,8 +540,9 @@ export default function Workflow() {
               {viewMode === "list" && (
                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
                   <p className="text-sm text-muted-foreground">
-                    {t("workflow.showing")} {(page - 1) * pageSize + 1} {t("workflow.to")}{" "}
-                    {Math.min(page * pageSize, total)} {t("workflow.of")} {total} {t("workflow.items")}
+                    {t("workflow.showing")} {(page - 1) * pageSize + 1}{" "}
+                    {t("workflow.to")} {Math.min(page * pageSize, total)}{" "}
+                    {t("workflow.of")} {total} {t("workflow.items")}
                   </p>
                   <div className="flex items-center gap-2">
                     <Button
@@ -510,12 +555,15 @@ export default function Workflow() {
                       {t("workflow.previous")}
                     </Button>
                     <span className="text-sm text-muted-foreground px-2">
-                      {t("workflow.page")} {page} {t("workflow.of")} {totalPages}
+                      {t("workflow.page")} {page} {t("workflow.of")}{" "}
+                      {totalPages}
                     </span>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }
                       disabled={page >= totalPages}
                     >
                       {t("workflow.next")}
@@ -552,10 +600,12 @@ export default function Workflow() {
               </Button>
               <div className="min-w-0 flex-1">
                 <h1 className="text-xl sm:text-2xl font-bold text-foreground truncate">
-                  {detail?.poName || `${t("workflow.quote")}: ${selectedItem?.numQuote}`}
+                  {detail?.poName ||
+                    `${t("workflow.quote")}: ${selectedItem?.numQuote}`}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-0.5">
-                  {t("workflow.salesOrder")}: {detail?.salesOrderNumber || selectedItem?.salesOrderNumber}
+                  {t("workflow.salesOrder")}:{" "}
+                  {detail?.salesOrderNumber || selectedItem?.salesOrderNumber}
                 </p>
               </div>
             </div>
@@ -579,7 +629,7 @@ export default function Workflow() {
                 variant="outline"
                 className={cn(
                   "shrink-0 flex items-center gap-1.5",
-                  selectedConfig.color
+                  selectedConfig.color,
                 )}
               >
                 <selectedConfig.icon className="h-3 w-3" />

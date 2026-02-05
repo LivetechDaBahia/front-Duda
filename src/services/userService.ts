@@ -27,10 +27,10 @@ class UserService {
   async getUsers(
     query: ListUsersQueryDto = {},
   ): Promise<PaginatedUsersDto<User>> {
-    addUIBreadcrumb("getUsers", "userService", { 
-      page: query.page, 
+    addUIBreadcrumb("getUsers", "userService", {
+      page: query.page,
       limit: query.limit,
-      search: query.search 
+      search: query.search,
     });
     return apiClient.get(`/users${this.toQuery(query)}`);
   }

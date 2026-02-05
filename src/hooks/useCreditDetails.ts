@@ -39,7 +39,9 @@ export const useCreditDetails = ({
   clientDocsPage = 1,
   clientDocsSize = 10,
 }: UseCreditDetailsParams) => {
-  const cleanProposalId = proposalId ? extractProposalId(proposalId) : undefined;
+  const cleanProposalId = proposalId
+    ? extractProposalId(proposalId)
+    : undefined;
   const {
     data: elementDetails,
     isLoading: isLoadingDetails,
@@ -93,9 +95,18 @@ export const useCreditDetails = ({
     isLoading: isLoadingClientDocs,
     error: clientDocsError,
   } = useQuery<CreditClientDocument[]>({
-    queryKey: ["creditClientDocuments", creditId, clientDocsPage, clientDocsSize],
+    queryKey: [
+      "creditClientDocuments",
+      creditId,
+      clientDocsPage,
+      clientDocsSize,
+    ],
     queryFn: async () => {
-      return creditService.getClientDocuments(creditId!, clientDocsPage, clientDocsSize);
+      return creditService.getClientDocuments(
+        creditId!,
+        clientDocsPage,
+        clientDocsSize,
+      );
     },
     enabled: !!creditId,
   });

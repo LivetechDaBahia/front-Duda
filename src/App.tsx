@@ -36,7 +36,12 @@ const AppRoutes = () => {
   const isImpersonating = useImpersonationActive();
 
   // Pages that should not show the sidebar
-  const noSidebarRoutes = ["/login", "/logout", "/auth/callback", "/request-access"];
+  const noSidebarRoutes = [
+    "/login",
+    "/logout",
+    "/auth/callback",
+    "/request-access",
+  ];
   const showSidebar =
     !noSidebarRoutes.includes(location.pathname) && location.pathname !== "*";
 

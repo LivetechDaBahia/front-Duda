@@ -99,6 +99,7 @@ export interface CreditClientDetails {
   averageDelay: string;
   biggestDelay: string;
   comments: string;
+  warranty: string;
 }
 
 export interface FinancialHistory {

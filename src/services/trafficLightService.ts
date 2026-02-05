@@ -19,10 +19,14 @@ export const trafficLightService = {
   async getList(
     page: number = 1,
     pageSize: number = 10,
-    filters?: TrafficLightFilters
+    filters?: TrafficLightFilters,
   ): Promise<TrafficLightListResponse> {
-    addUIBreadcrumb("getList", "trafficLightService", { page, pageSize, ...filters });
-    
+    addUIBreadcrumb("getList", "trafficLightService", {
+      page,
+      pageSize,
+      ...filters,
+    });
+
     const params = new URLSearchParams();
     params.append("page", String(page));
     params.append("pageSize", String(pageSize));

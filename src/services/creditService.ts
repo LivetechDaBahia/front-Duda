@@ -52,7 +52,9 @@ export const creditService = {
       page: page.toString(),
       size: size.toString(),
     });
-    return apiClient.get(`/credit/creditElement/documents/client/${id}?${params}`);
+    return apiClient.get(
+      `/credit/creditElement/documents/client/${id}?${params}`,
+    );
   },
 
   async getClientDetails(
@@ -80,9 +82,9 @@ export const creditService = {
   },
 
   async updateCreditStatus(payload: UpdateCreditStatusDto): Promise<void> {
-    addUIBreadcrumb("updateCreditStatus", "creditService", { 
-      id: payload.item.id, 
-      newStatus: payload.status 
+    addUIBreadcrumb("updateCreditStatus", "creditService", {
+      id: payload.item.id,
+      newStatus: payload.status,
     });
     return apiClient.patch(`/credit/creditElement/${payload.item.id}/status`, {
       payload,
@@ -100,9 +102,9 @@ export const creditService = {
     flowId?: string;
     key?: string;
   }): Promise<void> {
-    addUIBreadcrumb("assignCreditItem", "creditService", { 
-      itemId: payload.itemId, 
-      assigneeEmail: payload.assigneeEmail 
+    addUIBreadcrumb("assignCreditItem", "creditService", {
+      itemId: payload.itemId,
+      assigneeEmail: payload.assigneeEmail,
     });
     return apiClient.post("/credit/creditElement/assign", payload);
   },
@@ -118,9 +120,9 @@ export const creditService = {
     risk: string;
     dueDate: Date;
   }): Promise<void> {
-    addUIBreadcrumb("setCreditLimit", "creditService", { 
-      cnpj: payload.cnpj, 
-      limit: payload.limit 
+    addUIBreadcrumb("setCreditLimit", "creditService", {
+      cnpj: payload.cnpj,
+      limit: payload.limit,
     });
     return apiClient.post("/credit/creditElement/limit", payload);
   },
@@ -131,10 +133,10 @@ export const creditService = {
     type: string;
     proposal: string;
   }): Promise<{ message: string }> {
-    addUIBreadcrumb("uploadDocument", "creditService", { 
-      name: payload.name, 
+    addUIBreadcrumb("uploadDocument", "creditService", {
+      name: payload.name,
       type: payload.type,
-      proposal: payload.proposal 
+      proposal: payload.proposal,
     });
     return apiClient.post("/documents/uploadFile", payload);
   },

@@ -50,16 +50,16 @@ const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
     img.onload = () => {
       let { width, height } = img;
       let quality = 0.8;
-      
+
       // Start with original dimensions, reduce if needed
       canvas.width = width;
       canvas.height = height;
-      
+
       const tryCompress = (currentQuality: number, scale: number): void => {
         canvas.width = width * scale;
         canvas.height = height * scale;
         ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
+
         canvas.toBlob(
           (blob) => {
             if (!blob) {
@@ -67,7 +67,11 @@ const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
               return;
             }
 
-            if (blob.size <= maxSizeBytes || currentQuality <= 0.1 || scale <= 0.3) {
+            if (
+              blob.size <= maxSizeBytes ||
+              currentQuality <= 0.1 ||
+              scale <= 0.3
+            ) {
               // Accept this result
               const compressedFile = new File([blob], file.name, {
                 type: "image/jpeg",
@@ -84,7 +88,7 @@ const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
             }
           },
           "image/jpeg",
-          currentQuality
+          currentQuality,
         );
       };
 
@@ -138,7 +142,10 @@ export const DocumentUploadDialog = ({
     },
     onError: (error: unknown) => {
       if (error instanceof ApiError) {
-        const { title, description } = getLocalizedErrorMessage(error.parsed, t);
+        const { title, description } = getLocalizedErrorMessage(
+          error.parsed,
+          t,
+        );
         toast.error(title, { description });
       } else {
         toast.error(t("credit.upload.error"));
@@ -156,13 +163,16 @@ export const DocumentUploadDialog = ({
 
   const processFile = async (selectedFile: File): Promise<void> => {
     setFileSizeError(null);
-    
+
     // Check if it's an image that can be compressed
     if (IMAGE_TYPES.includes(selectedFile.type)) {
       if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
         setIsCompressing(true);
         try {
-          const compressedFile = await compressImage(selectedFile, MAX_FILE_SIZE_BYTES);
+          const compressedFile = await compressImage(
+            selectedFile,
+            MAX_FILE_SIZE_BYTES,
+          );
           setFile(compressedFile);
           toast.info(t("credit.upload.compressed"));
         } catch {
@@ -177,7 +187,10 @@ export const DocumentUploadDialog = ({
       // Non-image file - check size limit
       if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
         setFileSizeError(
-          t("credit.upload.fileTooLarge").replace("{maxSize}", MAX_FILE_SIZE_DISPLAY)
+          t("credit.upload.fileTooLarge").replace(
+            "{maxSize}",
+            MAX_FILE_SIZE_DISPLAY,
+          ),
         );
       } else {
         setFile(selectedFile);
@@ -258,7 +271,9 @@ export const DocumentUploadDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{t("credit.upload.title")}</DialogTitle>
-          <DialogDescription>{t("credit.upload.description")}</DialogDescription>
+          <DialogDescription>
+            {t("credit.upload.description")}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -270,7 +285,9 @@ export const DocumentUploadDialog = ({
               onValueChange={(value) => setSelectedType(value as DocumentType)}
             >
               <SelectTrigger id="doc-type">
-                <SelectValue placeholder={t("credit.upload.selectTypePlaceholder")} />
+                <SelectValue
+                  placeholder={t("credit.upload.selectTypePlaceholder")}
+                />
               </SelectTrigger>
               <SelectContent className="bg-popover z-50">
                 {DOCUMENT_TYPES.map((type) => (
@@ -300,7 +317,7 @@ export const DocumentUploadDialog = ({
                     ? "border-destructive bg-destructive/5"
                     : isDragOver
                       ? "border-primary bg-primary/5"
-                      : "border-muted-foreground/25 hover:border-primary/50"
+                      : "border-muted-foreground/25 hover:border-primary/50",
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -327,7 +344,10 @@ export const DocumentUploadDialog = ({
                       {t("credit.upload.orClick")}
                     </p>
                     <p className="text-xs text-muted-foreground/70 mt-2">
-                      {t("credit.upload.maxSize").replace("{maxSize}", MAX_FILE_SIZE_DISPLAY)}
+                      {t("credit.upload.maxSize").replace(
+                        "{maxSize}",
+                        MAX_FILE_SIZE_DISPLAY,
+                      )}
                     </p>
                   </>
                 )}

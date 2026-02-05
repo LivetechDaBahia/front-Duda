@@ -78,18 +78,26 @@ export const CreditAssignmentDialog = ({
 
       return false;
     });
-  }, [allUsers, isAdmin, isCreditManager, currentUser?.email, currentDepartmentId]);
+  }, [
+    allUsers,
+    isAdmin,
+    isCreditManager,
+    currentUser?.email,
+    currentDepartmentId,
+  ]);
 
   // Separate users into department users and other users
   const departmentUsers = useMemo(() => {
     return permittedUsers.filter(
-      (user) => currentDepartmentId && user.departmentId === currentDepartmentId
+      (user) =>
+        currentDepartmentId && user.departmentId === currentDepartmentId,
     );
   }, [permittedUsers, currentDepartmentId]);
 
   const otherDepartmentUsers = useMemo(() => {
     return permittedUsers.filter(
-      (user) => !currentDepartmentId || user.departmentId !== currentDepartmentId
+      (user) =>
+        !currentDepartmentId || user.departmentId !== currentDepartmentId,
     );
   }, [permittedUsers, currentDepartmentId]);
 
@@ -100,7 +108,7 @@ export const CreditAssignmentDialog = ({
     return departmentUsers.filter(
       (user) =>
         user.name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query)
+        user.email.toLowerCase().includes(query),
     );
   }, [departmentUsers, searchQuery]);
 
@@ -110,7 +118,7 @@ export const CreditAssignmentDialog = ({
     return otherDepartmentUsers.filter(
       (user) =>
         user.name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query)
+        user.email.toLowerCase().includes(query),
     );
   }, [otherDepartmentUsers, searchQuery]);
 
@@ -165,7 +173,7 @@ export const CreditAssignmentDialog = ({
         title: t("credit.assign.successTitle"),
         description: t("credit.assign.successDesc").replace(
           "{email}",
-          selectedUser.name
+          selectedUser.name,
         ),
       });
 
@@ -214,7 +222,7 @@ export const CreditAssignmentDialog = ({
       className={cn(
         "w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors",
         "hover:bg-accent",
-        isSelected && "bg-primary/10 border border-primary"
+        isSelected && "bg-primary/10 border border-primary",
       )}
     >
       <div className="flex-shrink-0 h-9 w-9 rounded-full bg-muted flex items-center justify-center">
@@ -368,7 +376,10 @@ export const CreditAssignmentDialog = ({
                   {t("credit.assign.willAssignTo")}:{" "}
                 </span>
                 <span className="font-medium">{selectedUser.name}</span>
-                <span className="text-muted-foreground"> ({selectedUser.email})</span>
+                <span className="text-muted-foreground">
+                  {" "}
+                  ({selectedUser.email})
+                </span>
               </p>
             </div>
           )}

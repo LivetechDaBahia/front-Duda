@@ -118,11 +118,16 @@ export function RolesManagement() {
           <AlertDialogHeader>
             <AlertDialogTitle>{t("role.delete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("role.deleteConfirm").replace("{name}", deletingRole?.name || "")}
+              {t("role.deleteConfirm").replace(
+                "{name}",
+                deletingRole?.name || "",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>
+              {t("common.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}

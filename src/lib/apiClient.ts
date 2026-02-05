@@ -23,7 +23,7 @@ class ApiClient {
     addApiBreadcrumb(method, endpoint);
 
     let response: Response;
-    
+
     try {
       response = await fetch(url, {
         ...options,
@@ -32,15 +32,28 @@ class ApiClient {
       });
     } catch (error) {
       // Network errors (no response from server)
-      addApiBreadcrumb(method, endpoint, 0, error instanceof Error ? error.message : "Network error");
+      addApiBreadcrumb(
+        method,
+        endpoint,
+        0,
+        error instanceof Error ? error.message : "Network error",
+      );
       throw new ApiError(error);
     }
 
     // Handle 401 - redirect to backend login
     if (response.status === 401) {
-      addApiBreadcrumb(method, endpoint, 401, "Unauthorized - redirecting to login");
+      addApiBreadcrumb(
+        method,
+        endpoint,
+        401,
+        "Unauthorized - redirecting to login",
+      );
       window.location.href = `${this.baseURL}/auth/login`;
-      throw new ApiError({ code: ERROR_CODES.UNAUTHORIZED, message: "Please log in again" }, 401);
+      throw new ApiError(
+        { code: ERROR_CODES.UNAUTHORIZED, message: "Please log in again" },
+        401,
+      );
     }
 
     // Handle 403 - permissions issue or impersonation read-only
@@ -54,17 +67,26 @@ class ApiClient {
         errorText.toLowerCase().includes("read-only") ||
         response.headers.get("X-Impersonating") === "true"
       ) {
-        throw new ApiError({ code: ERROR_CODES.IMPERSONATION_READONLY, message: errorText }, 403);
+        throw new ApiError(
+          { code: ERROR_CODES.IMPERSONATION_READONLY, message: errorText },
+          403,
+        );
       }
 
-      throw new ApiError({ code: ERROR_CODES.FORBIDDEN, message: errorText }, 403);
+      throw new ApiError(
+        { code: ERROR_CODES.FORBIDDEN, message: errorText },
+        403,
+      );
     }
 
     // Handle 413 - Payload too large (often from Nginx)
     if (response.status === 413) {
       const errorText = await response.text();
       addApiBreadcrumb(method, endpoint, 413, "Payload too large");
-      throw new ApiError({ code: ERROR_CODES.PAYLOAD_TOO_LARGE, message: errorText }, 413);
+      throw new ApiError(
+        { code: ERROR_CODES.PAYLOAD_TOO_LARGE, message: errorText },
+        413,
+      );
     }
 
     if (!response.ok) {

@@ -42,7 +42,13 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const { open } = useSidebar();
-  const { isAdmin, canViewCredit, canViewPurchaseOrders, canViewTrafficLight, canImpersonate } = usePermissions();
+  const {
+    isAdmin,
+    canViewCredit,
+    canViewPurchaseOrders,
+    canViewTrafficLight,
+    canImpersonate,
+  } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [impersonationDialogOpen, setImpersonationDialogOpen] = useState(false);
   const isImpersonating = user?.impersonating ?? false;

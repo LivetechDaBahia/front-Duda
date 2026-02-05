@@ -11,7 +11,8 @@ const Slider = React.forwardRef<
     (props.value?.length ??
       props.defaultValue?.length ??
       // Radix expects an array; fall back to single thumb
-      1) || 1;
+      1) ||
+    1;
 
   return (
     <SliderPrimitive.Root

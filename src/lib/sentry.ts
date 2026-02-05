@@ -1,6 +1,6 @@
 /**
  * Sentry Configuration and Utilities
- * 
+ *
  * Provides error tracking, performance monitoring, and session replay.
  * Only initializes in production when VITE_SENTRY_DSN is configured.
  */
@@ -9,8 +9,11 @@ import * as Sentry from "@sentry/react";
 
 // Environment variables
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
-const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT || "development";
-const IS_DEVELOPMENT = import.meta.env.MODE === "development" || SENTRY_ENVIRONMENT === "development";
+const SENTRY_ENVIRONMENT =
+  import.meta.env.VITE_SENTRY_ENVIRONMENT || "development";
+const IS_DEVELOPMENT =
+  import.meta.env.MODE === "development" ||
+  SENTRY_ENVIRONMENT === "development";
 
 // Track initialization state
 let isInitialized = false;
@@ -42,7 +45,7 @@ export function initSentry(): void {
     Sentry.init({
       dsn: SENTRY_DSN,
       environment: SENTRY_ENVIRONMENT,
-      
+
       // Integrations
       integrations: [
         Sentry.browserTracingIntegration(),
@@ -66,11 +69,14 @@ export function initSentry(): void {
       // Filtering
       beforeSend(event) {
         // Filter out network errors from unreachable internal APIs
-        if (event.exception?.values?.some(e => 
-          e.value?.includes("ERR_CONNECTION_TIMED_OUT") ||
-          e.value?.includes("net::ERR_") ||
-          e.value?.includes("Failed to fetch")
-        )) {
+        if (
+          event.exception?.values?.some(
+            (e) =>
+              e.value?.includes("ERR_CONNECTION_TIMED_OUT") ||
+              e.value?.includes("net::ERR_") ||
+              e.value?.includes("Failed to fetch"),
+          )
+        ) {
           // Still send but mark as network error
           event.tags = { ...event.tags, error_type: "network" };
         }
@@ -130,7 +136,7 @@ export function setSentryUser(user: {
  */
 export function clearSentryUser(): void {
   if (!isInitialized) return;
-  
+
   Sentry.setUser(null);
   Sentry.setContext("user_details", null);
   Sentry.setTag("impersonation_active", null);
@@ -143,14 +149,18 @@ export function addApiBreadcrumb(
   method: string,
   url: string,
   statusCode?: number,
-  error?: string
+  error?: string,
 ): void {
   if (!isInitialized) return;
 
   Sentry.addBreadcrumb({
     category: "api",
     message: `${method} ${url}`,
-    level: error ? "error" : statusCode && statusCode >= 400 ? "warning" : "info",
+    level: error
+      ? "error"
+      : statusCode && statusCode >= 400
+        ? "warning"
+        : "info",
     data: {
       method,
       url,
@@ -165,7 +175,7 @@ export function addApiBreadcrumb(
  */
 export function captureException(
   error: Error | unknown,
-  context?: Record<string, unknown>
+  context?: Record<string, unknown>,
 ): void {
   if (!isInitialized) {
     console.error("[Sentry not initialized] Error:", error);
@@ -189,7 +199,7 @@ export function captureException(
  */
 export function captureMessage(
   message: string,
-  level: Sentry.SeverityLevel = "info"
+  level: Sentry.SeverityLevel = "info",
 ): void {
   if (!isInitialized) {
     console.log(`[Sentry not initialized] ${level}:`, message);
@@ -202,10 +212,7 @@ export function captureMessage(
 /**
  * Add a navigation breadcrumb (route changes)
  */
-export function addNavigationBreadcrumb(
-  from: string,
-  to: string
-): void {
+export function addNavigationBreadcrumb(from: string, to: string): void {
   if (!isInitialized) return;
 
   Sentry.addBreadcrumb({
@@ -222,7 +229,7 @@ export function addNavigationBreadcrumb(
 export function addUIBreadcrumb(
   action: string,
   component?: string,
-  data?: Record<string, unknown>
+  data?: Record<string, unknown>,
 ): void {
   if (!isInitialized) return;
 
@@ -239,7 +246,7 @@ export function addUIBreadcrumb(
  */
 export function startTransaction(
   name: string,
-  op: string
+  op: string,
 ): ReturnType<typeof Sentry.startInactiveSpan> | null {
   if (!isInitialized) return null;
 

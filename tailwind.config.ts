@@ -97,10 +97,16 @@ export default {
         },
         "collapsible-down": {
           from: { height: "0", opacity: "0" },
-          to: { height: "var(--radix-collapsible-content-height)", opacity: "1" },
+          to: {
+            height: "var(--radix-collapsible-content-height)",
+            opacity: "1",
+          },
         },
         "collapsible-up": {
-          from: { height: "var(--radix-collapsible-content-height)", opacity: "1" },
+          from: {
+            height: "var(--radix-collapsible-content-height)",
+            opacity: "1",
+          },
           to: { height: "0", opacity: "0" },
         },
         "fade-in": {

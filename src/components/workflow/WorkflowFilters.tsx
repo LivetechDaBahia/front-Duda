@@ -16,7 +16,12 @@ import { format } from "date-fns";
 
 const STORAGE_KEY = "workflowFilters";
 
-export type WorkflowStatusFilter = "all" | "pending" | "in-progress" | "completed" | "failed";
+export type WorkflowStatusFilter =
+  | "all"
+  | "pending"
+  | "in-progress"
+  | "completed"
+  | "failed";
 
 export interface WorkflowFilterValues {
   search: string;
@@ -61,17 +66,17 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
 
   const [search, setSearch] = useState(storedFilters.search || "");
   const [status, setStatus] = useState<WorkflowStatusFilter>(
-    storedFilters.status || "all"
+    storedFilters.status || "all",
   );
   const [dateFrom, setDateFrom] = useState<Date | undefined>(
-    storedFilters.dateFrom ? new Date(storedFilters.dateFrom) : undefined
+    storedFilters.dateFrom ? new Date(storedFilters.dateFrom) : undefined,
   );
   const [dateTo, setDateTo] = useState<Date | undefined>(
-    storedFilters.dateTo ? new Date(storedFilters.dateTo) : undefined
+    storedFilters.dateTo ? new Date(storedFilters.dateTo) : undefined,
   );
 
   const hasActiveFilters = Boolean(
-    search || status !== "all" || dateFrom || dateTo
+    search || status !== "all" || dateFrom || dateTo,
   );
 
   const [showFilters, setShowFilters] = useState(hasActiveFilters);
@@ -233,11 +238,21 @@ export const WorkflowFilters = ({ onFilterChange }: WorkflowFiltersProps) => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("workflow.filters.allStatuses")}</SelectItem>
-              <SelectItem value="pending">{t("workflow.status.pending")}</SelectItem>
-              <SelectItem value="in-progress">{t("workflow.status.inProgress")}</SelectItem>
-              <SelectItem value="completed">{t("workflow.status.completed")}</SelectItem>
-              <SelectItem value="failed">{t("workflow.status.failed")}</SelectItem>
+              <SelectItem value="all">
+                {t("workflow.filters.allStatuses")}
+              </SelectItem>
+              <SelectItem value="pending">
+                {t("workflow.status.pending")}
+              </SelectItem>
+              <SelectItem value="in-progress">
+                {t("workflow.status.inProgress")}
+              </SelectItem>
+              <SelectItem value="completed">
+                {t("workflow.status.completed")}
+              </SelectItem>
+              <SelectItem value="failed">
+                {t("workflow.status.failed")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

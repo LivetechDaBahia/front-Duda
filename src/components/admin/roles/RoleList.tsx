@@ -28,7 +28,7 @@ interface RoleListProps {
 }
 
 const getAccessLevelVariant = (
-  levelValue: string
+  levelValue: string,
 ): "default" | "secondary" | "outline" => {
   if (levelValue === "4") return "default"; // Administrator
   if (levelValue === "3") return "secondary"; // Manager
@@ -80,7 +80,9 @@ export function RoleList({
           <TableHead>{t("role.name")}</TableHead>
           <TableHead>{t("role.accessLevel")}</TableHead>
           <TableHead>{t("role.permissions")}</TableHead>
-          {isAdmin && <TableHead className="w-[100px]">{t("table.actions")}</TableHead>}
+          {isAdmin && (
+            <TableHead className="w-[100px]">{t("table.actions")}</TableHead>
+          )}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -88,7 +90,11 @@ export function RoleList({
           <TableRow key={role.id}>
             <TableCell className="font-medium">{role.name}</TableCell>
             <TableCell>
-              <Badge variant={getAccessLevelVariant(getAccessLevelValue(role.accessLevelId))}>
+              <Badge
+                variant={getAccessLevelVariant(
+                  getAccessLevelValue(role.accessLevelId),
+                )}
+              >
                 {getAccessLevelName(role.accessLevelId)}
               </Badge>
             </TableCell>
@@ -97,7 +103,11 @@ export function RoleList({
                 {role.permissions && role.permissions.length > 0 ? (
                   <>
                     {role.permissions.slice(0, 3).map((permission) => (
-                      <Badge key={permission} variant="outline" className="text-xs">
+                      <Badge
+                        key={permission}
+                        variant="outline"
+                        className="text-xs"
+                      >
                         {permission}
                       </Badge>
                     ))}
@@ -105,14 +115,21 @@ export function RoleList({
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Badge variant="outline" className="text-xs cursor-help">
+                            <Badge
+                              variant="outline"
+                              className="text-xs cursor-help"
+                            >
                               +{role.permissions.length - 3}
                             </Badge>
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs">
                             <div className="flex flex-wrap gap-1">
                               {role.permissions.slice(3).map((permission) => (
-                                <Badge key={permission} variant="outline" className="text-xs">
+                                <Badge
+                                  key={permission}
+                                  variant="outline"
+                                  className="text-xs"
+                                >
                                   {permission}
                                 </Badge>
                               ))}

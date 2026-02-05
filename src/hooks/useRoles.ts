@@ -22,22 +22,18 @@ export const useRoles = () => {
   });
 
   // Fetch permissions list
-  const {
-    data: permissionsList = [],
-    isLoading: isLoadingPermissions,
-  } = useQuery<string[]>({
-    queryKey: ["permissions-list"],
-    queryFn: roleService.getPermissionsList,
-  });
+  const { data: permissionsList = [], isLoading: isLoadingPermissions } =
+    useQuery<string[]>({
+      queryKey: ["permissions-list"],
+      queryFn: roleService.getPermissionsList,
+    });
 
   // Fetch access levels
-  const {
-    data: accessLevels = [],
-    isLoading: isLoadingAccessLevels,
-  } = useQuery<AccessLevel[]>({
-    queryKey: ["access-levels"],
-    queryFn: roleService.getAccessLevels,
-  });
+  const { data: accessLevels = [], isLoading: isLoadingAccessLevels } =
+    useQuery<AccessLevel[]>({
+      queryKey: ["access-levels"],
+      queryFn: roleService.getAccessLevels,
+    });
 
   // Create mutation
   const createMutation = useMutation({

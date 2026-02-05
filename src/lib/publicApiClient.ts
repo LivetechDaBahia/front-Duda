@@ -32,29 +32,51 @@ class PublicApiClient {
       });
     } catch (error) {
       // Network errors (no response from server)
-      addApiBreadcrumb(method, `[public] ${endpoint}`, 0, error instanceof Error ? error.message : "Network error");
+      addApiBreadcrumb(
+        method,
+        `[public] ${endpoint}`,
+        0,
+        error instanceof Error ? error.message : "Network error",
+      );
       captureException(error, { endpoint, isPublicApi: true });
       throw new ApiError(error);
     }
 
     if (!response.ok) {
       const errorText = await response.text();
-      addApiBreadcrumb(method, `[public] ${endpoint}`, response.status, errorText);
-      
+      addApiBreadcrumb(
+        method,
+        `[public] ${endpoint}`,
+        response.status,
+        errorText,
+      );
+
       // Map common status codes
       if (response.status === 400) {
-        throw new ApiError({ code: ERROR_CODES.VALIDATION_ERROR, message: errorText }, 400);
+        throw new ApiError(
+          { code: ERROR_CODES.VALIDATION_ERROR, message: errorText },
+          400,
+        );
       }
       if (response.status === 404) {
-        throw new ApiError({ code: ERROR_CODES.NOT_FOUND, message: errorText }, 404);
+        throw new ApiError(
+          { code: ERROR_CODES.NOT_FOUND, message: errorText },
+          404,
+        );
       }
       if (response.status === 409) {
-        throw new ApiError({ code: ERROR_CODES.CONFLICT, message: errorText }, 409);
+        throw new ApiError(
+          { code: ERROR_CODES.CONFLICT, message: errorText },
+          409,
+        );
       }
       if (response.status >= 500) {
-        throw new ApiError({ code: ERROR_CODES.INTERNAL_SERVER_ERROR, message: errorText }, response.status);
+        throw new ApiError(
+          { code: ERROR_CODES.INTERNAL_SERVER_ERROR, message: errorText },
+          response.status,
+        );
       }
-      
+
       throw new ApiError(errorText, response.status);
     }
 

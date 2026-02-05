@@ -66,7 +66,7 @@ export const CreditDetailPanel = ({
   const { t, locale } = useLocale();
   const { canManageCredit } = usePermissions();
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
-  
+
   // Client documents pagination
   const [clientDocsPage, setClientDocsPage] = useState(1);
   const [clientDocsSize, setClientDocsSize] = useState(10);
@@ -483,7 +483,8 @@ export const CreditDetailPanel = ({
                     {t("credit.salesDocuments")} ({documents.length})
                   </TabsTrigger>
                   <TabsTrigger value="quote">
-                    {t("credit.quoteDocuments")} ({quoteDocuments.length + rentalDocuments.length})
+                    {t("credit.quoteDocuments")} (
+                    {quoteDocuments.length + rentalDocuments.length})
                   </TabsTrigger>
                   <TabsTrigger value="client">
                     {t("credit.clientDocuments")} ({clientDocuments.length})
@@ -531,7 +532,8 @@ export const CreditDetailPanel = ({
                     <div className="space-y-2">
                       <Skeleton className="h-20 w-full" />
                     </div>
-                  ) : quoteDocuments.length === 0 && rentalDocuments.length === 0 ? (
+                  ) : quoteDocuments.length === 0 &&
+                    rentalDocuments.length === 0 ? (
                     <p className="text-sm text-muted-foreground text-center py-8">
                       {t("credit.noDocuments")}
                     </p>
@@ -542,7 +544,9 @@ export const CreditDetailPanel = ({
                           <TableHeader>
                             <TableRow>
                               <TableHead>{t("credit.docTitle")}</TableHead>
-                              <TableHead>{t("credit.docDescription")}</TableHead>
+                              <TableHead>
+                                {t("credit.docDescription")}
+                              </TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -570,7 +574,9 @@ export const CreditDetailPanel = ({
                             <TableHeader>
                               <TableRow>
                                 <TableHead>{t("credit.docTitle")}</TableHead>
-                                <TableHead>{t("credit.docDescription")}</TableHead>
+                                <TableHead>
+                                  {t("credit.docDescription")}
+                                </TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -627,7 +633,7 @@ export const CreditDetailPanel = ({
                           ))}
                         </TableBody>
                       </Table>
-                      
+
                       {/* Pagination controls */}
                       <div className="flex items-center justify-between">
                         <ItemsPerPageSelector
@@ -642,37 +648,64 @@ export const CreditDetailPanel = ({
                             <PaginationContent>
                               <PaginationItem>
                                 <PaginationPrevious
-                                  onClick={() => setClientDocsPage(Math.max(1, clientDocsPage - 1))}
-                                  className={clientDocsPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                  onClick={() =>
+                                    setClientDocsPage(
+                                      Math.max(1, clientDocsPage - 1),
+                                    )
+                                  }
+                                  className={
+                                    clientDocsPage <= 1
+                                      ? "pointer-events-none opacity-50"
+                                      : "cursor-pointer"
+                                  }
                                 />
                               </PaginationItem>
-                              {Array.from({ length: Math.min(5, clientDocsTotalPages) }, (_, i) => {
-                                let pageNum: number;
-                                if (clientDocsTotalPages <= 5) {
-                                  pageNum = i + 1;
-                                } else if (clientDocsPage <= 3) {
-                                  pageNum = i + 1;
-                                } else if (clientDocsPage >= clientDocsTotalPages - 2) {
-                                  pageNum = clientDocsTotalPages - 4 + i;
-                                } else {
-                                  pageNum = clientDocsPage - 2 + i;
-                                }
-                                return (
-                                  <PaginationItem key={pageNum}>
-                                    <PaginationLink
-                                      onClick={() => setClientDocsPage(pageNum)}
-                                      isActive={clientDocsPage === pageNum}
-                                      className="cursor-pointer"
-                                    >
-                                      {pageNum}
-                                    </PaginationLink>
-                                  </PaginationItem>
-                                );
-                              })}
+                              {Array.from(
+                                { length: Math.min(5, clientDocsTotalPages) },
+                                (_, i) => {
+                                  let pageNum: number;
+                                  if (clientDocsTotalPages <= 5) {
+                                    pageNum = i + 1;
+                                  } else if (clientDocsPage <= 3) {
+                                    pageNum = i + 1;
+                                  } else if (
+                                    clientDocsPage >=
+                                    clientDocsTotalPages - 2
+                                  ) {
+                                    pageNum = clientDocsTotalPages - 4 + i;
+                                  } else {
+                                    pageNum = clientDocsPage - 2 + i;
+                                  }
+                                  return (
+                                    <PaginationItem key={pageNum}>
+                                      <PaginationLink
+                                        onClick={() =>
+                                          setClientDocsPage(pageNum)
+                                        }
+                                        isActive={clientDocsPage === pageNum}
+                                        className="cursor-pointer"
+                                      >
+                                        {pageNum}
+                                      </PaginationLink>
+                                    </PaginationItem>
+                                  );
+                                },
+                              )}
                               <PaginationItem>
                                 <PaginationNext
-                                  onClick={() => setClientDocsPage(Math.min(clientDocsTotalPages, clientDocsPage + 1))}
-                                  className={clientDocsPage >= clientDocsTotalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                  onClick={() =>
+                                    setClientDocsPage(
+                                      Math.min(
+                                        clientDocsTotalPages,
+                                        clientDocsPage + 1,
+                                      ),
+                                    )
+                                  }
+                                  className={
+                                    clientDocsPage >= clientDocsTotalPages
+                                      ? "pointer-events-none opacity-50"
+                                      : "cursor-pointer"
+                                  }
                                 />
                               </PaginationItem>
                             </PaginationContent>
@@ -832,6 +865,12 @@ export const CreditDetailPanel = ({
                         <p className="font-medium">
                           {formatCurrency(clientDetails.secondaryCreditLimit)}
                         </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
+                          {t("credit.warrantyInfo")}:
+                        </span>
+                        <p className="font-medium">{clientDetails.warranty}</p>
                       </div>
                     </div>
                   </div>

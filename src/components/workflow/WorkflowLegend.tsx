@@ -21,18 +21,50 @@ import {
 const WORKFLOW_STEPS = [
   { labelKey: "workflow.steps.si", descKey: "workflow.steps.siDesc" },
   { labelKey: "workflow.steps.po", descKey: "workflow.steps.poDesc" },
-  { labelKey: "workflow.steps.customsClearance", descKey: "workflow.steps.customsClearanceDesc" },
-  { labelKey: "workflow.steps.cfoAppropriation", descKey: "workflow.steps.cfoAppropriationDesc" },
-  { labelKey: "workflow.steps.generatePreBilling", descKey: "workflow.steps.generatePreBillingDesc" },
-  { labelKey: "workflow.steps.closeCustoms", descKey: "workflow.steps.closeCustomsDesc" },
+  {
+    labelKey: "workflow.steps.customsClearance",
+    descKey: "workflow.steps.customsClearanceDesc",
+  },
+  {
+    labelKey: "workflow.steps.cfoAppropriation",
+    descKey: "workflow.steps.cfoAppropriationDesc",
+  },
+  {
+    labelKey: "workflow.steps.generatePreBilling",
+    descKey: "workflow.steps.generatePreBillingDesc",
+  },
+  {
+    labelKey: "workflow.steps.closeCustoms",
+    descKey: "workflow.steps.closeCustomsDesc",
+  },
   { labelKey: "workflow.steps.invoice", descKey: "workflow.steps.invoiceDesc" },
 ];
 
 const STATUS_ITEMS = [
-  { key: "pending", icon: Clock, colorClass: "text-muted-foreground", bgClass: "bg-muted" },
-  { key: "inProgress", icon: Clock, colorClass: "text-primary", bgClass: "bg-primary/10" },
-  { key: "completed", icon: CheckCircle2, colorClass: "text-success", bgClass: "bg-success/10" },
-  { key: "failed", icon: XCircle, colorClass: "text-destructive", bgClass: "bg-destructive/10" },
+  {
+    key: "pending",
+    icon: Clock,
+    colorClass: "text-muted-foreground",
+    bgClass: "bg-muted",
+  },
+  {
+    key: "inProgress",
+    icon: Clock,
+    colorClass: "text-primary",
+    bgClass: "bg-primary/10",
+  },
+  {
+    key: "completed",
+    icon: CheckCircle2,
+    colorClass: "text-success",
+    bgClass: "bg-success/10",
+  },
+  {
+    key: "failed",
+    icon: XCircle,
+    colorClass: "text-destructive",
+    bgClass: "bg-destructive/10",
+  },
 ];
 
 export function WorkflowLegend() {
@@ -47,7 +79,9 @@ export function WorkflowLegend() {
             variant="ghost"
             className="w-full flex items-center justify-between p-0 h-auto hover:bg-transparent"
           >
-            <span className="font-medium text-sm">{t("workflow.legend.title")}</span>
+            <span className="font-medium text-sm">
+              {t("workflow.legend.title")}
+            </span>
             {isOpen ? (
               <ChevronUp className="h-4 w-4 text-muted-foreground" />
             ) : (
@@ -69,7 +103,10 @@ export function WorkflowLegend() {
                   <Badge
                     key={status.key}
                     variant="outline"
-                    className={cn("flex items-center gap-1.5", status.colorClass)}
+                    className={cn(
+                      "flex items-center gap-1.5",
+                      status.colorClass,
+                    )}
                   >
                     <Icon className="h-3 w-3" />
                     {t(`workflow.status.${status.key}`)}
@@ -94,7 +131,9 @@ export function WorkflowLegend() {
                     {index + 1}
                   </span>
                   <div className="min-w-0">
-                    <span className="font-medium text-foreground">{t(step.labelKey)}</span>
+                    <span className="font-medium text-foreground">
+                      {t(step.labelKey)}
+                    </span>
                     <span className="text-muted-foreground ml-1 hidden sm:inline">
                       - {t(step.descKey)}
                     </span>

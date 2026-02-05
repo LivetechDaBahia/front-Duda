@@ -1,7 +1,11 @@
 import { useLocale } from "@/contexts/LocaleContext";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
-import { ApiError, getLocalizedErrorMessage, parseError } from "@/services/errorService";
+import {
+  ApiError,
+  getLocalizedErrorMessage,
+  parseError,
+} from "@/services/errorService";
 import { captureException } from "@/lib/sentry";
 
 type ToastVariant = "default" | "destructive";
@@ -13,11 +17,11 @@ interface ErrorHandlerOptions {
 
 /**
  * Hook that provides standardized error handling with localized messages.
- * 
+ *
  * Usage:
  * ```tsx
  * const { handleError } = useErrorHandler();
- * 
+ *
  * const mutation = useMutation({
  *   mutationFn: myApiCall,
  *   onError: handleError,
@@ -34,9 +38,8 @@ export const useErrorHandler = (options: ErrorHandlerOptions = {}) => {
    */
   const handleError = (error: unknown) => {
     // Parse the error to get structured information
-    const parsedError = error instanceof ApiError 
-      ? error.parsed 
-      : parseError(error);
+    const parsedError =
+      error instanceof ApiError ? error.parsed : parseError(error);
 
     // Get localized messages
     const { title, description } = getLocalizedErrorMessage(parsedError, t);
@@ -66,14 +69,14 @@ export const useErrorHandler = (options: ErrorHandlerOptions = {}) => {
    */
   const createErrorHandler = (fallbackTitleKey?: string) => {
     return (error: unknown) => {
-      const parsedError = error instanceof ApiError 
-        ? error.parsed 
-        : parseError(error);
+      const parsedError =
+        error instanceof ApiError ? error.parsed : parseError(error);
 
       const { title, description } = getLocalizedErrorMessage(parsedError, t);
-      
+
       // Use fallback title if the error code doesn't have a translation
-      const finalTitle = title || (fallbackTitleKey ? t(fallbackTitleKey) : "Error");
+      const finalTitle =
+        title || (fallbackTitleKey ? t(fallbackTitleKey) : "Error");
 
       // Report to Sentry if not already reported via ApiError
       if (!(error instanceof ApiError)) {

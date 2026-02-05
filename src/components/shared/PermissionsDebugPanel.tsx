@@ -178,7 +178,9 @@ export const PermissionsDebugPanel = () => {
                 </div>
                 <div>
                   <span className="text-muted-foreground">Department:</span>{" "}
-                  <span className="font-medium">{user.department || "N/A"}</span>
+                  <span className="font-medium">
+                    {user.department || "N/A"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -239,40 +241,40 @@ export const PermissionsDebugPanel = () => {
                 Page Access
               </h4>
               <div className="space-y-1">
-                {pageAccess.map(({ name, path, icon: Icon, hasAccess, reason }) => (
-                  <div
-                    key={path}
-                    className={`flex items-center justify-between p-2 rounded text-sm ${
-                      hasAccess
-                        ? "bg-green-500/10"
-                        : "bg-red-500/10"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4" />
-                      <span className="font-medium">{name}</span>
-                      <span className="text-xs text-muted-foreground">
-                        ({path})
-                      </span>
+                {pageAccess.map(
+                  ({ name, path, icon: Icon, hasAccess, reason }) => (
+                    <div
+                      key={path}
+                      className={`flex items-center justify-between p-2 rounded text-sm ${
+                        hasAccess ? "bg-green-500/10" : "bg-red-500/10"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className="h-4 w-4" />
+                        <span className="font-medium">{name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          ({path})
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground hidden sm:inline">
+                          {reason}
+                        </span>
+                        {hasAccess ? (
+                          <Badge className="bg-green-600 hover:bg-green-700">
+                            <Check className="h-3 w-3 mr-1" />
+                            Access
+                          </Badge>
+                        ) : (
+                          <Badge variant="destructive">
+                            <X className="h-3 w-3 mr-1" />
+                            Denied
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground hidden sm:inline">
-                        {reason}
-                      </span>
-                      {hasAccess ? (
-                        <Badge className="bg-green-600 hover:bg-green-700">
-                          <Check className="h-3 w-3 mr-1" />
-                          Access
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive">
-                          <X className="h-3 w-3 mr-1" />
-                          Denied
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  ),
+                )}
               </div>
             </div>
           </CardContent>

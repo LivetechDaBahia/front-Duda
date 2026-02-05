@@ -58,7 +58,7 @@ export default function RequestAccess() {
 
   // Position state
   const [selectedPositionId, setSelectedPositionId] = useState<string | null>(
-    null
+    null,
   );
   const [customPosition, setCustomPosition] = useState("");
 
@@ -69,7 +69,7 @@ export default function RequestAccess() {
     usePublicPositions(
       selectedDepartmentId && selectedDepartmentId !== OTHER_VALUE
         ? selectedDepartmentId
-        : undefined
+        : undefined,
     );
 
   const form = useForm<AccessRequestFormValues>({
@@ -287,9 +287,8 @@ export default function RequestAccess() {
                   customInputPlaceholder={t("accessRequest.customPosition")}
                   disabled={
                     isSubmitting ||
-                    (!selectedDepartmentId ||
-                      (selectedDepartmentId !== OTHER_VALUE &&
-                        isLoadingPositions))
+                    !selectedDepartmentId ||
+                    (selectedDepartmentId !== OTHER_VALUE && isLoadingPositions)
                   }
                   isLoading={
                     selectedDepartmentId !== OTHER_VALUE && isLoadingPositions
@@ -307,7 +306,7 @@ export default function RequestAccess() {
                     <FormControl>
                       <Input
                         placeholder={t(
-                          "accessRequest.supervisorNamePlaceholder"
+                          "accessRequest.supervisorNamePlaceholder",
                         )}
                         {...field}
                         disabled={isSubmitting}

@@ -14,54 +14,75 @@ const translations: Record<Locale, Record<string, string>> = {
   en: {
     // Error messages
     "errors.NETWORK_ERROR": "Connection Failed",
-    "errors.NETWORK_ERROR.description": "Unable to connect to the server. Please check your internet connection and try again.",
+    "errors.NETWORK_ERROR.description":
+      "Unable to connect to the server. Please check your internet connection and try again.",
     "errors.TIMEOUT": "Request Timeout",
-    "errors.TIMEOUT.description": "The server took too long to respond. Please try again.",
+    "errors.TIMEOUT.description":
+      "The server took too long to respond. Please try again.",
     "errors.CONNECTION_REFUSED": "Server Unavailable",
-    "errors.CONNECTION_REFUSED.description": "Could not connect to the server. Please try again later.",
-    
+    "errors.CONNECTION_REFUSED.description":
+      "Could not connect to the server. Please try again later.",
+
     "errors.UNAUTHORIZED": "Authentication Required",
-    "errors.UNAUTHORIZED.description": "Your session has expired. Please log in again.",
+    "errors.UNAUTHORIZED.description":
+      "Your session has expired. Please log in again.",
     "errors.SESSION_EXPIRED": "Session Expired",
-    "errors.SESSION_EXPIRED.description": "Your session has expired. Please log in again to continue.",
+    "errors.SESSION_EXPIRED.description":
+      "Your session has expired. Please log in again to continue.",
     "errors.INVALID_CREDENTIALS": "Invalid Credentials",
-    "errors.INVALID_CREDENTIALS.description": "The email or password you entered is incorrect.",
-    
+    "errors.INVALID_CREDENTIALS.description":
+      "The email or password you entered is incorrect.",
+
     "errors.FORBIDDEN": "Access Denied",
-    "errors.FORBIDDEN.description": "You don't have permission to perform this action. Contact your administrator if you need access.",
+    "errors.FORBIDDEN.description":
+      "You don't have permission to perform this action. Contact your administrator if you need access.",
     "errors.IMPERSONATION_READONLY": "View-Only Mode",
-    "errors.IMPERSONATION_READONLY.description": "You're viewing as another user (read-only). Stop impersonation to make changes.",
+    "errors.IMPERSONATION_READONLY.description":
+      "You're viewing as another user (read-only). Stop impersonation to make changes.",
     "errors.INSUFFICIENT_PERMISSIONS": "Insufficient Permissions",
-    "errors.INSUFFICIENT_PERMISSIONS.description": "Your account doesn't have the required permissions for this action.",
-    
+    "errors.INSUFFICIENT_PERMISSIONS.description":
+      "Your account doesn't have the required permissions for this action.",
+
     "errors.VALIDATION_ERROR": "Invalid Request",
-    "errors.VALIDATION_ERROR.description": "Please check the information you provided and try again.",
+    "errors.VALIDATION_ERROR.description":
+      "Please check the information you provided and try again.",
     "errors.INVALID_INPUT": "Invalid Input",
-    "errors.INVALID_INPUT.description": "Some of the provided values are invalid. Please review and correct them.",
+    "errors.INVALID_INPUT.description":
+      "Some of the provided values are invalid. Please review and correct them.",
     "errors.MISSING_REQUIRED_FIELD": "Missing Information",
-    "errors.MISSING_REQUIRED_FIELD.description": "Please fill in all required fields.",
-    
+    "errors.MISSING_REQUIRED_FIELD.description":
+      "Please fill in all required fields.",
+
     "errors.PAYLOAD_TOO_LARGE": "File Too Large",
-    "errors.PAYLOAD_TOO_LARGE.description": "The file you're trying to upload exceeds the maximum allowed size. Please reduce the file size and try again.",
+    "errors.PAYLOAD_TOO_LARGE.description":
+      "The file you're trying to upload exceeds the maximum allowed size. Please reduce the file size and try again.",
     "errors.FILE_TOO_LARGE": "File Too Large",
-    "errors.FILE_TOO_LARGE.description": "The selected file is too large. Please choose a smaller file or compress it.",
-    
+    "errors.FILE_TOO_LARGE.description":
+      "The selected file is too large. Please choose a smaller file or compress it.",
+
     "errors.INTERNAL_SERVER_ERROR": "Server Error",
-    "errors.INTERNAL_SERVER_ERROR.description": "Something went wrong on our end. Please try again later.",
+    "errors.INTERNAL_SERVER_ERROR.description":
+      "Something went wrong on our end. Please try again later.",
     "errors.SERVICE_UNAVAILABLE": "Service Unavailable",
-    "errors.SERVICE_UNAVAILABLE.description": "The service is temporarily unavailable. Please try again in a few minutes.",
+    "errors.SERVICE_UNAVAILABLE.description":
+      "The service is temporarily unavailable. Please try again in a few minutes.",
     "errors.BAD_GATEWAY": "Connection Error",
-    "errors.BAD_GATEWAY.description": "There was a problem connecting to the server. Please try again.",
-    
+    "errors.BAD_GATEWAY.description":
+      "There was a problem connecting to the server. Please try again.",
+
     "errors.NOT_FOUND": "Not Found",
-    "errors.NOT_FOUND.description": "The requested resource could not be found.",
+    "errors.NOT_FOUND.description":
+      "The requested resource could not be found.",
     "errors.CONFLICT": "Conflict",
-    "errors.CONFLICT.description": "This action conflicts with existing data. Please refresh and try again.",
+    "errors.CONFLICT.description":
+      "This action conflicts with existing data. Please refresh and try again.",
     "errors.ALREADY_EXISTS": "Already Exists",
-    "errors.ALREADY_EXISTS.description": "This item already exists. Please use a different value.",
-    
+    "errors.ALREADY_EXISTS.description":
+      "This item already exists. Please use a different value.",
+
     "errors.UNKNOWN_ERROR": "Unexpected Error",
-    "errors.UNKNOWN_ERROR.description": "An unexpected error occurred. Please try again or contact support.",
+    "errors.UNKNOWN_ERROR.description":
+      "An unexpected error occurred. Please try again or contact support.",
 
     // Navigation
     "nav.home": "Home",
@@ -288,10 +309,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "role.loading": "Loading roles...",
     "role.noRoles": "No roles found",
     "role.addRole": "Add Role",
-    "role.deleteConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone. Make sure there are no positions associated with this role.",
+    "role.deleteConfirm":
+      'Are you sure you want to delete "{name}"? This action cannot be undone. Make sure there are no positions associated with this role.',
     "role.deleting": "Deleting...",
     "role.editDescription": "Update the role information and permissions",
-    "role.createDescription": "Create a new role with access level and permissions",
+    "role.createDescription":
+      "Create a new role with access level and permissions",
 
     // Positions
     "position.title": "Positions",
@@ -423,7 +446,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.isSN": "Simples Nacional",
     "credit.dueDate": "Due Date",
     "credit.limit": "Limit",
-    "credit.secondaryLimit": "Secondary Limit",
+    "credit.secondaryLimit": "Secondary WDC Pay",
     "credit.firstPurchase": "First Purchase",
     "credit.biggestPurchase": "Biggest Purchase",
     "credit.noCredits": "No credit elements found",
@@ -514,6 +537,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.biggestDelay": "Biggest Delay",
     "credit.tid": "TID",
     "credit.resell": "Resell",
+    "credit.warrantyInfo": "Warranty Information",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -594,7 +618,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Credit Document Upload
     "credit.upload.title": "Upload Document",
-    "credit.upload.description": "Upload a document associated with this proposal",
+    "credit.upload.description":
+      "Upload a document associated with this proposal",
     "credit.upload.selectType": "Document Type",
     "credit.upload.selectTypePlaceholder": "Select document type",
     "credit.upload.fileLabel": "Document File",
@@ -606,7 +631,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.error": "Failed to upload document",
     "credit.upload.compressed": "Image was compressed to fit size limits",
     "credit.upload.compressionFailed": "Failed to compress image",
-    "credit.upload.fileTooLarge": "File is too large. Maximum size is {maxSize}",
+    "credit.upload.fileTooLarge":
+      "File is too large. Maximum size is {maxSize}",
     "credit.upload.maxSize": "Maximum file size: {maxSize}",
     "credit.upload.docType.A": "Signed Proposal",
     "credit.upload.docType.B": "Signed Amendment",
@@ -684,7 +710,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.loadingWorkflow": "Loading workflow...",
     "workflow.errorLoading": "Error loading traffic lights",
     "workflow.noItems": "No traffic light items found.",
-    "workflow.noPermission": "You don't have permission to access this page. Only administrators can view workflows.",
+    "workflow.noPermission":
+      "You don't have permission to access this page. Only administrators can view workflows.",
     "workflow.quote": "Quote",
     "workflow.salesOrder": "Sales Order",
     "workflow.lvts": "LVTS",
@@ -707,7 +734,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.dueDate": "Due Date",
     "workflow.filters.filters": "Filters",
     "workflow.filters.search": "Search",
-    "workflow.filters.searchPlaceholder": "Search by quote, sales order or LVTS number",
+    "workflow.filters.searchPlaceholder":
+      "Search by quote, sales order or LVTS number",
     "workflow.filters.status": "Status",
     "workflow.filters.allStatuses": "All Statuses",
     "workflow.filters.dateFrom": "Date From",
@@ -747,7 +775,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Access Request
     "accessRequest.title": "Request Access",
-    "accessRequest.subtitle": "Fill out the form below to request access to the system",
+    "accessRequest.subtitle":
+      "Fill out the form below to request access to the system",
     "accessRequest.email": "Email",
     "accessRequest.emailPlaceholder": "Enter your email address",
     "accessRequest.department": "Department",
@@ -766,7 +795,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.submit": "Submit Request",
     "accessRequest.submitting": "Submitting...",
     "accessRequest.success": "Request Submitted",
-    "accessRequest.successMessage": "Your access request has been sent. You will be contacted soon.",
+    "accessRequest.successMessage":
+      "Your access request has been sent. You will be contacted soon.",
     "accessRequest.backToLogin": "Back to Login",
     "accessRequest.noAccount": "Don't have access?",
     "accessRequest.requestAccess": "Request access here",
@@ -775,8 +805,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.noResults": "No results found",
     "accessRequest.error.departmentRequired": "Please select a department",
     "accessRequest.error.positionRequired": "Please select a position",
-    "accessRequest.error.customDepartmentRequired": "Please enter a department name",
-    "accessRequest.error.customPositionRequired": "Please enter a position name",
+    "accessRequest.error.customDepartmentRequired":
+      "Please enter a department name",
+    "accessRequest.error.customPositionRequired":
+      "Please enter a position name",
     "accessRequest.error.submitFailed": "Failed to submit request",
     "accessRequest.error.generic": "An error occurred. Please try again.",
 
@@ -808,54 +840,74 @@ const translations: Record<Locale, Record<string, string>> = {
   "pt-BR": {
     // Error messages
     "errors.NETWORK_ERROR": "Falha na Conexão",
-    "errors.NETWORK_ERROR.description": "Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.",
+    "errors.NETWORK_ERROR.description":
+      "Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.",
     "errors.TIMEOUT": "Tempo Esgotado",
-    "errors.TIMEOUT.description": "O servidor demorou muito para responder. Por favor, tente novamente.",
+    "errors.TIMEOUT.description":
+      "O servidor demorou muito para responder. Por favor, tente novamente.",
     "errors.CONNECTION_REFUSED": "Servidor Indisponível",
-    "errors.CONNECTION_REFUSED.description": "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
-    
+    "errors.CONNECTION_REFUSED.description":
+      "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+
     "errors.UNAUTHORIZED": "Autenticação Necessária",
-    "errors.UNAUTHORIZED.description": "Sua sessão expirou. Por favor, faça login novamente.",
+    "errors.UNAUTHORIZED.description":
+      "Sua sessão expirou. Por favor, faça login novamente.",
     "errors.SESSION_EXPIRED": "Sessão Expirada",
-    "errors.SESSION_EXPIRED.description": "Sua sessão expirou. Faça login novamente para continuar.",
+    "errors.SESSION_EXPIRED.description":
+      "Sua sessão expirou. Faça login novamente para continuar.",
     "errors.INVALID_CREDENTIALS": "Credenciais Inválidas",
-    "errors.INVALID_CREDENTIALS.description": "O e-mail ou senha informados estão incorretos.",
-    
+    "errors.INVALID_CREDENTIALS.description":
+      "O e-mail ou senha informados estão incorretos.",
+
     "errors.FORBIDDEN": "Acesso Negado",
-    "errors.FORBIDDEN.description": "Você não tem permissão para realizar esta ação. Entre em contato com o administrador se precisar de acesso.",
+    "errors.FORBIDDEN.description":
+      "Você não tem permissão para realizar esta ação. Entre em contato com o administrador se precisar de acesso.",
     "errors.IMPERSONATION_READONLY": "Modo Visualização",
-    "errors.IMPERSONATION_READONLY.description": "Você está visualizando como outro usuário (somente leitura). Pare a personificação para fazer alterações.",
+    "errors.IMPERSONATION_READONLY.description":
+      "Você está visualizando como outro usuário (somente leitura). Pare a personificação para fazer alterações.",
     "errors.INSUFFICIENT_PERMISSIONS": "Permissões Insuficientes",
-    "errors.INSUFFICIENT_PERMISSIONS.description": "Sua conta não possui as permissões necessárias para esta ação.",
-    
+    "errors.INSUFFICIENT_PERMISSIONS.description":
+      "Sua conta não possui as permissões necessárias para esta ação.",
+
     "errors.VALIDATION_ERROR": "Requisição Inválida",
-    "errors.VALIDATION_ERROR.description": "Verifique as informações fornecidas e tente novamente.",
+    "errors.VALIDATION_ERROR.description":
+      "Verifique as informações fornecidas e tente novamente.",
     "errors.INVALID_INPUT": "Entrada Inválida",
-    "errors.INVALID_INPUT.description": "Alguns valores fornecidos são inválidos. Revise e corrija-os.",
+    "errors.INVALID_INPUT.description":
+      "Alguns valores fornecidos são inválidos. Revise e corrija-os.",
     "errors.MISSING_REQUIRED_FIELD": "Informação Faltando",
-    "errors.MISSING_REQUIRED_FIELD.description": "Por favor, preencha todos os campos obrigatórios.",
-    
+    "errors.MISSING_REQUIRED_FIELD.description":
+      "Por favor, preencha todos os campos obrigatórios.",
+
     "errors.PAYLOAD_TOO_LARGE": "Arquivo Muito Grande",
-    "errors.PAYLOAD_TOO_LARGE.description": "O arquivo que você está tentando enviar excede o tamanho máximo permitido. Reduza o tamanho do arquivo e tente novamente.",
+    "errors.PAYLOAD_TOO_LARGE.description":
+      "O arquivo que você está tentando enviar excede o tamanho máximo permitido. Reduza o tamanho do arquivo e tente novamente.",
     "errors.FILE_TOO_LARGE": "Arquivo Muito Grande",
-    "errors.FILE_TOO_LARGE.description": "O arquivo selecionado é muito grande. Escolha um arquivo menor ou comprima-o.",
-    
+    "errors.FILE_TOO_LARGE.description":
+      "O arquivo selecionado é muito grande. Escolha um arquivo menor ou comprima-o.",
+
     "errors.INTERNAL_SERVER_ERROR": "Erro no Servidor",
-    "errors.INTERNAL_SERVER_ERROR.description": "Algo deu errado do nosso lado. Por favor, tente novamente mais tarde.",
+    "errors.INTERNAL_SERVER_ERROR.description":
+      "Algo deu errado do nosso lado. Por favor, tente novamente mais tarde.",
     "errors.SERVICE_UNAVAILABLE": "Serviço Indisponível",
-    "errors.SERVICE_UNAVAILABLE.description": "O serviço está temporariamente indisponível. Tente novamente em alguns minutos.",
+    "errors.SERVICE_UNAVAILABLE.description":
+      "O serviço está temporariamente indisponível. Tente novamente em alguns minutos.",
     "errors.BAD_GATEWAY": "Erro de Conexão",
-    "errors.BAD_GATEWAY.description": "Houve um problema ao conectar com o servidor. Tente novamente.",
-    
+    "errors.BAD_GATEWAY.description":
+      "Houve um problema ao conectar com o servidor. Tente novamente.",
+
     "errors.NOT_FOUND": "Não Encontrado",
     "errors.NOT_FOUND.description": "O recurso solicitado não foi encontrado.",
     "errors.CONFLICT": "Conflito",
-    "errors.CONFLICT.description": "Esta ação conflita com dados existentes. Atualize a página e tente novamente.",
+    "errors.CONFLICT.description":
+      "Esta ação conflita com dados existentes. Atualize a página e tente novamente.",
     "errors.ALREADY_EXISTS": "Já Existe",
-    "errors.ALREADY_EXISTS.description": "Este item já existe. Use um valor diferente.",
-    
+    "errors.ALREADY_EXISTS.description":
+      "Este item já existe. Use um valor diferente.",
+
     "errors.UNKNOWN_ERROR": "Erro Inesperado",
-    "errors.UNKNOWN_ERROR.description": "Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.",
+    "errors.UNKNOWN_ERROR.description":
+      "Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.",
 
     // Navigation
     "nav.home": "Início",
@@ -1082,10 +1134,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "role.loading": "Carregando funções...",
     "role.noRoles": "Nenhuma função encontrada",
     "role.addRole": "Adicionar Função",
-    "role.deleteConfirm": "Tem certeza que deseja excluir \"{name}\"? Esta ação não pode ser desfeita. Certifique-se de que não há cargos associados a esta função.",
+    "role.deleteConfirm":
+      'Tem certeza que deseja excluir "{name}"? Esta ação não pode ser desfeita. Certifique-se de que não há cargos associados a esta função.',
     "role.deleting": "Excluindo...",
     "role.editDescription": "Atualize as informações e permissões da função",
-    "role.createDescription": "Crie uma nova função com nível de acesso e permissões",
+    "role.createDescription":
+      "Crie uma nova função com nível de acesso e permissões",
 
     // Positions
     "position.title": "Cargos",
@@ -1209,7 +1263,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.isSN": "Simples Nacional",
     "credit.dueDate": "Vencimento",
     "credit.limit": "Limite",
-    "credit.secondaryLimit": "Limite Secundário",
+    "credit.secondaryLimit": "Limite WDC Pay",
     "credit.firstPurchase": "Primeira Compra",
     "credit.biggestPurchase": "Maior Compra",
     "credit.group": "Grupo",
@@ -1303,6 +1357,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.biggestDelay": "Maior Atraso",
     "credit.tid": "TID",
     "credit.resell": "Revenda",
+    "credit.warrantyInfo": "Informações de Garantia",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -1336,15 +1391,18 @@ const translations: Record<Locale, Record<string, string>> = {
       "Não foi possível atribuir o item. Tente novamente.",
     "credit.assign.selectUser": "Selecionar Usuário",
     "credit.assign.searchPlaceholder": "Buscar por nome ou e-mail...",
-    "credit.assign.searchHint": "Pesquise para encontrar usuários de outros departamentos",
+    "credit.assign.searchHint":
+      "Pesquise para encontrar usuários de outros departamentos",
     "credit.assign.loadingUsers": "Carregando usuários...",
-    "credit.assign.noUsersAvailable": "Nenhum usuário disponível para atribuição.",
+    "credit.assign.noUsersAvailable":
+      "Nenhum usuário disponível para atribuição.",
     "credit.assign.myDepartment": "Meu Departamento",
     "credit.assign.otherDepartments": "Outros Departamentos",
     "credit.assign.noResults": "Nenhum usuário encontrado com sua busca.",
     "credit.assign.selected": "Selecionado",
     "credit.assign.willAssignTo": "Será atribuído a",
-    "credit.assign.selectUserRequired": "Por favor, selecione um usuário para atribuir.",
+    "credit.assign.selectUserRequired":
+      "Por favor, selecione um usuário para atribuir.",
 
     // Credit Limit
     "credit.limit.setLimit": "Definir Limite de Crédito",
@@ -1399,9 +1457,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.uploading": "Enviando...",
     "credit.upload.success": "Documento enviado com sucesso",
     "credit.upload.error": "Falha ao enviar documento",
-    "credit.upload.compressed": "Imagem foi comprimida para caber no limite de tamanho",
+    "credit.upload.compressed":
+      "Imagem foi comprimida para caber no limite de tamanho",
     "credit.upload.compressionFailed": "Falha ao comprimir imagem",
-    "credit.upload.fileTooLarge": "Arquivo muito grande. Tamanho máximo é {maxSize}",
+    "credit.upload.fileTooLarge":
+      "Arquivo muito grande. Tamanho máximo é {maxSize}",
     "credit.upload.maxSize": "Tamanho máximo do arquivo: {maxSize}",
     "credit.upload.docType.A": "Proposta Assinada",
     "credit.upload.docType.B": "Aditivo Assinado",
@@ -1484,12 +1544,14 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Workflow
     "workflow.title": "Status do Semáforo",
-    "workflow.subtitle": "Selecione um item para visualizar o progresso do fluxo",
+    "workflow.subtitle":
+      "Selecione um item para visualizar o progresso do fluxo",
     "workflow.loading": "Carregando...",
     "workflow.loadingWorkflow": "Carregando fluxo de trabalho...",
     "workflow.errorLoading": "Erro ao carregar semáforos",
     "workflow.noItems": "Nenhum item de semáforo encontrado.",
-    "workflow.noPermission": "Você não tem permissão para acessar esta página. Somente administradores podem visualizar fluxos de trabalho.",
+    "workflow.noPermission":
+      "Você não tem permissão para acessar esta página. Somente administradores podem visualizar fluxos de trabalho.",
     "workflow.quote": "Cotação",
     "workflow.salesOrder": "Pedido de Venda",
     "workflow.lvts": "LVTS",
@@ -1512,7 +1574,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.dueDate": "Vencimento",
     "workflow.filters.filters": "Filtros",
     "workflow.filters.search": "Buscar",
-    "workflow.filters.searchPlaceholder": "Buscar por cotação, pedido ou número LVTS",
+    "workflow.filters.searchPlaceholder":
+      "Buscar por cotação, pedido ou número LVTS",
     "workflow.filters.status": "Status",
     "workflow.filters.allStatuses": "Todos os Status",
     "workflow.filters.dateFrom": "Data Inicial",
@@ -1531,7 +1594,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.steps.po": "PO",
     "workflow.steps.poDesc": "Processamento do Pedido de Compra",
     "workflow.steps.customsClearance": "Desembaraço Aduaneiro",
-    "workflow.steps.customsClearanceDesc": "Processamento do desembaraço aduaneiro",
+    "workflow.steps.customsClearanceDesc":
+      "Processamento do desembaraço aduaneiro",
     "workflow.steps.cfoAppropriation": "Apropriação CFO",
     "workflow.steps.cfoAppropriationDesc": "Apropriação orçamentária do CFO",
     "workflow.steps.generatePreBilling": "Gerar Pré-Faturamento",
@@ -1552,13 +1616,15 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Access Request
     "accessRequest.title": "Solicitar Acesso",
-    "accessRequest.subtitle": "Preencha o formulário abaixo para solicitar acesso ao sistema",
+    "accessRequest.subtitle":
+      "Preencha o formulário abaixo para solicitar acesso ao sistema",
     "accessRequest.email": "E-mail",
     "accessRequest.emailPlaceholder": "Digite seu endereço de e-mail",
     "accessRequest.department": "Departamento",
     "accessRequest.position": "Cargo",
     "accessRequest.supervisorName": "Nome do Superior",
-    "accessRequest.supervisorNamePlaceholder": "Digite o nome do seu supervisor",
+    "accessRequest.supervisorNamePlaceholder":
+      "Digite o nome do seu supervisor",
     "accessRequest.other": "Outro (especificar abaixo)",
     "accessRequest.customDepartment": "Digite o nome do departamento",
     "accessRequest.customPosition": "Digite o nome do cargo",
@@ -1571,19 +1637,24 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.submit": "Enviar Solicitação",
     "accessRequest.submitting": "Enviando...",
     "accessRequest.success": "Solicitação Enviada",
-    "accessRequest.successMessage": "Sua solicitação de acesso foi enviada. Você será contatado em breve.",
+    "accessRequest.successMessage":
+      "Sua solicitação de acesso foi enviada. Você será contatado em breve.",
     "accessRequest.backToLogin": "Voltar ao Login",
     "accessRequest.noAccount": "Não tem acesso?",
     "accessRequest.requestAccess": "Solicite acesso aqui",
     "accessRequest.loading": "Carregando...",
     "accessRequest.search": "Pesquisar...",
     "accessRequest.noResults": "Nenhum resultado encontrado",
-    "accessRequest.error.departmentRequired": "Por favor, selecione um departamento",
+    "accessRequest.error.departmentRequired":
+      "Por favor, selecione um departamento",
     "accessRequest.error.positionRequired": "Por favor, selecione um cargo",
-    "accessRequest.error.customDepartmentRequired": "Por favor, digite o nome do departamento",
-    "accessRequest.error.customPositionRequired": "Por favor, digite o nome do cargo",
+    "accessRequest.error.customDepartmentRequired":
+      "Por favor, digite o nome do departamento",
+    "accessRequest.error.customPositionRequired":
+      "Por favor, digite o nome do cargo",
     "accessRequest.error.submitFailed": "Falha ao enviar solicitação",
-    "accessRequest.error.generic": "Ocorreu um erro. Por favor, tente novamente.",
+    "accessRequest.error.generic":
+      "Ocorreu um erro. Por favor, tente novamente.",
 
     // Admin success messages
     "admin.roles.createSuccess": "Função criada com sucesso",
@@ -1606,61 +1677,82 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Credit success messages
     "credit.statusUpdated": "Status atualizado",
-    "credit.statusUpdatedDesc": "O status do crédito foi atualizado com sucesso.",
+    "credit.statusUpdatedDesc":
+      "O status do crédito foi atualizado com sucesso.",
     "credit.itemAssigned": "Item atribuído",
     "credit.itemAssignedDesc": "Atribuído a você com sucesso.",
   },
   "es-ES": {
     // Error messages
     "errors.NETWORK_ERROR": "Error de Conexión",
-    "errors.NETWORK_ERROR.description": "No se pudo conectar al servidor. Verifique su conexión a internet e intente nuevamente.",
+    "errors.NETWORK_ERROR.description":
+      "No se pudo conectar al servidor. Verifique su conexión a internet e intente nuevamente.",
     "errors.TIMEOUT": "Tiempo Agotado",
-    "errors.TIMEOUT.description": "El servidor tardó demasiado en responder. Por favor, intente nuevamente.",
+    "errors.TIMEOUT.description":
+      "El servidor tardó demasiado en responder. Por favor, intente nuevamente.",
     "errors.CONNECTION_REFUSED": "Servidor No Disponible",
-    "errors.CONNECTION_REFUSED.description": "No se pudo conectar al servidor. Intente más tarde.",
-    
+    "errors.CONNECTION_REFUSED.description":
+      "No se pudo conectar al servidor. Intente más tarde.",
+
     "errors.UNAUTHORIZED": "Autenticación Requerida",
-    "errors.UNAUTHORIZED.description": "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
+    "errors.UNAUTHORIZED.description":
+      "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
     "errors.SESSION_EXPIRED": "Sesión Expirada",
-    "errors.SESSION_EXPIRED.description": "Su sesión ha expirado. Inicie sesión nuevamente para continuar.",
+    "errors.SESSION_EXPIRED.description":
+      "Su sesión ha expirado. Inicie sesión nuevamente para continuar.",
     "errors.INVALID_CREDENTIALS": "Credenciales Inválidas",
-    "errors.INVALID_CREDENTIALS.description": "El correo o contraseña ingresados son incorrectos.",
-    
+    "errors.INVALID_CREDENTIALS.description":
+      "El correo o contraseña ingresados son incorrectos.",
+
     "errors.FORBIDDEN": "Acceso Denegado",
-    "errors.FORBIDDEN.description": "No tiene permiso para realizar esta acción. Contacte a su administrador si necesita acceso.",
+    "errors.FORBIDDEN.description":
+      "No tiene permiso para realizar esta acción. Contacte a su administrador si necesita acceso.",
     "errors.IMPERSONATION_READONLY": "Modo Solo Lectura",
-    "errors.IMPERSONATION_READONLY.description": "Está viendo como otro usuario (solo lectura). Detenga la suplantación para hacer cambios.",
+    "errors.IMPERSONATION_READONLY.description":
+      "Está viendo como otro usuario (solo lectura). Detenga la suplantación para hacer cambios.",
     "errors.INSUFFICIENT_PERMISSIONS": "Permisos Insuficientes",
-    "errors.INSUFFICIENT_PERMISSIONS.description": "Su cuenta no tiene los permisos necesarios para esta acción.",
-    
+    "errors.INSUFFICIENT_PERMISSIONS.description":
+      "Su cuenta no tiene los permisos necesarios para esta acción.",
+
     "errors.VALIDATION_ERROR": "Solicitud Inválida",
-    "errors.VALIDATION_ERROR.description": "Verifique la información proporcionada e intente nuevamente.",
+    "errors.VALIDATION_ERROR.description":
+      "Verifique la información proporcionada e intente nuevamente.",
     "errors.INVALID_INPUT": "Entrada Inválida",
-    "errors.INVALID_INPUT.description": "Algunos valores proporcionados son inválidos. Revise y corríjalos.",
+    "errors.INVALID_INPUT.description":
+      "Algunos valores proporcionados son inválidos. Revise y corríjalos.",
     "errors.MISSING_REQUIRED_FIELD": "Información Faltante",
-    "errors.MISSING_REQUIRED_FIELD.description": "Por favor, complete todos los campos requeridos.",
-    
+    "errors.MISSING_REQUIRED_FIELD.description":
+      "Por favor, complete todos los campos requeridos.",
+
     "errors.PAYLOAD_TOO_LARGE": "Archivo Muy Grande",
-    "errors.PAYLOAD_TOO_LARGE.description": "El archivo que intenta subir excede el tamaño máximo permitido. Reduzca el tamaño del archivo e intente nuevamente.",
+    "errors.PAYLOAD_TOO_LARGE.description":
+      "El archivo que intenta subir excede el tamaño máximo permitido. Reduzca el tamaño del archivo e intente nuevamente.",
     "errors.FILE_TOO_LARGE": "Archivo Muy Grande",
-    "errors.FILE_TOO_LARGE.description": "El archivo seleccionado es muy grande. Elija un archivo más pequeño o comprímalo.",
-    
+    "errors.FILE_TOO_LARGE.description":
+      "El archivo seleccionado es muy grande. Elija un archivo más pequeño o comprímalo.",
+
     "errors.INTERNAL_SERVER_ERROR": "Error del Servidor",
-    "errors.INTERNAL_SERVER_ERROR.description": "Algo salió mal de nuestro lado. Por favor, intente más tarde.",
+    "errors.INTERNAL_SERVER_ERROR.description":
+      "Algo salió mal de nuestro lado. Por favor, intente más tarde.",
     "errors.SERVICE_UNAVAILABLE": "Servicio No Disponible",
-    "errors.SERVICE_UNAVAILABLE.description": "El servicio está temporalmente no disponible. Intente en unos minutos.",
+    "errors.SERVICE_UNAVAILABLE.description":
+      "El servicio está temporalmente no disponible. Intente en unos minutos.",
     "errors.BAD_GATEWAY": "Error de Conexión",
-    "errors.BAD_GATEWAY.description": "Hubo un problema al conectar con el servidor. Intente nuevamente.",
-    
+    "errors.BAD_GATEWAY.description":
+      "Hubo un problema al conectar con el servidor. Intente nuevamente.",
+
     "errors.NOT_FOUND": "No Encontrado",
     "errors.NOT_FOUND.description": "El recurso solicitado no fue encontrado.",
     "errors.CONFLICT": "Conflicto",
-    "errors.CONFLICT.description": "Esta acción conflicta con datos existentes. Actualice la página e intente nuevamente.",
+    "errors.CONFLICT.description":
+      "Esta acción conflicta con datos existentes. Actualice la página e intente nuevamente.",
     "errors.ALREADY_EXISTS": "Ya Existe",
-    "errors.ALREADY_EXISTS.description": "Este elemento ya existe. Use un valor diferente.",
-    
+    "errors.ALREADY_EXISTS.description":
+      "Este elemento ya existe. Use un valor diferente.",
+
     "errors.UNKNOWN_ERROR": "Error Inesperado",
-    "errors.UNKNOWN_ERROR.description": "Ocurrió un error inesperado. Intente nuevamente o contacte a soporte.",
+    "errors.UNKNOWN_ERROR.description":
+      "Ocurrió un error inesperado. Intente nuevamente o contacte a soporte.",
 
     // Navigation
     "nav.home": "Inicio",
@@ -1888,10 +1980,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "role.loading": "Cargando roles...",
     "role.noRoles": "No se encontraron roles",
     "role.addRole": "Agregar Rol",
-    "role.deleteConfirm": "¿Está seguro de que desea eliminar \"{name}\"? Esta acción no se puede deshacer. Asegúrese de que no haya posiciones asociadas con este rol.",
+    "role.deleteConfirm":
+      '¿Está seguro de que desea eliminar "{name}"? Esta acción no se puede deshacer. Asegúrese de que no haya posiciones asociadas con este rol.',
     "role.deleting": "Eliminando...",
     "role.editDescription": "Actualizar la información y permisos del rol",
-    "role.createDescription": "Crear un nuevo rol con nivel de acceso y permisos",
+    "role.createDescription":
+      "Crear un nuevo rol con nivel de acceso y permisos",
 
     // Positions
     "position.title": "Posiciones",
@@ -2023,7 +2117,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.isSN": "Simples Nacional",
     "credit.dueDate": "Fecha de Vencimiento",
     "credit.limit": "Límite",
-    "credit.secondaryLimit": "Límite Secundario",
+    "credit.secondaryLimit": "Límite WDC Pay",
     "credit.firstPurchase": "Primera Compra",
     "credit.biggestPurchase": "Mayor Compra",
     "credit.group": "Grupo",
@@ -2117,6 +2211,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.biggestDelay": "Retraso más Largo",
     "credit.tid": "TID",
     "credit.resell": "Reventa",
+    "credit.warrantyInfo": "Información de Garantía",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
@@ -2149,15 +2244,18 @@ const translations: Record<Locale, Record<string, string>> = {
       "Solo puedes asignarte elementos que no tengan responsable.",
     "credit.assign.selectUser": "Seleccionar Usuario",
     "credit.assign.searchPlaceholder": "Buscar por nombre o correo...",
-    "credit.assign.searchHint": "Busca para encontrar usuarios de otros departamentos",
+    "credit.assign.searchHint":
+      "Busca para encontrar usuarios de otros departamentos",
     "credit.assign.loadingUsers": "Cargando usuarios...",
-    "credit.assign.noUsersAvailable": "No hay usuarios disponibles para asignación.",
+    "credit.assign.noUsersAvailable":
+      "No hay usuarios disponibles para asignación.",
     "credit.assign.myDepartment": "Mi Departamento",
     "credit.assign.otherDepartments": "Otros Departamentos",
     "credit.assign.noResults": "No se encontraron usuarios con tu búsqueda.",
     "credit.assign.selected": "Seleccionado",
     "credit.assign.willAssignTo": "Se asignará a",
-    "credit.assign.selectUserRequired": "Por favor, selecciona un usuario para asignar.",
+    "credit.assign.selectUserRequired":
+      "Por favor, selecciona un usuario para asignar.",
 
     // Credit Limit
     "credit.limit.setLimit": "Establecer Límite de Crédito",
@@ -2211,9 +2309,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.uploading": "Subiendo...",
     "credit.upload.success": "Documento subido exitosamente",
     "credit.upload.error": "Error al subir el documento",
-    "credit.upload.compressed": "La imagen fue comprimida para ajustarse al límite de tamaño",
+    "credit.upload.compressed":
+      "La imagen fue comprimida para ajustarse al límite de tamaño",
     "credit.upload.compressionFailed": "Error al comprimir la imagen",
-    "credit.upload.fileTooLarge": "El archivo es muy grande. Tamaño máximo es {maxSize}",
+    "credit.upload.fileTooLarge":
+      "El archivo es muy grande. Tamaño máximo es {maxSize}",
     "credit.upload.maxSize": "Tamaño máximo del archivo: {maxSize}",
     "credit.upload.docType.A": "Propuesta Firmada",
     "credit.upload.docType.B": "Adición Firmada",
@@ -2286,12 +2386,14 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Workflow
     "workflow.title": "Estado del Semáforo",
-    "workflow.subtitle": "Seleccione un elemento para ver el progreso del flujo",
+    "workflow.subtitle":
+      "Seleccione un elemento para ver el progreso del flujo",
     "workflow.loading": "Cargando...",
     "workflow.loadingWorkflow": "Cargando flujo de trabajo...",
     "workflow.errorLoading": "Error al cargar semáforos",
     "workflow.noItems": "No se encontraron elementos de semáforo.",
-    "workflow.noPermission": "No tiene permiso para acceder a esta página. Solo los administradores pueden ver flujos de trabajo.",
+    "workflow.noPermission":
+      "No tiene permiso para acceder a esta página. Solo los administradores pueden ver flujos de trabajo.",
     "workflow.quote": "Cotización",
     "workflow.salesOrder": "Orden de Venta",
     "workflow.lvts": "LVTS",
@@ -2314,7 +2416,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.dueDate": "Fecha de Vencimiento",
     "workflow.filters.filters": "Filtros",
     "workflow.filters.search": "Buscar",
-    "workflow.filters.searchPlaceholder": "Buscar por cotización, orden o número LVTS",
+    "workflow.filters.searchPlaceholder":
+      "Buscar por cotización, orden o número LVTS",
     "workflow.filters.status": "Estado",
     "workflow.filters.allStatuses": "Todos los Estados",
     "workflow.filters.dateFrom": "Fecha Desde",
@@ -2333,7 +2436,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.steps.po": "PO",
     "workflow.steps.poDesc": "Procesamiento de Orden de Compra",
     "workflow.steps.customsClearance": "Despacho Aduanero",
-    "workflow.steps.customsClearanceDesc": "Procesamiento del despacho aduanero",
+    "workflow.steps.customsClearanceDesc":
+      "Procesamiento del despacho aduanero",
     "workflow.steps.cfoAppropriation": "Apropiación CFO",
     "workflow.steps.cfoAppropriationDesc": "Apropiación presupuestaria del CFO",
     "workflow.steps.generatePreBilling": "Generar Pre-Facturación",
@@ -2354,13 +2458,16 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Access Request
     "accessRequest.title": "Solicitar Acceso",
-    "accessRequest.subtitle": "Complete el formulario a continuación para solicitar acceso al sistema",
+    "accessRequest.subtitle":
+      "Complete el formulario a continuación para solicitar acceso al sistema",
     "accessRequest.email": "Correo Electrónico",
-    "accessRequest.emailPlaceholder": "Ingrese su dirección de correo electrónico",
+    "accessRequest.emailPlaceholder":
+      "Ingrese su dirección de correo electrónico",
     "accessRequest.department": "Departamento",
     "accessRequest.position": "Cargo",
     "accessRequest.supervisorName": "Nombre del Superior",
-    "accessRequest.supervisorNamePlaceholder": "Ingrese el nombre de su supervisor",
+    "accessRequest.supervisorNamePlaceholder":
+      "Ingrese el nombre de su supervisor",
     "accessRequest.other": "Otro (especificar abajo)",
     "accessRequest.customDepartment": "Ingrese el nombre del departamento",
     "accessRequest.customPosition": "Ingrese el nombre del cargo",
@@ -2373,19 +2480,24 @@ const translations: Record<Locale, Record<string, string>> = {
     "accessRequest.submit": "Enviar Solicitud",
     "accessRequest.submitting": "Enviando...",
     "accessRequest.success": "Solicitud Enviada",
-    "accessRequest.successMessage": "Su solicitud de acceso ha sido enviada. Será contactado pronto.",
+    "accessRequest.successMessage":
+      "Su solicitud de acceso ha sido enviada. Será contactado pronto.",
     "accessRequest.backToLogin": "Volver al Inicio de Sesión",
     "accessRequest.noAccount": "¿No tienes acceso?",
     "accessRequest.requestAccess": "Solicita acceso aquí",
     "accessRequest.loading": "Cargando...",
     "accessRequest.search": "Buscar...",
     "accessRequest.noResults": "No se encontraron resultados",
-    "accessRequest.error.departmentRequired": "Por favor, seleccione un departamento",
+    "accessRequest.error.departmentRequired":
+      "Por favor, seleccione un departamento",
     "accessRequest.error.positionRequired": "Por favor, seleccione un cargo",
-    "accessRequest.error.customDepartmentRequired": "Por favor, ingrese el nombre del departamento",
-    "accessRequest.error.customPositionRequired": "Por favor, ingrese el nombre del cargo",
+    "accessRequest.error.customDepartmentRequired":
+      "Por favor, ingrese el nombre del departamento",
+    "accessRequest.error.customPositionRequired":
+      "Por favor, ingrese el nombre del cargo",
     "accessRequest.error.submitFailed": "Error al enviar la solicitud",
-    "accessRequest.error.generic": "Ocurrió un error. Por favor, inténtelo de nuevo.",
+    "accessRequest.error.generic":
+      "Ocurrió un error. Por favor, inténtelo de nuevo.",
 
     // Admin success messages
     "admin.roles.createSuccess": "Rol creado exitosamente",
@@ -2408,7 +2520,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Credit success messages
     "credit.statusUpdated": "Estado actualizado",
-    "credit.statusUpdatedDesc": "El estado del crédito ha sido actualizado exitosamente.",
+    "credit.statusUpdatedDesc":
+      "El estado del crédito ha sido actualizado exitosamente.",
     "credit.itemAssigned": "Elemento asignado",
     "credit.itemAssignedDesc": "Asignado a usted exitosamente.",
   },

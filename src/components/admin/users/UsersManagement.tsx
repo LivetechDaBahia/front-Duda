@@ -59,7 +59,9 @@ export function UsersManagement() {
       setIsCreateDialogOpen(false);
       toast({
         title: t("user.createSuccess") || "User created",
-        description: t("user.createSuccessDesc") || "The user has been successfully created.",
+        description:
+          t("user.createSuccessDesc") ||
+          "The user has been successfully created.",
       });
     },
     onError: handleError,
@@ -74,7 +76,9 @@ export function UsersManagement() {
       setEditingUser(null);
       toast({
         title: t("user.updateSuccess") || "User updated",
-        description: t("user.updateSuccessDesc") || "The user has been successfully updated.",
+        description:
+          t("user.updateSuccessDesc") ||
+          "The user has been successfully updated.",
       });
     },
     onError: handleError,
@@ -88,7 +92,9 @@ export function UsersManagement() {
       setDeletingUser(null);
       toast({
         title: t("user.deleteSuccess") || "User deleted",
-        description: t("user.deleteSuccessDesc") || "The user has been successfully deleted.",
+        description:
+          t("user.deleteSuccessDesc") ||
+          "The user has been successfully deleted.",
       });
     },
     onError: handleError,

@@ -1,6 +1,6 @@
 /**
  * Error Boundary Component
- * 
+ *
  * Catches React rendering errors and displays a user-friendly fallback UI.
  * Reports errors to Sentry automatically.
  */

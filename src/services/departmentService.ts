@@ -21,7 +21,9 @@ class DepartmentService {
 
   // POST /departments - Create department
   async createDepartment(data: CreateDepartmentDto): Promise<Department> {
-    addUIBreadcrumb("createDepartment", "departmentService", { name: data.name });
+    addUIBreadcrumb("createDepartment", "departmentService", {
+      name: data.name,
+    });
     return apiClient.post("/departments", data);
   }
 

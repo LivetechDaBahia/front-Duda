@@ -54,33 +54,39 @@ export interface ApiError {
  * Helper to handle API responses with Sentry tracking
  */
 async function handleResponse<T>(
-  res: Response, 
-  method: string, 
-  endpoint: string
+  res: Response,
+  method: string,
+  endpoint: string,
 ): Promise<T> {
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    const errorMessage = errorData.message || errorData.error || `API Error: ${res.status}`;
-    
-    addApiBreadcrumb(method, `[phone-verification] ${endpoint}`, res.status, errorMessage);
-    
+    const errorMessage =
+      errorData.message || errorData.error || `API Error: ${res.status}`;
+
+    addApiBreadcrumb(
+      method,
+      `[phone-verification] ${endpoint}`,
+      res.status,
+      errorMessage,
+    );
+
     const error = {
       status: res.status,
       ...errorData,
     };
-    
+
     // Report to Sentry for server errors
     if (res.status >= 500) {
-      captureException(new Error(errorMessage), { 
-        endpoint, 
+      captureException(new Error(errorMessage), {
+        endpoint,
         status: res.status,
-        service: "phone-verification" 
+        service: "phone-verification",
       });
     }
-    
+
     throw error;
   }
-  
+
   addApiBreadcrumb(method, `[phone-verification] ${endpoint}`, res.status);
   return res.json();
 }
@@ -91,7 +97,7 @@ async function handleResponse<T>(
 export async function getFirstAccess(): Promise<FirstAccessResponse> {
   const endpoint = "/auth/first-access";
   addApiBreadcrumb("GET", `[phone-verification] ${endpoint}`);
-  
+
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       credentials: "include",
@@ -100,7 +106,12 @@ export async function getFirstAccess(): Promise<FirstAccessResponse> {
   } catch (error) {
     if (!(error as ApiError).status) {
       // Network error
-      addApiBreadcrumb("GET", `[phone-verification] ${endpoint}`, 0, "Network error");
+      addApiBreadcrumb(
+        "GET",
+        `[phone-verification] ${endpoint}`,
+        0,
+        "Network error",
+      );
       captureException(error, { endpoint, service: "phone-verification" });
     }
     throw error;
@@ -116,7 +127,7 @@ export async function sendPhoneCode(
 ): Promise<SendCodeResponse> {
   const endpoint = "/auth/phone/send-code";
   addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`);
-  
+
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method: "POST",
@@ -128,7 +139,12 @@ export async function sendPhoneCode(
   } catch (error) {
     if (!(error as ApiError).status) {
       // Network error
-      addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`, 0, "Network error");
+      addApiBreadcrumb(
+        "POST",
+        `[phone-verification] ${endpoint}`,
+        0,
+        "Network error",
+      );
       captureException(error, { endpoint, service: "phone-verification" });
     }
     throw error;
@@ -144,7 +160,7 @@ export async function verifyPhoneCode(
 ): Promise<VerifyCodeResponse> {
   const endpoint = "/auth/phone/verify";
   addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`);
-  
+
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method: "POST",
@@ -159,7 +175,12 @@ export async function verifyPhoneCode(
   } catch (error) {
     if (!(error as ApiError).status) {
       // Network error
-      addApiBreadcrumb("POST", `[phone-verification] ${endpoint}`, 0, "Network error");
+      addApiBreadcrumb(
+        "POST",
+        `[phone-verification] ${endpoint}`,
+        0,
+        "Network error",
+      );
       captureException(error, { endpoint, service: "phone-verification" });
     }
     throw error;

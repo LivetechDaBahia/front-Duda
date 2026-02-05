@@ -109,7 +109,7 @@ export function ComboboxWithCustom({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === option.value ? "opacity-100" : "opacity-0"
+                        value === option.value ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {option.label}
@@ -123,7 +123,7 @@ export function ComboboxWithCustom({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      isOtherSelected ? "opacity-100" : "opacity-0"
+                      isOtherSelected ? "opacity-100" : "opacity-0",
                     )}
                   />
                   {t("accessRequest.other")}

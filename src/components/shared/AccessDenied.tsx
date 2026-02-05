@@ -33,7 +33,9 @@ export const AccessDenied = ({
           {title || defaultTitle}
         </h1>
 
-        <p className="text-muted-foreground mb-6">{message || defaultMessage}</p>
+        <p className="text-muted-foreground mb-6">
+          {message || defaultMessage}
+        </p>
 
         {showHomeButton && (
           <Button

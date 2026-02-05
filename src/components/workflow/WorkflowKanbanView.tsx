@@ -6,7 +6,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { FileText, Clock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
+import {
+  FileText,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+} from "lucide-react";
 import { getStatusLabelKey } from "@/lib/trafficLightTransformer";
 
 type WorkflowStatus = "expired" | "in-progress" | "completed" | "cancelled";
@@ -57,7 +63,12 @@ export const WorkflowKanbanView = ({
   // Enable auto-scroll when dragging (read-only, but keep for consistency)
   useAutoScroll(scrollContainerRef, draggedItemId !== null);
 
-  const columns: { status: WorkflowStatus; label: string; color: string; icon: typeof Clock }[] = [
+  const columns: {
+    status: WorkflowStatus;
+    label: string;
+    color: string;
+    icon: typeof Clock;
+  }[] = [
     {
       status: "in-progress",
       label: t("workflow.status.inExecution"),
@@ -94,14 +105,19 @@ export const WorkflowKanbanView = ({
         <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max h-full">
           {columns.map(({ status, label, color, icon: StatusIcon }) => {
             const columnItems = getItemsByStatus(status);
-            
+
             return (
               <div
                 key={status}
                 className="flex-shrink-0 w-[349px] h-full flex flex-col"
               >
                 <div className="rounded-lg border bg-card transition-colors h-full flex flex-col">
-                  <div className={cn("flex items-center justify-between p-3 sm:p-4 border-b-2", color)}>
+                  <div
+                    className={cn(
+                      "flex items-center justify-between p-3 sm:p-4 border-b-2",
+                      color,
+                    )}
+                  >
                     <h3 className="font-semibold text-sm sm:text-base flex items-center gap-2">
                       <StatusIcon className="h-4 w-4" />
                       {label}
@@ -119,69 +135,95 @@ export const WorkflowKanbanView = ({
                       ) : (
                         columnItems.map((item) => {
                           const itemStatus = getSummaryStatus(item);
-                          
+
                           return (
-                          <Card
+                            <Card
                               key={item.id}
                               className={cn(
                                 "p-3 cursor-pointer transition-all hover:shadow-md hover:border-primary/50",
                                 "border-l-4",
-                                itemStatus === "completed" && "border-l-success",
-                                itemStatus === "in-progress" && "border-l-primary",
+                                itemStatus === "completed" &&
+                                  "border-l-success",
+                                itemStatus === "in-progress" &&
+                                  "border-l-primary",
                                 itemStatus === "expired" && "border-l-warning",
-                                itemStatus === "cancelled" && "border-l-destructive"
+                                itemStatus === "cancelled" &&
+                                  "border-l-destructive",
                               )}
                               onClick={() => onItemClick(item)}
                             >
                               <div className="flex items-start gap-3">
-                                <div className={cn(
-                                  "p-2 rounded-lg shrink-0",
-                                  itemStatus === "completed" && "bg-success/10",
-                                  itemStatus === "in-progress" && "bg-primary/10",
-                                  itemStatus === "expired" && "bg-warning/10",
-                                  itemStatus === "cancelled" && "bg-destructive/10"
-                                )}>
-                                  <FileText className={cn(
-                                    "h-4 w-4",
-                                    itemStatus === "completed" && "text-success",
-                                    itemStatus === "in-progress" && "text-primary",
-                                    itemStatus === "expired" && "text-warning",
-                                    itemStatus === "cancelled" && "text-destructive"
-                                  )} />
+                                <div
+                                  className={cn(
+                                    "p-2 rounded-lg shrink-0",
+                                    itemStatus === "completed" &&
+                                      "bg-success/10",
+                                    itemStatus === "in-progress" &&
+                                      "bg-primary/10",
+                                    itemStatus === "expired" && "bg-warning/10",
+                                    itemStatus === "cancelled" &&
+                                      "bg-destructive/10",
+                                  )}
+                                >
+                                  <FileText
+                                    className={cn(
+                                      "h-4 w-4",
+                                      itemStatus === "completed" &&
+                                        "text-success",
+                                      itemStatus === "in-progress" &&
+                                        "text-primary",
+                                      itemStatus === "expired" &&
+                                        "text-warning",
+                                      itemStatus === "cancelled" &&
+                                        "text-destructive",
+                                    )}
+                                  />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <h4 className="font-medium text-sm text-foreground truncate">
                                     {t("workflow.quote")}: {item.numQuote}
                                   </h4>
                                   <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground mt-0.5">
-                                    <span>{t("workflow.salesOrder")}: {item.salesOrderNumber}</span>
+                                    <span>
+                                      {t("workflow.salesOrder")}:{" "}
+                                      {item.salesOrderNumber}
+                                    </span>
                                     {item.lvts && (
-                                      <span>{t("workflow.lvts")}: {item.lvts}</span>
+                                      <span>
+                                        {t("workflow.lvts")}: {item.lvts}
+                                      </span>
                                     )}
                                   </div>
-                                    <div className="flex flex-wrap gap-2 mt-2">
+                                  <div className="flex flex-wrap gap-2 mt-2">
                                     <Badge
                                       variant="secondary"
                                       className={cn(
                                         "text-xs",
                                         itemStatus === "expired"
                                           ? "bg-warning/20 text-warning"
-                                          : "bg-muted text-muted-foreground"
+                                          : "bg-muted text-muted-foreground",
                                       )}
                                     >
-                                      {t("workflow.dueDate")}: {item.validityDate}
+                                      {t("workflow.dueDate")}:{" "}
+                                      {item.validityDate}
                                     </Badge>
                                   </div>
                                   {(item.startDate || item.finishedDate) && (
                                     <div className="text-xs text-muted-foreground mt-2 space-y-0.5">
                                       {item.startDate && (
                                         <div>
-                                          {t("workflow.started")}: {new Date(item.startDate).toLocaleDateString()}
+                                          {t("workflow.started")}:{" "}
+                                          {new Date(
+                                            item.startDate,
+                                          ).toLocaleDateString()}
                                         </div>
                                       )}
                                       {item.finishedDate && (
                                         <div>
-                                          {t("workflow.finished")}: {new Date(item.finishedDate).toLocaleDateString()}
+                                          {t("workflow.finished")}:{" "}
+                                          {new Date(
+                                            item.finishedDate,
+                                          ).toLocaleDateString()}
                                         </div>
                                       )}
                                     </div>

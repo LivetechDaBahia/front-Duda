@@ -54,20 +54,26 @@ interface RoleDialogProps {
 }
 
 // Helper to group permissions by module
-const groupPermissionsByModule = (permissions: string[]): Record<string, string[]> => {
+const groupPermissionsByModule = (
+  permissions: string[],
+): Record<string, string[]> => {
   const grouped: Record<string, string[]> = {};
-  
+
   permissions.forEach((permission) => {
     // Handle both "module:action" and "module.action" formats
-    const separatorIndex = Math.max(permission.indexOf(":"), permission.indexOf("."));
-    const module = separatorIndex > 0 ? permission.substring(0, separatorIndex) : "other";
-    
+    const separatorIndex = Math.max(
+      permission.indexOf(":"),
+      permission.indexOf("."),
+    );
+    const module =
+      separatorIndex > 0 ? permission.substring(0, separatorIndex) : "other";
+
     if (!grouped[module]) {
       grouped[module] = [];
     }
     grouped[module].push(permission);
   });
-  
+
   return grouped;
 };
 
@@ -110,7 +116,7 @@ export function RoleDialog({
   // Group permissions by module
   const groupedPermissions = useMemo(
     () => groupPermissionsByModule(permissionsList),
-    [permissionsList]
+    [permissionsList],
   );
 
   // Reset form when dialog opens/closes or role changes
@@ -142,7 +148,7 @@ export function RoleDialog({
     if (current.includes(permission)) {
       form.setValue(
         "permissions",
-        current.filter((p) => p !== permission)
+        current.filter((p) => p !== permission),
       );
     } else {
       form.setValue("permissions", [...current, permission]);
@@ -200,7 +206,9 @@ export function RoleDialog({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={t("role.selectAccessLevel")} />
+                            <SelectValue
+                              placeholder={t("role.selectAccessLevel")}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -244,33 +252,39 @@ export function RoleDialog({
               ) : (
                 <ScrollArea className="flex-1 border rounded-md p-3">
                   <div className="space-y-4">
-                    {Object.entries(groupedPermissions).map(([module, permissions]) => (
-                      <div key={module} className="space-y-2">
-                        <h4 className="text-sm font-medium text-muted-foreground capitalize">
-                          {formatModuleName(module)}
-                        </h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-2">
-                          {permissions.map((permission) => (
-                            <div
-                              key={permission}
-                              className="flex items-center space-x-2"
-                            >
-                              <Checkbox
-                                id={permission}
-                                checked={selectedPermissions.includes(permission)}
-                                onCheckedChange={() => togglePermission(permission)}
-                              />
-                              <label
-                                htmlFor={permission}
-                                className="text-sm cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    {Object.entries(groupedPermissions).map(
+                      ([module, permissions]) => (
+                        <div key={module} className="space-y-2">
+                          <h4 className="text-sm font-medium text-muted-foreground capitalize">
+                            {formatModuleName(module)}
+                          </h4>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-2">
+                            {permissions.map((permission) => (
+                              <div
+                                key={permission}
+                                className="flex items-center space-x-2"
                               >
-                                {permission}
-                              </label>
-                            </div>
-                          ))}
+                                <Checkbox
+                                  id={permission}
+                                  checked={selectedPermissions.includes(
+                                    permission,
+                                  )}
+                                  onCheckedChange={() =>
+                                    togglePermission(permission)
+                                  }
+                                />
+                                <label
+                                  htmlFor={permission}
+                                  className="text-sm cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                  {permission}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                     {permissionsList.length === 0 && (
                       <p className="text-sm text-muted-foreground text-center py-4">
                         {t("role.noPermissionsAvailable")}
@@ -280,7 +294,8 @@ export function RoleDialog({
                 </ScrollArea>
               )}
               <p className="text-xs text-muted-foreground mt-1">
-                {t("role.permissionsHint")} ({selectedPermissions.length}/{permissionsList.length})
+                {t("role.permissionsHint")} ({selectedPermissions.length}/
+                {permissionsList.length})
               </p>
             </div>
 
@@ -297,8 +312,8 @@ export function RoleDialog({
                 {isSubmitting
                   ? t("common.saving")
                   : isEditing
-                  ? t("common.save")
-                  : t("role.create")}
+                    ? t("common.save")
+                    : t("role.create")}
               </Button>
             </DialogFooter>
           </form>

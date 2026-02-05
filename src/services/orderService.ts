@@ -31,9 +31,9 @@ export const orderService = {
       tenantId: tenantId,
     });
     const url = `/purchaseOrders?${params}`;
-    
+
     addUIBreadcrumb("getOrders", "orderService", { dateBegin, dateEnd, types });
-    
+
     if (isDev) {
       console.log("[orderService] getOrders", {
         url,
@@ -54,9 +54,9 @@ export const orderService = {
   ): Promise<ApiDetailedOrder> {
     const branchId = `01,${branch}`;
     const url = `/purchaseOrders/${orderId}/${branchId}`;
-    
+
     addUIBreadcrumb("getOrderById", "orderService", { orderId, branch });
-    
+
     if (isDev) {
       console.log("[orderService] getOrderById", {
         orderId,
@@ -74,9 +74,9 @@ export const orderService = {
     branch: string,
   ): Promise<ApiApprovalLevelsResponse> {
     const url = `/purchaseOrders/approvalLevels/${orderId}/${branch}`;
-    
+
     addUIBreadcrumb("getApprovalLevels", "orderService", { orderId, branch });
-    
+
     if (isDev) {
       console.log("[orderService] getApprovalLevels", { url, orderId, branch });
     }
@@ -102,9 +102,12 @@ export const orderService = {
     branch: string,
   ): Promise<ApiCostCenter[]> {
     const url = `/purchaseOrders/costCenter/${orderId}/${branch}`;
-    
-    addUIBreadcrumb("getCostCenterDetails", "orderService", { orderId, branch });
-    
+
+    addUIBreadcrumb("getCostCenterDetails", "orderService", {
+      orderId,
+      branch,
+    });
+
     if (isDev) {
       console.log("[orderService] getCostCenterDetails", {
         url,
@@ -119,8 +122,11 @@ export const orderService = {
   async approveOrder(
     dto: ApprovePurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
-    addUIBreadcrumb("approveOrder", "orderService", { orderId: dto.orderId, branch: dto.branch });
-    
+    addUIBreadcrumb("approveOrder", "orderService", {
+      orderId: dto.orderId,
+      branch: dto.branch,
+    });
+
     if (isDev) {
       console.log("[orderService] approveOrder", { dto });
     }
@@ -131,8 +137,11 @@ export const orderService = {
   async rejectOrder(
     dto: RejectPurchaseOrderDto,
   ): Promise<ApprovalActionResponse> {
-    addUIBreadcrumb("rejectOrder", "orderService", { orderId: dto.orderId, branch: dto.branch });
-    
+    addUIBreadcrumb("rejectOrder", "orderService", {
+      orderId: dto.orderId,
+      branch: dto.branch,
+    });
+
     if (isDev) {
       console.log("[orderService] rejectOrder", { dto });
     }
@@ -146,9 +155,12 @@ export const orderService = {
     const finalDto = { ...dto, reversion: true } as ApprovePurchaseOrderDto & {
       reversion: true;
     };
-    
-    addUIBreadcrumb("revertOrder", "orderService", { orderId: dto.orderId, branch: dto.branch });
-    
+
+    addUIBreadcrumb("revertOrder", "orderService", {
+      orderId: dto.orderId,
+      branch: dto.branch,
+    });
+
     if (isDev) {
       console.log("[orderService] revertOrder", { inDto: dto, finalDto });
     }
@@ -158,9 +170,9 @@ export const orderService = {
   // Fetch branches
   async getBranches(): Promise<Branch[]> {
     const url = "/purchaseOrders/branches";
-    
+
     addUIBreadcrumb("getBranches", "orderService");
-    
+
     if (isDev) {
       console.log("[orderService] getBranches", { url });
     }
@@ -181,9 +193,13 @@ export const orderService = {
       types,
     });
     const url = `/purchaseOrders/indicators?${params}`;
-    
-    addUIBreadcrumb("getIndicators", "orderService", { dateBegin, dateEnd, types });
-    
+
+    addUIBreadcrumb("getIndicators", "orderService", {
+      dateBegin,
+      dateEnd,
+      types,
+    });
+
     if (isDev) {
       console.log("[orderService] getIndicators", {
         url,

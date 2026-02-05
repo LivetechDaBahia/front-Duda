@@ -34,7 +34,7 @@ const Credit = () => {
   const { t } = useLocale();
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  
+
   const {
     credits,
     isLoading: isLoadingCredits,
@@ -288,7 +288,9 @@ const Credit = () => {
 
       toast({
         title: t("credit.statusUpdated") || "Status updated",
-        description: t("credit.statusUpdatedDesc") || "Credit status has been successfully updated.",
+        description:
+          t("credit.statusUpdatedDesc") ||
+          "Credit status has been successfully updated.",
       });
 
       await refetchCredits();
@@ -318,7 +320,8 @@ const Credit = () => {
 
         toast({
           title: t("credit.itemAssigned") || "Item assigned",
-          description: t("credit.itemAssignedDesc") || "Successfully assigned to you.",
+          description:
+            t("credit.itemAssignedDesc") || "Successfully assigned to you.",
         });
 
         await refetchCredits();

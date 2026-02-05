@@ -80,8 +80,12 @@ export const WorkflowNode = memo(({ data, selected }: WorkflowNodeProps) => {
   const Icon = config.icon;
 
   // Translate label and description if they are translation keys
-  const translatedLabel = data.label.startsWith("workflow.") ? t(data.label) : data.label;
-  const translatedDescription = data.description.startsWith("workflow.") ? t(data.description) : data.description;
+  const translatedLabel = data.label.startsWith("workflow.")
+    ? t(data.label)
+    : data.label;
+  const translatedDescription = data.description.startsWith("workflow.")
+    ? t(data.description)
+    : data.description;
 
   return (
     <div className="relative">

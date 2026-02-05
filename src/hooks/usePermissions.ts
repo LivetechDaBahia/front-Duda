@@ -168,7 +168,7 @@ export const usePermissions = () => {
       "trafficLight.read",
       "trafficLight:read",
       "trafficLights.read",
-      "trafficLights:read"
+      "trafficLights:read",
     );
   };
 
@@ -181,7 +181,7 @@ export const usePermissions = () => {
         "trafficLight.update",
         "trafficLight:update",
         "trafficLights.update",
-        "trafficLights:update"
+        "trafficLights:update",
       )
     );
   };
