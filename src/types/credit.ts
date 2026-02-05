@@ -11,6 +11,7 @@ export interface CreditItemDetails {
   currency: string;
   value: number;
   sellerName: string;
+  resellerName: string;
   paymentConditions: string;
   type: string;
   tid: string;
