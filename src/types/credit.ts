@@ -67,6 +67,14 @@ export interface CreditDocument {
 export type CreditQuoteDocuments = CreditDocument;
 export type CreditClientDocument = CreditDocument;
 
+export interface PaginatedClientDocuments {
+  data: CreditClientDocument[];
+  total: number;
+  page: number;
+  size: number;
+  totalPages: number;
+}
+
 export interface CreditClientDetails {
   name: string;
   fantasyName: string;

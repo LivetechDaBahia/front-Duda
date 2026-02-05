@@ -42,9 +42,17 @@ export const creditService = {
     return apiClient.get(`/credit/creditElement/quoteDocuments/${id}`);
   },
 
-  async getClientDocuments(id: string): Promise<CreditClientDocument[]> {
-    addUIBreadcrumb("getClientDocuments", "creditService", { id });
-    return apiClient.get(`/credit/creditElement/documents/client/${id}`);
+  async getClientDocuments(
+    id: string,
+    page: number = 1,
+    size: number = 10,
+  ): Promise<CreditClientDocument[]> {
+    addUIBreadcrumb("getClientDocuments", "creditService", { id, page, size });
+    const params = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+    });
+    return apiClient.get(`/credit/creditElement/documents/client/${id}?${params}`);
   },
 
   async getClientDetails(
