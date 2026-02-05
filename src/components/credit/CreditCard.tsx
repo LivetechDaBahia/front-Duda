@@ -260,6 +260,12 @@ export const CreditCard = ({
           <span className="text-muted-foreground">{t("credit.seller")}</span>
           <span className="truncate ml-2">{credit.details.sellerName}</span>
         </div>
+        {credit.details.resellerName && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("credit.reseller")}</span>
+            <span className="truncate ml-2">{credit.details.resellerName}</span>
+          </div>
+        )}
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">{t("credit.group")}</span>
           <span className="truncate ml-2">{credit.details.sellerGroup}</span>
