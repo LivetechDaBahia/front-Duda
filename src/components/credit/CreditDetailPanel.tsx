@@ -47,7 +47,7 @@ import { FinancialHistoryTable } from "@/components/credit/FinancialHistoryTable
 import { ItemsPerPageSelector } from "@/components/shared/ItemsPerPageSelector";
 import { DocumentUploadDialog } from "@/components/credit/DocumentUploadDialog";
 import { formatDate } from "@/lib/utils";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -66,6 +66,10 @@ export const CreditDetailPanel = ({
   const { t, locale } = useLocale();
   const { canManageCredit } = usePermissions();
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  
+  // Client documents pagination
+  const [clientDocsPage, setClientDocsPage] = useState(1);
+  const [clientDocsSize, setClientDocsSize] = useState(10);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const DOCUMENTS_BASE_PATH = import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH;
@@ -151,12 +155,13 @@ export const CreditDetailPanel = ({
   };
 
   const {
-    elementDetails,
     elementDetailsList,
     documents,
     quoteDocuments,
     rentalDocuments,
     clientDocuments,
+    clientDocumentsTotal,
+    isLoadingClientDocs,
     clientDetails,
     clientHistory,
     linkedClients,
@@ -166,7 +171,16 @@ export const CreditDetailPanel = ({
     clientBranch: credit?.details.clientBranch || undefined,
     clientId: credit?.details.client || undefined,
     proposalId: credit?.details.offer || undefined,
+    clientDocsPage,
+    clientDocsSize,
   });
+
+  // Reset client docs page when credit changes
+  useEffect(() => {
+    setClientDocsPage(1);
+  }, [credit?.key]);
+
+  const clientDocsTotalPages = Math.ceil(clientDocumentsTotal / clientDocsSize);
 
   // Fetch credit limit data
   const { data: creditLimit, isLoading: isLoadingLimit } = useQuery({
@@ -581,7 +595,7 @@ export const CreditDetailPanel = ({
                 </TabsContent>
 
                 <TabsContent value="client">
-                  {isLoading ? (
+                  {isLoadingClientDocs ? (
                     <div className="space-y-2">
                       <Skeleton className="h-20 w-full" />
                     </div>
@@ -590,28 +604,82 @@ export const CreditDetailPanel = ({
                       {t("credit.noDocuments")}
                     </p>
                   ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>{t("credit.docTitle")}</TableHead>
-                          <TableHead>{t("credit.docDescription")}</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {clientDocuments.map((doc, idx) => (
-                          <TableRow
-                            key={idx}
-                            className="cursor-pointer hover:bg-muted/50"
-                            onClick={() =>
-                              openDocument(doc.docObject, doc.path)
-                            }
-                          >
-                            <TableCell>{doc.docTitle}</TableCell>
-                            <TableCell>{doc.docDescription}</TableCell>
+                    <div className="space-y-4">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>{t("credit.docTitle")}</TableHead>
+                            <TableHead>{t("credit.docDescription")}</TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+                        <TableBody>
+                          {clientDocuments.map((doc, idx) => (
+                            <TableRow
+                              key={idx}
+                              className="cursor-pointer hover:bg-muted/50"
+                              onClick={() =>
+                                openDocument(doc.docObject, doc.path)
+                              }
+                            >
+                              <TableCell>{doc.docTitle}</TableCell>
+                              <TableCell>{doc.docDescription}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                      
+                      {/* Pagination controls */}
+                      <div className="flex items-center justify-between">
+                        <ItemsPerPageSelector
+                          value={clientDocsSize}
+                          onChange={(val) => {
+                            setClientDocsSize(val);
+                            setClientDocsPage(1);
+                          }}
+                        />
+                        {clientDocsTotalPages > 1 && (
+                          <Pagination>
+                            <PaginationContent>
+                              <PaginationItem>
+                                <PaginationPrevious
+                                  onClick={() => setClientDocsPage(Math.max(1, clientDocsPage - 1))}
+                                  className={clientDocsPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                />
+                              </PaginationItem>
+                              {Array.from({ length: Math.min(5, clientDocsTotalPages) }, (_, i) => {
+                                let pageNum: number;
+                                if (clientDocsTotalPages <= 5) {
+                                  pageNum = i + 1;
+                                } else if (clientDocsPage <= 3) {
+                                  pageNum = i + 1;
+                                } else if (clientDocsPage >= clientDocsTotalPages - 2) {
+                                  pageNum = clientDocsTotalPages - 4 + i;
+                                } else {
+                                  pageNum = clientDocsPage - 2 + i;
+                                }
+                                return (
+                                  <PaginationItem key={pageNum}>
+                                    <PaginationLink
+                                      onClick={() => setClientDocsPage(pageNum)}
+                                      isActive={clientDocsPage === pageNum}
+                                      className="cursor-pointer"
+                                    >
+                                      {pageNum}
+                                    </PaginationLink>
+                                  </PaginationItem>
+                                );
+                              })}
+                              <PaginationItem>
+                                <PaginationNext
+                                  onClick={() => setClientDocsPage(Math.min(clientDocsTotalPages, clientDocsPage + 1))}
+                                  className={clientDocsPage >= clientDocsTotalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                />
+                              </PaginationItem>
+                            </PaginationContent>
+                          </Pagination>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </TabsContent>
               </Tabs>

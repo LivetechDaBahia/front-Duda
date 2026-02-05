@@ -15,6 +15,8 @@ interface UseCreditDetailsParams {
   clientBranch?: string;
   clientId?: string;
   proposalId?: string;
+  clientDocsPage?: number;
+  clientDocsSize?: number;
 }
 
 /**
@@ -34,6 +36,8 @@ export const useCreditDetails = ({
   clientBranch,
   clientId,
   proposalId,
+  clientDocsPage = 1,
+  clientDocsSize = 10,
 }: UseCreditDetailsParams) => {
   const cleanProposalId = proposalId ? extractProposalId(proposalId) : undefined;
   const {
@@ -89,9 +93,9 @@ export const useCreditDetails = ({
     isLoading: isLoadingClientDocs,
     error: clientDocsError,
   } = useQuery<CreditClientDocument[]>({
-    queryKey: ["creditClientDocuments", creditId],
+    queryKey: ["creditClientDocuments", creditId, clientDocsPage, clientDocsSize],
     queryFn: async () => {
-      return creditService.getClientDocuments(creditId!);
+      return creditService.getClientDocuments(creditId!, clientDocsPage, clientDocsSize);
     },
     enabled: !!creditId,
   });
@@ -161,6 +165,8 @@ export const useCreditDetails = ({
     quoteDocuments: quoteDocuments || [],
     rentalDocuments: rentalDocuments || [],
     clientDocuments: clientDocuments || [],
+    clientDocumentsTotal: (clientDocuments || []).length, // Will be updated when backend returns total
+    isLoadingClientDocs,
     clientDetails: clientDetails || null,
     clientHistory: clientHistory || [],
     linkedClients: linkedClients || [],
