@@ -152,7 +152,8 @@ export const CreditCard = ({
             </h3>
             <span className="text-muted-foreground">{t("credit.client")}</span>
             <p className="text-xs text-muted-foreground truncate mt-1">
-              {credit.details.client}/{credit.details.clientBranch}
+              {credit.details.client}/{credit.details.clientBranch} -
+              {credit.details.clientName}
             </p>
             {credit.details.resell && (
               <>
@@ -160,7 +161,7 @@ export const CreditCard = ({
                   {t("credit.resell")}
                 </span>
                 <p className="text-xs text-muted-foreground truncate mt-1">
-                  {credit.details.resell}
+                  {credit.details.resell} - {credit.details.resellerName}
                 </p>
               </>
             )}
