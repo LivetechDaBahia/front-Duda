@@ -69,23 +69,23 @@ export const transformApiDetailedOrder = (
     buyerCode: apiOrder.buyerCode,
     buyerName: apiOrder.buyerName,
     salesOrder: apiOrder.salesOrder || "",
-    items: transformApiProducts(apiOrder.itens || []),
+    items: transformApiProducts(apiOrder.items || apiOrder.itens || []),
   };
 };
 
 // Transform API products to UI format
 export const transformApiProducts = (apiProducts: ApiProduct[]): Product[] => {
-  return apiProducts.map((apiProduct) => ({
+  return apiProducts.map((apiProduct: any) => ({
     item: apiProduct.item || "",
-    id: apiProduct.productCode || "",
-    description: apiProduct.productDescription || "",
+    id: apiProduct.productCode || apiProduct.id || "",
+    description: apiProduct.productDescription || apiProduct.description || "",
     partNumber: apiProduct.partNumber || "",
     unit: apiProduct.unit || "",
     amount: apiProduct.amount || 0,
-    unitValue: apiProduct.unitPrice || 0,
-    totalValue: apiProduct.totalPrice || 0,
+    unitValue: apiProduct.unitPrice || apiProduct.unitValue || 0,
+    totalValue: apiProduct.totalPrice || apiProduct.totalValue || 0,
     costCenter: apiProduct.costCenter || "",
-    accountingCode: apiProduct.Accounting || "",
+    accountingCode: apiProduct.Accounting || apiProduct.accountingCode || "",
   }));
 };
 
