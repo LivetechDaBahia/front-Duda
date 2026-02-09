@@ -167,7 +167,8 @@ export interface ApiDetailedOrder {
   buyerCode: string;
   buyerName: string;
   salesOrder: string;
-  itens: ApiProduct[];
+  itens?: ApiProduct[];
+  items?: ApiProduct[];
 }
 
 export interface ApiProduct {
