@@ -65,7 +65,7 @@ export const orderService = {
         url,
       });
     }
-      const result = apiClient.get(url);
+      const result = await apiClient.get(url);
       console.log("[orderService] getOrderById result", result);
       return result;
   },
