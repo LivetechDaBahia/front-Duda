@@ -73,6 +73,7 @@ export function CreditLimitDialog({
       setLimit("");
       setRisk("");
       setDueDate(undefined);
+      setObservation("");
       onSuccess?.();
     },
     onError: handleError,
