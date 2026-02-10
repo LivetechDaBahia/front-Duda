@@ -60,6 +60,7 @@ export function CreditLimitDialog({
       limit: number;
       risk: string;
       dueDate: Date;
+      observation: string;
     }) => creditService.setCreditLimit(payload),
     onSuccess: () => {
       toast({
