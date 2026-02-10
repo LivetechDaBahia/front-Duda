@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 import { useLocale } from "@/contexts/LocaleContext";
 import {
   Dialog,
@@ -52,6 +53,7 @@ export function CreditLimitDialog({
   const [limit, setLimit] = useState("");
   const [risk, setRisk] = useState("");
   const [dueDate, setDueDate] = useState<Date>();
+  const [observation, setObservation] = useState("");
 
   const mutation = useMutation({
     mutationFn: (payload: {
@@ -59,6 +61,7 @@ export function CreditLimitDialog({
       limit: number;
       risk: string;
       dueDate: Date;
+      observation: string;
     }) => creditService.setCreditLimit(payload),
     onSuccess: () => {
       toast({
@@ -71,6 +74,7 @@ export function CreditLimitDialog({
       setLimit("");
       setRisk("");
       setDueDate(undefined);
+      setObservation("");
       onSuccess?.();
     },
     onError: handleError,
@@ -101,6 +105,7 @@ export function CreditLimitDialog({
       limit: limitValue,
       risk,
       dueDate,
+      observation,
     });
   };
 
@@ -166,6 +171,20 @@ export function CreditLimitDialog({
                 />
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="observation">{t("credit.limit.observationLabel")}</Label>
+            <Textarea
+              id="observation"
+              value={observation}
+              onChange={(e) => setObservation(e.target.value.slice(0, 100))}
+              placeholder={t("credit.limit.observationPlaceholder")}
+              maxLength={100}
+              className="resize-none"
+            />
+            <span className="text-xs text-muted-foreground text-right">
+              {observation.length}/100
+            </span>
           </div>
         </div>
         <DialogFooter>

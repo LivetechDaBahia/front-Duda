@@ -119,6 +119,7 @@ export const creditService = {
     limit: number;
     risk: string;
     dueDate: Date;
+    observation: string;
   }): Promise<void> {
     addUIBreadcrumb("setCreditLimit", "creditService", {
       cnpj: payload.cnpj,
