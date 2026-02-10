@@ -171,6 +171,20 @@ export function CreditLimitDialog({
               </PopoverContent>
             </Popover>
           </div>
+          <div className="grid gap-2">
+            <Label htmlFor="observation">{t("credit.limit.observationLabel")}</Label>
+            <Textarea
+              id="observation"
+              value={observation}
+              onChange={(e) => setObservation(e.target.value.slice(0, 100))}
+              placeholder={t("credit.limit.observationPlaceholder")}
+              maxLength={100}
+              className="resize-none"
+            />
+            <span className="text-xs text-muted-foreground text-right">
+              {observation.length}/100
+            </span>
+          </div>
         </div>
         <DialogFooter>
           <Button
