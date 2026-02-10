@@ -104,6 +104,7 @@ export function CreditLimitDialog({
       limit: limitValue,
       risk,
       dueDate,
+      observation,
     });
   };
 
