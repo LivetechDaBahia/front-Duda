@@ -52,6 +52,7 @@ export function CreditLimitDialog({
   const [limit, setLimit] = useState("");
   const [risk, setRisk] = useState("");
   const [dueDate, setDueDate] = useState<Date>();
+  const [observation, setObservation] = useState("");
 
   const mutation = useMutation({
     mutationFn: (payload: {
