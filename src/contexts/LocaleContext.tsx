@@ -541,8 +541,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
-    "credit.assign.description":
-      "Select a user to assign this credit item to. Search by name or email to find users from other departments.",
+    "credit.assign.description": "Select a user to assign this credit item to. Search by name or email to find users from other departments.",
     "credit.assign.currentAssignee": "Current Assignee",
     "credit.assign.unassigned": "Unassigned",
     "credit.assign.emailLabel": "Assignee Email *",
@@ -609,6 +608,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.noData": "No credit limit data available",
     "credit.limit.insufficientCredit": "Insufficient Credit Limit",
     "credit.limit.insufficientCreditDetail": "Exceeded by {value}",
+    "credit.limit.observationLabel": "Observation",
+    "credit.limit.observationPlaceholder": "Enter your reason (max 100 characters)",
     "credit.defaultProbability.title": "Default Risk Analysis",
     "credit.defaultProbability.probability": "Default Probability",
     "credit.defaultProbability.pendingItems": "Pending Items",
@@ -1438,6 +1439,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.noData": "Nenhum dado de limite de crédito disponível",
     "credit.limit.insufficientCredit": "Limite de Crédito Insuficiente",
     "credit.limit.insufficientCreditDetail": "Excedido em {value}",
+    "credit.limit.observationLabel": "Observações",
+    "credit.limit.observationPlaceholder": "Escreva o motivo (max 100 caracteres)",
     "credit.defaultProbability.title": "Análise de Risco de Inadimplência",
     "credit.defaultProbability.probability": "Probabilidade de Inadimplência",
     "credit.defaultProbability.pendingItems": "A vencer",
@@ -2290,6 +2293,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.noData": "No hay datos de límite de crédito disponibles",
     "credit.limit.insufficientCredit": "Límite de Crédito Insuficiente",
     "credit.limit.insufficientCreditDetail": "Excedido por {value}",
+      "credit.limit.observationLabel": "Observaciones",
+      "credit.limit.observationPlaceholder": "Introduce tu motivo (max 100 characters)",
     "credit.defaultProbability.title": "Análisis de Riesgo de Incumplimiento",
     "credit.defaultProbability.probability": "Probabilidad de Incumplimiento",
     "credit.defaultProbability.pendingItems": "Elementos Pendientes",
