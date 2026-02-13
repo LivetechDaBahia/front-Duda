@@ -57,9 +57,9 @@ export const CreditCard = ({
   isCreditManager,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
-  const { hasMinimumLevel, isAdmin, canManageCredit } = usePermissions();
+  const { isAdmin, canManageCredit, canAssignCreditToOthers } = usePermissions();
   const { user } = useAuth();
-  const isManager = isCreditManager ?? hasMinimumLevel("Manager");
+  const canAssignToOthers = isCreditManager ?? canAssignCreditToOthers;
   const canSetCreditLimit = canManageCredit;
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
@@ -218,7 +218,7 @@ export const CreditCard = ({
                     {t("credit.assign.self")}
                   </DropdownMenuItem>
 
-                  {isManager && (
+                  {canAssignToOthers && (
                     <DropdownMenuItem
                       onClick={(e) => {
                         e.stopPropagation();

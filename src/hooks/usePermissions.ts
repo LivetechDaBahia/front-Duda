@@ -149,10 +149,12 @@ export const usePermissions = () => {
   };
 
   // Check if user can assign credit items to other users (not just self-assign)
-  // Admins and Credit Managers can assign to anyone, Credit Agents can only self-assign or assign within department
+  // Admins, Credit Managers, and Manager-level users with credit access can assign to anyone
   const canAssignCreditToOthers = (): boolean => {
     if (isAdmin()) return true;
     if (isCreditManager()) return true;
+    // Manager-level users who can view credit should also be able to assign
+    if (hasMinimumLevel("Manager") && canViewCredit()) return true;
     return false;
   };
 
