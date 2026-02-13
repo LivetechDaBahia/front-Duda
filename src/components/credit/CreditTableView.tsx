@@ -57,8 +57,8 @@ export const CreditTableView = ({
   isReadOnly = false,
 }: CreditTableViewProps) => {
   const { t } = useLocale();
-  const { hasMinimumLevel, canManageCredit } = usePermissions();
-  const isManager = isCreditManager || hasMinimumLevel("Manager");
+  const { canManageCredit, canAssignCreditToOthers } = usePermissions();
+  const canAssignToOthers = isCreditManager || canAssignCreditToOthers;
   const canSetCreditLimit = canManageCredit;
 
   const formatCurrency = (value: number, currency: string) => {
@@ -224,7 +224,7 @@ export const CreditTableView = ({
                                 {t("credit.assign.self")}
                               </DropdownMenuItem>
 
-                              {isManager && (
+                              {canAssignToOthers && (
                                 <DropdownMenuItem
                                   onClick={(e) => {
                                     e.stopPropagation();

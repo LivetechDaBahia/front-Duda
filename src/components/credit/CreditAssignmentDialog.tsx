@@ -42,7 +42,7 @@ export const CreditAssignmentDialog = ({
   const { toast } = useToast();
   const { t } = useLocale();
   const { user: currentUser } = useAuth();
-  const { isAdmin, isCreditManager } = usePermissions();
+  const { isAdmin, isCreditManager, canAssignCreditToOthers } = usePermissions();
 
   // Fetch all users for assignment
   const { data: usersData, isLoading: isLoadingUsers } = useQuery({
@@ -65,8 +65,8 @@ export const CreditAssignmentDialog = ({
   // Filter users based on role permissions
   const permittedUsers = useMemo(() => {
     return allUsers.filter((user) => {
-      // Admins and Credit Managers have unrestricted access
-      if (isAdmin || isCreditManager) return true;
+      // Admins, Credit Managers, and Manager-level users can see all users
+      if (isAdmin || isCreditManager || canAssignCreditToOthers) return true;
 
       // Credit agents can always see themselves for self-assignment
       if (user.email === currentUser?.email) return true;
@@ -296,7 +296,7 @@ export const CreditAssignmentDialog = ({
                 className="pl-9"
               />
             </div>
-            {!searchQuery.trim() && (isAdmin || isCreditManager) && (
+            {!searchQuery.trim() && (isAdmin || isCreditManager || canAssignCreditToOthers) && (
               <p className="text-xs text-muted-foreground">
                 {t("credit.assign.searchHint")}
               </p>
