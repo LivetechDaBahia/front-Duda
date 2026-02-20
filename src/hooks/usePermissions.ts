@@ -188,6 +188,16 @@ export const usePermissions = () => {
     );
   };
 
+  // Check if user can view sales (explicit permission OR admin OR credit viewers)
+  const canViewSales = (): boolean => {
+    if (isAdmin()) return true;
+    if (canViewCredit()) return true;
+    return hasExplicitPermission(
+      "sales:read",
+      "sales.read",
+    );
+  };
+
   return {
     hasPermission,
     hasExplicitPermission,
@@ -205,5 +215,6 @@ export const usePermissions = () => {
     canImpersonate: canImpersonate(),
     canViewTrafficLight: canViewTrafficLight(),
     canManageTrafficLight: canManageTrafficLight(),
+    canViewSales: canViewSales(),
   };
 };
