@@ -1,160 +1,74 @@
-# Sentry Observability Re-Implementation Plan
+
+
+# Sales Management Tab
 
 ## Overview
+Create a new "Sales Management" page that mirrors the Credit page layout but with read-only kanban cards (no drag-and-drop). It will include a detail side panel with mock data for now, reusing as many existing components as possible.
 
-Re-implement Sentry for comprehensive error tracking, performance monitoring, and session replay. This time, the `.env` file will **not be modified** since it's already in `.gitignore` and should not be committed.
+## What will be built
 
-## Key Change from Previous Implementation
+1. **New route `/sales`** with a Sales Management page
+2. **Read-only kanban view** reusing `CreditKanbanView` pattern but without drag-and-drop
+3. **Table view** reusing `CreditTableView` pattern (read-only)
+4. **Detail side panel** (Sheet) with mock item details, similar to `CreditDetailPanel`
+5. **Navigation entry** in the sidebar
+6. **Mock data** for sales items, statuses, and detail panel content
 
-Instead of modifying `.env` directly, I will:
+## Component Reuse Strategy
 
-1. Create an `.env.example` file documenting the required Sentry variables
-2. You'll need to manually add the Sentry DSN to your local `.env` file
-
----
-
-## Implementation Steps
-
-### Step 1: Install Sentry Packages
-
-Add the required dependencies:
-
-- `@sentry/react` - Core React integration with error boundary
-- `@sentry/vite-plugin` - Source map uploads for readable stack traces
-
-### Step 2: Create `.env.example`
-
-Create a template file showing required environment variables (without actual values):
-
-```
-# Sentry Configuration (add these to your .env)
-VITE_SENTRY_DSN=
-VITE_SENTRY_ENVIRONMENT=development
-# SENTRY_AUTH_TOKEN= (build-time only, for source map uploads)
-```
-
-### Step 3: Create Sentry Configuration
-
-Create `src/lib/sentry.ts` with:
-
-- DSN-based initialization
-- Environment detection (only runs in production)
-- Browser tracing and session replay integrations
-- Helper functions for user context and API breadcrumbs
-
-### Step 4: Create Error Boundary Component
-
-Create `src/components/shared/ErrorBoundary.tsx`:
-
-- Catches React rendering errors
-- Displays locale-compatible fallback UI
-- Reports errors to Sentry automatically
-- Includes "Try Again" and "Report Issue" buttons
-
-### Step 5: Update Application Entry Point
-
-Modify `src/main.tsx` to:
-
-- Import and initialize Sentry before rendering
-- Wrap app with ErrorBoundary component
-
-### Step 6: Add User Context to Auth
-
-Update `src/contexts/AuthContext.tsx` to:
-
-- Set Sentry user on successful login
-- Clear Sentry user on logout
-- Track impersonation context
-
-### Step 7: Integrate with Error Service
-
-Update `src/services/errorService.ts`:
-
-- Add Sentry.captureException in ApiError class
-
-### Step 8: Integrate with Error Handler Hook
-
-Update `src/hooks/useErrorHandler.ts`:
-
-- Report handled errors to Sentry with context
-
-### Step 9: Add API Breadcrumbs
-
-Update `src/lib/apiClient.ts`:
-
-- Add breadcrumbs for API requests/failures
-
-### Step 10: Configure Vite Plugin
-
-Update `vite.config.ts`:
-
-- Add Sentry plugin for source map uploads (production builds only)
-
----
-
-## Files to Create/Modify
-
-| File                                      | Action | Purpose                                    |
-| ----------------------------------------- | ------ | ------------------------------------------ |
-| `.env.example`                            | Create | Template for required Sentry env vars      |
-| `src/lib/sentry.ts`                       | Create | Sentry configuration and utilities         |
-| `src/components/shared/ErrorBoundary.tsx` | Create | React error boundary with Sentry           |
-| `src/main.tsx`                            | Modify | Initialize Sentry, wrap with ErrorBoundary |
-| `src/contexts/AuthContext.tsx`            | Modify | Set user context on auth changes           |
-| `src/services/errorService.ts`            | Modify | Capture exceptions in ApiError             |
-| `src/hooks/useErrorHandler.ts`            | Modify | Report handled errors                      |
-| `src/lib/apiClient.ts`                    | Modify | Add API breadcrumbs                        |
-| `vite.config.ts`                          | Modify | Add Sentry Vite plugin                     |
-| `package.json`                            | Modify | Add @sentry/react and @sentry/vite-plugin  |
-
----
-
-## After Implementation - Manual Setup Required
-
-You'll need to:
-
-1. **Create a Sentry project** at sentry.io
-2. **Get your DSN** from Project Settings → Client Keys
-3. **Add to your local `.env`**:
-   ```
-   VITE_SENTRY_DSN=https://your-key@sentry.io/your-project-id
-   VITE_SENTRY_ENVIRONMENT=production
-   ```
-4. **(Optional)** For source map uploads, set `SENTRY_AUTH_TOKEN` in your CI/CD environment
-
----
+| Existing Component | Reuse Approach |
+|---|---|
+| `CreditHeader` | Create a generic `PageHeader` shared component (title, subtitle, view toggle) to replace both `CreditHeader` and the new sales header |
+| `CreditKanbanView` | Create a simplified `SalesKanbanView` that reuses the same column layout but passes no drag handlers (cards are static) |
+| `CreditCard` | Create a `SalesCard` component that strips out actions/drag logic, keeping only the informational display |
+| `CreditDetailPanel` | Create a `SalesDetailPanel` with its own tabs and mock data |
+| `CreditFilters` / `FilterContainer` | Reuse `FilterContainer` directly for search and filters |
+| `ScrollArea` | Reuse as-is in kanban columns |
 
 ## Technical Details
 
-### Sentry Initialization Logic
+### New Files
+
+- **`src/pages/Sales.tsx`** -- Main page component (mirrors `Credit.tsx` structure but simpler, read-only)
+- **`src/components/sales/SalesCard.tsx`** -- Informational card (no actions menu, no drag)
+- **`src/components/sales/SalesKanbanView.tsx`** -- Kanban grid with static columns using `ScrollArea`
+- **`src/components/sales/SalesTableView.tsx`** -- Table view (read-only, no actions)
+- **`src/components/sales/SalesDetailPanel.tsx`** -- Side panel with mock detail tabs
+- **`src/components/sales/SalesHeader.tsx`** -- Header with title and view toggle (reuses same pattern as `CreditHeader`)
+- **`src/components/sales/SalesFilters.tsx`** -- Filters using `FilterContainer`
+- **`src/data/mockSales.ts`** -- Mock sales items, statuses, and detail data
+- **`src/types/sales.ts`** -- Type definitions for sales items
+
+### Modified Files
+
+- **`src/App.tsx`** -- Add `/sales` route with `ProtectedRoute`
+- **`src/components/navigation/AppSidebar.tsx`** -- Add Sales Management link (visible to users who can view credit, or configurable)
+- **`src/hooks/usePermissions.ts`** -- Add `canViewSales` permission check (initially tied to credit view permission so existing users can access it)
+
+### Data Model (types/sales.ts)
 
 ```text
-if (VITE_SENTRY_DSN is set AND environment !== 'development') {
-  → Initialize Sentry with tracing + replay
-} else {
-  → Skip initialization (dev mode or no DSN)
-}
+SalesItem
+  - id, statusId, client, clientName, seller, value, currency, date, type, offer
+
+SalesStatus
+  - id, description, sequence
+
+SalesItemDetails (for detail panel)
+  - order info, products, shipping, payment terms
 ```
 
-### Sampling Configuration
+### Mock Data Structure
 
-| Environment | Errors | Traces | Session Replay            |
-| ----------- | ------ | ------ | ------------------------- |
-| Production  | 100%   | 10%    | 10% normal, 100% on error |
-| Development | Skip   | Skip   | Skip                      |
+The mock data will include:
+- 3-4 status columns (e.g., "New", "In Progress", "Completed", "Cancelled")
+- 8-12 sample sales items distributed across statuses
+- Detail data with tabs for: Overview, Products, Shipping
 
-### User Context Flow
+### Key Design Decisions
 
-```text
-Login Success → setSentryUser({email, name, role, department})
-               → Set impersonation context if applicable
+- Cards are purely informational -- no drag-and-drop, no action menus
+- Clicking a card opens the detail side panel (same Sheet pattern as credit)
+- Filters reuse `FilterContainer` with search + status filter
+- The page will be ready for real API integration later (just swap mock data for service calls)
 
-Logout → clearSentryUser()
-```
-
-### Error Capture Points
-
-1. **ApiError class** - Captures all API errors with status codes
-2. **useErrorHandler hook** - Captures handled errors shown to users
-3. **ErrorBoundary** - Catches React rendering crashes
-4. **apiClient breadcrumbs** - Tracks API request trail for debugging
