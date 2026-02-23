@@ -405,7 +405,7 @@ const Credit = () => {
               statuses={statuses}
               onCreditClick={setSelectedCredit}
               onStatusChange={isReadOnly ? undefined : handleStatusChange}
-              onActionsClick={isReadOnly ? undefined : handleActionsClick}
+              onActionsClick={handleActionsClick}
               loadingCreditId={loadingCreditId}
               isCreditManager={isCreditManager}
               isReadOnly={isReadOnly}
@@ -416,7 +416,7 @@ const Credit = () => {
               statuses={statuses}
               onCreditClick={setSelectedCredit}
               onStatusChange={isReadOnly ? undefined : handleStatusChange}
-              onActionsClick={isReadOnly ? undefined : handleActionsClick}
+              onActionsClick={handleActionsClick}
               loadingCreditId={loadingCreditId}
               isCreditManager={isCreditManager}
               isReadOnly={isReadOnly}

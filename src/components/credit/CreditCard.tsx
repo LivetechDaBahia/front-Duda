@@ -59,7 +59,7 @@ export const CreditCard = ({
   const status = getCreditStatusById(credit.statusId, statuses);
   const { isAdmin, canManageCredit, canAssignCreditToOthers } = usePermissions();
   const { user } = useAuth();
-  const canAssignToOthers = isCreditManager ?? canAssignCreditToOthers;
+  const canAssignToOthers = isCreditManager || canAssignCreditToOthers;
   const canSetCreditLimit = canManageCredit;
   const isAssignedToCurrentUser =
     user?.email && credit.user?.toLowerCase() === user.email.toLowerCase();
