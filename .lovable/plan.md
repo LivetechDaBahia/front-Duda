@@ -1,74 +1,49 @@
 
+# Fix: Credit Item Assignment for Coordinators
 
-# Sales Management Tab
+## Problem
+Credit coordinators cannot assign items to other users when a card is already assigned. Two bugs cause this:
 
-## Overview
-Create a new "Sales Management" page that mirrors the Credit page layout but with read-only kanban cards (no drag-and-drop). It will include a detail side panel with mock data for now, reusing as many existing components as possible.
+1. **All actions hidden for read-only users**: The `isReadOnly` flag gates the entire actions menu (`onActionsClick`), removing assignment options even for users who have assignment permissions.
+2. **Wrong operator (`??` vs `||`)**: In `CreditCard.tsx`, `isCreditManager ?? canAssignCreditToOthers` uses the nullish coalescing operator, which does NOT fall through when `isCreditManager` is `false` -- it only falls through on `null`/`undefined`. This means `canAssignCreditToOthers` is never evaluated.
 
-## What will be built
+## Solution
 
-1. **New route `/sales`** with a Sales Management page
-2. **Read-only kanban view** reusing `CreditKanbanView` pattern but without drag-and-drop
-3. **Table view** reusing `CreditTableView` pattern (read-only)
-4. **Detail side panel** (Sheet) with mock item details, similar to `CreditDetailPanel`
-5. **Navigation entry** in the sidebar
-6. **Mock data** for sales items, statuses, and detail panel content
+### 1. Credit.tsx -- Always pass `onActionsClick`
+Currently, `isReadOnly` disables both status changes AND actions. We need to separate these concerns:
+- `onStatusChange` should still be gated by `isReadOnly` (prevents drag-and-drop status moves)
+- `onActionsClick` should ALWAYS be passed, so assignment and other non-destructive actions remain available
 
-## Component Reuse Strategy
-
-| Existing Component | Reuse Approach |
-|---|---|
-| `CreditHeader` | Create a generic `PageHeader` shared component (title, subtitle, view toggle) to replace both `CreditHeader` and the new sales header |
-| `CreditKanbanView` | Create a simplified `SalesKanbanView` that reuses the same column layout but passes no drag handlers (cards are static) |
-| `CreditCard` | Create a `SalesCard` component that strips out actions/drag logic, keeping only the informational display |
-| `CreditDetailPanel` | Create a `SalesDetailPanel` with its own tabs and mock data |
-| `CreditFilters` / `FilterContainer` | Reuse `FilterContainer` directly for search and filters |
-| `ScrollArea` | Reuse as-is in kanban columns |
-
-## Technical Details
-
-### New Files
-
-- **`src/pages/Sales.tsx`** -- Main page component (mirrors `Credit.tsx` structure but simpler, read-only)
-- **`src/components/sales/SalesCard.tsx`** -- Informational card (no actions menu, no drag)
-- **`src/components/sales/SalesKanbanView.tsx`** -- Kanban grid with static columns using `ScrollArea`
-- **`src/components/sales/SalesTableView.tsx`** -- Table view (read-only, no actions)
-- **`src/components/sales/SalesDetailPanel.tsx`** -- Side panel with mock detail tabs
-- **`src/components/sales/SalesHeader.tsx`** -- Header with title and view toggle (reuses same pattern as `CreditHeader`)
-- **`src/components/sales/SalesFilters.tsx`** -- Filters using `FilterContainer`
-- **`src/data/mockSales.ts`** -- Mock sales items, statuses, and detail data
-- **`src/types/sales.ts`** -- Type definitions for sales items
-
-### Modified Files
-
-- **`src/App.tsx`** -- Add `/sales` route with `ProtectedRoute`
-- **`src/components/navigation/AppSidebar.tsx`** -- Add Sales Management link (visible to users who can view credit, or configurable)
-- **`src/hooks/usePermissions.ts`** -- Add `canViewSales` permission check (initially tied to credit view permission so existing users can access it)
-
-### Data Model (types/sales.ts)
-
-```text
-SalesItem
-  - id, statusId, client, clientName, seller, value, currency, date, type, offer
-
-SalesStatus
-  - id, description, sequence
-
-SalesItemDetails (for detail panel)
-  - order info, products, shipping, payment terms
+Change lines 408 and 419 from:
+```
+onActionsClick={isReadOnly ? undefined : handleActionsClick}
+```
+to:
+```
+onActionsClick={handleActionsClick}
 ```
 
-### Mock Data Structure
+### 2. CreditCard.tsx -- Fix `??` to `||`
+Change line 62 from:
+```
+const canAssignToOthers = isCreditManager ?? canAssignCreditToOthers;
+```
+to:
+```
+const canAssignToOthers = isCreditManager || canAssignCreditToOthers;
+```
 
-The mock data will include:
-- 3-4 status columns (e.g., "New", "In Progress", "Completed", "Cancelled")
-- 8-12 sample sales items distributed across statuses
-- Detail data with tabs for: Overview, Products, Shipping
+### 3. CreditCard.tsx -- Hide status-change actions for read-only users
+Since we're now always passing `onActionsClick`, we need to ensure read-only users still cannot change statuses via the card's actions. The card currently only has assignment and log-viewing actions (no status change in the dropdown), so no additional gating is needed there. The status change is controlled via drag-and-drop (already gated by `isReadOnly` through `canDragCredit`).
 
-### Key Design Decisions
+### 4. CreditTableView.tsx -- Same `||` fix
+Line 61: Change `isCreditManager || canAssignCreditToOthers` -- this one is already correct with `||`. No change needed.
 
-- Cards are purely informational -- no drag-and-drop, no action menus
-- Clicking a card opens the detail side panel (same Sheet pattern as credit)
-- Filters reuse `FilterContainer` with search + status filter
-- The page will be ready for real API integration later (just swap mock data for service calls)
+Also, ensure `onActionsClick` is always passed in the table view (same fix as kanban).
 
+## Files to modify
+- `src/pages/Credit.tsx` (2 lines -- always pass `onActionsClick`)
+- `src/components/credit/CreditCard.tsx` (1 line -- `??` to `||`)
+
+## Technical note
+The `onStatusChange` prop remains gated by `isReadOnly`, so read-only users still cannot drag cards or change statuses. Only assignment and log-viewing actions become available.
