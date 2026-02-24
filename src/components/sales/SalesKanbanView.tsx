@@ -22,7 +22,7 @@ export const SalesKanbanView = ({
   return (
     <div className="w-full h-[calc(100vh-280px)]">
       <div className="overflow-x-auto h-full">
-        <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max h-full">
+        <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-full h-full">
           {stages.map((stage) => {
             const stageItems = getItemsByStage(stage.id);
             return (
