@@ -8,21 +8,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FilterContainer } from "@/components/shared/FilterContainer";
-import type { SalesFilters as SalesFiltersType, SalesStatus, SalesItem } from "@/types/sales";
+import { useLocale } from "@/contexts/LocaleContext";
+import type { SalesFilters as SalesFiltersType, Stage, SalesElementItem } from "@/types/sales";
 
 interface SalesFiltersProps {
   filters: SalesFiltersType;
-  statuses: SalesStatus[];
-  items: SalesItem[];
+  stages: Stage[];
+  items: SalesElementItem[];
   onFiltersChange: (filters: SalesFiltersType) => void;
 }
 
 export const SalesFilters = ({
   filters,
-  statuses,
+  stages,
   items,
   onFiltersChange,
 }: SalesFiltersProps) => {
+  const { t } = useLocale();
   const [showFilters, setShowFilters] = useState(false);
 
   const availableTypes = useMemo(() => {
@@ -50,23 +52,23 @@ export const SalesFilters = ({
   return (
     <FilterContainer
       searchValue={filters.search}
-      searchPlaceholder="Search sales by offer, client..."
+      searchPlaceholder={t("sales.searchPlaceholder")}
       onSearchChange={(value) => updateFilter("search", value)}
       showFilters={showFilters}
       onShowFiltersChange={setShowFilters}
-      filterButtonLabel={showFilters ? "Hide filters" : "Filters"}
+      filterButtonLabel={showFilters ? t("common.hideFilters") : t("filters.filters")}
       onClearFilters={clearFilters}
-      clearButtonLabel="Clear filters"
+      clearButtonLabel={t("clearFilters")}
       hasActiveFilters={hasActiveFilters}
     >
       <div className="space-y-2">
-        <Label>Status</Label>
+        <Label>{t("status")}</Label>
         <Select value={filters.status} onValueChange={(v) => updateFilter("status", v)}>
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            {statuses.map((s) => (
-              <SelectItem key={s.id} value={s.id}>{s.description}</SelectItem>
+            <SelectItem value="all">{t("sales.allStages")}</SelectItem>
+            {stages.map((s) => (
+              <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -74,13 +76,13 @@ export const SalesFilters = ({
 
       {availableTypes.length > 0 && (
         <div className="space-y-2">
-          <Label>Type</Label>
+          <Label>{t("sales.type")}</Label>
           <Select value={filters.type || "all"} onValueChange={(v) => updateFilter("type", v === "all" ? "" : v)}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              {availableTypes.map((t) => (
-                <SelectItem key={t} value={t}>{t}</SelectItem>
+              <SelectItem value="all">{t("sales.allTypes")}</SelectItem>
+              {availableTypes.map((type) => (
+                <SelectItem key={type} value={type}>{type}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -89,11 +91,11 @@ export const SalesFilters = ({
 
       {availableSellers.length > 0 && (
         <div className="space-y-2">
-          <Label>Seller</Label>
+          <Label>{t("sales.seller")}</Label>
           <Select value={filters.seller || "all"} onValueChange={(v) => updateFilter("seller", v === "all" ? "" : v)}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Sellers</SelectItem>
+              <SelectItem value="all">{t("sales.allSellers")}</SelectItem>
               {availableSellers.map((s) => (
                 <SelectItem key={s} value={s}>{s}</SelectItem>
               ))}

@@ -1,54 +1,66 @@
-export interface SalesItem {
-  id: string;
-  statusId: string;
-  client: string;
-  clientName: string;
-  seller: string;
-  sellerName: string;
-  value: number;
-  currency: string;
-  date: string;
-  type: string;
+export interface SalesElementItem {
+  id: number;
+  flowId: string;
+  stageId: string;
+  group: string;
+  user: string | null;
+  key: string;
+  entity: string;
+  name: string;
+  background: string;
+  borders: {
+    left: string;
+    right: string;
+  };
   offer: string;
-  paymentConditions: string;
+  date: string | null;
+  client: string;
+  clientBranch: string;
+  sellerGroup: string;
+  sellerName: string;
+  currency: string;
+  value: number;
+  type: string;
+  oper: string;
+  cnpj: string;
+  tid: string;
 }
 
-export interface SalesStatus {
+export interface Stage {
   id: string;
-  description: string;
-  sequence: number;
+  flowId: string;
+  name: string;
+  stageSequence: number;
+  final: boolean;
 }
 
-export interface SalesItemDetails {
-  overview: {
-    client: string;
-    clientName: string;
-    seller: string;
-    sellerName: string;
-    value: number;
-    currency: string;
-    date: string;
-    type: string;
-    offer: string;
-    paymentConditions: string;
-    observations: string;
-  };
-  products: Array<{
-    id: string;
-    name: string;
-    quantity: number;
-    unitPrice: number;
-    total: number;
-  }>;
-  shipping: {
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    method: string;
-    estimatedDelivery: string;
-    trackingCode: string;
-  };
+export interface SalesElementItemDetails {
+  branch: string;
+  order: string;
+  offer: string;
+  review: string;
+  contract: string;
+  additional: string;
+  item: string;
+  product: string;
+  description: string;
+  local: string;
+  numAvailable: number;
+  numReserved: number;
+  productOrder: string;
+  numOp: number;
+  purchaseOrder: string;
+  numPo: number;
+  purchaseRequest: string;
+  numSc: number;
+  batch: string;
+  sequence: string;
+  include: string;
+  minDate: string;
+  nf: string;
+  shippingObservations: string;
+  logisticsObservations: string;
+  offerObservations: string;
 }
 
 export interface SalesFilters {
