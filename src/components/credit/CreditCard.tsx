@@ -130,7 +130,6 @@ export const CreditCard = ({
           // Normalize API color and blend it with the current theme's card color
           backgroundColor: toCssColor(credit.background),
           backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
-          width: "316px",
         }),
       }}
       onClick={onClick}
