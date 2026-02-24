@@ -33,7 +33,7 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full width: 367.5px"
+      className="cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full max-w-[367px]"
       style={{
         borderLeftColor: toCssColor(item.borders.left),
         borderRightColor: toCssColor(item.borders.right),
