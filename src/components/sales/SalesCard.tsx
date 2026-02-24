@@ -44,7 +44,7 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
       }}
       onClick={onClick}
     >
-      <CardHeader className="pb-2 sm:pb-3">
+      <CardHeader className="p-2 sm:p-3 pb-1 sm:pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <span className="text-muted-foreground text-xs">{t("sales.offer")}</span>
@@ -68,7 +68,7 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
           )}
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
+      <CardContent className="px-2 sm:px-3 pb-2 sm:pb-3 pt-0 space-y-1">
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">{t("sales.value")}</span>
           <span className="font-medium">{formatCurrency(item.value, item.currency)}</span>
