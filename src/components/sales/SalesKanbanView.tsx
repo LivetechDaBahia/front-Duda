@@ -48,7 +48,7 @@ export const SalesKanbanView = ({
                       ) : (
                         stageItems.map((item) => (
                           <SalesCard
-                            key={`sales-${item.id}`}
+                            key={`sales-${stage.id}-${item.id}`}
                             item={item}
                             stages={stages}
                             onClick={() => onItemClick(item)}
