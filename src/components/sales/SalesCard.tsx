@@ -1,81 +1,99 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { SalesItem, SalesStatus } from "@/types/sales";
+import type { SalesElementItem, Stage } from "@/types/sales";
+import { useLocale } from "@/contexts/LocaleContext";
+import { format } from "date-fns";
 
 interface SalesCardProps {
-  item: SalesItem;
-  statuses: SalesStatus[];
+  item: SalesElementItem;
+  stages: Stage[];
   onClick: () => void;
 }
 
 const formatCurrency = (value: number, currency: string) => {
-  const currencyMap: Record<string, string> = {
-    R$: "BRL",
-    US$: "USD",
-    "€": "EUR",
-  };
-  const code = currencyMap[currency] || currency || "BRL";
   try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: code }).format(value);
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: currency || "BRL" }).format(value);
   } catch {
     return `${currency} ${value.toFixed(2)}`;
   }
 };
 
-export const SalesCard = ({ item, statuses, onClick }: SalesCardProps) => {
-  const status = statuses.find((s) => s.id === item.statusId);
+const toCssColor = (input?: string) => {
+  if (!input) return undefined;
+  const value = input.trim();
+  if (/^(hsl|hsla|rgb|rgba)\(/i.test(value) || value.startsWith("#") || value.startsWith("var(")) return value;
+  if (/^\d+(?:\.\d+)?\s*,\s*\d+%\s*,\s*\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) return `hsl(${value})`;
+  if (/^\d+(?:\.\d+)?\s+\d+%\s+\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) return `hsl(${value.replace(/\s+/g, " ")})`;
+  return value;
+};
+
+export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
+  const { t } = useLocale();
+  const stage = stages.find((s) => s.id === item.stageId);
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-md transition-all w-full"
+      className="cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full"
+      style={{
+        borderLeftColor: toCssColor(item.borders.left),
+        borderRightColor: toCssColor(item.borders.right),
+        ...(item.background && {
+          backgroundColor: toCssColor(item.background),
+          backgroundImage: `linear-gradient(135deg, ${toCssColor(item.background)} 0%, hsl(var(--card)) 100%)`,
+        }),
+      }}
       onClick={onClick}
     >
       <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <span className="text-muted-foreground text-xs">Offer</span>
-            <h3 className="font-semibold text-xs sm:text-sm truncate">
-              {item.offer}
-            </h3>
-            <span className="text-muted-foreground text-xs">Client</span>
+            <span className="text-muted-foreground text-xs">{t("sales.offer")}</span>
+            <h3 className="font-semibold text-xs sm:text-sm truncate">{item.offer}</h3>
+            <span className="text-muted-foreground text-xs">{t("sales.client")}</span>
             <p className="text-xs text-muted-foreground truncate mt-1">
-              {item.client} - {item.clientName}
+              {item.client}/{item.clientBranch}
             </p>
+            {item.user && (
+              <div className="mt-2">
+                <Badge variant="outline" className="gap-1 text-xs">
+                  {item.user}
+                </Badge>
+              </div>
+            )}
           </div>
-          {status && (
-            <Badge
-              variant={
-                item.statusId === "completed"
-                  ? "success"
-                  : item.statusId === "cancelled"
-                    ? "destructive"
-                    : "secondary"
-              }
-              className="text-xs shrink-0"
-            >
-              {status.description}
+          {stage && (
+            <Badge variant={stage.final ? "success" : "secondary"} className="text-xs shrink-0">
+              {stage.name}
             </Badge>
           )}
         </div>
       </CardHeader>
       <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
         <div className="flex items-center justify-between text-xs sm:text-sm">
-          <span className="text-muted-foreground">Value</span>
-          <span className="font-medium">
-            {formatCurrency(item.value, item.currency)}
-          </span>
+          <span className="text-muted-foreground">{t("sales.value")}</span>
+          <span className="font-medium">{formatCurrency(item.value, item.currency)}</span>
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">Seller</span>
+          <span className="text-muted-foreground">{t("sales.seller")}</span>
           <span className="truncate ml-2">{item.sellerName}</span>
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">Type</span>
+          <span className="text-muted-foreground">{t("sales.type")}</span>
           <span className="truncate ml-2">{item.type}</span>
         </div>
-        <div className="text-xs text-muted-foreground truncate">
-          {item.date} • {item.paymentConditions}
-        </div>
+        {item.date && (
+          <div className="text-xs text-muted-foreground truncate">
+            {format(
+              (() => {
+                const str = String(item.date);
+                const normalized = str.endsWith("Z") ? str.slice(0, -1) : str;
+                return new Date(normalized);
+              })(),
+              "PPp",
+            )}{" "}
+            • {item.oper}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

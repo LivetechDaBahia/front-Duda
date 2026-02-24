@@ -125,7 +125,7 @@ const SidebarContent = () => {
     ...(canViewSales
       ? [
           {
-            label: "Sales",
+            label: t("sales.title"),
             href: "/sales",
             icon: (
               <ShoppingCart

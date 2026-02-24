@@ -13,147 +13,216 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { SalesItem } from "@/types/sales";
-import { getSalesItemDetails } from "@/data/mockSales";
-import { useMemo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { SalesElementItem } from "@/types/sales";
+import { useSalesDetails } from "@/hooks/useSalesDetails";
+import { useLocale } from "@/contexts/LocaleContext";
+import { formatDate } from "@/lib/utils";
 
 interface SalesDetailPanelProps {
-  item: SalesItem | null;
+  item: SalesElementItem | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
-  const currencyMap: Record<string, string> = { R$: "BRL", US$: "USD", "€": "EUR" };
-  const code = currencyMap[currency] || currency || "BRL";
   try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: code }).format(value);
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency }).format(value);
   } catch {
     return `${currency} ${value.toFixed(2)}`;
   }
 };
 
 export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProps) => {
-  const details = useMemo(() => {
-    if (!item) return null;
-    return getSalesItemDetails(item.id);
-  }, [item]);
+  const { t, locale } = useLocale();
+  const { details, isLoading } = useSalesDetails(item?.key || null);
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
           <SheetTitle>
-            {item?.offer} - {item?.clientName}
+            {item?.offer} - {item?.client}/{item?.clientBranch}
           </SheetTitle>
         </SheetHeader>
 
-        {item && details && (
+        {item && (
           <Tabs defaultValue="overview" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="products">Products</TabsTrigger>
-              <TabsTrigger value="shipping">Shipping</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
+              <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4 mt-4">
               <div className="space-y-3">
-                <h3 className="font-semibold">Order Information</h3>
+                <h3 className="font-semibold">{t("sales.overview")}</h3>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <span className="text-muted-foreground">Offer:</span>
-                    <p className="font-medium">{details.overview.offer}</p>
+                    <span className="text-muted-foreground">{t("sales.offer")}:</span>
+                    <p className="font-medium">{item.offer}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Client:</span>
-                    <p className="font-medium">{details.overview.client} - {details.overview.clientName}</p>
+                    <span className="text-muted-foreground">{t("sales.client")}:</span>
+                    <p className="font-medium">{item.client}/{item.clientBranch}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Value:</span>
-                    <p className="font-medium">{formatCurrency(details.overview.value, details.overview.currency)}</p>
+                    <span className="text-muted-foreground">{t("sales.value")}:</span>
+                    <p className="font-medium">{formatCurrency(item.value, item.currency)}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Seller:</span>
-                    <p className="font-medium">{details.overview.sellerName}</p>
+                    <span className="text-muted-foreground">{t("sales.seller")}:</span>
+                    <p className="font-medium">{item.sellerName}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Type:</span>
-                    <p className="font-medium">{details.overview.type}</p>
+                    <span className="text-muted-foreground">{t("sales.sellerGroup")}:</span>
+                    <p className="font-medium">{item.sellerGroup}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Date:</span>
-                    <p className="font-medium">{details.overview.date}</p>
+                    <span className="text-muted-foreground">{t("sales.type")}:</span>
+                    <p className="font-medium">{item.type}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Payment:</span>
-                    <p className="font-medium">{details.overview.paymentConditions}</p>
+                    <span className="text-muted-foreground">{t("sales.operation")}:</span>
+                    <p className="font-medium">{item.oper}</p>
                   </div>
-                  <div className="col-span-2">
-                    <span className="text-muted-foreground">Observations:</span>
-                    <p className="font-medium">{details.overview.observations}</p>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.cnpj")}:</span>
+                    <p className="font-medium">{item.cnpj}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.tid")}:</span>
+                    <p className="font-medium">{item.tid}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.date")}:</span>
+                    <p className="font-medium">{formatDate(item.date, locale)}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.currency")}:</span>
+                    <p className="font-medium">{item.currency}</p>
                   </div>
                 </div>
               </div>
             </TabsContent>
 
-            <TabsContent value="products" className="space-y-4 mt-4">
-              <h3 className="font-semibold">Products</h3>
-              <div className="rounded-md border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Product</TableHead>
-                      <TableHead className="text-right">Qty</TableHead>
-                      <TableHead className="text-right">Unit Price</TableHead>
-                      <TableHead className="text-right">Total</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {details.products.map((product) => (
-                      <TableRow key={product.id}>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell className="text-right">{product.quantity}</TableCell>
-                        <TableCell className="text-right">{formatCurrency(product.unitPrice, item.currency)}</TableCell>
-                        <TableCell className="text-right">{formatCurrency(product.total, item.currency)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </TabsContent>
+            <TabsContent value="allocation" className="space-y-4 mt-4">
+              <h3 className="font-semibold">{t("sales.allocationDetails")}</h3>
+              {isLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              ) : details.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  {t("sales.noItems")}
+                </p>
+              ) : (
+                <ScrollArea className="w-full">
+                  <div className="rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="whitespace-nowrap">{t("sales.branch")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.order")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.item")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.product")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.description")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.local")}</TableHead>
+                          <TableHead className="whitespace-nowrap text-right">{t("sales.numAvailable")}</TableHead>
+                          <TableHead className="whitespace-nowrap text-right">{t("sales.numReserved")}</TableHead>
+                          <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {details.map((row, idx) => (
+                          <TableRow key={`detail-${idx}`}>
+                            <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
+                            <TableCell className="whitespace-nowrap">{row.order}</TableCell>
+                            <TableCell className="whitespace-nowrap">{row.item}</TableCell>
+                            <TableCell className="whitespace-nowrap">{row.product}</TableCell>
+                            <TableCell className="max-w-xs truncate">{row.description}</TableCell>
+                            <TableCell className="whitespace-nowrap">{row.local}</TableCell>
+                            <TableCell className="whitespace-nowrap text-right">{row.numAvailable}</TableCell>
+                            <TableCell className="whitespace-nowrap text-right">{row.numReserved}</TableCell>
+                            <TableCell className="whitespace-nowrap">{row.minDate}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
 
-            <TabsContent value="shipping" className="space-y-4 mt-4">
-              <h3 className="font-semibold">Shipping Information</h3>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Address:</span>
-                  <p className="font-medium">{details.shipping.address}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">City:</span>
-                  <p className="font-medium">{details.shipping.city}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">State:</span>
-                  <p className="font-medium">{details.shipping.state}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">ZIP Code:</span>
-                  <p className="font-medium">{details.shipping.zipCode}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Method:</span>
-                  <p className="font-medium">{details.shipping.method}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Est. Delivery:</span>
-                  <p className="font-medium">{details.shipping.estimatedDelivery}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Tracking:</span>
-                  <p className="font-medium">{details.shipping.trackingCode}</p>
-                </div>
-              </div>
+                  {/* Expanded detail cards for each row */}
+                  {details.map((row, idx) => (
+                    <div key={`detail-card-${idx}`} className="mt-4 border rounded-md p-3">
+                      <p className="font-medium text-sm mb-2">
+                        {row.product} - {row.description}
+                      </p>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.review")}:</span>
+                          <p>{row.review || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.contract")}:</span>
+                          <p>{row.contract || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.additional")}:</span>
+                          <p>{row.additional || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.batch")}:</span>
+                          <p>{row.batch || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.sequence")}:</span>
+                          <p>{row.sequence || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.include")}:</span>
+                          <p>{row.include || "-"}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.productOrder")}:</span>
+                          <p>{row.productOrder || "-"} ({t("sales.numOp")}: {row.numOp})</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.purchaseOrder")}:</span>
+                          <p>{row.purchaseOrder || "-"} ({t("sales.numPo")}: {row.numPo})</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.purchaseRequest")}:</span>
+                          <p>{row.purchaseRequest || "-"} ({t("sales.numSc")}: {row.numSc})</p>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t("sales.nf")}:</span>
+                          <p>{row.nf || "-"}</p>
+                        </div>
+                        {row.shippingObservations && (
+                          <div className="col-span-2">
+                            <span className="text-muted-foreground">{t("sales.shippingObservations")}:</span>
+                            <p>{row.shippingObservations}</p>
+                          </div>
+                        )}
+                        {row.logisticsObservations && (
+                          <div className="col-span-2">
+                            <span className="text-muted-foreground">{t("sales.logisticsObservations")}:</span>
+                            <p>{row.logisticsObservations}</p>
+                          </div>
+                        )}
+                        {row.offerObservations && (
+                          <div className="col-span-2">
+                            <span className="text-muted-foreground">{t("sales.offerObservations")}:</span>
+                            <p>{row.offerObservations}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </ScrollArea>
+              )}
             </TabsContent>
           </Tabs>
         )}
