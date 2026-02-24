@@ -28,7 +28,7 @@ export const SalesKanbanView = ({
             return (
               <div
                 key={stage.id}
-                className="flex-shrink-0 w-[349px] h-full flex flex-col"
+                className="flex-shrink-0 w-[400px] h-full flex flex-col"
               >
                 <div className={`rounded-lg border bg-card h-full flex flex-col ${stage.final ? "border-primary/50" : ""}`}>
                   <div className="flex items-center justify-between p-3 sm:p-4 border-b">
