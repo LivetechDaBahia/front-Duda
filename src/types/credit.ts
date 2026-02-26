@@ -148,6 +148,18 @@ export interface CreditLog {
   newStatus?: string;
 }
 
+export interface CreditContract {
+  contract: string;
+  additive: string;
+  efctDate: Date | null;
+  clientId: string;
+  clientBranch: string;
+  clientName: string;
+  contractValue: number;
+  billValue: number;
+  balance: number;
+}
+
 export type UICreditStatus = "all" | string;
 
 export interface CreditFilters {

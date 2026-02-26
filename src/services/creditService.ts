@@ -14,6 +14,7 @@ import {
   UpdateCreditStatusDto,
   CreditLimit,
   BranchCreditIndicators,
+  CreditContract,
 } from "@/types/credit";
 
 export const creditService = {
@@ -147,6 +148,12 @@ export const creditService = {
     addUIBreadcrumb("getIndicators", "creditService");
     const params = new URLSearchParams({ userEmail: userEmail });
     return apiClient.get(`/credit/indicators?${params}`);
+  },
+
+  async getClientContracts(clientId: string, branch: string): Promise<CreditContract[]> {
+    addUIBreadcrumb("getClientContracts", "creditService", { clientId, branch });
+    const params = new URLSearchParams({ clientId, branch });
+    return apiClient.get(`/credit/contracts?${params}`);
   },
 
   async getRentalDocuments(proposalId: string): Promise<CreditDocument[]> {
