@@ -889,11 +889,12 @@ export const CreditDetailPanel = ({
                       <Skeleton className="h-64 w-full" />
                     ) : creditLimit ? (
                       (() => {
-                        // Total credit limit includes base limit + RA + NCC balances
+                        // Total credit limit includes base limit + RA + NCC + open contract balances
                         const totalCreditLimit =
                           creditLimit.creditLimit +
                           creditLimit.raBalance +
-                          creditLimit.nccBalance;
+                          creditLimit.nccBalance +
+                          creditLimit.openContractBalance;
                         const pieData = [
                           {
                             name: t("credit.limit.pendingValue"),
@@ -905,6 +906,16 @@ export const CreditDetailPanel = ({
                             value: Math.abs(creditLimit.approvedItemsValue),
                             color: "hsl(var(--success))",
                           },
+                          // Only show open contract balance if positive
+                          ...(creditLimit.openContractBalance > 0
+                            ? [
+                                {
+                                  name: t("credit.limit.openContractBalance"),
+                                  value: creditLimit.openContractBalance,
+                                  color: "hsl(var(--chart-4))",
+                                },
+                              ]
+                            : []),
                           // Only show available balance if it's positive
                           ...(creditLimit.availableBalance > 0
                             ? [
@@ -929,7 +940,8 @@ export const CreditDetailPanel = ({
                                 {formatCurrency(totalCreditLimit)}
                               </span>
                               {(creditLimit.raBalance > 0 ||
-                                creditLimit.nccBalance > 0) && (
+                                creditLimit.nccBalance > 0 ||
+                                creditLimit.openContractBalance > 0) && (
                                 <span className="text-xs ml-2">
                                   ({t("credit.limit.creditLimit")}:{" "}
                                   {formatCurrency(creditLimit.creditLimit)}
@@ -937,6 +949,8 @@ export const CreditDetailPanel = ({
                                     ` + ${t("credit.limit.raBalance")}: ${formatCurrency(creditLimit.raBalance)}`}
                                   {creditLimit.nccBalance > 0 &&
                                     ` + ${t("credit.limit.nccBalance")}: ${formatCurrency(creditLimit.nccBalance)}`}
+                                  {creditLimit.openContractBalance > 0 &&
+                                    ` + ${t("credit.limit.openContractBalance")}: ${formatCurrency(creditLimit.openContractBalance)}`}
                                   )
                                 </span>
                               )}

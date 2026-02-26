@@ -197,6 +197,7 @@ export interface CreditLimit {
   raBalance: number;
   nccBalance: number;
   availableBalance: number;
+  openContractBalance: number;
 }
 
 // Branch indicators from API (array items)
