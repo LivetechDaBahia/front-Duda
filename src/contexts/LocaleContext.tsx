@@ -538,6 +538,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.tid": "TID",
     "credit.resell": "Resell",
     "credit.warrantyInfo": "Warranty Information",
+    "credit.contracts": "Contracts",
+    "credit.contract": "Contract",
+    "credit.additive": "Additive",
+    "credit.effectiveDate": "Effective Date",
+    "credit.contractValue": "Contract Value",
+    "credit.billValue": "Bill Value",
+    "credit.noContracts": "No contracts found",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -1359,6 +1366,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.tid": "TID",
     "credit.resell": "Revenda",
     "credit.warrantyInfo": "Informações de Garantia",
+    "credit.contracts": "Contratos",
+    "credit.contract": "Contrato",
+    "credit.additive": "Aditivo",
+    "credit.effectiveDate": "Data de Vigência",
+    "credit.contractValue": "Valor do Contrato",
+    "credit.billValue": "Valor Faturado",
+    "credit.noContracts": "Nenhum contrato encontrado",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -2215,6 +2229,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.tid": "TID",
     "credit.resell": "Reventa",
     "credit.warrantyInfo": "Información de Garantía",
+    "credit.contracts": "Contratos",
+    "credit.contract": "Contrato",
+    "credit.additive": "Aditivo",
+    "credit.effectiveDate": "Fecha de Vigencia",
+    "credit.contractValue": "Valor del Contrato",
+    "credit.billValue": "Valor Facturado",
+    "credit.noContracts": "No se encontraron contratos",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
