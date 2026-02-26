@@ -165,6 +165,8 @@ export const CreditDetailPanel = ({
     clientDetails,
     clientHistory,
     linkedClients,
+    contracts,
+    isLoadingContracts,
     isLoading,
   } = useCreditDetails({
     creditId: credit?.key || null,
@@ -318,6 +320,9 @@ export const CreditDetailPanel = ({
               </TabsTrigger>
               <TabsTrigger value="financialHistory">
                 {t("credit.financialHistory")}
+              </TabsTrigger>
+              <TabsTrigger value="contracts">
+                {t("credit.contracts")}
               </TabsTrigger>
             </TabsList>
 
@@ -1295,6 +1300,47 @@ export const CreditDetailPanel = ({
               ) : (
                 <p className="text-sm text-muted-foreground text-center py-8">
                   {t("credit.noClientInfo")}
+                </p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="contracts" className="space-y-4 mt-4">
+              {isLoadingContracts ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              ) : contracts.length > 0 ? (
+                <div className="rounded-md border overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>{t("credit.contract")}</TableHead>
+                        <TableHead>{t("credit.additive")}</TableHead>
+                        <TableHead>{t("credit.effectiveDate")}</TableHead>
+                        <TableHead className="text-right">{t("credit.contractValue")}</TableHead>
+                        <TableHead className="text-right">{t("credit.billValue")}</TableHead>
+                        <TableHead className="text-right">{t("credit.balance")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {contracts.map((contract, idx) => (
+                        <TableRow key={`${contract.contract}-${contract.additive}-${idx}`}>
+                          <TableCell className="font-medium">{contract.contract}</TableCell>
+                          <TableCell>{contract.additive}</TableCell>
+                          <TableCell>{formatDate(contract.efctDate, locale)}</TableCell>
+                          <TableCell className="text-right">{formatCurrency(contract.contractValue)}</TableCell>
+                          <TableCell className="text-right">{formatCurrency(contract.billValue)}</TableCell>
+                          <TableCell className="text-right">{formatCurrency(contract.balance)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  {t("credit.noContracts")}
                 </p>
               )}
             </TabsContent>

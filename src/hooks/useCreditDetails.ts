@@ -8,6 +8,7 @@ import type {
   CreditClientDetails,
   FinancialHistory,
   CreditLinkedClient,
+  CreditContract,
 } from "@/types/credit";
 
 interface UseCreditDetailsParams {
@@ -147,6 +148,18 @@ export const useCreditDetails = ({
     enabled: !!clientBranch && !!clientId,
   });
 
+  const {
+    data: contracts,
+    isLoading: isLoadingContracts,
+    error: contractsError,
+  } = useQuery<CreditContract[]>({
+    queryKey: ["creditContracts", clientBranch, clientId],
+    queryFn: async () => {
+      return creditService.getClientContracts(clientId!, clientBranch!);
+    },
+    enabled: !!clientBranch && !!clientId,
+  });
+
   const isLoading =
     isLoadingDetails ||
     isLoadingDocuments ||
@@ -155,7 +168,8 @@ export const useCreditDetails = ({
     isLoadingClientDocs ||
     isLoadingClientDetails ||
     isLoadingClientHistory ||
-    isLoadingLinkedClients;
+    isLoadingLinkedClients ||
+    isLoadingContracts;
 
   const error =
     detailsError ||
@@ -165,7 +179,8 @@ export const useCreditDetails = ({
     clientDocsError ||
     clientDetailsError ||
     clientHistoryError ||
-    linkedClientsError;
+    linkedClientsError ||
+    contractsError;
 
   return {
     // Full list as returned by API
@@ -181,6 +196,8 @@ export const useCreditDetails = ({
     clientDetails: clientDetails || null,
     clientHistory: clientHistory || [],
     linkedClients: linkedClients || [],
+    contracts: contracts || [],
+    isLoadingContracts,
     isLoading,
     error,
   };
