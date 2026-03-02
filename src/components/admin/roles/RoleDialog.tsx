@@ -250,7 +250,7 @@ export function RoleDialog({
                   ))}
                 </div>
               ) : (
-                <ScrollArea className="flex-1 border rounded-md p-3">
+                <ScrollArea className="flex-1 max-h-[40vh] border rounded-md p-3">
                   <div className="space-y-4">
                     {Object.entries(groupedPermissions).map(
                       ([module, permissions]) => (
