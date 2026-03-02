@@ -227,7 +227,7 @@ export function RoleDialog({
             </div>
 
             {/* Permissions Section */}
-            <div className="flex-1 min-h-0 flex flex-col">
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
               <div className="flex items-center justify-between mb-2">
                 <FormLabel>{t("role.permissions")}</FormLabel>
                 <div className="flex gap-2">
@@ -250,7 +250,7 @@ export function RoleDialog({
                   ))}
                 </div>
               ) : (
-                <ScrollArea className="flex-1 max-h-[40vh] border rounded-md p-3">
+                <div className="h-[40vh] border rounded-md p-3 overflow-y-auto">
                   <div className="space-y-4">
                     {Object.entries(groupedPermissions).map(
                       ([module, permissions]) => (
@@ -291,7 +291,7 @@ export function RoleDialog({
                       </p>
                     )}
                   </div>
-                </ScrollArea>
+                </div>
               )}
               <p className="text-xs text-muted-foreground mt-1">
                 {t("role.permissionsHint")} ({selectedPermissions.length}/
