@@ -195,6 +195,8 @@ export const usePermissions = () => {
     return hasExplicitPermission(
       "sales:read",
       "sales.read",
+      "flows:sales.read",
+      "flows:sales:read",
     );
   };
 
