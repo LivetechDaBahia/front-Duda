@@ -1,29 +1,25 @@
 export interface SalesElementItem {
   id: number;
-  flowId: string;
-  stageId: string;
-  group: string;
-  user: string | null;
-  key: string;
-  entity: string;
-  name: string;
-  background: string;
-  borders: {
-    left: string;
-    right: string;
-  };
   offer: string;
   date: string | null;
   client: string;
   clientBranch: string;
-  sellerGroup: string;
-  sellerName: string;
+  cnpj: string;
   currency: string;
   value: number;
+  paymentCondition: string;
+  contract: string;
+  additive: string;
+  vip: string;
   type: string;
   oper: string;
-  cnpj: string;
+  partial: string;
+  reinvoice: string;
   tid: string;
+  sellerName: string;
+  sellerGroup: string;
+  /** Assigned at fetch time based on which endpoint returned the item */
+  _stageId?: string;
 }
 
 export interface Stage {

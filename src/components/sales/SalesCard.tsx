@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
-import { format } from "date-fns";
+import { formatDate } from "@/lib/utils";
 
 interface SalesCardProps {
   item: SalesElementItem;
@@ -18,30 +18,13 @@ const formatCurrency = (value: number, currency: string) => {
   }
 };
 
-const toCssColor = (input?: string) => {
-  if (!input) return undefined;
-  const value = input.trim();
-  if (/^(hsl|hsla|rgb|rgba)\(/i.test(value) || value.startsWith("#") || value.startsWith("var(")) return value;
-  if (/^\d+(?:\.\d+)?\s*,\s*\d+%\s*,\s*\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) return `hsl(${value})`;
-  if (/^\d+(?:\.\d+)?\s+\d+%\s+\d+%(?:\s*\/\s*\d+%?)?$/i.test(value)) return `hsl(${value.replace(/\s+/g, " ")})`;
-  return value;
-};
-
 export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
-  const { t } = useLocale();
-  const stage = stages.find((s) => s.id === item.stageId);
+  const { t, locale } = useLocale();
+  const stage = stages.find((s) => s.id === item._stageId);
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full max-w-[367px]"
-      style={{
-        borderLeftColor: toCssColor(item.borders.left),
-        borderRightColor: toCssColor(item.borders.right),
-        ...(item.background && {
-          backgroundColor: toCssColor(item.background),
-          backgroundImage: `linear-gradient(135deg, ${toCssColor(item.background)} 0%, hsl(var(--card)) 100%)`,
-        }),
-      }}
+      className="cursor-pointer hover:shadow-md transition-all w-full max-w-[367px]"
       onClick={onClick}
     >
       <CardHeader className="p-2 sm:p-3 pb-1 sm:pb-2">
@@ -53,19 +36,17 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
             <p className="text-xs text-muted-foreground truncate mt-1">
               {item.client}/{item.clientBranch}
             </p>
-            {item.user && (
-              <div className="mt-2">
-                <Badge variant="outline" className="gap-1 text-xs">
-                  {item.user}
-                </Badge>
-              </div>
+          </div>
+          <div className="flex flex-col items-end gap-1 shrink-0">
+            {stage && (
+              <Badge variant={stage.final ? "success" : "secondary"} className="text-xs">
+                {stage.name}
+              </Badge>
+            )}
+            {item.vip === "Sim" && (
+              <Badge variant="default" className="text-xs">VIP</Badge>
             )}
           </div>
-          {stage && (
-            <Badge variant={stage.final ? "success" : "secondary"} className="text-xs shrink-0">
-              {stage.name}
-            </Badge>
-          )}
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:px-3 pb-2 sm:pb-3 pt-0 space-y-1">
@@ -81,17 +62,15 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
           <span className="text-muted-foreground">{t("sales.type")}</span>
           <span className="truncate ml-2">{item.type}</span>
         </div>
+        {item.paymentCondition && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.paymentCondition")}</span>
+            <span className="truncate ml-2">{item.paymentCondition}</span>
+          </div>
+        )}
         {item.date && (
           <div className="text-xs text-muted-foreground truncate">
-            {format(
-              (() => {
-                const str = String(item.date);
-                const normalized = str.endsWith("Z") ? str.slice(0, -1) : str;
-                return new Date(normalized);
-              })(),
-              "PPp",
-            )}{" "}
-            • {item.oper}
+            {formatDate(item.date, locale)} • {item.oper}
           </div>
         )}
       </CardContent>
