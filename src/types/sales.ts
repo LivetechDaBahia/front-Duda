@@ -1,5 +1,17 @@
 export interface SalesElementItem {
   id: number;
+  flowId: string;
+  name: string;
+  stageId: string;
+  group: string;
+  user: string;
+  key: string;
+  entity: string;
+  background: string;
+  borders: {
+    left: string;
+    right: string;
+  };
   offer: string;
   date: string | null;
   client: string;

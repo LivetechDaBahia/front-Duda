@@ -25,6 +25,13 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
   return (
     <Card
       className="cursor-pointer hover:shadow-md transition-all w-full max-w-[367px]"
+      style={{
+        backgroundColor: item.background ? `hsl(${item.background})` : undefined,
+        borderLeftColor: item.borders?.left ? `hsl(${item.borders.left})` : undefined,
+        borderRightColor: item.borders?.right ? `hsl(${item.borders.right})` : undefined,
+        borderLeftWidth: item.borders?.left ? 4 : undefined,
+        borderRightWidth: item.borders?.right ? 4 : undefined,
+      }}
       onClick={onClick}
     >
       <CardHeader className="p-2 sm:p-3 pb-1 sm:pb-2">
