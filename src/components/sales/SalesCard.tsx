@@ -20,7 +20,7 @@ const formatCurrency = (value: number, currency: string) => {
 
 export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
   const { t, locale } = useLocale();
-  const stage = stages.find((s) => s.id === item._stageId);
+  const stage = stages.find((s) => s.id === item.stageId);
 
   return (
     <Card

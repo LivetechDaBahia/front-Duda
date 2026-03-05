@@ -58,7 +58,7 @@ export const SalesTableView = ({
             </TableRow>
           ) : (
             items.map((item) => {
-              const stage = stages.find((s) => s.id === item._stageId);
+              const stage = stages.find((s) => s.id === item.stageId);
               return (
                 <TableRow
                   key={`sales-table-${item.id}`}
