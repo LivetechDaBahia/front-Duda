@@ -12,12 +12,14 @@ import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
 import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
+import { DocumentsTab } from "@/components/shared/DocumentsTab";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
-import type { CreditElementDetails } from "@/types/credit";
+import type { CreditElementDetails, CreditDocument, CreditClientDocument } from "@/types/credit";
+import { useState, useEffect } from "react";
 
 interface SalesDetailPanelProps {
   item: SalesElementItem | null;
@@ -39,6 +41,74 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
   const { details, isLoading } = useSalesDetails(item ? item.key : null);
   const { canManageSales } = usePermissions();
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const DOCUMENTS_BASE_PATH = import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH || "";
+
+  // Client documents pagination
+  const [clientDocsPage, setClientDocsPage] = useState(1);
+  const [clientDocsSize, setClientDocsSize] = useState(10);
+
+  // Reset pagination when item changes
+  useEffect(() => {
+    setClientDocsPage(1);
+  }, [item?.key]);
+
+  // Helper to convert full UNC path to relative path
+  const toRelativeSharePath = (uncPath: string, baseShare: string): string => {
+    const norm = (s: string) =>
+      s
+        .replace(/[/\\]+/g, "\\")
+        .replace(/^\\+/, "\\\\")
+        .replace(/\\+$/, "")
+        .trim();
+
+    const u = norm(uncPath);
+    const b = norm(baseShare);
+
+    if (u.toLowerCase().startsWith(b.toLowerCase())) {
+      let relative = u.slice(b.length);
+      if (relative.startsWith("\\")) {
+        relative = relative.slice(1);
+      }
+      return relative.replace(/\\/g, "/");
+    }
+
+    if (!/^\\\\/.test(u) && !/^[a-zA-Z]:[\\/]/.test(u) && !u.startsWith("/")) {
+      return u.replace(/\\/g, "/");
+    }
+
+    throw new Error("Path must be inside the configured base share");
+  };
+
+  const openDocument = async (docObject: string, path: string) => {
+    try {
+      const relativePath = toRelativeSharePath(path, DOCUMENTS_BASE_PATH);
+      const url = `${API_BASE_URL}/documents/open-share?path=${encodeURIComponent(relativePath)}`;
+      const extension = docObject.toLowerCase().split(".").pop();
+      const downloadExtensions = ["csv", "xlsx", "docx", "xls", "doc"];
+
+      if (downloadExtensions.includes(extension || "")) {
+        const response = await fetch(url, { credentials: "include" });
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP ${response.status}`);
+        }
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = docObject;
+        a.click();
+        URL.revokeObjectURL(blobUrl);
+      } else {
+        window.open(url, "_blank", "noopener");
+      }
+    } catch (error) {
+      console.error("Error opening document:", error);
+    }
+  };
+
+  // Credit element details (sales order)
   const {
     data: creditElementDetails,
     isLoading: isLoadingCreditDetails,
@@ -47,6 +117,28 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
     queryFn: () => creditService.getCreditElementDetails(item!.key),
     enabled: !!item?.key,
   });
+
+  // Sales order documents
+  const {
+    data: documents,
+    isLoading: isLoadingDocuments,
+  } = useQuery<CreditDocument[]>({
+    queryKey: ["creditDocuments", item?.key],
+    queryFn: () => creditService.getCreditDocuments(item!.key),
+    enabled: !!item?.key,
+  });
+
+  // Client documents
+  const {
+    data: clientDocuments,
+    isLoading: isLoadingClientDocs,
+  } = useQuery<CreditClientDocument[]>({
+    queryKey: ["creditClientDocuments", item?.key, clientDocsPage, clientDocsSize],
+    queryFn: () => creditService.getClientDocuments(item!.key, clientDocsPage, clientDocsSize),
+    enabled: !!item?.key,
+  });
+
+  const clientDocsTotalPages = Math.ceil((clientDocuments || []).length / clientDocsSize);
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -72,9 +164,10 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
         {item && (
           <Tabs defaultValue="overview" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
+              <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
             </TabsList>
 
@@ -166,6 +259,24 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
               <SalesOrderDetailsTab
                 details={creditElementDetails || []}
                 isLoading={isLoadingCreditDetails}
+              />
+            </TabsContent>
+
+            <TabsContent value="documents" className="space-y-4 mt-4">
+              <DocumentsTab
+                documents={documents || []}
+                clientDocuments={clientDocuments || []}
+                isLoadingDocuments={isLoadingDocuments}
+                isLoadingClientDocs={isLoadingClientDocs}
+                onOpenDocument={openDocument}
+                clientDocsPage={clientDocsPage}
+                clientDocsSize={clientDocsSize}
+                clientDocsTotalPages={clientDocsTotalPages}
+                onClientDocsPageChange={setClientDocsPage}
+                onClientDocsSizeChange={(val) => {
+                  setClientDocsSize(val);
+                  setClientDocsPage(1);
+                }}
               />
             </TabsContent>
 
