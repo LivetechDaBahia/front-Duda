@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
+import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
