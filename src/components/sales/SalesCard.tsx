@@ -65,6 +65,12 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
           <span className="text-muted-foreground">{t("sales.seller")}</span>
           <span className="truncate ml-2">{item.sellerName}</span>
         </div>
+        {item.sellerGroup && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.sellerGroup")}</span>
+            <span className="truncate ml-2">{item.sellerGroup}</span>
+          </div>
+        )}
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">{t("sales.type")}</span>
           <span className="truncate ml-2">{item.type}</span>
