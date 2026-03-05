@@ -17,7 +17,7 @@ export const SalesKanbanView = ({
   const { t } = useLocale();
 
   const getItemsByStage = (stageId: string) =>
-    items.filter((item) => item._stageId === stageId);
+    items.filter((item) => item.stageId === stageId);
 
   return (
     <div className="w-full h-[calc(100vh-280px)]">

@@ -41,7 +41,7 @@ const Sales = () => {
           item.clientBranch.toLowerCase().includes(s);
         if (!matches) return false;
       }
-      if (filters.status !== "all" && item._stageId !== filters.status) return false;
+      if (filters.status !== "all" && item.stageId !== filters.status) return false;
       if (filters.type && item.type !== filters.type) return false;
       if (filters.seller && item.sellerName !== filters.seller) return false;
       return true;
