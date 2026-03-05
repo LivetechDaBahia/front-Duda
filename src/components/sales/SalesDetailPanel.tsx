@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { SalesElementItem } from "@/types/sales";
@@ -36,7 +37,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
 
 export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
-  const { details, isLoading } = useSalesDetails(item?.key || null);
+  const { details, isLoading } = useSalesDetails(item ? String(item.id) : null);
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -56,7 +57,10 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
 
             <TabsContent value="overview" className="space-y-4 mt-4">
               <div className="space-y-3">
-                <h3 className="font-semibold">{t("sales.overview")}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold">{t("sales.overview")}</h3>
+                  {item.vip === "Sim" && <Badge variant="default">VIP</Badge>}
+                </div>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <span className="text-muted-foreground">{t("sales.offer")}:</span>
@@ -69,6 +73,10 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
                   <div>
                     <span className="text-muted-foreground">{t("sales.value")}:</span>
                     <p className="font-medium">{formatCurrency(item.value, item.currency)}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.currency")}:</span>
+                    <p className="font-medium">{item.currency}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">{t("sales.seller")}:</span>
@@ -99,8 +107,24 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
                     <p className="font-medium">{formatDate(item.date, locale)}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.currency")}:</span>
-                    <p className="font-medium">{item.currency}</p>
+                    <span className="text-muted-foreground">{t("sales.paymentCondition")}:</span>
+                    <p className="font-medium">{item.paymentCondition || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.contract")}:</span>
+                    <p className="font-medium">{item.contract || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.additive")}:</span>
+                    <p className="font-medium">{item.additive || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.partial")}:</span>
+                    <p className="font-medium">{item.partial || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">{t("sales.reinvoice")}:</span>
+                    <p className="font-medium">{item.reinvoice || "-"}</p>
                   </div>
                 </div>
               </div>
@@ -153,7 +177,6 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
                     </Table>
                   </div>
 
-                  {/* Expanded detail cards for each row */}
                   {details.map((row, idx) => (
                     <div key={`detail-card-${idx}`} className="mt-4 border rounded-md p-3">
                       <p className="font-medium text-sm mb-2">

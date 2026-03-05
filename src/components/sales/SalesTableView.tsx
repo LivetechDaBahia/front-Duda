@@ -42,22 +42,23 @@ export const SalesTableView = ({
             <TableHead className="whitespace-nowrap">{t("sales.value")}</TableHead>
             <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.seller")}</TableHead>
             <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.type")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.operation")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.paymentCondition")}</TableHead>
             <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.cnpj")}</TableHead>
             <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">VIP</TableHead>
             <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.date")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {items.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8">
+              <TableCell colSpan={10} className="text-center py-8">
                 {t("sales.noItems")}
               </TableCell>
             </TableRow>
           ) : (
             items.map((item) => {
-              const stage = stages.find((s) => s.id === item.stageId);
+              const stage = stages.find((s) => s.id === item._stageId);
               return (
                 <TableRow
                   key={`sales-table-${item.id}`}
@@ -69,7 +70,7 @@ export const SalesTableView = ({
                   <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency)}</TableCell>
                   <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
                   <TableCell className="whitespace-nowrap hidden md:table-cell">{item.type}</TableCell>
-                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.oper}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.paymentCondition || "-"}</TableCell>
                   <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.cnpj}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     {stage && (
@@ -77,6 +78,9 @@ export const SalesTableView = ({
                         {stage.name}
                       </Badge>
                     )}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap hidden md:table-cell">
+                    {item.vip === "Sim" && <Badge variant="default" className="text-xs">VIP</Badge>}
                   </TableCell>
                   <TableCell className="whitespace-nowrap hidden lg:table-cell">
                     {formatDate(item.date, locale)}
