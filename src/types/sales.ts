@@ -75,3 +75,10 @@ export interface SalesFilters {
   type: string;
   seller: string;
 }
+
+export interface SalesAssignPayload {
+  itemId: string;
+  assigneeEmail?: string;
+  flowId?: string;
+  key?: string;
+}
