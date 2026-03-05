@@ -281,7 +281,6 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
             </TabsContent>
 
             <TabsContent value="allocation" className="space-y-4 mt-4">
-              <h3 className="font-semibold">{t("sales.allocationDetails")}</h3>
               <AllocationDetailsTab details={details} isLoading={isLoading} />
             </TabsContent>
           </Tabs>
