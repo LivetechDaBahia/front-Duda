@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import {
   Table,
   TableBody,
