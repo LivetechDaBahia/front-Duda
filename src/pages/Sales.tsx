@@ -4,6 +4,7 @@ import { SalesFilters } from "@/components/sales/SalesFilters";
 import { SalesKanbanView } from "@/components/sales/SalesKanbanView";
 import { SalesTableView } from "@/components/sales/SalesTableView";
 import { SalesDetailPanel } from "@/components/sales/SalesDetailPanel";
+import { SalesAssignmentDialog } from "@/components/sales/SalesAssignmentDialog";
 import { useSales } from "@/hooks/useSales";
 import { useSalesStages } from "@/hooks/useSalesStages";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -18,11 +19,12 @@ const Sales = () => {
   const { handleError } = useErrorHandler();
   const { t } = useLocale();
 
-  const { items, isLoading: isLoadingItems, error: itemsError } = useSales();
+  const { items, isLoading: isLoadingItems, error: itemsError, refetch } = useSales();
   const { stages, isLoading: isLoadingStages, error: stagesError } = useSalesStages();
 
   const [view, setView] = useState<"kanban" | "table">("kanban");
   const [selectedItem, setSelectedItem] = useState<SalesElementItem | null>(null);
+  const [assignItem, setAssignItem] = useState<SalesElementItem | null>(null);
   const [filters, setFilters] = useState<SalesFiltersType>({
     search: "",
     status: "all",
@@ -140,6 +142,20 @@ const Sales = () => {
         item={selectedItem}
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
+        onAssignClick={(item) => {
+          setSelectedItem(null);
+          setAssignItem(item);
+        }}
+      />
+
+      <SalesAssignmentDialog
+        item={assignItem}
+        isOpen={!!assignItem}
+        onClose={() => setAssignItem(null)}
+        onAssignSuccess={() => {
+          setAssignItem(null);
+          refetch();
+        }}
       />
     </div>
   );

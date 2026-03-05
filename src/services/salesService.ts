@@ -4,6 +4,7 @@ import type {
   SalesElementItem,
   Stage,
   SalesElementItemDetails,
+  SalesAssignPayload,
 } from "@/types/sales";
 
 export const salesService = {
@@ -35,5 +36,10 @@ export const salesService = {
   async getItemDetails(id: string): Promise<SalesElementItemDetails[]> {
     addUIBreadcrumb("getItemDetails", "salesService", { id });
     return apiClient.get(`/sales/${id}`);
+  },
+
+  async assignItem(payload: SalesAssignPayload): Promise<void> {
+    addUIBreadcrumb("assignItem", "salesService", payload as unknown as Record<string, unknown>);
+    return apiClient.post("/sales/assign", payload as unknown as Record<string, unknown>);
   },
 };
