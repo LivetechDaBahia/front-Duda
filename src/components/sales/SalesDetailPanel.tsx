@@ -37,7 +37,7 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="sm:max-w-2xl overflow-y-auto">
+      <SheetContent className="sm:max-w-[50%] overflow-y-auto">
         <SheetHeader>
           <div className="flex items-center justify-between gap-2">
             <SheetTitle>
