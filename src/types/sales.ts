@@ -30,8 +30,6 @@ export interface SalesElementItem {
   tid: string;
   sellerName: string;
   sellerGroup: string;
-  /** Assigned at fetch time based on which endpoint returned the item */
-  _stageId?: string;
 }
 
 export interface Stage {
