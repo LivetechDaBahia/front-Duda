@@ -11,9 +11,13 @@ import { UserPlus } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
+import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { creditService } from "@/services/creditService";
+import type { CreditElementDetails } from "@/types/credit";
 
 interface SalesDetailPanelProps {
   item: SalesElementItem | null;
@@ -34,6 +38,15 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
   const { t, locale } = useLocale();
   const { details, isLoading } = useSalesDetails(item ? item.key : null);
   const { canManageSales } = usePermissions();
+
+  const {
+    data: creditElementDetails,
+    isLoading: isLoadingCreditDetails,
+  } = useQuery<CreditElementDetails[]>({
+    queryKey: ["creditDetails", item?.key],
+    queryFn: () => creditService.getCreditElementDetails(item!.key),
+    enabled: !!item?.key,
+  });
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -59,8 +72,9 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
         {item && (
           <Tabs defaultValue="overview" className="mt-6">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
+              <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
             </TabsList>
 
@@ -146,6 +160,13 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
                   </div>
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="salesOrder" className="space-y-4 mt-4">
+              <SalesOrderDetailsTab
+                details={creditElementDetails || []}
+                isLoading={isLoadingCreditDetails}
+              />
             </TabsContent>
 
             <TabsContent value="allocation" className="space-y-4 mt-4">

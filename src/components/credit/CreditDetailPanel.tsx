@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import {
   Table,
   TableBody,
@@ -388,83 +389,10 @@ export const CreditDetailPanel = ({
                 </div>
               </div>
 
-              {isLoading ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                </div>
-              ) : elementDetailsList && elementDetailsList.length > 0 ? (
-                <div className="space-y-3">
-                  <h3 className="font-semibold">
-                    {t("credit.salesOrderDetails")}
-                  </h3>
-                  {elementDetailsList.map((el, idx) => (
-                    <div
-                      key={`${el.branch}-${el.id}-${idx}`}
-                      className="grid grid-cols-2 gap-3 text-sm border rounded-md p-3"
-                    >
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.branch")}:
-                        </span>
-                        <p className="font-medium">{el.branch}</p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.id")}:
-                        </span>
-                        <p className="font-medium">{el.id}</p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.emissionDate")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatDate(el.emissionDate, locale)}
-                        </p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.value")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatCurrency(el.value)}
-                        </p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.shippingType")}:
-                        </span>
-                        <p className="font-medium">{el.shippingType}</p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">
-                          {t("credit.shippingCost")}:
-                        </span>
-                        <p className="font-medium">
-                          {formatCurrency(el.shippingCost)}
-                        </p>
-                      </div>
-                      {(el.message1 || el.message2 || el.standardMessage) && (
-                        <div className="col-span-2">
-                          <span className="text-muted-foreground">
-                            {t("credit.message")}:
-                          </span>
-                          {el.message1 && (
-                            <p className="font-medium">{el.message1}</p>
-                          )}
-                          {el.message2 && (
-                            <p className="font-medium">{el.message2}</p>
-                          )}
-                          {el.standardMessage && (
-                            <p className="font-medium">{el.standardMessage}</p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+              <SalesOrderDetailsTab
+                details={elementDetailsList}
+                isLoading={isLoading}
+              />
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-4 mt-4">
