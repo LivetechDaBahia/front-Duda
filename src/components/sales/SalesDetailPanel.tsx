@@ -14,17 +14,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserPlus } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { useLocale } from "@/contexts/LocaleContext";
+import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
 
 interface SalesDetailPanelProps {
   item: SalesElementItem | null;
   isOpen: boolean;
   onClose: () => void;
+  onAssignClick?: (item: SalesElementItem) => void;
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
@@ -35,17 +39,31 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
   }
 };
 
-export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProps) => {
+export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
   const { details, isLoading } = useSalesDetails(item ? String(item.id) : null);
+  const { canManageSales } = usePermissions();
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>
-            {item?.offer} - {item?.client}/{item?.clientBranch}
-          </SheetTitle>
+          <div className="flex items-center justify-between gap-2">
+            <SheetTitle>
+              {item?.offer} - {item?.client}/{item?.clientBranch}
+            </SheetTitle>
+            {canManageSales && item && onAssignClick && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1"
+                onClick={() => onAssignClick(item)}
+              >
+                <UserPlus className="h-4 w-4" />
+                {t("sales.assign.title")}
+              </Button>
+            )}
+          </div>
         </SheetHeader>
 
         {item && (
@@ -61,6 +79,15 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
                   <h3 className="font-semibold">{t("sales.overview")}</h3>
                   {item.vip === "Sim" && <Badge variant="default">VIP</Badge>}
                 </div>
+
+                {/* Assignee info */}
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <span className="text-muted-foreground text-sm">{t("sales.assign.currentAssignee")}:</span>
+                  <p className="font-medium text-sm">
+                    {item.user || t("sales.assign.unassigned")}
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <span className="text-muted-foreground">{t("sales.offer")}:</span>
@@ -100,7 +127,7 @@ export const SalesDetailPanel = ({ item, isOpen, onClose }: SalesDetailPanelProp
                   </div>
                   <div>
                     <span className="text-muted-foreground">{t("sales.tid")}:</span>
-                    <p className="font-medium">{item.tid}</p>
+                    <p className="font-medium">{item.tid || "-"}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">{t("sales.date")}:</span>
