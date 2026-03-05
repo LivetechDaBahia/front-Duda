@@ -41,7 +41,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
 
 export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
-  const { details, isLoading } = useSalesDetails(item ? String(item.id) : null);
+  const { details, isLoading } = useSalesDetails(item ? item.key : null);
   const { canManageSales } = usePermissions();
 
   return (
