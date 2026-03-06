@@ -12,6 +12,7 @@ import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { useLocale } from "@/contexts/LocaleContext";
 import { AccessDenied } from "@/components/shared/AccessDenied";
 import { Loader2 } from "lucide-react";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import type { SalesElementItem, SalesFilters as SalesFiltersType } from "@/types/sales";
 
 const Sales = () => {
@@ -121,32 +122,43 @@ const Sales = () => {
           />
         </div>
 
-        <div className="px-4 sm:px-6 pt-4">
-          {view === "kanban" ? (
-            <SalesKanbanView
-              items={filteredItems}
-              stages={stages}
-              onItemClick={setSelectedItem}
-            />
-          ) : (
-            <SalesTableView
-              items={filteredItems}
-              stages={stages}
-              onItemClick={setSelectedItem}
-            />
-          )}
-        </div>
-      </main>
+        <ResizablePanelGroup direction="horizontal" className="min-h-[calc(100vh-200px)]">
+          <ResizablePanel defaultSize={selectedItem ? 50 : 100} minSize={25}>
+            <div className="px-4 sm:px-6 pt-4 h-full overflow-auto">
+              {view === "kanban" ? (
+                <SalesKanbanView
+                  items={filteredItems}
+                  stages={stages}
+                  onItemClick={setSelectedItem}
+                />
+              ) : (
+                <SalesTableView
+                  items={filteredItems}
+                  stages={stages}
+                  onItemClick={setSelectedItem}
+                />
+              )}
+            </div>
+          </ResizablePanel>
 
-      <SalesDetailPanel
-        item={selectedItem}
-        isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
-        onAssignClick={(item) => {
-          setSelectedItem(null);
-          setAssignItem(item);
-        }}
-      />
+          {selectedItem && (
+            <>
+              <ResizableHandle withHandle />
+              <ResizablePanel defaultSize={50} minSize={25} maxSize={75}>
+                <SalesDetailPanel
+                  item={selectedItem}
+                  isOpen={!!selectedItem}
+                  onClose={() => setSelectedItem(null)}
+                  onAssignClick={(item) => {
+                    setSelectedItem(null);
+                    setAssignItem(item);
+                  }}
+                />
+              </ResizablePanel>
+            </>
+          )}
+        </ResizablePanelGroup>
+      </main>
 
       <SalesAssignmentDialog
         item={assignItem}
