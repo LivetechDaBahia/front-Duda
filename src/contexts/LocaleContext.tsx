@@ -640,6 +640,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.error": "Failed to upload document",
     "credit.upload.compressed": "Image was compressed to fit size limits",
     "credit.upload.compressionFailed": "Failed to compress image",
+    "credit.upload.onlyPdf": "Only PDF files are accepted",
     "credit.upload.fileTooLarge":
       "File is too large. Maximum size is {maxSize}",
     "credit.upload.maxSize": "Maximum file size: {maxSize}",
@@ -1559,6 +1560,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.compressed":
       "Imagem foi comprimida para caber no limite de tamanho",
     "credit.upload.compressionFailed": "Falha ao comprimir imagem",
+    "credit.upload.onlyPdf": "Apenas arquivos PDF são aceitos",
     "credit.upload.fileTooLarge":
       "Arquivo muito grande. Tamanho máximo é {maxSize}",
     "credit.upload.maxSize": "Tamanho máximo do arquivo: {maxSize}",
@@ -2501,6 +2503,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.upload.compressed":
       "La imagen fue comprimida para ajustarse al límite de tamaño",
     "credit.upload.compressionFailed": "Error al comprimir la imagen",
+    "credit.upload.onlyPdf": "Solo se aceptan archivos PDF",
     "credit.upload.fileTooLarge":
       "El archivo es muy grande. Tamaño máximo es {maxSize}",
     "credit.upload.maxSize": "Tamaño máximo del archivo: {maxSize}",
