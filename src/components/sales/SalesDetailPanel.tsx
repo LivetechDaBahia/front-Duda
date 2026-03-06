@@ -1,13 +1,7 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { UserPlus } from "lucide-react";
+import { UserPlus, X } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
@@ -141,13 +135,13 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
   const clientDocsTotalPages = Math.ceil((clientDocuments || []).length / clientDocsSize);
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="sm:max-w-[50%] overflow-y-auto">
-        <SheetHeader>
-          <div className="flex items-center justify-between gap-2">
-            <SheetTitle>
-              {item?.offer} - {item?.client}/{item?.clientBranch}
-            </SheetTitle>
+    <div className="h-full overflow-y-auto border-l bg-background">
+      <div className="p-4 sm:p-6">
+        <div className="flex items-center justify-between gap-2 mb-6">
+          <h2 className="text-lg font-semibold truncate">
+            {item?.offer} - {item?.client}/{item?.clientBranch}
+          </h2>
+          <div className="flex items-center gap-2 shrink-0">
             {canManageSales && item && onAssignClick && (
               <Button
                 variant="outline"
@@ -159,11 +153,14 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
                 {t("sales.assign.title")}
               </Button>
             )}
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
           </div>
-        </SheetHeader>
+        </div>
 
         {item && (
-          <Tabs defaultValue="overview" className="mt-6">
+          <Tabs defaultValue="overview">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
@@ -178,7 +175,6 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
                   {item.vip === "Sim" && <Badge variant="default">VIP</Badge>}
                 </div>
 
-                {/* Assignee info */}
                 <div className="p-3 bg-muted/50 rounded-lg">
                   <span className="text-muted-foreground text-sm">{t("sales.assign.currentAssignee")}:</span>
                   <p className="font-medium text-sm">
@@ -285,7 +281,7 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
             </TabsContent>
           </Tabs>
         )}
-      </SheetContent>
-    </Sheet>
+      </div>
+    </div>
   );
 };
