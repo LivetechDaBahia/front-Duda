@@ -38,7 +38,7 @@ const DOCUMENT_TYPES: DocumentType[] = ["A", "B", "C", "D", "E", "F"];
 // So max original file size should be ~37MB to be safe
 const MAX_FILE_SIZE_BYTES = 37 * 1024 * 1024; // 37MB
 const MAX_FILE_SIZE_DISPLAY = "37MB";
-const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+const ACCEPTED_MIME_TYPES = ["application/pdf"];
 
 // Compress image using canvas
 const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
@@ -164,37 +164,20 @@ export const DocumentUploadDialog = ({
   const processFile = async (selectedFile: File): Promise<void> => {
     setFileSizeError(null);
 
-    // Check if it's an image that can be compressed
-    if (IMAGE_TYPES.includes(selectedFile.type)) {
-      if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
-        setIsCompressing(true);
-        try {
-          const compressedFile = await compressImage(
-            selectedFile,
-            MAX_FILE_SIZE_BYTES,
-          );
-          setFile(compressedFile);
-          toast.info(t("credit.upload.compressed"));
-        } catch {
-          setFileSizeError(t("credit.upload.compressionFailed"));
-        } finally {
-          setIsCompressing(false);
-        }
-      } else {
-        setFile(selectedFile);
-      }
+    if (!ACCEPTED_MIME_TYPES.includes(selectedFile.type)) {
+      setFileSizeError(t("credit.upload.onlyPdf"));
+      return;
+    }
+
+    if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+      setFileSizeError(
+        t("credit.upload.fileTooLarge").replace(
+          "{maxSize}",
+          MAX_FILE_SIZE_DISPLAY,
+        ),
+      );
     } else {
-      // Non-image file - check size limit
-      if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
-        setFileSizeError(
-          t("credit.upload.fileTooLarge").replace(
-            "{maxSize}",
-            MAX_FILE_SIZE_DISPLAY,
-          ),
-        );
-      } else {
-        setFile(selectedFile);
-      }
+      setFile(selectedFile);
     }
   };
 
@@ -356,7 +339,7 @@ export const DocumentUploadDialog = ({
                   type="file"
                   className="hidden"
                   onChange={handleFileSelect}
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+                  accept=".pdf"
                 />
               </div>
             ) : (
