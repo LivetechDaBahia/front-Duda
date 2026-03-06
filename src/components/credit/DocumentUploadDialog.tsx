@@ -52,7 +52,7 @@ export const DocumentUploadDialog = ({
   const [selectedType, setSelectedType] = useState<DocumentType | "">("");
   const [file, setFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [isCompressing, setIsCompressing] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState<string | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
 
   const getDocumentTypeLabel = (type: DocumentType): string => {
@@ -226,14 +226,7 @@ export const DocumentUploadDialog = ({
           {/* Drop Zone */}
           <div className="space-y-2">
             <Label>{t("credit.upload.fileLabel")}</Label>
-            {isCompressing ? (
-              <div className="border-2 border-dashed rounded-lg p-8 text-center border-muted-foreground/25">
-                <Loader2 className="h-10 w-10 mx-auto mb-3 text-primary animate-spin" />
-                <p className="text-sm text-muted-foreground">
-                  Compressing image...
-                </p>
-              </div>
-            ) : !file ? (
+            {!file ? (
               <div
                 className={cn(
                   "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
