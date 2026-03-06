@@ -43,33 +43,22 @@ const ObservationField = ({ label, value }: { label: string; value: string | nul
 };
 
 const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
-  const hasObservations = details.some(r => r.shippingObservations || r.logisticsObservations || r.offerObservations || r.nf);
-  if (!hasObservations) return null;
+  const nf = details.find(r => r.nf)?.nf || null;
+  const shipping = details.find(r => r.shippingObservations)?.shippingObservations || null;
+  const logistics = details.find(r => r.logisticsObservations)?.logisticsObservations || null;
+  const offer = details.find(r => r.offerObservations)?.offerObservations || null;
 
-  const seen = new Set<string>();
-  const observations: Pick<SalesElementItemDetails, "shippingObservations" | "logisticsObservations" | "offerObservations" | "nf">[] = [];
-  for (const r of details) {
-    if (!r.shippingObservations && !r.logisticsObservations && !r.offerObservations && !r.nf) continue;
-    const key = `${r.nf || ""}|${r.shippingObservations || ""}|${r.logisticsObservations || ""}|${r.offerObservations || ""}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      observations.push({ nf: r.nf, shippingObservations: r.shippingObservations, logisticsObservations: r.logisticsObservations, offerObservations: r.offerObservations });
-    }
-  }
-
-  if (observations.length === 0) return null;
+  if (!nf && !shipping && !logistics && !offer) return null;
 
   return (
     <div className="border rounded-md p-3 space-y-2">
       <span className="text-sm font-semibold">{t("sales.observations")}</span>
-      {observations.map((obs, idx) => (
-        <div key={idx} className="space-y-1">
-          <ObservationField label={t("sales.nf")} value={obs.nf} />
-          <ObservationField label={t("sales.shippingObservations")} value={obs.shippingObservations} />
-          <ObservationField label={t("sales.logisticsObservations")} value={obs.logisticsObservations} />
-          <ObservationField label={t("sales.offerObservations")} value={obs.offerObservations} />
-        </div>
-      ))}
+      <div className="space-y-1">
+        <ObservationField label={t("sales.nf")} value={nf} />
+        <ObservationField label={t("sales.shippingObservations")} value={shipping} />
+        <ObservationField label={t("sales.logisticsObservations")} value={logistics} />
+        <ObservationField label={t("sales.offerObservations")} value={offer} />
+      </div>
     </div>
   );
 };
