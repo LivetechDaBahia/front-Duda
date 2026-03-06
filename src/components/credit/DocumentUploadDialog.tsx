@@ -40,65 +40,6 @@ const MAX_FILE_SIZE_BYTES = 37 * 1024 * 1024; // 37MB
 const MAX_FILE_SIZE_DISPLAY = "37MB";
 const ACCEPTED_MIME_TYPES = ["application/pdf"];
 
-// Compress image using canvas
-const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    img.onload = () => {
-      let { width, height } = img;
-      let quality = 0.8;
-
-      // Start with original dimensions, reduce if needed
-      canvas.width = width;
-      canvas.height = height;
-
-      const tryCompress = (currentQuality: number, scale: number): void => {
-        canvas.width = width * scale;
-        canvas.height = height * scale;
-        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error("Failed to compress image"));
-              return;
-            }
-
-            if (
-              blob.size <= maxSizeBytes ||
-              currentQuality <= 0.1 ||
-              scale <= 0.3
-            ) {
-              // Accept this result
-              const compressedFile = new File([blob], file.name, {
-                type: "image/jpeg",
-                lastModified: Date.now(),
-              });
-              resolve(compressedFile);
-            } else {
-              // Try with lower quality or smaller scale
-              if (currentQuality > 0.3) {
-                tryCompress(currentQuality - 0.15, scale);
-              } else {
-                tryCompress(0.5, scale - 0.2);
-              }
-            }
-          },
-          "image/jpeg",
-          currentQuality,
-        );
-      };
-
-      tryCompress(quality, 1);
-    };
-
-    img.onerror = () => reject(new Error("Failed to load image"));
-    img.src = URL.createObjectURL(file);
-  });
-};
 
 export const DocumentUploadDialog = ({
   isOpen,
