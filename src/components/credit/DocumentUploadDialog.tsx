@@ -53,7 +53,6 @@ export const DocumentUploadDialog = ({
   const [file, setFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
-  const [fileSizeError, setFileSizeError] = useState<string | null>(null);
 
   const getDocumentTypeLabel = (type: DocumentType): string => {
     return t(`credit.upload.docType.${type}`);
