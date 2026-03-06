@@ -43,17 +43,17 @@ const ObservationField = ({ label, value }: { label: string; value: string | nul
 };
 
 const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
-  const hasObservations = details.some(r => r.shippingObservations || r.logisticsObservations || r.offerObservations);
+  const hasObservations = details.some(r => r.shippingObservations || r.logisticsObservations || r.offerObservations || r.nf);
   if (!hasObservations) return null;
 
   const seen = new Set<string>();
-  const observations: Pick<SalesElementItemDetails, "shippingObservations" | "logisticsObservations" | "offerObservations">[] = [];
+  const observations: Pick<SalesElementItemDetails, "shippingObservations" | "logisticsObservations" | "offerObservations" | "nf">[] = [];
   for (const r of details) {
-    if (!r.shippingObservations && !r.logisticsObservations && !r.offerObservations) continue;
-    const key = `${r.shippingObservations || ""}|${r.logisticsObservations || ""}|${r.offerObservations || ""}`;
+    if (!r.shippingObservations && !r.logisticsObservations && !r.offerObservations && !r.nf) continue;
+    const key = `${r.nf || ""}|${r.shippingObservations || ""}|${r.logisticsObservations || ""}|${r.offerObservations || ""}`;
     if (!seen.has(key)) {
       seen.add(key);
-      observations.push({ shippingObservations: r.shippingObservations, logisticsObservations: r.logisticsObservations, offerObservations: r.offerObservations });
+      observations.push({ nf: r.nf, shippingObservations: r.shippingObservations, logisticsObservations: r.logisticsObservations, offerObservations: r.offerObservations });
     }
   }
 
@@ -61,9 +61,10 @@ const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[
 
   return (
     <div className="border rounded-md p-3 space-y-2">
-      <span className="text-sm font-semibold">{t("sales.observations") || "Observations"}</span>
+      <span className="text-sm font-semibold">{t("sales.observations")}</span>
       {observations.map((obs, idx) => (
         <div key={idx} className="space-y-1">
+          <ObservationField label={t("sales.nf")} value={obs.nf} />
           <ObservationField label={t("sales.shippingObservations")} value={obs.shippingObservations} />
           <ObservationField label={t("sales.logisticsObservations")} value={obs.logisticsObservations} />
           <ObservationField label={t("sales.offerObservations")} value={obs.offerObservations} />
@@ -100,7 +101,6 @@ const AllocationTableView = ({ details, t }: { details: SalesElementItemDetails[
               <TableHead className="whitespace-nowrap text-right">{t("sales.numPo")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.purchaseRequest")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numSc")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.nf")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
             </TableRow>
           </TableHeader>
@@ -127,7 +127,6 @@ const AllocationTableView = ({ details, t }: { details: SalesElementItemDetails[
                 <TableCell className="whitespace-nowrap text-right">{row.numPo}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.purchaseRequest || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numSc}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.nf || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.minDate || "-"}</TableCell>
               </TableRow>
             ))}
@@ -206,15 +205,11 @@ const AllocationCardView = ({ details, t }: { details: SalesElementItemDetails[]
               label={t("sales.purchaseRequest")}
               value={`${row.purchaseRequest || "-"} (${t("sales.numSc")}: ${row.numSc})`}
             />
-            <DetailField
-              label={t("sales.nf")}
-              value={row.nf}
-              className="col-span-2 sm:col-span-3"
-            />
           </div>
 
-          {(row.shippingObservations || row.logisticsObservations || row.offerObservations) && (
+          {(row.nf || row.shippingObservations || row.logisticsObservations || row.offerObservations) && (
             <div className="mt-3 pt-3 border-t space-y-2">
+              <ObservationField label={t("sales.nf")} value={row.nf} />
               <ObservationField label={t("sales.shippingObservations")} value={row.shippingObservations} />
               <ObservationField label={t("sales.logisticsObservations")} value={row.logisticsObservations} />
               <ObservationField label={t("sales.offerObservations")} value={row.offerObservations} />
