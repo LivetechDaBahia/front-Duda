@@ -43,4 +43,9 @@ export const salesService = {
     addUIBreadcrumb("assignItem", "salesService", payload as unknown as Record<string, unknown>);
     return apiClient.post("/sales/assign", payload as unknown as Record<string, unknown>);
   },
+
+  async getTracking(orderId: string, orderBranch: string, processId: string): Promise<SalesTrackingEvent[]> {
+    addUIBreadcrumb("getTracking", "salesService", { orderId, orderBranch, processId });
+    return apiClient.post("/sales/tracking", { orderId, orderBranch, processId });
+  },
 };

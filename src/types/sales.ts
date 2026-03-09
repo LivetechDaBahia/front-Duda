@@ -30,6 +30,15 @@ export interface SalesElementItem {
   tid: string;
   sellerName: string;
   sellerGroup: string;
+  purchaseOrderId: string;
+  purchaseOrderBranch: string;
+  processId: string;
+}
+
+export interface SalesTrackingEvent {
+  date: string;
+  time: string;
+  description: string;
 }
 
 export interface Stage {
