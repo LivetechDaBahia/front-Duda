@@ -162,11 +162,12 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
         {item && (
           <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
+              <TabsTrigger value="tracking">{t("sales.tracking")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4 mt-4">
