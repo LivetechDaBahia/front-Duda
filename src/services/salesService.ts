@@ -5,6 +5,7 @@ import type {
   Stage,
   SalesElementItemDetails,
   SalesAssignPayload,
+  SalesTrackingEvent,
 } from "@/types/sales";
 
 export const salesService = {
