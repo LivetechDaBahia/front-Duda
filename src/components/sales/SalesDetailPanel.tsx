@@ -5,6 +5,7 @@ import { UserPlus, X } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
+import { SalesTrackingTab } from "@/components/sales/SalesTrackingTab";
 import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import { DocumentsTab } from "@/components/shared/DocumentsTab";
 import { useLocale } from "@/contexts/LocaleContext";
