@@ -281,6 +281,14 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
             <TabsContent value="allocation" className="space-y-4 mt-4">
               <AllocationDetailsTab details={details} isLoading={isLoading} />
             </TabsContent>
+
+            <TabsContent value="tracking" className="space-y-4 mt-4">
+              <SalesTrackingTab
+                orderId={item.purchaseOrderId}
+                orderBranch={item.purchaseOrderBranch}
+                processId={item.processId}
+              />
+            </TabsContent>
           </Tabs>
         )}
       </div>
