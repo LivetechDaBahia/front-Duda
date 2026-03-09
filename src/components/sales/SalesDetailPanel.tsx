@@ -5,6 +5,7 @@ import { UserPlus, X } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
+import { SalesTrackingTab } from "@/components/sales/SalesTrackingTab";
 import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import { DocumentsTab } from "@/components/shared/DocumentsTab";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -161,11 +162,12 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
         {item && (
           <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
+              <TabsTrigger value="tracking">{t("sales.tracking")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4 mt-4">
@@ -278,6 +280,14 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
             <TabsContent value="allocation" className="space-y-4 mt-4">
               <AllocationDetailsTab details={details} isLoading={isLoading} />
+            </TabsContent>
+
+            <TabsContent value="tracking" className="space-y-4 mt-4">
+              <SalesTrackingTab
+                orderId={item.purchaseOrderId}
+                orderBranch={item.purchaseOrderBranch}
+                processId={item.processId}
+              />
             </TabsContent>
           </Tabs>
         )}
