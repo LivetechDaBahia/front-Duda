@@ -905,6 +905,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.partial": "Partial",
     "sales.reinvoice": "Reinvoice",
     "sales.errorLoading": "Error loading sales data",
+    "sales.variations.label": "Stage Variations",
+    "sales.variations.stages": "stages",
+    "sales.variations.stage": "Stage",
+    "sales.variations.purchaseOrderId": "PO ID",
+    "sales.variations.purchaseOrderBranch": "PO Branch",
+    "sales.variations.processId": "Process ID",
+    "sales.variations.assignee": "Assignee",
+    "sales.variations.group": "Group",
+    "sales.variations.po": "PO",
+    "sales.variations.process": "Proc",
 
     // Sales Assignment
     "sales.assign.title": "Assign Item",
