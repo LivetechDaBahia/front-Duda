@@ -9,24 +9,9 @@ import type {
 } from "@/types/sales";
 
 export const salesService = {
-  async getCreditStage(): Promise<SalesElementItem[]> {
-    addUIBreadcrumb("getCreditStage", "salesService");
-    return apiClient.get("/sales/credit-stage");
-  },
-
-  async getStockStage(): Promise<SalesElementItem[]> {
-    addUIBreadcrumb("getStockStage", "salesService");
-    return apiClient.get("/sales/stock-stage");
-  },
-
-  async getShippingStage(): Promise<SalesElementItem[]> {
-    addUIBreadcrumb("getShippingStage", "salesService");
-    return apiClient.get("/sales/shipping-stage");
-  },
-
-  async getAttendedStage(): Promise<SalesElementItem[]> {
-    addUIBreadcrumb("getAttendedStage", "salesService");
-    return apiClient.get("/sales/attended-stage");
+  async getAllStages(): Promise<SalesGroupedItem[]> {
+    addUIBreadcrumb("getAllStages", "salesService");
+    return apiClient.get("/sales/all-stages");
   },
 
   async getStageSequence(): Promise<Stage[]> {
