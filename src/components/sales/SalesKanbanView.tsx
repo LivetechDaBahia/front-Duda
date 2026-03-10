@@ -6,18 +6,23 @@ import { useLocale } from "@/contexts/LocaleContext";
 interface SalesKanbanViewProps {
   items: SalesElementItem[];
   stages: Stage[];
+  variationsMap: Map<string, SalesElementItem[]>;
   onItemClick: (item: SalesElementItem) => void;
 }
 
 export const SalesKanbanView = ({
   items,
   stages,
+  variationsMap,
   onItemClick,
 }: SalesKanbanViewProps) => {
   const { t } = useLocale();
 
   const getItemsByStage = (stageId: string) =>
     items.filter((item) => item.stageId === stageId);
+
+  const getVariations = (item: SalesElementItem) =>
+    variationsMap.get(`${item.id}-${item.key}`) || [];
 
   return (
     <div className="w-full h-[calc(100vh-280px)]">
@@ -51,6 +56,7 @@ export const SalesKanbanView = ({
                             key={`sales-${stage.id}-${item.id}`}
                             item={item}
                             stages={stages}
+                            variations={getVariations(item)}
                             onClick={() => onItemClick(item)}
                           />
                         ))

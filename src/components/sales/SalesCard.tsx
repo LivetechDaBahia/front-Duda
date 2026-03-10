@@ -1,12 +1,17 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
+import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
+import { useState } from "react";
 
 interface SalesCardProps {
   item: SalesElementItem;
   stages: Stage[];
+  variations?: SalesElementItem[];
   onClick: () => void;
 }
 
@@ -18,9 +23,11 @@ const formatCurrency = (value: number, currency: string) => {
   }
 };
 
-export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
+export const SalesCard = ({ item, stages, variations = [], onClick }: SalesCardProps) => {
   const { t, locale } = useLocale();
+  const [variationsOpen, setVariationsOpen] = useState(false);
   const stage = stages.find((s) => s.id === item.stageId);
+  const hasVariations = variations.length > 1;
 
   return (
     <Card
@@ -85,6 +92,29 @@ export const SalesCard = ({ item, stages, onClick }: SalesCardProps) => {
           <div className="text-xs text-muted-foreground truncate">
             {formatDate(item.date, locale)} • {item.oper}
           </div>
+        )}
+
+        {hasVariations && (
+          <Collapsible open={variationsOpen} onOpenChange={setVariationsOpen}>
+            <CollapsibleTrigger
+              className="flex items-center gap-1 text-xs text-primary hover:underline w-full pt-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ChevronDown
+                className={`h-3 w-3 transition-transform ${variationsOpen ? "rotate-180" : ""}`}
+              />
+              {t("sales.variations.label")} ({variations.length})
+            </CollapsibleTrigger>
+            <CollapsibleContent onClick={(e) => e.stopPropagation()}>
+              <div className="pt-1 border-t border-border/50 mt-1">
+                <SalesStageVariations
+                  variations={variations}
+                  stages={stages}
+                  compact
+                />
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         )}
       </CardContent>
     </Card>
