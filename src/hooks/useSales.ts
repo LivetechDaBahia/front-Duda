@@ -2,14 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { salesService } from "@/services/salesService";
 import type { SalesElementItem } from "@/types/sales";
 
-/** Fetch items from all stage endpoints and merge them (deduplicating by id) */
-const STAGE_FETCHERS = [
-  () => salesService.getCreditStage(),
-  () => salesService.getStockStage(),
-  () => salesService.getShippingStage(),
-  () => salesService.getAttendedStage(),
-];
-
+/** Fetch all sales items from the unified all-stages endpoint and flatten them */
 export const useSales = () => {
   const {
     data: items,
@@ -19,11 +12,12 @@ export const useSales = () => {
   } = useQuery<SalesElementItem[]>({
     queryKey: ["sales"],
     queryFn: async () => {
-      const results = await Promise.all(STAGE_FETCHERS.map((fn) => fn()));
-      const all = results.flat();
-      // Deduplicate by id in case an item appears in multiple endpoints
-      const map = new Map<number, SalesElementItem>();
-      all.forEach((item) => map.set(item.id, item));
+      const groups = await salesService.getAllStages();
+      // Flatten grouped items; each stage occurrence becomes its own entry
+      const all = groups.flatMap((g) => g.items);
+      // Deduplicate by id + stageId to keep one entry per stage
+      const map = new Map<string, SalesElementItem>();
+      all.forEach((item) => map.set(`${item.id}-${item.stageId}`, item));
       return Array.from(map.values());
     },
   });

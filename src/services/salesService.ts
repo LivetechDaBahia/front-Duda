@@ -2,6 +2,7 @@ import { apiClient } from "@/lib/apiClient";
 import { addUIBreadcrumb } from "@/lib/sentry";
 import type {
   SalesElementItem,
+  SalesGroupedItem,
   Stage,
   SalesElementItemDetails,
   SalesAssignPayload,
