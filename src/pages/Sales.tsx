@@ -20,7 +20,7 @@ const Sales = () => {
   const { handleError } = useErrorHandler();
   const { t } = useLocale();
 
-  const { items, isLoading: isLoadingItems, error: itemsError, refetch } = useSales();
+  const { items, variationsMap, isLoading: isLoadingItems, error: itemsError, refetch } = useSales();
   const { stages, isLoading: isLoadingStages, error: stagesError } = useSalesStages();
 
   const [view, setView] = useState<"kanban" | "table">("kanban");
