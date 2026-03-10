@@ -35,6 +35,12 @@ export interface SalesElementItem {
   processId: string;
 }
 
+export interface SalesGroupedItem {
+  id: number;
+  key: string;
+  items: SalesElementItem[];
+}
+
 export interface SalesTrackingEvent {
   date: string;
   time: string;
