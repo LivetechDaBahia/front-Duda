@@ -2801,6 +2801,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.partial": "Parcial",
     "sales.reinvoice": "Refacturación",
     "sales.errorLoading": "Error al cargar datos de ventas",
+    "sales.variations.label": "Variaciones por Etapa",
+    "sales.variations.stages": "etapas",
+    "sales.variations.stage": "Etapa",
+    "sales.variations.purchaseOrderId": "ID Orden Compra",
+    "sales.variations.purchaseOrderBranch": "Sucursal Orden Compra",
+    "sales.variations.processId": "ID Proceso",
+    "sales.variations.assignee": "Responsable",
+    "sales.variations.group": "Grupo",
+    "sales.variations.po": "OC",
+    "sales.variations.process": "Proc",
 
     // Sales Assignment
     "sales.assign.title": "Asignar Elemento",
