@@ -129,12 +129,14 @@ const Sales = () => {
                 <SalesKanbanView
                   items={filteredItems}
                   stages={stages}
+                  variationsMap={variationsMap}
                   onItemClick={setSelectedItem}
                 />
               ) : (
                 <SalesTableView
                   items={filteredItems}
                   stages={stages}
+                  variationsMap={variationsMap}
                   onItemClick={setSelectedItem}
                 />
               )}
