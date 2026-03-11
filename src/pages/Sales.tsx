@@ -150,6 +150,7 @@ const Sales = () => {
                 <SalesDetailPanel
                   item={selectedItem}
                   isOpen={!!selectedItem}
+                  variations={variationsMap.get(`${selectedItem.id}-${selectedItem.key}`) || []}
                   onClose={() => setSelectedItem(null)}
                   onAssignClick={(item) => {
                     setSelectedItem(null);
