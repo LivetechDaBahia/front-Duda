@@ -2805,6 +2805,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.partial": "Parcial",
     "sales.reinvoice": "Refacturación",
     "sales.errorLoading": "Error al cargar datos de ventas",
+    "sales.purchaseOrders": "Órdenes de Compra",
+    "sales.noPurchaseOrders": "No se encontraron órdenes de compra",
     "sales.variations.label": "Variaciones por Etapa",
     "sales.variations.stages": "etapas",
     "sales.variations.stage": "Etapa",
