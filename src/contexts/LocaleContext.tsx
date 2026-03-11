@@ -1916,6 +1916,53 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PC",
     "sales.variations.process": "Proc",
 
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Detalhes do Pedido de Venda",
+    "sales.noSalesOrders": "Nenhum pedido de venda encontrado",
+    "sales.emissionDate": "Data de Emissão",
+    "sales.totalValue": "Valor Total",
+    "sales.shippingType": "Tipo de Frete",
+    "sales.shippingValue": "Valor do Frete",
+    "sales.clientId": "ID do Cliente",
+    "sales.clientBranch": "Filial do Cliente",
+    "sales.contractId": "ID do Contrato",
+    "sales.addictive": "Aditivo",
+    "sales.isPartial": "Parcial",
+    "sales.isReinvoice": "Refaturamento",
+    "sales.minimumDate": "Data Mínima",
+    "sales.obsNF": "Observações NF",
+    "sales.obsPacking": "Observações Romaneio",
+    "sales.obsLogistics": "Observações Logística",
+    "sales.obsProposal": "Observações Proposta",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Desalocar",
+    "sales.deallocateTitle": "Confirmar Desalocação",
+    "sales.deallocateDescription": "Tem certeza que deseja desalocar este item? Esta ação não pode ser desfeita.",
+    "sales.deallocateSuccess": "Item Desalocado",
+    "sales.deallocateSuccessDescription": "O item foi desalocado com sucesso.",
+    "sales.checkStock": "Verificar Estoque",
+    "sales.itemStock": "Estoque do Item",
+    "sales.noStockData": "Nenhum dado de estoque disponível",
+    "sales.stock.warehouse": "Armazém",
+    "sales.stock.available": "Disponível",
+    "sales.stock.30days": "30 dias",
+    "sales.stock.31_60days": "31-60 dias",
+    "sales.stock.61_90days": "61-90 dias",
+    "sales.stock.90plus": "90+ dias",
+
+    // Change Observations
+    "sales.changeObservations": "Alterar Observações",
+    "sales.changeObservationsDescription": "Edite as observações deste pedido de venda",
+    "sales.observationsUpdated": "Observações Atualizadas",
+    "sales.observationsUpdatedDescription": "As observações foram atualizadas com sucesso.",
+
+    "common.yes": "Sim",
+    "common.no": "Não",
+    "common.save": "Salvar",
+    "common.saving": "Salvando...",
+    "common.processing": "Processando...",
+
     // Sales Assignment
     "sales.assign.title": "Atribuir Item",
     "sales.assign.description": "Selecione um usuário para atribuir este item de venda.",
