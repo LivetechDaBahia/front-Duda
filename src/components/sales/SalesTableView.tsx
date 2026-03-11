@@ -101,7 +101,7 @@ export const SalesTableView = ({
                       </TableCell>
                       <TableCell className="font-medium whitespace-nowrap">{item.offer}</TableCell>
                       <TableCell className="whitespace-nowrap">{item.client}/{item.clientBranch}</TableCell>
-                      <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency)}</TableCell>
+                      <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency, locale)}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderId || "-"}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderBranch || "-"}</TableCell>

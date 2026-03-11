@@ -59,7 +59,7 @@ export const SalesCard = ({ item, stages, variations = [], onClick }: SalesCardP
       <CardContent className="px-2 sm:px-3 pb-2 sm:pb-3 pt-0 space-y-1">
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">{t("sales.value")}</span>
-          <span className="font-medium">{formatCurrency(item.value, item.currency)}</span>
+          <span className="font-medium">{formatCurrency(item.value, item.currency, locale)}</span>
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">{t("sales.seller")}</span>
