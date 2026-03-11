@@ -4,17 +4,17 @@ import { Button } from "@/components/ui/button";
 import { UserPlus, X } from "lucide-react";
 import type { SalesElementItem } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
+import { useSalesOrders } from "@/hooks/useSalesOrders";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
 import { SalesTrackingTab } from "@/components/sales/SalesTrackingTab";
-import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
+import { SalesOrdersTab } from "@/components/sales/SalesOrdersTab";
 import { DocumentsTab } from "@/components/shared/DocumentsTab";
-import { SalesPurchaseOrdersTab } from "@/components/sales/SalesPurchaseOrdersTab";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
-import type { CreditElementDetails, CreditDocument, CreditClientDocument } from "@/types/credit";
+import type { CreditDocument, CreditClientDocument } from "@/types/credit";
 import { useState, useEffect } from "react";
 
 interface SalesDetailPanelProps {
@@ -36,6 +36,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
 export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variations = [] }: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
   const { details, isLoading } = useSalesDetails(item ? item.key : null);
+  const { orders, isLoading: isLoadingOrders, refetch: refetchOrders } = useSalesOrders(item ? item.key : null);
   const { canManageSales } = usePermissions();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -105,16 +106,6 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
     }
   };
 
-  // Credit element details (sales order)
-  const {
-    data: creditElementDetails,
-    isLoading: isLoadingCreditDetails,
-  } = useQuery<CreditElementDetails[]>({
-    queryKey: ["creditDetails", item?.key],
-    queryFn: () => creditService.getCreditElementDetails(item!.key),
-    enabled: !!item?.key,
-  });
-
   // Sales order documents
   const {
     data: documents,
@@ -164,9 +155,8 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
 
         {item && (
           <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-6">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
-              <TabsTrigger value="purchaseOrders">{t("sales.purchaseOrders")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
@@ -275,17 +265,11 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
               </div>
             </TabsContent>
 
-            <TabsContent value="purchaseOrders" className="space-y-4 mt-4">
-              <SalesPurchaseOrdersTab
-                item={item}
-                variations={variations}
-              />
-            </TabsContent>
-
             <TabsContent value="salesOrder" className="space-y-4 mt-4">
-              <SalesOrderDetailsTab
-                details={creditElementDetails || []}
-                isLoading={isLoadingCreditDetails}
+              <SalesOrdersTab
+                orders={orders}
+                isLoading={isLoadingOrders}
+                onObservationsChanged={() => refetchOrders()}
               />
             </TabsContent>
 

@@ -918,6 +918,48 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PO",
     "sales.variations.process": "Proc",
 
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Sales Order Details",
+    "sales.noSalesOrders": "No sales orders found",
+    "sales.emissionDate": "Emission Date",
+    "sales.totalValue": "Total Value",
+    "sales.shippingType": "Shipping Type",
+    "sales.shippingValue": "Shipping Value",
+    "sales.clientId": "Client ID",
+    "sales.contractId": "Contract ID",
+    "sales.addictive": "Addictive",
+    "sales.isPartial": "Partial",
+    "sales.isReinvoice": "Reinvoice",
+    "sales.minimumDate": "Minimum Date",
+    "sales.obsNF": "NF Observations",
+    "sales.obsPacking": "Packing Observations",
+    "sales.obsLogistics": "Logistics Observations",
+    "sales.obsProposal": "Proposal Observations",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Deallocate",
+    "sales.deallocateTitle": "Confirm Deallocation",
+    "sales.deallocateDescription": "Are you sure you want to deallocate this item? This action cannot be undone.",
+    "sales.deallocateSuccess": "Item Deallocated",
+    "sales.deallocateSuccessDescription": "The item has been successfully deallocated.",
+    "sales.checkStock": "Check Stock",
+    "sales.itemStock": "Item Stock",
+    "sales.noStockData": "No stock data available",
+    "sales.stock.warehouse": "Warehouse",
+    "sales.stock.available": "Available",
+    "sales.stock.30days": "30 days",
+    "sales.stock.31_60days": "31-60 days",
+    "sales.stock.61_90days": "61-90 days",
+    "sales.stock.90plus": "90+ days",
+
+    // Change Observations
+    "sales.changeObservations": "Change Observations",
+    "sales.changeObservationsDescription": "Edit the observations for this sales order",
+    "sales.observationsUpdated": "Observations Updated",
+    "sales.observationsUpdatedDescription": "The observations have been successfully updated.",
+
+    "common.processing": "Processing...",
+
     // Sales Assignment
     "sales.assign.title": "Assign Item",
     "sales.assign.description": "Select a user to assign this sales item to.",
@@ -1869,6 +1911,48 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PC",
     "sales.variations.process": "Proc",
 
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Detalhes do Pedido de Venda",
+    "sales.noSalesOrders": "Nenhum pedido de venda encontrado",
+    "sales.emissionDate": "Data de Emissão",
+    "sales.totalValue": "Valor Total",
+    "sales.shippingType": "Tipo de Frete",
+    "sales.shippingValue": "Valor do Frete",
+    "sales.clientId": "ID do Cliente",
+    "sales.contractId": "ID do Contrato",
+    "sales.addictive": "Aditivo",
+    "sales.isPartial": "Parcial",
+    "sales.isReinvoice": "Refaturamento",
+    "sales.minimumDate": "Data Mínima",
+    "sales.obsNF": "Observações NF",
+    "sales.obsPacking": "Observações Romaneio",
+    "sales.obsLogistics": "Observações Logística",
+    "sales.obsProposal": "Observações Proposta",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Desalocar",
+    "sales.deallocateTitle": "Confirmar Desalocação",
+    "sales.deallocateDescription": "Tem certeza que deseja desalocar este item? Esta ação não pode ser desfeita.",
+    "sales.deallocateSuccess": "Item Desalocado",
+    "sales.deallocateSuccessDescription": "O item foi desalocado com sucesso.",
+    "sales.checkStock": "Verificar Estoque",
+    "sales.itemStock": "Estoque do Item",
+    "sales.noStockData": "Nenhum dado de estoque disponível",
+    "sales.stock.warehouse": "Armazém",
+    "sales.stock.available": "Disponível",
+    "sales.stock.30days": "30 dias",
+    "sales.stock.31_60days": "31-60 dias",
+    "sales.stock.61_90days": "61-90 dias",
+    "sales.stock.90plus": "90+ dias",
+
+    // Change Observations
+    "sales.changeObservations": "Alterar Observações",
+    "sales.changeObservationsDescription": "Edite as observações deste pedido de venda",
+    "sales.observationsUpdated": "Observações Atualizadas",
+    "sales.observationsUpdatedDescription": "As observações foram atualizadas com sucesso.",
+
+    "common.processing": "Processando...",
+
     // Sales Assignment
     "sales.assign.title": "Atribuir Item",
     "sales.assign.description": "Selecione um usuário para atribuir este item de venda.",
@@ -2817,6 +2901,48 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.group": "Grupo",
     "sales.variations.po": "OC",
     "sales.variations.process": "Proc",
+
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Detalles del Pedido de Venta",
+    "sales.noSalesOrders": "No se encontraron pedidos de venta",
+    "sales.emissionDate": "Fecha de Emisión",
+    "sales.totalValue": "Valor Total",
+    "sales.shippingType": "Tipo de Envío",
+    "sales.shippingValue": "Valor del Envío",
+    "sales.clientId": "ID del Cliente",
+    "sales.contractId": "ID del Contrato",
+    "sales.addictive": "Aditivo",
+    "sales.isPartial": "Parcial",
+    "sales.isReinvoice": "Refacturación",
+    "sales.minimumDate": "Fecha Mínima",
+    "sales.obsNF": "Observaciones NF",
+    "sales.obsPacking": "Observaciones Empaque",
+    "sales.obsLogistics": "Observaciones Logística",
+    "sales.obsProposal": "Observaciones Propuesta",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Desasignar",
+    "sales.deallocateTitle": "Confirmar Desasignación",
+    "sales.deallocateDescription": "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
+    "sales.deallocateSuccess": "Elemento Desasignado",
+    "sales.deallocateSuccessDescription": "El elemento ha sido desasignado exitosamente.",
+    "sales.checkStock": "Verificar Stock",
+    "sales.itemStock": "Stock del Artículo",
+    "sales.noStockData": "No hay datos de stock disponibles",
+    "sales.stock.warehouse": "Almacén",
+    "sales.stock.available": "Disponible",
+    "sales.stock.30days": "30 días",
+    "sales.stock.31_60days": "31-60 días",
+    "sales.stock.61_90days": "61-90 días",
+    "sales.stock.90plus": "90+ días",
+
+    // Change Observations
+    "sales.changeObservations": "Cambiar Observaciones",
+    "sales.changeObservationsDescription": "Edite las observaciones de este pedido de venta",
+    "sales.observationsUpdated": "Observaciones Actualizadas",
+    "sales.observationsUpdatedDescription": "Las observaciones han sido actualizadas exitosamente.",
+
+    "common.processing": "Procesando...",
 
     // Sales Assignment
     "sales.assign.title": "Asignar Elemento",
