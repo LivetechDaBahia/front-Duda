@@ -905,6 +905,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.partial": "Partial",
     "sales.reinvoice": "Reinvoice",
     "sales.errorLoading": "Error loading sales data",
+    "sales.purchaseOrders": "Purchase Orders",
+    "sales.noPurchaseOrders": "No purchase orders found",
     "sales.variations.label": "Stage Variations",
     "sales.variations.stages": "stages",
     "sales.variations.stage": "Stage",
