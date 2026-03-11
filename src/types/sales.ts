@@ -97,3 +97,56 @@ export interface SalesAssignPayload {
   flowId?: string;
   key?: string;
 }
+
+export interface SalesOrderDetails {
+  branch: string;
+  order: string;
+  emissionDate: string | null;
+  totalValue: number;
+  shippingType: string;
+  shippingValue: number;
+  TID: string;
+  clientId: string;
+  clientBranch: string;
+  contractId: string;
+  addictive: string;
+  type: string;
+  oper: string;
+  isPartial: boolean;
+  isReinvoice: boolean;
+  minimumDate: string | null;
+  obsNF: string;
+  obsPacking: string;
+  obsLogistics: string;
+  obsProposal: string;
+}
+
+export interface DeallocateItemPayload {
+  branch: string;
+  order: string;
+  product: string;
+  sequence: string;
+  batch: string;
+  proposal: string;
+}
+
+export interface ItemStock {
+  branch: string;
+  id: string;
+  warehouse: string;
+  available: number;
+  "30": number;
+  "31-60": number;
+  "61-90": number;
+  "90+": number;
+}
+
+export interface ChangeObservationsPayload {
+  branch: string;
+  order: string;
+  obsNF: string;
+  obsPacking: string;
+  obsLogistics: string;
+  obsProposal: string;
+  minimumDate: string;
+}
