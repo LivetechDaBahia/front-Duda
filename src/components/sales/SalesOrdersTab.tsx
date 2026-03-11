@@ -69,7 +69,7 @@ export const SalesOrdersTab = ({ orders, isLoading, onObservationsChanged }: Sal
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setObservationsOrder(order)}>
-                  <MessageSquarePen className="h-4 w-4 mr-2" />
+                  <Pencil className="h-4 w-4 mr-2" />
                   {t("sales.changeObservations")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
