@@ -2912,6 +2912,53 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "OC",
     "sales.variations.process": "Proc",
 
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Detalles del Pedido de Venta",
+    "sales.noSalesOrders": "No se encontraron pedidos de venta",
+    "sales.emissionDate": "Fecha de Emisión",
+    "sales.totalValue": "Valor Total",
+    "sales.shippingType": "Tipo de Envío",
+    "sales.shippingValue": "Valor del Envío",
+    "sales.clientId": "ID del Cliente",
+    "sales.clientBranch": "Sucursal del Cliente",
+    "sales.contractId": "ID del Contrato",
+    "sales.addictive": "Aditivo",
+    "sales.isPartial": "Parcial",
+    "sales.isReinvoice": "Refacturación",
+    "sales.minimumDate": "Fecha Mínima",
+    "sales.obsNF": "Observaciones NF",
+    "sales.obsPacking": "Observaciones Empaque",
+    "sales.obsLogistics": "Observaciones Logística",
+    "sales.obsProposal": "Observaciones Propuesta",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Desasignar",
+    "sales.deallocateTitle": "Confirmar Desasignación",
+    "sales.deallocateDescription": "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
+    "sales.deallocateSuccess": "Elemento Desasignado",
+    "sales.deallocateSuccessDescription": "El elemento ha sido desasignado exitosamente.",
+    "sales.checkStock": "Verificar Stock",
+    "sales.itemStock": "Stock del Artículo",
+    "sales.noStockData": "No hay datos de stock disponibles",
+    "sales.stock.warehouse": "Almacén",
+    "sales.stock.available": "Disponible",
+    "sales.stock.30days": "30 días",
+    "sales.stock.31_60days": "31-60 días",
+    "sales.stock.61_90days": "61-90 días",
+    "sales.stock.90plus": "90+ días",
+
+    // Change Observations
+    "sales.changeObservations": "Cambiar Observaciones",
+    "sales.changeObservationsDescription": "Edite las observaciones de este pedido de venta",
+    "sales.observationsUpdated": "Observaciones Actualizadas",
+    "sales.observationsUpdatedDescription": "Las observaciones han sido actualizadas exitosamente.",
+
+    "common.yes": "Sí",
+    "common.no": "No",
+    "common.save": "Guardar",
+    "common.saving": "Guardando...",
+    "common.processing": "Procesando...",
+
     // Sales Assignment
     "sales.assign.title": "Asignar Elemento",
     "sales.assign.description": "Seleccione un usuario para asignar este elemento de venta.",
