@@ -8,6 +8,7 @@ import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
 import { SalesTrackingTab } from "@/components/sales/SalesTrackingTab";
 import { SalesOrderDetailsTab } from "@/components/shared/SalesOrderDetailsTab";
 import { DocumentsTab } from "@/components/shared/DocumentsTab";
+import { SalesPurchaseOrdersTab } from "@/components/sales/SalesPurchaseOrdersTab";
 import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
@@ -21,6 +22,7 @@ interface SalesDetailPanelProps {
   isOpen: boolean;
   onClose: () => void;
   onAssignClick?: (item: SalesElementItem) => void;
+  variations?: SalesElementItem[];
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
@@ -31,7 +33,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
   }
 };
 
-export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: SalesDetailPanelProps) => {
+export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variations = [] }: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
   const { details, isLoading } = useSalesDetails(item ? item.key : null);
   const { canManageSales } = usePermissions();
@@ -162,8 +164,9 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
 
         {item && (
           <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
+              <TabsTrigger value="purchaseOrders">{t("sales.purchaseOrders")}</TabsTrigger>
               <TabsTrigger value="salesOrder">{t("credit.salesOrder")}</TabsTrigger>
               <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
               <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
@@ -250,7 +253,33 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick }: Sales
                     <p className="font-medium">{item.reinvoice || "-"}</p>
                   </div>
                 </div>
+
+                {/* Current card PO details */}
+                <div className="border-t pt-3 mt-3">
+                  <h4 className="font-medium text-sm mb-2">{t("sales.purchaseOrders")}</h4>
+                  <div className="grid grid-cols-3 gap-3 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">{t("sales.variations.purchaseOrderId")}:</span>
+                      <p className="font-medium">{item.purchaseOrderId || "-"}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">{t("sales.variations.purchaseOrderBranch")}:</span>
+                      <p className="font-medium">{item.purchaseOrderBranch || "-"}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">{t("sales.variations.processId")}:</span>
+                      <p className="font-medium">{item.processId || "-"}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="purchaseOrders" className="space-y-4 mt-4">
+              <SalesPurchaseOrdersTab
+                item={item}
+                variations={variations}
+              />
             </TabsContent>
 
             <TabsContent value="salesOrder" className="space-y-4 mt-4">

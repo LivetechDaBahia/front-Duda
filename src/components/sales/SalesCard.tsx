@@ -88,6 +88,23 @@ export const SalesCard = ({ item, stages, variations = [], onClick }: SalesCardP
             <span className="truncate ml-2">{item.paymentCondition}</span>
           </div>
         )}
+
+        {/* Purchase Order / Process details */}
+        <div className="border-t border-border/50 pt-1 mt-1 space-y-0.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.variations.purchaseOrderId")}</span>
+            <span className="truncate ml-2 font-medium">{item.purchaseOrderId || "-"}</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.variations.purchaseOrderBranch")}</span>
+            <span className="truncate ml-2">{item.purchaseOrderBranch || "-"}</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.variations.processId")}</span>
+            <span className="truncate ml-2">{item.processId || "-"}</span>
+          </div>
+        </div>
+
         {item.date && (
           <div className="text-xs text-muted-foreground truncate">
             {formatDate(item.date, locale)} • {item.oper}

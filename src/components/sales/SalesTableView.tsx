@@ -48,16 +48,6 @@ export const SalesTableView = ({
     });
   };
 
-  // Deduplicate items by id+key for the table (show one row per logical item)
-  const uniqueItems = (() => {
-    const seen = new Map<string, SalesElementItem>();
-    items.forEach((item) => {
-      const key = `${item.id}-${item.key}`;
-      if (!seen.has(key)) seen.set(key, item);
-    });
-    return Array.from(seen.values());
-  })();
-
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table className="w-full min-w-max">
@@ -68,27 +58,28 @@ export const SalesTableView = ({
             <TableHead className="whitespace-nowrap">{t("sales.client")}</TableHead>
             <TableHead className="whitespace-nowrap">{t("sales.value")}</TableHead>
             <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.seller")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.type")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.paymentCondition")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.cnpj")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.variations.purchaseOrderId")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.variations.purchaseOrderBranch")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.variations.processId")}</TableHead>
             <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
             <TableHead className="whitespace-nowrap hidden md:table-cell">VIP</TableHead>
             <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.date")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {uniqueItems.length === 0 ? (
+          {items.length === 0 ? (
             <TableRow>
               <TableCell colSpan={11} className="text-center py-8">
                 {t("sales.noItems")}
               </TableCell>
             </TableRow>
           ) : (
-            uniqueItems.map((item) => {
+            items.map((item, idx) => {
               const stage = stages.find((s) => s.id === item.stageId);
-              const rowKey = `${item.id}-${item.key}`;
-              const variations = variationsMap.get(rowKey) || [];
+              const groupKey = `${item.id}-${item.key}`;
+              const variations = variationsMap.get(groupKey) || [];
               const hasVariations = variations.length > 1;
+              const rowKey = `${item.id}-${item.stageId}-${item.purchaseOrderId}-${item.purchaseOrderBranch}-${item.processId}-${idx}`;
               const isExpanded = expandedRows.has(rowKey);
 
               return (
@@ -119,9 +110,9 @@ export const SalesTableView = ({
                       <TableCell className="whitespace-nowrap">{item.client}/{item.clientBranch}</TableCell>
                       <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency)}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.type}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.paymentCondition || "-"}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.cnpj}</TableCell>
+                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderId || "-"}</TableCell>
+                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderBranch || "-"}</TableCell>
+                      <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.processId || "-"}</TableCell>
                       <TableCell className="whitespace-nowrap">
                         {stage && (
                           <Badge variant={stage.final ? "success" : "secondary"} className="text-xs">
