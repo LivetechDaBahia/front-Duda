@@ -6,6 +6,7 @@ import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
+import { formatCurrency } from "@/utils/currency";
 import { useState } from "react";
 
 interface SalesCardProps {
@@ -14,14 +15,6 @@ interface SalesCardProps {
   variations?: SalesElementItem[];
   onClick: () => void;
 }
-
-const formatCurrency = (value: number, currency: string) => {
-  try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: currency || "BRL" }).format(value);
-  } catch {
-    return `${currency} ${value.toFixed(2)}`;
-  }
-};
 
 export const SalesCard = ({ item, stages, variations = [], onClick }: SalesCardProps) => {
   const { t, locale } = useLocale();
@@ -66,7 +59,7 @@ export const SalesCard = ({ item, stages, variations = [], onClick }: SalesCardP
       <CardContent className="px-2 sm:px-3 pb-2 sm:pb-3 pt-0 space-y-1">
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">{t("sales.value")}</span>
-          <span className="font-medium">{formatCurrency(item.value, item.currency)}</span>
+          <span className="font-medium">{formatCurrency(item.value, item.currency, locale)}</span>
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">{t("sales.seller")}</span>
