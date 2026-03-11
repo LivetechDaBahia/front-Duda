@@ -1919,7 +1919,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.shippingType": "Tipo de Frete",
     "sales.shippingValue": "Valor do Frete",
     "sales.clientId": "ID do Cliente",
-    "sales.clientBranch": "Filial do Cliente",
     "sales.contractId": "ID do Contrato",
     "sales.addictive": "Aditivo",
     "sales.isPartial": "Parcial",
@@ -1952,10 +1951,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observações Atualizadas",
     "sales.observationsUpdatedDescription": "As observações foram atualizadas com sucesso.",
 
-    "common.yes": "Sim",
-    "common.no": "Não",
-    "common.save": "Salvar",
-    "common.saving": "Salvando...",
     "common.processing": "Processando...",
 
     // Sales Assignment
