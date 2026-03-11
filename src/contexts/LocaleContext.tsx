@@ -918,6 +918,53 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PO",
     "sales.variations.process": "Proc",
 
+    // Sales Order Details (new endpoint)
+    "sales.salesOrderDetails": "Sales Order Details",
+    "sales.noSalesOrders": "No sales orders found",
+    "sales.emissionDate": "Emission Date",
+    "sales.totalValue": "Total Value",
+    "sales.shippingType": "Shipping Type",
+    "sales.shippingValue": "Shipping Value",
+    "sales.clientId": "Client ID",
+    "sales.clientBranch": "Client Branch",
+    "sales.contractId": "Contract ID",
+    "sales.addictive": "Addictive",
+    "sales.isPartial": "Partial",
+    "sales.isReinvoice": "Reinvoice",
+    "sales.minimumDate": "Minimum Date",
+    "sales.obsNF": "NF Observations",
+    "sales.obsPacking": "Packing Observations",
+    "sales.obsLogistics": "Logistics Observations",
+    "sales.obsProposal": "Proposal Observations",
+
+    // Deallocate & Stock
+    "sales.deallocate": "Deallocate",
+    "sales.deallocateTitle": "Confirm Deallocation",
+    "sales.deallocateDescription": "Are you sure you want to deallocate this item? This action cannot be undone.",
+    "sales.deallocateSuccess": "Item Deallocated",
+    "sales.deallocateSuccessDescription": "The item has been successfully deallocated.",
+    "sales.checkStock": "Check Stock",
+    "sales.itemStock": "Item Stock",
+    "sales.noStockData": "No stock data available",
+    "sales.stock.warehouse": "Warehouse",
+    "sales.stock.available": "Available",
+    "sales.stock.30days": "30 days",
+    "sales.stock.31_60days": "31-60 days",
+    "sales.stock.61_90days": "61-90 days",
+    "sales.stock.90plus": "90+ days",
+
+    // Change Observations
+    "sales.changeObservations": "Change Observations",
+    "sales.changeObservationsDescription": "Edit the observations for this sales order",
+    "sales.observationsUpdated": "Observations Updated",
+    "sales.observationsUpdatedDescription": "The observations have been successfully updated.",
+
+    "common.yes": "Yes",
+    "common.no": "No",
+    "common.save": "Save",
+    "common.saving": "Saving...",
+    "common.processing": "Processing...",
+
     // Sales Assignment
     "sales.assign.title": "Assign Item",
     "sales.assign.description": "Select a user to assign this sales item to.",
