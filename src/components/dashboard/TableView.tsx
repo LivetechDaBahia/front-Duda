@@ -227,9 +227,8 @@ export const TableView = ({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    {/* Show revert option for approved/declined orders */}
-                    {(order.status === "approved" ||
-                      order.status === "declined") && (
+                    {/* Show revert option for approved orders only */}
+                    {order.status === "approved" && (
                       <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation();

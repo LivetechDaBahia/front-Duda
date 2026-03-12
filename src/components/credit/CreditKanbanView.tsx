@@ -109,14 +109,14 @@ export const CreditKanbanView = ({
   return (
     <div className="w-full h-[calc(100vh-280px)]">
       <div ref={scrollContainerRef} className="overflow-x-auto h-full">
-        <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-max h-full">
+        <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 h-full min-w-full">
           {statuses.map((status) => {
             const statusCredits = getCreditsByStatus(status.id);
             const isDragOver = dragOverColumn === status.id;
             return (
               <div
                 key={status.id}
-                className="flex-shrink-0 w-[349px] h-full flex flex-col"
+                className="flex-1 min-w-[400px] h-full flex flex-col"
               >
                 <div
                   className={`rounded-lg border bg-card transition-colors h-full flex flex-col ${

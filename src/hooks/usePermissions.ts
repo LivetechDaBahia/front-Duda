@@ -188,6 +188,39 @@ export const usePermissions = () => {
     );
   };
 
+  // Check if user can view sales (explicit permission OR admin OR credit viewers)
+  const canViewSales = (): boolean => {
+    if (isAdmin()) return true;
+    if (canViewCredit()) return true;
+    return hasExplicitPermission(
+      "sales:read",
+      "sales.read",
+      "flows:sales.read",
+      "flows:sales:read",
+    );
+  };
+
+  // Check if user can update/assign sales items
+  const canManageSales = (): boolean => {
+    if (isAdmin()) return true;
+    return (
+      canViewSales() &&
+      hasExplicitPermission(
+        "sales:update",
+        "sales.update",
+        "flows:sales.update",
+        "flows:sales:update",
+      )
+    );
+  };
+
+  // Check if user can assign sales items to other users (Manager+ level)
+  const canAssignSalesToOthers = (): boolean => {
+    if (isAdmin()) return true;
+    if (hasMinimumLevel("Manager") && canManageSales()) return true;
+    return false;
+  };
+
   return {
     hasPermission,
     hasExplicitPermission,
@@ -205,5 +238,8 @@ export const usePermissions = () => {
     canImpersonate: canImpersonate(),
     canViewTrafficLight: canViewTrafficLight(),
     canManageTrafficLight: canManageTrafficLight(),
+    canViewSales: canViewSales(),
+    canManageSales: canManageSales(),
+    canAssignSalesToOthers: canAssignSalesToOthers(),
   };
 };

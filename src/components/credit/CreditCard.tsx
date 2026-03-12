@@ -120,7 +120,7 @@ export const CreditCard = ({
 
   const cardContent = (
     <Card
-      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full relative ${
+      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full min-w-0 relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
       } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""}`}
       style={{
@@ -130,7 +130,6 @@ export const CreditCard = ({
           // Normalize API color and blend it with the current theme's card color
           backgroundColor: toCssColor(credit.background),
           backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
-          width: "316px",
         }),
       }}
       onClick={onClick}
@@ -147,11 +146,11 @@ export const CreditCard = ({
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <span className="text-muted-foreground">{t("credit.offer")}</span>
-            <h3 className="font-semibold text-xs sm:text-sm truncate">
+            <h3 className="font-semibold text-xs sm:text-sm break-all">
               {credit.details.offer}
             </h3>
             <span className="text-muted-foreground">{t("credit.client")}</span>
-            <p className="text-xs text-muted-foreground truncate mt-1">
+            <p className="text-xs text-muted-foreground break-words mt-1">
               {credit.details.client}/{credit.details.clientBranch} -
               {credit.details.clientName}
             </p>

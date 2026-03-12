@@ -111,8 +111,8 @@ export const OrderCard = ({
           </div>
         </div>
 
-        {/* Revert button for approved/declined orders */}
-        {(order.status === "approved" || order.status === "declined") &&
+        {/* Revert button for approved orders */}
+        {order.status === "approved" &&
           onRevertOrder && (
             <Button
               variant="ghost"

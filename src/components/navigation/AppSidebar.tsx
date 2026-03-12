@@ -9,6 +9,7 @@ import {
   GitBranch,
   Sparkles,
   Eye,
+  ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -47,6 +48,7 @@ const SidebarContent = () => {
     canViewCredit,
     canViewPurchaseOrders,
     canViewTrafficLight,
+    canViewSales,
     canImpersonate,
   } = usePermissions();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -112,6 +114,24 @@ const SidebarContent = () => {
                 className={cn(
                   "w-5 h-5 flex-shrink-0",
                   location.pathname === "/credit"
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(canViewSales
+      ? [
+          {
+            label: t("sales.title"),
+            href: "/sales",
+            icon: (
+              <ShoppingCart
+                className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === "/sales"
                     ? "text-primary"
                     : "text-muted-foreground",
                 )}
