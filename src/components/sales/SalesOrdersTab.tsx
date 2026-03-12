@@ -141,6 +141,7 @@ export const SalesOrdersTab = ({ orders, isLoading, onObservationsChanged }: Sal
                   </p>
                 </div>
               );
+            })()}
           </div>
 
           {/* Observations section */}
