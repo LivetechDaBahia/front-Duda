@@ -1911,9 +1911,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PI",
     "sales.variations.process": "Proc",
 
-    // Sales Order Details (new endpoint)
-    "sales.salesOrderDetails": "Detalhes do Pedido de Venda",
-    "sales.noSalesOrders": "Nenhum pedido de venda encontrado",
+    // Internal Order Details (new endpoint)
+    "sales.salesOrderDetails": "Detalhes do Pedido Interno",
+    "sales.noSalesOrders": "Nenhum pedido interno encontrado",
     "sales.emissionDate": "Data de Emissão",
     "sales.totalValue": "Valor Total",
     "sales.shippingType": "Tipo de Frete",
