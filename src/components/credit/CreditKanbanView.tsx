@@ -138,7 +138,7 @@ export const CreditKanbanView = ({
                     </span>
                   </div>
                   <ScrollArea className="flex-1">
-                    <div className="space-y-2 sm:space-y-3 p-3 sm:p-4">
+                    <div className="space-y-2 sm:space-y-3 p-4 overflow-hidden">
                       {statusCredits.length === 0 ? (
                         <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
                           {t("credit.noCreditsInStatus")}
