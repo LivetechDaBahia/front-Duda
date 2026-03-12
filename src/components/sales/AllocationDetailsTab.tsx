@@ -338,6 +338,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           details={details}
           t={t}
           onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
         />
       ) : (
@@ -345,6 +346,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           details={details}
           t={t}
           onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
         />
       )}
@@ -353,6 +355,13 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
         item={deallocateItem}
         open={!!deallocateItem}
         onClose={() => setDeallocateItem(null)}
+        onSuccess={onDeallocated}
+      />
+
+      <ReallocateItemDialog
+        item={reallocateItem}
+        open={!!reallocateItem}
+        onClose={() => setReallocateItem(null)}
         onSuccess={onDeallocated}
       />
 
