@@ -152,7 +152,7 @@ const AllocationTableView = ({
             {details.map((row, idx) => (
               <TableRow key={`detail-${idx}`}>
                 <TableCell>
-                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onCheckStock={onCheckStock} t={t} />
+                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
                 </TableCell>
                 <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.order}</TableCell>
