@@ -116,7 +116,7 @@ export const CreditKanbanView = ({
             return (
               <div
                 key={status.id}
-                className="flex-1 min-w-[400px] h-full flex flex-col"
+                className="flex-1 h-full flex flex-col"
               >
                 <div
                   className={`rounded-lg border bg-card transition-colors h-full flex flex-col ${
