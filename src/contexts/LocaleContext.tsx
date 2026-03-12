@@ -2912,6 +2912,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.purchaseOrders": "Órdenes Internas",
     "sales.noPurchaseOrders": "No se encontraron órdenes internas",
     "sales.variations.label": "Variaciones por Etapa",
+    "sales.groupedItems": "Ítems",
+    "sales.groupedItemsCount": "ítems en este grupo",
     "sales.variations.stages": "etapas",
     "sales.variations.stage": "Etapa",
     "sales.variations.purchaseOrderId": "ID Orden Interna",
