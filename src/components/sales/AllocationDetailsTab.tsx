@@ -255,7 +255,7 @@ const AllocationCardView = ({
             <p className="font-semibold text-sm break-words whitespace-normal">
               {row.product} - {row.description}
             </p>
-            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
+            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} onViewAllocation={onViewAllocation} t={t} />
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3">
