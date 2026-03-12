@@ -2871,7 +2871,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.numReserved": "Cant. Reservada",
     "sales.productOrder": "Orden de Producción",
     "sales.numOp": "Cant. OP",
-    "sales.purchaseOrder": "Orden de Compra",
+    "sales.purchaseOrder": "Orden Interna",
     "sales.numPo": "Cant. PO",
     "sales.purchaseRequest": "Solicitud de Compra",
     "sales.numSc": "Cant. SC",
