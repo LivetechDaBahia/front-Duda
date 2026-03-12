@@ -1947,7 +1947,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Change Observations
     "sales.changeObservations": "Alterar Observações",
-    "sales.changeObservationsDescription": "Edite as observações deste pedido de venda",
+    "sales.changeObservationsDescription": "Edite as observações deste pedido interno",
     "sales.observationsUpdated": "Observações Atualizadas",
     "sales.observationsUpdatedDescription": "As observações foram atualizadas com sucesso.",
 
