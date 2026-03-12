@@ -937,12 +937,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Logistics Observations",
     "sales.obsProposal": "Proposal Observations",
 
-    // Deallocate & Stock
+    // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
     "sales.deallocateTitle": "Confirm Deallocation",
     "sales.deallocateDescription": "Are you sure you want to deallocate this item? This action cannot be undone.",
     "sales.deallocateSuccess": "Item Deallocated",
     "sales.deallocateSuccessDescription": "The item has been successfully deallocated.",
+    "sales.reallocate": "Reallocate",
+    "sales.reallocateTitle": "Confirm Reallocation",
+    "sales.reallocateDescription": "Are you sure you want to reallocate this item?",
+    "sales.reallocateSuccess": "Item Reallocated",
+    "sales.reallocateSuccessDescription": "The item has been successfully reallocated.",
     "sales.checkStock": "Check Stock",
     "sales.itemStock": "Item Stock",
     "sales.noStockData": "No stock data available",
