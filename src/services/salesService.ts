@@ -10,6 +10,7 @@ import type {
   DeallocateItemPayload,
   ItemStock,
   ChangeObservationsPayload,
+  ProductAllocationInfo,
 } from "@/types/sales";
 
 export const salesService = {
@@ -61,5 +62,10 @@ export const salesService = {
   async reallocateItem(payload: DeallocateItemPayload): Promise<any> {
     addUIBreadcrumb("reallocateItem", "salesService", payload as unknown as Record<string, unknown>);
     return apiClient.post("/sales/reallocate-item", payload as unknown as Record<string, unknown>);
+  },
+
+  async getProductAllocation(productId: string): Promise<ProductAllocationInfo[]> {
+    addUIBreadcrumb("getProductAllocation", "salesService", { productId });
+    return apiClient.get(`/sales/item-allocation/${productId}`);
   },
 };
