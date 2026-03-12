@@ -1912,6 +1912,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.po": "PI",
     "sales.variations.process": "Proc",
 
+    "sales.internalOrder": "Pedido Interno",
     // Internal Order Details (new endpoint)
     "sales.salesOrderDetails": "Detalhes do Pedido Interno",
     "sales.noSalesOrders": "Nenhum pedido interno encontrado",
