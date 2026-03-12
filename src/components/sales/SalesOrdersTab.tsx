@@ -130,12 +130,18 @@ export const SalesOrdersTab = ({ orders, isLoading, onObservationsChanged }: Sal
               <span className="text-muted-foreground">{t("sales.isReinvoice")}:</span>
               <p className="font-medium">{order.isReinvoice ? t("common.yes") : t("common.no")}</p>
             </div>
-            <div>
-              <span className="text-muted-foreground">{t("sales.minimumDate")}:</span>
-              <p className={`font-medium ${(() => { const d = toDateNoTZShift(order.minimumDate); return d && d > new Date() ? "font-bold text-foreground" : ""; })()}`}>
-                {formatDate(order.minimumDate, locale)}
-              </p>
-            </div>
+            {(() => {
+              const minDate = toDateNoTZShift(order.minimumDate);
+              const isFuture = minDate ? minDate > new Date() : false;
+              return (
+                <div>
+                  <span className="text-muted-foreground">{t("sales.minimumDate")}:</span>
+                  <p className={isFuture ? "font-bold" : "font-medium"}>
+                    {formatDate(order.minimumDate, locale)}
+                  </p>
+                </div>
+              );
+            })()}
             </div>
           </div>
 
