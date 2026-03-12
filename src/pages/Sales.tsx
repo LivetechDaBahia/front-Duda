@@ -38,10 +38,15 @@ const Sales = () => {
       if (filters.search) {
         const s = filters.search.toLowerCase();
         const matches =
-          item.offer.toLowerCase().includes(s) ||
-          item.client.toLowerCase().includes(s) ||
-          item.sellerName.toLowerCase().includes(s) ||
-          item.clientBranch.toLowerCase().includes(s);
+          item.key?.toLowerCase().includes(s) ||
+          String(item.id).includes(s) ||
+          item.offer?.toLowerCase().includes(s) ||
+          item.client?.toLowerCase().includes(s) ||
+          item.cnpj?.toLowerCase().includes(s) ||
+          item.purchaseOrderId?.toLowerCase().includes(s) ||
+          item.processId?.toLowerCase().includes(s) ||
+          item.sellerName?.toLowerCase().includes(s) ||
+          item.clientBranch?.toLowerCase().includes(s);
         if (!matches) return false;
       }
       if (filters.status !== "all" && item.stageId !== filters.status) return false;

@@ -10,13 +10,23 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, TableIcon } from "lucide-react";
+import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import type { SalesElementItemDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
+import { DeallocateItemDialog } from "@/components/sales/DeallocateItemDialog";
+import { ReallocateItemDialog } from "@/components/sales/ReallocateItemDialog";
+import { ItemStockDialog } from "@/components/sales/ItemStockDialog";
 
 interface AllocationDetailsTabProps {
   details: SalesElementItemDetails[];
   isLoading: boolean;
+  onDeallocated?: () => void;
 }
 
 interface DetailFieldProps {
@@ -63,13 +73,58 @@ const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[
   );
 };
 
-const AllocationTableView = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => (
+interface ItemActionsMenuProps {
+  item: SalesElementItemDetails;
+  onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
+  onCheckStock: (item: SalesElementItemDetails) => void;
+  t: (key: string) => string;
+}
+
+const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, t }: ItemActionsMenuProps) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
+        <MoreHorizontal className="h-4 w-4" />
+      </Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end">
+      <DropdownMenuItem onClick={() => onDeallocate(item)}>
+        <PackageMinus className="h-4 w-4 mr-2" />
+        {t("sales.deallocate")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => onReallocate(item)}>
+        <PackagePlus className="h-4 w-4 mr-2" />
+        {t("sales.reallocate")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => onCheckStock(item)}>
+        <PackageSearch className="h-4 w-4 mr-2" />
+        {t("sales.checkStock")}
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const AllocationTableView = ({
+  details,
+  t,
+  onDeallocate,
+  onReallocate,
+  onCheckStock,
+}: {
+  details: SalesElementItemDetails[];
+  t: (key: string) => string;
+  onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
+  onCheckStock: (item: SalesElementItemDetails) => void;
+}) => (
   <div className="space-y-3">
     <ScrollArea className="w-full whitespace-nowrap">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="whitespace-nowrap w-10"></TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.branch")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.order")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.item")}</TableHead>
@@ -96,6 +151,9 @@ const AllocationTableView = ({ details, t }: { details: SalesElementItemDetails[
           <TableBody>
             {details.map((row, idx) => (
               <TableRow key={`detail-${idx}`}>
+                <TableCell>
+                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
+                </TableCell>
                 <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.order}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.item}</TableCell>
@@ -128,7 +186,19 @@ const AllocationTableView = ({ details, t }: { details: SalesElementItemDetails[
   </div>
 );
 
-const AllocationCardView = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => (
+const AllocationCardView = ({
+  details,
+  t,
+  onDeallocate,
+  onReallocate,
+  onCheckStock,
+}: {
+  details: SalesElementItemDetails[];
+  t: (key: string) => string;
+  onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
+  onCheckStock: (item: SalesElementItemDetails) => void;
+}) => (
   <div className="space-y-4">
     {/* Summary table */}
     <ScrollArea className="w-full whitespace-nowrap">
@@ -171,9 +241,12 @@ const AllocationCardView = ({ details, t }: { details: SalesElementItemDetails[]
     {details.map((row, idx) => (
       <ScrollArea key={`detail-card-${idx}`} className="w-full">
         <div className="border rounded-md p-4 min-w-[500px]">
-          <p className="font-semibold text-sm mb-3 break-words whitespace-normal">
-            {row.product} - {row.description}
-          </p>
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-semibold text-sm break-words whitespace-normal">
+              {row.product} - {row.description}
+            </p>
+            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
+          </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3">
             <DetailField label={t("sales.review")} value={row.review} />
@@ -211,9 +284,12 @@ const AllocationCardView = ({ details, t }: { details: SalesElementItemDetails[]
   </div>
 );
 
-export const AllocationDetailsTab = ({ details, isLoading }: AllocationDetailsTabProps) => {
+export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: AllocationDetailsTabProps) => {
   const { t } = useLocale();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [deallocateItem, setDeallocateItem] = useState<SalesElementItemDetails | null>(null);
+  const [reallocateItem, setReallocateItem] = useState<SalesElementItemDetails | null>(null);
+  const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(null);
 
   if (isLoading) {
     return (
@@ -258,10 +334,43 @@ export const AllocationDetailsTab = ({ details, isLoading }: AllocationDetailsTa
       </div>
 
       {viewMode === "cards" ? (
-        <AllocationCardView details={details} t={t} />
+        <AllocationCardView
+          details={details}
+          t={t}
+          onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
+          onCheckStock={setStockItem}
+        />
       ) : (
-        <AllocationTableView details={details} t={t} />
+        <AllocationTableView
+          details={details}
+          t={t}
+          onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
+          onCheckStock={setStockItem}
+        />
       )}
+
+      <DeallocateItemDialog
+        item={deallocateItem}
+        open={!!deallocateItem}
+        onClose={() => setDeallocateItem(null)}
+        onSuccess={onDeallocated}
+      />
+
+      <ReallocateItemDialog
+        item={reallocateItem}
+        open={!!reallocateItem}
+        onClose={() => setReallocateItem(null)}
+        onSuccess={onDeallocated}
+      />
+
+      <ItemStockDialog
+        productId={stockItem?.product || null}
+        productName={stockItem ? `${stockItem.product} - ${stockItem.description}` : undefined}
+        open={!!stockItem}
+        onClose={() => setStockItem(null)}
+      />
     </div>
   );
 };

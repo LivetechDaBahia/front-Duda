@@ -14,6 +14,7 @@ import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
+import { formatCurrency } from "@/utils/currency";
 
 interface SalesTableViewProps {
   items: SalesElementItem[];
@@ -21,14 +22,6 @@ interface SalesTableViewProps {
   variationsMap: Map<string, SalesElementItem[]>;
   onItemClick: (item: SalesElementItem) => void;
 }
-
-const formatCurrency = (value: number, currency: string) => {
-  try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: currency || "BRL" }).format(value);
-  } catch {
-    return `${currency} ${value.toFixed(2)}`;
-  }
-};
 
 export const SalesTableView = ({
   items,
@@ -108,7 +101,7 @@ export const SalesTableView = ({
                       </TableCell>
                       <TableCell className="font-medium whitespace-nowrap">{item.offer}</TableCell>
                       <TableCell className="whitespace-nowrap">{item.client}/{item.clientBranch}</TableCell>
-                      <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency)}</TableCell>
+                      <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency, locale)}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderId || "-"}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderBranch || "-"}</TableCell>

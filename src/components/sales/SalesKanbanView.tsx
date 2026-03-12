@@ -51,9 +51,9 @@ export const SalesKanbanView = ({
                           {t("sales.noItemsInStage")}
                         </p>
                       ) : (
-                        stageItems.map((item) => (
+                        stageItems.map((item, idx) => (
                           <SalesCard
-                            key={`sales-${stage.id}-${item.id}`}
+                            key={`sales-${stage.id}-${item.id}-${item.purchaseOrderId}-${item.purchaseOrderBranch}-${item.processId}-${idx}`}
                             item={item}
                             stages={stages}
                             variations={getVariations(item)}
