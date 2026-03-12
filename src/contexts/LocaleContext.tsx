@@ -2933,12 +2933,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
 
-    // Deallocate & Stock
+    // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
     "sales.deallocateTitle": "Confirmar Desasignación",
     "sales.deallocateDescription": "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
     "sales.deallocateSuccess": "Elemento Desasignado",
     "sales.deallocateSuccessDescription": "El elemento ha sido desasignado exitosamente.",
+    "sales.reallocate": "Reasignar",
+    "sales.reallocateTitle": "Confirmar Reasignación",
+    "sales.reallocateDescription": "¿Está seguro de que desea reasignar este elemento?",
+    "sales.reallocateSuccess": "Elemento Reasignado",
+    "sales.reallocateSuccessDescription": "El elemento ha sido reasignado exitosamente.",
     "sales.checkStock": "Verificar Stock",
     "sales.itemStock": "Stock del Artículo",
     "sales.noStockData": "No hay datos de stock disponibles",

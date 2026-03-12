@@ -76,11 +76,12 @@ const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[
 interface ItemActionsMenuProps {
   item: SalesElementItemDetails;
   onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
   t: (key: string) => string;
 }
 
-const ItemActionsMenu = ({ item, onDeallocate, onCheckStock, t }: ItemActionsMenuProps) => (
+const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, t }: ItemActionsMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
@@ -91,6 +92,10 @@ const ItemActionsMenu = ({ item, onDeallocate, onCheckStock, t }: ItemActionsMen
       <DropdownMenuItem onClick={() => onDeallocate(item)}>
         <PackageMinus className="h-4 w-4 mr-2" />
         {t("sales.deallocate")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => onReallocate(item)}>
+        <PackagePlus className="h-4 w-4 mr-2" />
+        {t("sales.reallocate")}
       </DropdownMenuItem>
       <DropdownMenuItem onClick={() => onCheckStock(item)}>
         <PackageSearch className="h-4 w-4 mr-2" />
