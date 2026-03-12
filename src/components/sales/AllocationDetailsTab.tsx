@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch } from "lucide-react";
+import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
