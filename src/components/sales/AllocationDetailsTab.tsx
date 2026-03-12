@@ -384,6 +384,13 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
         open={!!stockItem}
         onClose={() => setStockItem(null)}
       />
+
+      <ProductAllocationDialog
+        productId={allocationItem?.product || null}
+        productName={allocationItem ? `${allocationItem.product} - ${allocationItem.description}` : undefined}
+        open={!!allocationItem}
+        onClose={() => setAllocationItem(null)}
+      />
     </div>
   );
 };
