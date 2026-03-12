@@ -937,12 +937,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Logistics Observations",
     "sales.obsProposal": "Proposal Observations",
 
-    // Deallocate & Stock
+    // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
     "sales.deallocateTitle": "Confirm Deallocation",
     "sales.deallocateDescription": "Are you sure you want to deallocate this item? This action cannot be undone.",
     "sales.deallocateSuccess": "Item Deallocated",
     "sales.deallocateSuccessDescription": "The item has been successfully deallocated.",
+    "sales.reallocate": "Reallocate",
+    "sales.reallocateTitle": "Confirm Reallocation",
+    "sales.reallocateDescription": "Are you sure you want to reallocate this item?",
+    "sales.reallocateSuccess": "Item Reallocated",
+    "sales.reallocateSuccessDescription": "The item has been successfully reallocated.",
     "sales.checkStock": "Check Stock",
     "sales.itemStock": "Item Stock",
     "sales.noStockData": "No stock data available",
@@ -1931,12 +1936,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observações Logística",
     "sales.obsProposal": "Observações Proposta",
 
-    // Deallocate & Stock
+    // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
     "sales.deallocateTitle": "Confirmar Desalocação",
     "sales.deallocateDescription": "Tem certeza que deseja desalocar este item? Esta ação não pode ser desfeita.",
     "sales.deallocateSuccess": "Item Desalocado",
     "sales.deallocateSuccessDescription": "O item foi desalocado com sucesso.",
+    "sales.reallocate": "Realocar",
+    "sales.reallocateTitle": "Confirmar Realocação",
+    "sales.reallocateDescription": "Tem certeza que deseja realocar este item?",
+    "sales.reallocateSuccess": "Item Realocado",
+    "sales.reallocateSuccessDescription": "O item foi realocado com sucesso.",
     "sales.checkStock": "Verificar Estoque",
     "sales.itemStock": "Estoque do Item",
     "sales.noStockData": "Nenhum dado de estoque disponível",
@@ -2923,12 +2933,17 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
 
-    // Deallocate & Stock
+    // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
     "sales.deallocateTitle": "Confirmar Desasignación",
     "sales.deallocateDescription": "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
     "sales.deallocateSuccess": "Elemento Desasignado",
     "sales.deallocateSuccessDescription": "El elemento ha sido desasignado exitosamente.",
+    "sales.reallocate": "Reasignar",
+    "sales.reallocateTitle": "Confirmar Reasignación",
+    "sales.reallocateDescription": "¿Está seguro de que desea reasignar este elemento?",
+    "sales.reallocateSuccess": "Elemento Reasignado",
+    "sales.reallocateSuccessDescription": "El elemento ha sido reasignado exitosamente.",
     "sales.checkStock": "Verificar Stock",
     "sales.itemStock": "Stock del Artículo",
     "sales.noStockData": "No hay datos de stock disponibles",

@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch } from "lucide-react";
+import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,7 @@ import {
 import type { SalesElementItemDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { DeallocateItemDialog } from "@/components/sales/DeallocateItemDialog";
+import { ReallocateItemDialog } from "@/components/sales/ReallocateItemDialog";
 import { ItemStockDialog } from "@/components/sales/ItemStockDialog";
 
 interface AllocationDetailsTabProps {
@@ -75,11 +76,12 @@ const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[
 interface ItemActionsMenuProps {
   item: SalesElementItemDetails;
   onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
   t: (key: string) => string;
 }
 
-const ItemActionsMenu = ({ item, onDeallocate, onCheckStock, t }: ItemActionsMenuProps) => (
+const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, t }: ItemActionsMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
@@ -90,6 +92,10 @@ const ItemActionsMenu = ({ item, onDeallocate, onCheckStock, t }: ItemActionsMen
       <DropdownMenuItem onClick={() => onDeallocate(item)}>
         <PackageMinus className="h-4 w-4 mr-2" />
         {t("sales.deallocate")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => onReallocate(item)}>
+        <PackagePlus className="h-4 w-4 mr-2" />
+        {t("sales.reallocate")}
       </DropdownMenuItem>
       <DropdownMenuItem onClick={() => onCheckStock(item)}>
         <PackageSearch className="h-4 w-4 mr-2" />
@@ -103,11 +109,13 @@ const AllocationTableView = ({
   details,
   t,
   onDeallocate,
+  onReallocate,
   onCheckStock,
 }: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
   onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-3">
@@ -144,7 +152,7 @@ const AllocationTableView = ({
             {details.map((row, idx) => (
               <TableRow key={`detail-${idx}`}>
                 <TableCell>
-                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onCheckStock={onCheckStock} t={t} />
+                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
                 </TableCell>
                 <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.order}</TableCell>
@@ -182,11 +190,13 @@ const AllocationCardView = ({
   details,
   t,
   onDeallocate,
+  onReallocate,
   onCheckStock,
 }: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
   onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-4">
@@ -235,7 +245,7 @@ const AllocationCardView = ({
             <p className="font-semibold text-sm break-words whitespace-normal">
               {row.product} - {row.description}
             </p>
-            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onCheckStock={onCheckStock} t={t} />
+            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} t={t} />
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3">
@@ -278,6 +288,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
   const { t } = useLocale();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [deallocateItem, setDeallocateItem] = useState<SalesElementItemDetails | null>(null);
+  const [reallocateItem, setReallocateItem] = useState<SalesElementItemDetails | null>(null);
   const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(null);
 
   if (isLoading) {
@@ -327,6 +338,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           details={details}
           t={t}
           onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
         />
       ) : (
@@ -334,6 +346,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           details={details}
           t={t}
           onDeallocate={setDeallocateItem}
+          onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
         />
       )}
@@ -342,6 +355,13 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
         item={deallocateItem}
         open={!!deallocateItem}
         onClose={() => setDeallocateItem(null)}
+        onSuccess={onDeallocated}
+      />
+
+      <ReallocateItemDialog
+        item={reallocateItem}
+        open={!!reallocateItem}
+        onClose={() => setReallocateItem(null)}
         onSuccess={onDeallocated}
       />
 
