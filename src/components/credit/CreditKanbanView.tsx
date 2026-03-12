@@ -116,7 +116,7 @@ export const CreditKanbanView = ({
             return (
               <div
                 key={status.id}
-                className="flex-1 min-w-[400px] h-full flex flex-col"
+                className="flex-shrink-0 min-w-[400px] h-full flex flex-col"
               >
                 <div
                   className={`rounded-lg border bg-card transition-colors h-full flex flex-col ${
@@ -138,7 +138,7 @@ export const CreditKanbanView = ({
                     </span>
                   </div>
                   <ScrollArea className="flex-1">
-                    <div className="space-y-2 sm:space-y-3 p-3 sm:p-4">
+                    <div className="space-y-2 sm:space-y-3 p-4" style={{ minWidth: "398px" }}>
                       {statusCredits.length === 0 ? (
                         <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
                           {t("credit.noCreditsInStatus")}
