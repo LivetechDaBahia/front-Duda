@@ -351,6 +351,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           onDeallocate={setDeallocateItem}
           onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
+          onViewAllocation={setAllocationItem}
         />
       ) : (
         <AllocationTableView
@@ -359,6 +360,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
           onDeallocate={setDeallocateItem}
           onReallocate={setReallocateItem}
           onCheckStock={setStockItem}
+          onViewAllocation={setAllocationItem}
         />
       )}
 
