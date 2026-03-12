@@ -2951,6 +2951,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.checkStock": "Verificar Stock",
     "sales.itemStock": "Stock del Artículo",
     "sales.noStockData": "No hay datos de stock disponibles",
+    "sales.productAllocation": "Asignación del Producto",
+    "sales.noAllocationData": "No hay datos de asignación disponibles",
     "sales.stock.warehouse": "Almacén",
     "sales.stock.available": "Disponible",
     "sales.stock.30days": "30 días",
