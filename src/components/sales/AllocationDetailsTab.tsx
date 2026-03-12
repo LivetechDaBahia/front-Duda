@@ -20,6 +20,7 @@ import {
 import type { SalesElementItemDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { DeallocateItemDialog } from "@/components/sales/DeallocateItemDialog";
+import { ReallocateItemDialog } from "@/components/sales/ReallocateItemDialog";
 import { ItemStockDialog } from "@/components/sales/ItemStockDialog";
 
 interface AllocationDetailsTabProps {
