@@ -10,6 +10,7 @@ import type {
   DeallocateItemPayload,
   ItemStock,
   ChangeObservationsPayload,
+  ProductAllocationInfo,
 } from "@/types/sales";
 
 export const salesService = {
