@@ -132,7 +132,10 @@ export const SalesOrdersTab = ({ orders, isLoading, onObservationsChanged }: Sal
             </div>
             <div>
               <span className="text-muted-foreground">{t("sales.minimumDate")}:</span>
-              <p className="font-medium">{formatDate(order.minimumDate, locale)}</p>
+              <p className={`font-medium ${(() => { const d = toDateNoTZShift(order.minimumDate); return d && d > new Date() ? "font-bold text-foreground" : ""; })()}`}>
+                {formatDate(order.minimumDate, locale)}
+              </p>
+            </div>
             </div>
           </div>
 
