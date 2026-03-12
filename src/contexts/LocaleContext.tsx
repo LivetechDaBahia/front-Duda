@@ -908,6 +908,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.purchaseOrders": "Internal Orders",
     "sales.noPurchaseOrders": "No internal orders found",
     "sales.variations.label": "Stage Variations",
+    "sales.groupedItems": "Items",
+    "sales.groupedItemsCount": "items in this group",
     "sales.variations.stages": "stages",
     "sales.variations.stage": "Stage",
     "sales.variations.purchaseOrderId": "IO ID",
