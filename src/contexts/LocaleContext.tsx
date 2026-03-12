@@ -1952,6 +1952,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.checkStock": "Verificar Estoque",
     "sales.itemStock": "Estoque do Item",
     "sales.noStockData": "Nenhum dado de estoque disponível",
+    "sales.productAllocation": "Alocação do Produto",
+    "sales.noAllocationData": "Nenhum dado de alocação disponível",
     "sales.stock.warehouse": "Armazém",
     "sales.stock.available": "Disponível",
     "sales.stock.30days": "30 dias",
