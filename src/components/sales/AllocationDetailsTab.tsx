@@ -109,11 +109,13 @@ const AllocationTableView = ({
   details,
   t,
   onDeallocate,
+  onReallocate,
   onCheckStock,
 }: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
   onDeallocate: (item: SalesElementItemDetails) => void;
+  onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-3">
