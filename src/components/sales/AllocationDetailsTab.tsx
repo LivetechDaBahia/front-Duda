@@ -288,6 +288,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
   const { t } = useLocale();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [deallocateItem, setDeallocateItem] = useState<SalesElementItemDetails | null>(null);
+  const [reallocateItem, setReallocateItem] = useState<SalesElementItemDetails | null>(null);
   const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(null);
 
   if (isLoading) {
