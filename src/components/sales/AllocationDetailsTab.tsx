@@ -79,10 +79,11 @@ interface ItemActionsMenuProps {
   onDeallocate: (item: SalesElementItemDetails) => void;
   onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
+  onViewAllocation: (item: SalesElementItemDetails) => void;
   t: (key: string) => string;
 }
 
-const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, t }: ItemActionsMenuProps) => (
+const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, onViewAllocation, t }: ItemActionsMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
@@ -101,6 +102,10 @@ const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, t }: 
       <DropdownMenuItem onClick={() => onCheckStock(item)}>
         <PackageSearch className="h-4 w-4 mr-2" />
         {t("sales.checkStock")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => onViewAllocation(item)}>
+        <ClipboardList className="h-4 w-4 mr-2" />
+        {t("sales.productAllocation")}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

@@ -150,3 +150,26 @@ export interface ChangeObservationsPayload {
   obsProposal: string;
   minimumDate: string;
 }
+
+export interface ProductAllocationInfo {
+  branch: string;
+  order: string;
+  proposal: string;
+  review: string;
+  contract: string;
+  additional: string;
+  item: string;
+  local: string;
+  amountAvailable: number;
+  amountReserved: number;
+  amountOp: number;
+  amountPo: number;
+  amountSc: number;
+  productSequence: string;
+  purchaseOrder: string;
+  batch: string;
+  sequence: string;
+  include: string;
+  PA1: string;
+  PA2: string;
+}

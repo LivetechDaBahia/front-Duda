@@ -63,4 +63,9 @@ export const salesService = {
     addUIBreadcrumb("reallocateItem", "salesService", payload as unknown as Record<string, unknown>);
     return apiClient.post("/sales/reallocate-item", payload as unknown as Record<string, unknown>);
   },
+
+  async getProductAllocation(productId: string): Promise<ProductAllocationInfo[]> {
+    addUIBreadcrumb("getProductAllocation", "salesService", { productId });
+    return apiClient.get(`/sales/item-allocation/${productId}`);
+  },
 };
