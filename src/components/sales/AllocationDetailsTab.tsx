@@ -300,6 +300,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
   const [deallocateItem, setDeallocateItem] = useState<SalesElementItemDetails | null>(null);
   const [reallocateItem, setReallocateItem] = useState<SalesElementItemDetails | null>(null);
   const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(null);
+  const [allocationItem, setAllocationItem] = useState<SalesElementItemDetails | null>(null);
 
   if (isLoading) {
     return (
