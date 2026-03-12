@@ -120,7 +120,7 @@ export const CreditCard = ({
 
   const cardContent = (
     <Card
-      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full min-w-0 overflow-hidden relative ${
+      className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full max-w-full min-w-0 overflow-hidden relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
       } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""}`}
       style={{
