@@ -10,6 +10,17 @@ interface SalesKanbanViewProps {
   onItemClick: (item: SalesElementItem) => void;
 }
 
+/** Group items by key within the same stage */
+const groupItemsByKey = (items: SalesElementItem[]) => {
+  const map = new Map<string, SalesElementItem[]>();
+  items.forEach((item) => {
+    const groupKey = item.key;
+    if (!map.has(groupKey)) map.set(groupKey, []);
+    map.get(groupKey)!.push(item);
+  });
+  return Array.from(map.values());
+};
+
 export const SalesKanbanView = ({
   items,
   stages,
@@ -30,6 +41,7 @@ export const SalesKanbanView = ({
         <div className="flex flex-nowrap gap-3 sm:gap-4 pb-4 min-w-full h-full">
           {stages.map((stage) => {
             const stageItems = getItemsByStage(stage.id);
+            const grouped = groupItemsByKey(stageItems);
             return (
               <div
                 key={stage.id}
@@ -46,20 +58,24 @@ export const SalesKanbanView = ({
                   </div>
                   <ScrollArea className="flex-1">
                     <div className="space-y-2 sm:space-y-3 p-3 sm:p-4">
-                      {stageItems.length === 0 ? (
+                      {grouped.length === 0 ? (
                         <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
                           {t("sales.noItemsInStage")}
                         </p>
                       ) : (
-                        stageItems.map((item, idx) => (
-                          <SalesCard
-                            key={`sales-${stage.id}-${item.id}-${item.purchaseOrderId}-${item.purchaseOrderBranch}-${item.processId}-${idx}`}
-                            item={item}
-                            stages={stages}
-                            variations={getVariations(item)}
-                            onClick={() => onItemClick(item)}
-                          />
-                        ))
+                        grouped.map((group) => {
+                          const representative = group[0];
+                          return (
+                            <SalesCard
+                              key={`sales-${stage.id}-${representative.key}`}
+                              item={representative}
+                              stages={stages}
+                              variations={getVariations(representative)}
+                              groupedItems={group}
+                              onClick={() => onItemClick(representative)}
+                            />
+                          );
+                        })
                       )}
                     </div>
                   </ScrollArea>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Layers } from "lucide-react";
 import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -23,6 +23,17 @@ interface SalesTableViewProps {
   onItemClick: (item: SalesElementItem) => void;
 }
 
+/** Group items by key+stageId */
+const groupItemsByKeyAndStage = (items: SalesElementItem[]) => {
+  const map = new Map<string, SalesElementItem[]>();
+  items.forEach((item) => {
+    const groupKey = `${item.key}-${item.stageId}`;
+    if (!map.has(groupKey)) map.set(groupKey, []);
+    map.get(groupKey)!.push(item);
+  });
+  return Array.from(map.values());
+};
+
 export const SalesTableView = ({
   items,
   stages,
@@ -31,6 +42,8 @@ export const SalesTableView = ({
 }: SalesTableViewProps) => {
   const { t, locale } = useLocale();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+  const grouped = useMemo(() => groupItemsByKeyAndStage(items), [items]);
 
   const toggleRow = (key: string) => {
     setExpandedRows((prev) => {
@@ -60,19 +73,22 @@ export const SalesTableView = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.length === 0 ? (
+          {grouped.length === 0 ? (
             <TableRow>
               <TableCell colSpan={11} className="text-center py-8">
                 {t("sales.noItems")}
               </TableCell>
             </TableRow>
           ) : (
-            items.map((item, idx) => {
+            grouped.map((group) => {
+              const item = group[0];
               const stage = stages.find((s) => s.id === item.stageId);
               const groupKey = `${item.id}-${item.key}`;
               const variations = variationsMap.get(groupKey) || [];
               const hasVariations = variations.length > 1;
-              const rowKey = `${item.id}-${item.stageId}-${item.purchaseOrderId}-${item.purchaseOrderBranch}-${item.processId}-${idx}`;
+              const hasGroupedItems = group.length > 1;
+              const canExpand = hasVariations || hasGroupedItems;
+              const rowKey = `${item.key}-${item.stageId}`;
               const isExpanded = expandedRows.has(rowKey);
 
               return (
@@ -83,7 +99,7 @@ export const SalesTableView = ({
                       onClick={() => onItemClick(item)}
                     >
                       <TableCell className="w-8 px-2">
-                        {hasVariations && (
+                        {canExpand && (
                           <CollapsibleTrigger asChild>
                             <button
                               className="p-1 rounded hover:bg-muted"
@@ -103,18 +119,26 @@ export const SalesTableView = ({
                       <TableCell className="whitespace-nowrap">{item.client}/{item.clientBranch}</TableCell>
                       <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency, locale)}</TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderId || "-"}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.purchaseOrderBranch || "-"}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden lg:table-cell">{item.processId || "-"}</TableCell>
+                      <TableCell className="whitespace-nowrap hidden md:table-cell">
+                        {hasGroupedItems ? (
+                          <Badge variant="outline" className="text-xs gap-1">
+                            <Layers className="h-3 w-3" />
+                            {group.length}
+                          </Badge>
+                        ) : (
+                          item.purchaseOrderId || "-"
+                        )}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap hidden md:table-cell">
+                        {hasGroupedItems ? "-" : item.purchaseOrderBranch || "-"}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap hidden lg:table-cell">
+                        {hasGroupedItems ? "-" : item.processId || "-"}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">
                         {stage && (
                           <Badge variant={stage.final ? "success" : "secondary"} className="text-xs">
                             {stage.name}
-                          </Badge>
-                        )}
-                        {hasVariations && (
-                          <Badge variant="outline" className="text-xs ml-1">
-                            +{variations.length - 1}
                           </Badge>
                         )}
                       </TableCell>
@@ -125,18 +149,53 @@ export const SalesTableView = ({
                         {formatDate(item.date, locale)}
                       </TableCell>
                     </TableRow>
-                    {hasVariations && (
+                    {canExpand && (
                       <CollapsibleContent asChild>
                         <tr>
                           <td colSpan={11} className="p-0">
-                            <div className="px-8 py-2 bg-muted/30 border-y">
-                              <p className="text-xs font-medium text-muted-foreground mb-1">
-                                {t("sales.variations.label")} ({variations.length} {t("sales.variations.stages")})
-                              </p>
-                              <SalesStageVariations
-                                variations={variations}
-                                stages={stages}
-                              />
+                            <div className="px-8 py-2 bg-muted/30 border-y space-y-2">
+                              {hasGroupedItems && (
+                                <div>
+                                  <p className="text-xs font-medium text-muted-foreground mb-1">
+                                    {t("sales.groupedItems")} ({group.length} {t("sales.groupedItemsCount")})
+                                  </p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow className="bg-muted/50">
+                                        <TableHead className="text-xs">{t("sales.variations.purchaseOrderId")}</TableHead>
+                                        <TableHead className="text-xs">{t("sales.variations.purchaseOrderBranch")}</TableHead>
+                                        <TableHead className="text-xs">{t("sales.variations.processId")}</TableHead>
+                                        <TableHead className="text-xs">{t("sales.variations.assignee")}</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {group.map((gi, idx) => (
+                                        <TableRow
+                                          key={`gi-${gi.id}-${gi.purchaseOrderId}-${gi.processId}-${idx}`}
+                                          className="bg-muted/20 cursor-pointer hover:bg-muted/40"
+                                          onClick={() => onItemClick(gi)}
+                                        >
+                                          <TableCell className="text-xs py-1.5">{gi.purchaseOrderId || "-"}</TableCell>
+                                          <TableCell className="text-xs py-1.5">{gi.purchaseOrderBranch || "-"}</TableCell>
+                                          <TableCell className="text-xs py-1.5">{gi.processId || "-"}</TableCell>
+                                          <TableCell className="text-xs py-1.5">{gi.user || "-"}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </div>
+                              )}
+                              {hasVariations && (
+                                <div>
+                                  <p className="text-xs font-medium text-muted-foreground mb-1">
+                                    {t("sales.variations.label")} ({variations.length} {t("sales.variations.stages")})
+                                  </p>
+                                  <SalesStageVariations
+                                    variations={variations}
+                                    stages={stages}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </td>
                         </tr>
