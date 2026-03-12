@@ -117,12 +117,14 @@ const AllocationTableView = ({
   onDeallocate,
   onReallocate,
   onCheckStock,
+  onViewAllocation,
 }: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
   onDeallocate: (item: SalesElementItemDetails) => void;
   onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
+  onViewAllocation: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-3">
     <ScrollArea className="w-full whitespace-nowrap">
