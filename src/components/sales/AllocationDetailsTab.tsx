@@ -200,12 +200,14 @@ const AllocationCardView = ({
   onDeallocate,
   onReallocate,
   onCheckStock,
+  onViewAllocation,
 }: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
   onDeallocate: (item: SalesElementItemDetails) => void;
   onReallocate: (item: SalesElementItemDetails) => void;
   onCheckStock: (item: SalesElementItemDetails) => void;
+  onViewAllocation: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-4">
     {/* Summary table */}
