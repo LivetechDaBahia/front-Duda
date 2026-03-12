@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus } from "lucide-react";
+import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus, ClipboardList } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +22,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { DeallocateItemDialog } from "@/components/sales/DeallocateItemDialog";
 import { ReallocateItemDialog } from "@/components/sales/ReallocateItemDialog";
 import { ItemStockDialog } from "@/components/sales/ItemStockDialog";
+import { ProductAllocationDialog } from "@/components/sales/ProductAllocationDialog";
 
 interface AllocationDetailsTabProps {
   details: SalesElementItemDetails[];
