@@ -915,7 +915,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.variations.processId": "Process ID",
     "sales.variations.assignee": "Assignee",
     "sales.variations.group": "Group",
-    "sales.variations.po": "PO",
+    "sales.variations.po": "IO",
     "sales.variations.process": "Proc",
 
     // Sales Order Details (new endpoint)
