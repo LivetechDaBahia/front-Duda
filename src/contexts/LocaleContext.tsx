@@ -1881,8 +1881,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.allStages": "Todas as Etapas",
     "sales.allTypes": "Todos os Tipos",
     "sales.allSellers": "Todos os Vendedores",
-    "sales.sellerGroup": "Grupo do Vendedor",
-    "sales.allSellerGroups": "Todos os Grupos",
     "sales.details": "Detalhes",
     "sales.overview": "Visão Geral",
     "sales.allocationDetails": "Detalhes de Alocação",
