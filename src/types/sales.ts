@@ -28,6 +28,7 @@ export interface SalesElementItem {
   partial: string;
   reinvoice: string;
   tid: string;
+  sellerId: string;
   sellerName: string;
   sellerGroup: string;
   purchaseOrderId: string;
