@@ -33,6 +33,7 @@ const Sales = () => {
     seller: "",
     sellerId: "",
     name: "",
+    sellerGroup: "",
   });
 
   const filteredItems = useMemo(() => {
@@ -56,6 +57,7 @@ const Sales = () => {
       if (filters.seller && item.sellerName !== filters.seller) return false;
       if (filters.sellerId && !item.sellerId?.toLowerCase().includes(filters.sellerId.toLowerCase())) return false;
       if (filters.name && !item.name?.toLowerCase().includes(filters.name.toLowerCase())) return false;
+      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup) return false;
       return true;
     });
   }, [items, filters]);

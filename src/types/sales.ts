@@ -92,6 +92,7 @@ export interface SalesFilters {
   seller: string;
   sellerId: string;
   name: string;
+  sellerGroup: string;
 }
 
 export interface SalesAssignPayload {
