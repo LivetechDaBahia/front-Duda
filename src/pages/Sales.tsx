@@ -31,6 +31,8 @@ const Sales = () => {
     status: "all",
     type: "",
     seller: "",
+    sellerId: "",
+    name: "",
   });
 
   const filteredItems = useMemo(() => {
