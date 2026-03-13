@@ -31,6 +31,9 @@ const Sales = () => {
     status: "all",
     type: "",
     seller: "",
+    sellerId: "",
+    name: "",
+    sellerGroup: "",
   });
 
   const filteredItems = useMemo(() => {
@@ -52,6 +55,9 @@ const Sales = () => {
       if (filters.status !== "all" && item.stageId !== filters.status) return false;
       if (filters.type && item.type !== filters.type) return false;
       if (filters.seller && item.sellerName !== filters.seller) return false;
+      if (filters.sellerId && !item.sellerId?.toLowerCase().includes(filters.sellerId.toLowerCase())) return false;
+      if (filters.name && !item.name?.toLowerCase().includes(filters.name.toLowerCase())) return false;
+      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup) return false;
       return true;
     });
   }, [items, filters]);

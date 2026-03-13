@@ -28,6 +28,7 @@ export interface SalesElementItem {
   partial: string;
   reinvoice: string;
   tid: string;
+  sellerId: string;
   sellerName: string;
   sellerGroup: string;
   purchaseOrderId: string;
@@ -89,6 +90,9 @@ export interface SalesFilters {
   status: string;
   type: string;
   seller: string;
+  sellerId: string;
+  name: string;
+  sellerGroup: string;
 }
 
 export interface SalesAssignPayload {
