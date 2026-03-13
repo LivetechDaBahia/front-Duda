@@ -38,6 +38,11 @@ export const SalesFilters = ({
     return Array.from(sellers).sort();
   }, [items]);
 
+  const availableSellerGroups = useMemo(() => {
+    const groups = new Set(items.map((i) => i.sellerGroup).filter(Boolean));
+    return Array.from(groups).sort();
+  }, [items]);
+
   const updateFilter = (key: keyof SalesFiltersType, value: string) => {
     onFiltersChange({ ...filters, [key]: value });
   };
