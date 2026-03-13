@@ -43,11 +43,11 @@ export const SalesFilters = ({
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "" });
+    onFiltersChange({ search: "", status: "all", type: "", seller: "", sellerId: "", name: "" });
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller,
+    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.sellerId || filters.name,
   );
 
   return (
