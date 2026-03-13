@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { useLocale } from "@/contexts/LocaleContext";
 import type { SalesFilters as SalesFiltersType, Stage, SalesElementItem } from "@/types/sales";
@@ -42,11 +43,11 @@ export const SalesFilters = ({
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "" });
+    onFiltersChange({ search: "", status: "all", type: "", seller: "", sellerId: "", name: "" });
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller,
+    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.sellerId || filters.name,
   );
 
   return (
@@ -103,6 +104,24 @@ export const SalesFilters = ({
           </Select>
         </div>
       )}
+
+      <div className="space-y-2">
+        <Label>{t("sales.sellerId")}</Label>
+        <Input
+          placeholder={t("sales.sellerIdPlaceholder")}
+          value={filters.sellerId}
+          onChange={(e) => updateFilter("sellerId", e.target.value)}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>{t("sales.name")}</Label>
+        <Input
+          placeholder={t("sales.namePlaceholder")}
+          value={filters.name}
+          onChange={(e) => updateFilter("name", e.target.value)}
+        />
+      </div>
     </FilterContainer>
   );
 };
