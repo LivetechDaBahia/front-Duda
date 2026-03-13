@@ -110,6 +110,21 @@ export const SalesFilters = ({
         </div>
       )}
 
+      {availableSellerGroups.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("sales.sellerGroup")}</Label>
+          <Select value={filters.sellerGroup || "all"} onValueChange={(v) => updateFilter("sellerGroup", v === "all" ? "" : v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("sales.allSellerGroups")}</SelectItem>
+              {availableSellerGroups.map((g) => (
+                <SelectItem key={g} value={g}>{g}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label>{t("sales.sellerId")}</Label>
         <Input
