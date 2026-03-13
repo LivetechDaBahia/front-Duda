@@ -873,8 +873,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.allStages": "All Stages",
     "sales.allTypes": "All Types",
     "sales.allSellers": "All Sellers",
-    "sales.sellerGroup": "Seller Group",
-    "sales.allSellerGroups": "All Seller Groups",
     "sales.details": "Details",
     "sales.overview": "Overview",
     "sales.allocationDetails": "Allocation Details",
