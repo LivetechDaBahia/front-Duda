@@ -89,6 +89,8 @@ export interface SalesFilters {
   status: string;
   type: string;
   seller: string;
+  sellerId: string;
+  name: string;
 }
 
 export interface SalesAssignPayload {
