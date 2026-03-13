@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { useLocale } from "@/contexts/LocaleContext";
 import type { SalesFilters as SalesFiltersType, Stage, SalesElementItem } from "@/types/sales";
