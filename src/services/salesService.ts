@@ -5,7 +5,7 @@ import type {
   Stage,
   SalesElementItemDetails,
   SalesAssignPayload,
-  SalesTrackingEvent,
+  ItemTrackingStatus,
   SalesOrderDetails,
   DeallocateItemPayload,
   ItemStock,
@@ -39,7 +39,7 @@ export const salesService = {
     return apiClient.post("/sales/assign", payload as unknown as Record<string, unknown>);
   },
 
-  async getTracking(orderId: string, orderBranch: string, processId: string): Promise<SalesTrackingEvent[]> {
+  async getTracking(orderId: string, orderBranch: string, processId: string): Promise<ItemTrackingStatus[]> {
     addUIBreadcrumb("getTracking", "salesService", { orderId, orderBranch, processId });
     return apiClient.post("/sales/tracking", { orderId, orderBranch, processId });
   },

@@ -1,22 +1,23 @@
 export interface SalesElementItem {
   id: number;
   flowId: string;
-  name: string;
   stageId: string;
   group: string;
-  user: string;
+  user: string | null;
   key: string;
   entity: string;
+  name: string;
   background: string;
   borders: {
     left: string;
     right: string;
   };
   offer: string;
-  date: string | null;
+  date: Date | null;
   client: string;
   clientBranch: string;
-  cnpj: string;
+  sellerGroup: string;
+  sellerName: string;
   currency: string;
   value: number;
   paymentCondition: string;
@@ -25,12 +26,10 @@ export interface SalesElementItem {
   vip: string;
   type: string;
   oper: string;
+  cnpj: string;
   partial: string;
   reinvoice: string;
   tid: string;
-  sellerId: string;
-  sellerName: string;
-  sellerGroup: string;
   purchaseOrderId: string;
   purchaseOrderBranch: string;
   processId: string;
@@ -42,7 +41,7 @@ export interface SalesGroupedItem {
   items: SalesElementItem[];
 }
 
-export interface SalesTrackingEvent {
+export interface ItemTrackingStatus {
   date: string;
   time: string;
   description: string;
@@ -78,11 +77,6 @@ export interface SalesElementItemDetails {
   batch: string;
   sequence: string;
   include: string;
-  minDate: string;
-  nf: string;
-  shippingObservations: string;
-  logisticsObservations: string;
-  offerObservations: string;
 }
 
 export interface SalesFilters {
@@ -90,7 +84,6 @@ export interface SalesFilters {
   status: string;
   type: string;
   seller: string;
-  sellerId: string;
   name: string;
   sellerGroup: string;
 }
@@ -102,10 +95,21 @@ export interface SalesAssignPayload {
   key?: string;
 }
 
+export interface SalesOrderItem {
+  item: string;
+  product: string;
+  description: string;
+  qtdVend: number;
+  qtdEnt: number;
+  process: string;
+  statusAss: string;
+  modFrete: string;
+}
+
 export interface SalesOrderDetails {
   branch: string;
   order: string;
-  emissionDate: string | null;
+  emissionDate: Date | null;
   totalValue: number;
   shippingType: string;
   shippingValue: number;
@@ -118,11 +122,12 @@ export interface SalesOrderDetails {
   oper: string;
   isPartial: boolean;
   isReinvoice: boolean;
-  minimumDate: string | null;
+  minimumDate: Date | null;
   obsNF: string;
   obsPacking: string;
   obsLogistics: string;
   obsProposal: string;
+  items: SalesOrderItem[];
 }
 
 export interface DeallocateItemPayload {
