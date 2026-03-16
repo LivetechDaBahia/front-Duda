@@ -135,7 +135,6 @@ const AllocationTableView = ({
               <TableHead className="whitespace-nowrap text-right">{t("sales.numPo")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.purchaseRequest")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numSc")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
