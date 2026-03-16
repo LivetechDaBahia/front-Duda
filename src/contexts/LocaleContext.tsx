@@ -2970,11 +2970,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
     "sales.orderItems": "Ítems del Pedido",
-    "sales.orderItem.qtdVend": "Cant. Vendida",
-    "sales.orderItem.qtdEnt": "Cant. Entregada",
+    "sales.orderItem.numSold": "Cant. Vendida",
+    "sales.orderItem.numDelivered": "Cant. Entregada",
     "sales.orderItem.process": "Proceso",
     "sales.orderItem.statusAss": "Estado",
-    "sales.orderItem.modFrete": "Modalidad Flete",
+    "sales.orderItem.shippingModality": "Modalidad Flete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
