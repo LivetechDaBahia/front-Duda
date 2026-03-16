@@ -218,7 +218,6 @@ const AllocationCardView = ({
                 <TableCell className="whitespace-nowrap">{row.local || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numAvailable}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numReserved}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.minDate || "-"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
