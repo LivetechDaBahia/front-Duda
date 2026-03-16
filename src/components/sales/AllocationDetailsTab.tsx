@@ -53,25 +53,8 @@ const ObservationField = ({ label, value }: { label: string; value: string | nul
   );
 };
 
-const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
-  const nf = details.find(r => r.nf)?.nf || null;
-  const shipping = details.find(r => r.shippingObservations)?.shippingObservations || null;
-  const logistics = details.find(r => r.logisticsObservations)?.logisticsObservations || null;
-  const offer = details.find(r => r.offerObservations)?.offerObservations || null;
-
-  if (!nf && !shipping && !logistics && !offer) return null;
-
-  return (
-    <div className="border rounded-md p-3 space-y-2">
-      <span className="text-sm font-semibold">{t("sales.observations")}</span>
-      <div className="space-y-1">
-        <ObservationField label={t("sales.nf")} value={nf} />
-        <ObservationField label={t("sales.shippingObservations")} value={shipping} />
-        <ObservationField label={t("sales.logisticsObservations")} value={logistics} />
-        <ObservationField label={t("sales.offerObservations")} value={offer} />
-      </div>
-    </div>
-  );
+const ObservationsSection = (_props: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
+  return null;
 };
 
 interface ItemActionsMenuProps {
@@ -147,13 +130,11 @@ const AllocationTableView = ({
               <TableHead className="whitespace-nowrap">{t("sales.batch")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.sequence")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.include")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.productOrder")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numOp")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.purchaseOrder")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numPo")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.purchaseRequest")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numSc")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -176,13 +157,12 @@ const AllocationTableView = ({
                 <TableCell className="whitespace-nowrap">{row.batch || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.sequence || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.include || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.productOrder || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numOp}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.purchaseOrder || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numPo}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.purchaseRequest || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numSc}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.minDate || "-"}</TableCell>
+                
               </TableRow>
             ))}
           </TableBody>
@@ -224,7 +204,7 @@ const AllocationCardView = ({
               <TableHead className="whitespace-nowrap">{t("sales.local")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numAvailable")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numReserved")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
+              
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -238,7 +218,6 @@ const AllocationCardView = ({
                 <TableCell className="whitespace-nowrap">{row.local || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numAvailable}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numReserved}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.minDate || "-"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -279,14 +258,6 @@ const AllocationCardView = ({
             />
           </div>
 
-          {(row.nf || row.shippingObservations || row.logisticsObservations || row.offerObservations) && (
-            <div className="mt-3 pt-3 border-t space-y-2">
-              <ObservationField label={t("sales.nf")} value={row.nf} />
-              <ObservationField label={t("sales.shippingObservations")} value={row.shippingObservations} />
-              <ObservationField label={t("sales.logisticsObservations")} value={row.logisticsObservations} />
-              <ObservationField label={t("sales.offerObservations")} value={row.offerObservations} />
-            </div>
-          )}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

@@ -943,6 +943,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsPacking": "Packing Observations",
     "sales.obsLogistics": "Logistics Observations",
     "sales.obsProposal": "Proposal Observations",
+    "sales.orderItems": "Order Items",
+    "sales.orderItem.qtdVend": "Qty Sold",
+    "sales.orderItem.qtdEnt": "Qty Delivered",
+    "sales.orderItem.process": "Process",
+    "sales.orderItem.statusAss": "Status",
+    "sales.orderItem.modFrete": "Freight Mode",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
@@ -1951,6 +1957,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsPacking": "Observações Romaneio",
     "sales.obsLogistics": "Observações Logística",
     "sales.obsProposal": "Observações Proposta",
+    "sales.orderItems": "Itens do Pedido",
+    "sales.orderItem.qtdVend": "Qtd. Vendida",
+    "sales.orderItem.qtdEnt": "Qtd. Entregue",
+    "sales.orderItem.process": "Processo",
+    "sales.orderItem.statusAss": "Status",
+    "sales.orderItem.modFrete": "Modalidade Frete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
@@ -2957,6 +2969,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsPacking": "Observaciones Empaque",
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
+    "sales.orderItems": "Ítems del Pedido",
+    "sales.orderItem.qtdVend": "Cant. Vendida",
+    "sales.orderItem.qtdEnt": "Cant. Entregada",
+    "sales.orderItem.process": "Proceso",
+    "sales.orderItem.statusAss": "Estado",
+    "sales.orderItem.modFrete": "Modalidad Flete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
