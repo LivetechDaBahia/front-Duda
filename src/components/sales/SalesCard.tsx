@@ -44,7 +44,7 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
             <h3 className="font-semibold text-xs sm:text-sm truncate">{item.offer}</h3>
             <span className="text-muted-foreground text-xs">{t("sales.client")}</span>
             <p className="text-xs text-muted-foreground truncate mt-1">
-              {item.client}/{item.clientBranch}
+              {item.clientName || `${item.client}/${item.clientBranch}`}
             </p>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
