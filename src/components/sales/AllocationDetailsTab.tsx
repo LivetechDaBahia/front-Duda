@@ -130,7 +130,6 @@ const AllocationTableView = ({
               <TableHead className="whitespace-nowrap">{t("sales.batch")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.sequence")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.include")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.productOrder")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numOp")}</TableHead>
               <TableHead className="whitespace-nowrap">{t("sales.purchaseOrder")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numPo")}</TableHead>
