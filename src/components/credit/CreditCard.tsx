@@ -57,7 +57,8 @@ export const CreditCard = ({
   isCreditManager,
 }: CreditCardProps) => {
   const status = getCreditStatusById(credit.statusId, statuses);
-  const { isAdmin, canManageCredit, canAssignCreditToOthers } = usePermissions();
+  const { isAdmin, canManageCredit, canAssignCreditToOthers } =
+    usePermissions();
   const { user } = useAuth();
   const canAssignToOthers = isCreditManager || canAssignCreditToOthers;
   const canSetCreditLimit = canManageCredit;

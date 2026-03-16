@@ -40,7 +40,6 @@ const MAX_FILE_SIZE_BYTES = 37 * 1024 * 1024; // 37MB
 const MAX_FILE_SIZE_DISPLAY = "37MB";
 const ACCEPTED_MIME_TYPES = ["application/pdf"];
 
-
 export const DocumentUploadDialog = ({
   isOpen,
   onClose,

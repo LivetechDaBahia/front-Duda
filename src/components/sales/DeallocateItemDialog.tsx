@@ -62,11 +62,15 @@ export const DeallocateItemDialog = ({
           <AlertDialogTitle>{t("sales.deallocateTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
             {t("sales.deallocateDescription")} <br />
-            <span className="font-medium">{item?.product} — {item?.description}</span>
+            <span className="font-medium">
+              {item?.product} — {item?.description}
+            </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isSubmitting}>{t("common.cancel")}</AlertDialogCancel>
+          <AlertDialogCancel disabled={isSubmitting}>
+            {t("common.cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction onClick={handleConfirm} disabled={isSubmitting}>
             {isSubmitting ? t("common.processing") : t("common.confirm")}
           </AlertDialogAction>

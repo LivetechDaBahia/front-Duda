@@ -20,7 +20,10 @@ interface SalesPurchaseOrdersTabProps {
  * Shows all purchase orders associated with a sales item across its stage variations.
  * Deduplicates by PO ID + Branch + Process ID to show unique purchase orders.
  */
-export const SalesPurchaseOrdersTab = ({ item, variations }: SalesPurchaseOrdersTabProps) => {
+export const SalesPurchaseOrdersTab = ({
+  item,
+  variations,
+}: SalesPurchaseOrdersTabProps) => {
   const { t } = useLocale();
 
   // Collect unique purchase orders from all variations (or just current item if no variations)
@@ -58,27 +61,43 @@ export const SalesPurchaseOrdersTab = ({ item, variations }: SalesPurchaseOrders
           <Card key={`po-card-${idx}`}>
             <CardContent className="p-3 space-y-2 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.purchaseOrderId")}</span>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.purchaseOrderId")}
+                </span>
                 <span className="font-medium">{po.purchaseOrderId || "-"}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.purchaseOrderBranch")}</span>
-                <span className="font-medium">{po.purchaseOrderBranch || "-"}</span>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.purchaseOrderBranch")}
+                </span>
+                <span className="font-medium">
+                  {po.purchaseOrderBranch || "-"}
+                </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.processId")}</span>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.processId")}
+                </span>
                 <span className="font-medium">{po.processId || "-"}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.stage")}</span>
-                <Badge variant="secondary" className="text-xs">{po.stageId}</Badge>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.stage")}
+                </span>
+                <Badge variant="secondary" className="text-xs">
+                  {po.stageId}
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.assignee")}</span>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.assignee")}
+                </span>
                 <span>{po.user || "-"}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("sales.variations.group")}</span>
+                <span className="text-muted-foreground">
+                  {t("sales.variations.group")}
+                </span>
                 <span>{po.group || "-"}</span>
               </div>
             </CardContent>
@@ -91,22 +110,40 @@ export const SalesPurchaseOrdersTab = ({ item, variations }: SalesPurchaseOrders
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs">{t("sales.variations.purchaseOrderId")}</TableHead>
-              <TableHead className="text-xs">{t("sales.variations.purchaseOrderBranch")}</TableHead>
-              <TableHead className="text-xs">{t("sales.variations.processId")}</TableHead>
-              <TableHead className="text-xs">{t("sales.variations.stage")}</TableHead>
-              <TableHead className="text-xs">{t("sales.variations.assignee")}</TableHead>
-              <TableHead className="text-xs">{t("sales.variations.group")}</TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.purchaseOrderId")}
+              </TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.purchaseOrderBranch")}
+              </TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.processId")}
+              </TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.stage")}
+              </TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.assignee")}
+              </TableHead>
+              <TableHead className="text-xs">
+                {t("sales.variations.group")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {uniquePOs.map((po, idx) => (
               <TableRow key={`po-row-${idx}`}>
-                <TableCell className="text-sm font-medium">{po.purchaseOrderId || "-"}</TableCell>
-                <TableCell className="text-sm">{po.purchaseOrderBranch || "-"}</TableCell>
+                <TableCell className="text-sm font-medium">
+                  {po.purchaseOrderId || "-"}
+                </TableCell>
+                <TableCell className="text-sm">
+                  {po.purchaseOrderBranch || "-"}
+                </TableCell>
                 <TableCell className="text-sm">{po.processId || "-"}</TableCell>
                 <TableCell>
-                  <Badge variant="secondary" className="text-xs">{po.stageId}</Badge>
+                  <Badge variant="secondary" className="text-xs">
+                    {po.stageId}
+                  </Badge>
                 </TableCell>
                 <TableCell className="text-sm">{po.user || "-"}</TableCell>
                 <TableCell className="text-sm">{po.group || "-"}</TableCell>

@@ -150,8 +150,14 @@ export const creditService = {
     return apiClient.get(`/credit/indicators?${params}`);
   },
 
-  async getClientContracts(clientId: string, branch: string): Promise<CreditContract[]> {
-    addUIBreadcrumb("getClientContracts", "creditService", { clientId, branch });
+  async getClientContracts(
+    clientId: string,
+    branch: string,
+  ): Promise<CreditContract[]> {
+    addUIBreadcrumb("getClientContracts", "creditService", {
+      clientId,
+      branch,
+    });
     const params = new URLSearchParams({ clientId, branch });
     return apiClient.get(`/credit/contracts?${params}`);
   },

@@ -60,6 +60,7 @@ export interface Stage {
 }
 
 export interface SalesElementItemDetails {
+  numSold: string;
   branch: string;
   order: string;
   offer: string;
@@ -90,6 +91,7 @@ export interface SalesFilters {
   seller: string;
   name: string;
   sellerGroup: string;
+  salesGroup: string;
 }
 
 export interface SalesAssignPayload {

@@ -112,21 +112,20 @@ export const OrderCard = ({
         </div>
 
         {/* Revert button for approved orders */}
-        {order.status === "approved" &&
-          onRevertOrder && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mt-2 w-full text-warning hover:text-warning hover:bg-warning/10"
-              onClick={(e) => {
-                e.stopPropagation();
-                onRevertOrder(order.id);
-              }}
-            >
-              <RotateCcw className="w-3 h-3 mr-1" />
-              {t("order.revertToPending")}
-            </Button>
-          )}
+        {order.status === "approved" && onRevertOrder && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2 w-full text-warning hover:text-warning hover:bg-warning/10"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRevertOrder(order.id);
+            }}
+          >
+            <RotateCcw className="w-3 h-3 mr-1" />
+            {t("order.revertToPending")}
+          </Button>
+        )}
       </div>
     </Card>
   );

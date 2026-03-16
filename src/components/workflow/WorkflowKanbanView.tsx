@@ -127,7 +127,10 @@ export const WorkflowKanbanView = ({
                     </span>
                   </div>
                   <ScrollArea className="flex-1">
-                    <div className="space-y-2 sm:space-y-3 p-3 sm:p-4" style={{ width: "398px" }}>
+                    <div
+                      className="space-y-2 sm:space-y-3 p-3 sm:p-4"
+                      style={{ width: "398px" }}
+                    >
                       {columnItems.length === 0 ? (
                         <div className="text-center text-muted-foreground text-sm py-8 bg-muted/30 rounded-lg border-2 border-dashed">
                           {t("workflow.kanban.noItems")}

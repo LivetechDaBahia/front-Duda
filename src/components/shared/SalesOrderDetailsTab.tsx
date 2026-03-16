@@ -10,19 +10,25 @@ interface SalesOrderDetailsTabProps {
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
   const currencyMap: Record<string, string> = {
-    "R$": "BRL",
-    "US$": "USD",
+    R$: "BRL",
+    US$: "USD",
     "€": "EUR",
   };
   const currencyCode = currencyMap[currency] || currency || "BRL";
   try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: currencyCode }).format(value);
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: currencyCode,
+    }).format(value);
   } catch {
     return `${currency} ${value.toFixed(2)}`;
   }
 };
 
-export const SalesOrderDetailsTab = ({ details, isLoading }: SalesOrderDetailsTabProps) => {
+export const SalesOrderDetailsTab = ({
+  details,
+  isLoading,
+}: SalesOrderDetailsTabProps) => {
   const { t, locale } = useLocale();
 
   if (isLoading) {
@@ -60,7 +66,9 @@ export const SalesOrderDetailsTab = ({ details, isLoading }: SalesOrderDetailsTa
             <p className="font-medium">{el.id}</p>
           </div>
           <div>
-            <span className="text-muted-foreground">{t("credit.emissionDate")}:</span>
+            <span className="text-muted-foreground">
+              {t("credit.emissionDate")}:
+            </span>
             <p className="font-medium">{formatDate(el.emissionDate, locale)}</p>
           </div>
           <div>
@@ -68,19 +76,27 @@ export const SalesOrderDetailsTab = ({ details, isLoading }: SalesOrderDetailsTa
             <p className="font-medium">{formatCurrency(el.value)}</p>
           </div>
           <div>
-            <span className="text-muted-foreground">{t("credit.shippingType")}:</span>
+            <span className="text-muted-foreground">
+              {t("credit.shippingType")}:
+            </span>
             <p className="font-medium">{el.shippingType}</p>
           </div>
           <div>
-            <span className="text-muted-foreground">{t("credit.shippingCost")}:</span>
+            <span className="text-muted-foreground">
+              {t("credit.shippingCost")}:
+            </span>
             <p className="font-medium">{formatCurrency(el.shippingCost)}</p>
           </div>
           {(el.message1 || el.message2 || el.standardMessage) && (
             <div className="col-span-2">
-              <span className="text-muted-foreground">{t("credit.message")}:</span>
+              <span className="text-muted-foreground">
+                {t("credit.message")}:
+              </span>
               {el.message1 && <p className="font-medium">{el.message1}</p>}
               {el.message2 && <p className="font-medium">{el.message2}</p>}
-              {el.standardMessage && <p className="font-medium">{el.standardMessage}</p>}
+              {el.standardMessage && (
+                <p className="font-medium">{el.standardMessage}</p>
+              )}
             </div>
           )}
         </div>

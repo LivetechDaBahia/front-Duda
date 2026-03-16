@@ -43,7 +43,11 @@ export const ChangeObservationsDialog = ({
       setObsPacking(order.obsPacking || "");
       setObsLogistics(order.obsLogistics || "");
       setObsProposal(order.obsProposal || "");
-      setMinimumDate(order.minimumDate ? new Date(order.minimumDate).toISOString().split("T")[0] : "");
+      setMinimumDate(
+        order.minimumDate
+          ? new Date(order.minimumDate).toISOString().split("T")[0]
+          : "",
+      );
     }
   }, [order]);
 
@@ -79,30 +83,51 @@ export const ChangeObservationsDialog = ({
         <DialogHeader>
           <DialogTitle>{t("sales.changeObservations")}</DialogTitle>
           <DialogDescription>
-            {t("sales.changeObservationsDescription")} — {t("sales.order")}: {order?.order}
+            {t("sales.changeObservationsDescription")} — {t("sales.order")}:{" "}
+            {order?.order}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>{t("sales.obsNF")}</Label>
-            <Textarea value={obsNF} onChange={(e) => setObsNF(e.target.value)} rows={2} />
+            <Textarea
+              value={obsNF}
+              onChange={(e) => setObsNF(e.target.value)}
+              rows={2}
+            />
           </div>
           <div className="space-y-2">
             <Label>{t("sales.obsPacking")}</Label>
-            <Textarea value={obsPacking} onChange={(e) => setObsPacking(e.target.value)} rows={2} />
+            <Textarea
+              value={obsPacking}
+              onChange={(e) => setObsPacking(e.target.value)}
+              rows={2}
+            />
           </div>
           <div className="space-y-2">
             <Label>{t("sales.obsLogistics")}</Label>
-            <Textarea value={obsLogistics} onChange={(e) => setObsLogistics(e.target.value)} rows={2} />
+            <Textarea
+              value={obsLogistics}
+              onChange={(e) => setObsLogistics(e.target.value)}
+              rows={2}
+            />
           </div>
           <div className="space-y-2">
             <Label>{t("sales.obsProposal")}</Label>
-            <Textarea value={obsProposal} onChange={(e) => setObsProposal(e.target.value)} rows={2} />
+            <Textarea
+              value={obsProposal}
+              onChange={(e) => setObsProposal(e.target.value)}
+              rows={2}
+            />
           </div>
           <div className="space-y-2">
             <Label>{t("sales.minimumDate")}</Label>
-            <Input type="date" value={minimumDate} onChange={(e) => setMinimumDate(e.target.value)} />
+            <Input
+              type="date"
+              value={minimumDate}
+              onChange={(e) => setMinimumDate(e.target.value)}
+            />
           </div>
         </div>
 

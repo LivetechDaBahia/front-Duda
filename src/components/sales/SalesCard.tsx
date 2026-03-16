@@ -1,6 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { ChevronDown, Layers } from "lucide-react";
 import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
@@ -17,7 +21,13 @@ interface SalesCardProps {
   onClick: () => void;
 }
 
-export const SalesCard = ({ item, stages, variations = [], groupedItems = [], onClick }: SalesCardProps) => {
+export const SalesCard = ({
+  item,
+  stages,
+  variations = [],
+  groupedItems = [],
+  onClick,
+}: SalesCardProps) => {
   const { t, locale } = useLocale();
   const [variationsOpen, setVariationsOpen] = useState(false);
   const [groupOpen, setGroupOpen] = useState(false);
@@ -29,9 +39,15 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
     <Card
       className="cursor-pointer hover:shadow-md transition-all w-full max-w-[367px]"
       style={{
-        backgroundColor: item.background ? `hsl(${item.background})` : undefined,
-        borderLeftColor: item.borders?.left ? `hsl(${item.borders.left})` : undefined,
-        borderRightColor: item.borders?.right ? `hsl(${item.borders.right})` : undefined,
+        backgroundColor: item.background
+          ? `hsl(${item.background})`
+          : undefined,
+        borderLeftColor: item.borders?.left
+          ? `hsl(${item.borders.left})`
+          : undefined,
+        borderRightColor: item.borders?.right
+          ? `hsl(${item.borders.right})`
+          : undefined,
         borderLeftWidth: item.borders?.left ? 4 : undefined,
         borderRightWidth: item.borders?.right ? 4 : undefined,
       }}
@@ -40,21 +56,32 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
       <CardHeader className="p-2 sm:p-3 pb-1 sm:pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <span className="text-muted-foreground text-xs">{t("sales.offer")}</span>
-            <h3 className="font-semibold text-xs sm:text-sm truncate">{item.offer}</h3>
-            <span className="text-muted-foreground text-xs">{t("sales.client")}</span>
+            <span className="text-muted-foreground text-xs">
+              {t("sales.offer")}
+            </span>
+            <h3 className="font-semibold text-xs sm:text-sm truncate">
+              {item.offer}
+            </h3>
+            <span className="text-muted-foreground text-xs">
+              {t("sales.client")}
+            </span>
             <p className="text-xs text-muted-foreground truncate mt-1">
               {item.clientName || `${item.client}/${item.clientBranch}`}
             </p>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
             {stage && (
-              <Badge variant={stage.final ? "success" : "secondary"} className="text-xs">
+              <Badge
+                variant={stage.final ? "success" : "secondary"}
+                className="text-xs"
+              >
                 {stage.name}
               </Badge>
             )}
             {item.vip === "Sim" && (
-              <Badge variant="default" className="text-xs">VIP</Badge>
+              <Badge variant="default" className="text-xs">
+                VIP
+              </Badge>
             )}
             {hasGroupedItems && (
               <Badge variant="outline" className="text-xs gap-1">
@@ -68,7 +95,9 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
       <CardContent className="px-2 sm:px-3 pb-2 sm:pb-3 pt-0 space-y-1">
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">{t("sales.value")}</span>
-          <span className="font-medium">{formatCurrency(item.value, item.currency, locale)}</span>
+          <span className="font-medium">
+            {formatCurrency(item.value, item.currency, locale)}
+          </span>
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">{t("sales.seller")}</span>
@@ -76,7 +105,9 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
         </div>
         {item.sellerGroup && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t("sales.sellerGroup")}</span>
+            <span className="text-muted-foreground">
+              {t("sales.sellerGroup")}
+            </span>
             <span className="truncate ml-2">{item.sellerGroup}</span>
           </div>
         )}
@@ -86,19 +117,25 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
         </div>
         {item.paymentCondition && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t("sales.paymentCondition")}</span>
+            <span className="text-muted-foreground">
+              {t("sales.paymentCondition")}
+            </span>
             <span className="truncate ml-2">{item.paymentCondition}</span>
           </div>
         )}
         {item.groupName && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t("sales.groupName")}</span>
+            <span className="text-muted-foreground">
+              {t("sales.groupName")}
+            </span>
             <span className="truncate ml-2">{item.groupName}</span>
           </div>
         )}
         {item.statusAss && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t("sales.statusAss")}</span>
+            <span className="text-muted-foreground">
+              {t("sales.statusAss")}
+            </span>
             <span className="truncate ml-2">{item.statusAss}</span>
           </div>
         )}
@@ -110,8 +147,12 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
         )}
         {item.minimumDate && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t("sales.minimumDate")}</span>
-            <span className={`truncate ml-2 ${new Date(item.minimumDate) > new Date() ? "font-bold" : ""}`}>
+            <span className="text-muted-foreground">
+              {t("sales.minimumDate")}
+            </span>
+            <span
+              className={`truncate ml-2 ${new Date(item.minimumDate) > new Date() ? "font-bold" : ""}`}
+            >
               {formatDate(item.minimumDate, locale)}
             </span>
           </div>
@@ -136,7 +177,8 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
                     className="flex items-center gap-2 text-xs"
                   >
                     <span className="text-muted-foreground truncate">
-                      {t("sales.variations.po")}: {gi.purchaseOrderId || "-"}/{gi.purchaseOrderBranch || "-"}
+                      {t("sales.variations.po")}: {gi.purchaseOrderId || "-"}/
+                      {gi.purchaseOrderBranch || "-"}
                     </span>
                     <span className="text-muted-foreground truncate">
                       {t("sales.variations.process")}: {gi.processId || "-"}

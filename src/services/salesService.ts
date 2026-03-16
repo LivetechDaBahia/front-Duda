@@ -35,18 +35,44 @@ export const salesService = {
   },
 
   async assignItem(payload: SalesAssignPayload): Promise<void> {
-    addUIBreadcrumb("assignItem", "salesService", payload as unknown as Record<string, unknown>);
-    return apiClient.post("/sales/assign", payload as unknown as Record<string, unknown>);
+    addUIBreadcrumb(
+      "assignItem",
+      "salesService",
+      payload as unknown as Record<string, unknown>,
+    );
+    return apiClient.post(
+      "/sales/assign",
+      payload as unknown as Record<string, unknown>,
+    );
   },
 
-  async getTracking(orderId: string, orderBranch: string, processId: string): Promise<ItemTrackingStatus[]> {
-    addUIBreadcrumb("getTracking", "salesService", { orderId, orderBranch, processId });
-    return apiClient.post("/sales/tracking", { orderId, orderBranch, processId });
+  async getTracking(
+    orderId: string,
+    orderBranch: string,
+    processId: string,
+  ): Promise<ItemTrackingStatus[]> {
+    addUIBreadcrumb("getTracking", "salesService", {
+      orderId,
+      orderBranch,
+      processId,
+    });
+    return apiClient.post("/sales/tracking", {
+      orderId,
+      orderBranch,
+      processId,
+    });
   },
 
   async deallocateItem(payload: DeallocateItemPayload): Promise<any> {
-    addUIBreadcrumb("deallocateItem", "salesService", payload as unknown as Record<string, unknown>);
-    return apiClient.post("/sales/deallocate-item", payload as unknown as Record<string, unknown>);
+    addUIBreadcrumb(
+      "deallocateItem",
+      "salesService",
+      payload as unknown as Record<string, unknown>,
+    );
+    return apiClient.post(
+      "/sales/deallocate-item",
+      payload as unknown as Record<string, unknown>,
+    );
   },
 
   async getItemStock(productId: string): Promise<ItemStock[]> {
@@ -55,16 +81,32 @@ export const salesService = {
   },
 
   async changeObservations(payload: ChangeObservationsPayload): Promise<void> {
-    addUIBreadcrumb("changeObservations", "salesService", payload as unknown as Record<string, unknown>);
-    return apiClient.post("/sales/change-observations", payload as unknown as Record<string, unknown>);
+    addUIBreadcrumb(
+      "changeObservations",
+      "salesService",
+      payload as unknown as Record<string, unknown>,
+    );
+    return apiClient.post(
+      "/sales/change-observations",
+      payload as unknown as Record<string, unknown>,
+    );
   },
 
   async reallocateItem(payload: DeallocateItemPayload): Promise<any> {
-    addUIBreadcrumb("reallocateItem", "salesService", payload as unknown as Record<string, unknown>);
-    return apiClient.post("/sales/reallocate-item", payload as unknown as Record<string, unknown>);
+    addUIBreadcrumb(
+      "reallocateItem",
+      "salesService",
+      payload as unknown as Record<string, unknown>,
+    );
+    return apiClient.post(
+      "/sales/reallocate-item",
+      payload as unknown as Record<string, unknown>,
+    );
   },
 
-  async getProductAllocation(productId: string): Promise<ProductAllocationInfo[]> {
+  async getProductAllocation(
+    productId: string,
+  ): Promise<ProductAllocationInfo[]> {
     addUIBreadcrumb("getProductAllocation", "salesService", { productId });
     return apiClient.get(`/sales/item-allocation/${productId}`);
   },

@@ -65,9 +65,9 @@ export const orderService = {
         url,
       });
     }
-      const result = await apiClient.get(url);
-      console.log("[orderService] getOrderById result", result);
-      return result;
+    const result = await apiClient.get(url);
+    console.log("[orderService] getOrderById result", result);
+    return result;
   },
 
   // Fetch approval levels for an order

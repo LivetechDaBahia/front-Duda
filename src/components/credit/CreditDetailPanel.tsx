@@ -1261,20 +1261,38 @@ export const CreditDetailPanel = ({
                         <TableHead>{t("credit.contract")}</TableHead>
                         <TableHead>{t("credit.additive")}</TableHead>
                         <TableHead>{t("credit.effectiveDate")}</TableHead>
-                        <TableHead className="text-right">{t("credit.contractValue")}</TableHead>
-                        <TableHead className="text-right">{t("credit.billValue")}</TableHead>
-                        <TableHead className="text-right">{t("credit.balance")}</TableHead>
+                        <TableHead className="text-right">
+                          {t("credit.contractValue")}
+                        </TableHead>
+                        <TableHead className="text-right">
+                          {t("credit.billValue")}
+                        </TableHead>
+                        <TableHead className="text-right">
+                          {t("credit.balance")}
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {contracts.map((contract, idx) => (
-                        <TableRow key={`${contract.contract}-${contract.additive}-${idx}`}>
-                          <TableCell className="font-medium">{contract.contract}</TableCell>
+                        <TableRow
+                          key={`${contract.contract}-${contract.additive}-${idx}`}
+                        >
+                          <TableCell className="font-medium">
+                            {contract.contract}
+                          </TableCell>
                           <TableCell>{contract.additive}</TableCell>
-                          <TableCell>{formatDate(contract.efctDate, locale)}</TableCell>
-                          <TableCell className="text-right">{formatCurrency(contract.contractValue)}</TableCell>
-                          <TableCell className="text-right">{formatCurrency(contract.billValue)}</TableCell>
-                          <TableCell className="text-right">{formatCurrency(contract.balance)}</TableCell>
+                          <TableCell>
+                            {formatDate(contract.efctDate, locale)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {formatCurrency(contract.contractValue)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {formatCurrency(contract.billValue)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {formatCurrency(contract.balance)}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
