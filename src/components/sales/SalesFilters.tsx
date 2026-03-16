@@ -53,7 +53,7 @@ export const SalesFilters = ({
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "" });
+    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "", salesGroup: "" });
   };
 
   const hasActiveFilters = Boolean(
