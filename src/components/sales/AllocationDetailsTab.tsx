@@ -53,25 +53,8 @@ const ObservationField = ({ label, value }: { label: string; value: string | nul
   );
 };
 
-const ObservationsSection = ({ details, t }: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
-  const nf = details.find(r => r.nf)?.nf || null;
-  const shipping = details.find(r => r.shippingObservations)?.shippingObservations || null;
-  const logistics = details.find(r => r.logisticsObservations)?.logisticsObservations || null;
-  const offer = details.find(r => r.offerObservations)?.offerObservations || null;
-
-  if (!nf && !shipping && !logistics && !offer) return null;
-
-  return (
-    <div className="border rounded-md p-3 space-y-2">
-      <span className="text-sm font-semibold">{t("sales.observations")}</span>
-      <div className="space-y-1">
-        <ObservationField label={t("sales.nf")} value={nf} />
-        <ObservationField label={t("sales.shippingObservations")} value={shipping} />
-        <ObservationField label={t("sales.logisticsObservations")} value={logistics} />
-        <ObservationField label={t("sales.offerObservations")} value={offer} />
-      </div>
-    </div>
-  );
+const ObservationsSection = (_props: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
+  return null;
 };
 
 interface ItemActionsMenuProps {
