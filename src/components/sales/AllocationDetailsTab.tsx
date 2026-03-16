@@ -162,7 +162,7 @@ const AllocationTableView = ({
                 <TableCell className="whitespace-nowrap text-right">{row.numPo}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.purchaseRequest || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numSc}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.minDate || "-"}</TableCell>
+                
               </TableRow>
             ))}
           </TableBody>
