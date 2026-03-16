@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { salesService } from "@/services/salesService";
-import type { SalesTrackingEvent } from "@/types/sales";
+import type { ItemTrackingStatus } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Package, Clock } from "lucide-react";
