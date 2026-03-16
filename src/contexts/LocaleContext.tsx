@@ -944,11 +944,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Logistics Observations",
     "sales.obsProposal": "Proposal Observations",
     "sales.orderItems": "Order Items",
-    "sales.orderItem.qtdVend": "Qty Sold",
-    "sales.orderItem.qtdEnt": "Qty Delivered",
+    "sales.orderItem.numSold": "Qty Sold",
+    "sales.orderItem.numDelivered": "Qty Delivered",
     "sales.orderItem.process": "Process",
     "sales.orderItem.statusAss": "Status",
-    "sales.orderItem.modFrete": "Freight Mode",
+    "sales.orderItem.shippingModality": "Shipping Modality",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
@@ -1958,11 +1958,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observações Logística",
     "sales.obsProposal": "Observações Proposta",
     "sales.orderItems": "Itens do Pedido",
-    "sales.orderItem.qtdVend": "Qtd. Vendida",
-    "sales.orderItem.qtdEnt": "Qtd. Entregue",
+    "sales.orderItem.numSold": "Qtd. Vendida",
+    "sales.orderItem.numDelivered": "Qtd. Entregue",
     "sales.orderItem.process": "Processo",
     "sales.orderItem.statusAss": "Status",
-    "sales.orderItem.modFrete": "Modalidade Frete",
+    "sales.orderItem.shippingModality": "Modalidade Frete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
@@ -2970,11 +2970,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
     "sales.orderItems": "Ítems del Pedido",
-    "sales.orderItem.qtdVend": "Cant. Vendida",
-    "sales.orderItem.qtdEnt": "Cant. Entregada",
+    "sales.orderItem.numSold": "Cant. Vendida",
+    "sales.orderItem.numDelivered": "Cant. Entregada",
     "sales.orderItem.process": "Proceso",
     "sales.orderItem.statusAss": "Estado",
-    "sales.orderItem.modFrete": "Modalidad Flete",
+    "sales.orderItem.shippingModality": "Modalidad Flete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
