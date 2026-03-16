@@ -90,10 +90,30 @@ export const SalesCard = ({ item, stages, variations = [], groupedItems = [], on
             <span className="truncate ml-2">{item.paymentCondition}</span>
           </div>
         )}
+        {item.groupName && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.groupName")}</span>
+            <span className="truncate ml-2">{item.groupName}</span>
+          </div>
+        )}
+        {item.statusAss && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.statusAss")}</span>
+            <span className="truncate ml-2">{item.statusAss}</span>
+          </div>
+        )}
 
         {item.date && (
           <div className="text-xs text-muted-foreground truncate">
             {formatDate(item.date, locale)} • {item.oper}
+          </div>
+        )}
+        {item.minimumDate && (
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">{t("sales.minimumDate")}</span>
+            <span className={`truncate ml-2 ${new Date(item.minimumDate) > new Date() ? "font-bold" : ""}`}>
+              {formatDate(item.minimumDate, locale)}
+            </span>
           </div>
         )}
 
