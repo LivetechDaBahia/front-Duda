@@ -57,7 +57,7 @@ export const SalesFilters = ({
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup,
+    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup || filters.salesGroup,
   );
 
   return (
