@@ -1957,6 +1957,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsPacking": "Observações Romaneio",
     "sales.obsLogistics": "Observações Logística",
     "sales.obsProposal": "Observações Proposta",
+    "sales.orderItems": "Itens do Pedido",
+    "sales.orderItem.qtdVend": "Qtd. Vendida",
+    "sales.orderItem.qtdEnt": "Qtd. Entregue",
+    "sales.orderItem.process": "Processo",
+    "sales.orderItem.statusAss": "Status",
+    "sales.orderItem.modFrete": "Modalidade Frete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
