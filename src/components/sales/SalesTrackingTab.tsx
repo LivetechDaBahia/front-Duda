@@ -14,7 +14,7 @@ interface SalesTrackingTabProps {
 export const SalesTrackingTab = ({ orderId, orderBranch, processId }: SalesTrackingTabProps) => {
   const { t } = useLocale();
 
-  const { data: events = [], isLoading } = useQuery<SalesTrackingEvent[]>({
+  const { data: events = [], isLoading } = useQuery<ItemTrackingStatus[]>({
     queryKey: ["salesTracking", orderId, orderBranch, processId],
     queryFn: () => salesService.getTracking(orderId, orderBranch, processId),
     enabled: !!orderId && !!orderBranch && !!processId,

@@ -126,15 +126,6 @@ export const SalesFilters = ({
       )}
 
       <div className="space-y-2">
-        <Label>{t("sales.sellerId")}</Label>
-        <Input
-          placeholder={t("sales.sellerIdPlaceholder")}
-          value={filters.sellerId}
-          onChange={(e) => updateFilter("sellerId", e.target.value)}
-        />
-      </div>
-
-      <div className="space-y-2">
         <Label>{t("sales.name")}</Label>
         <Input
           placeholder={t("sales.namePlaceholder")}
