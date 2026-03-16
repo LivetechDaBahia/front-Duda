@@ -1958,11 +1958,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Observações Logística",
     "sales.obsProposal": "Observações Proposta",
     "sales.orderItems": "Itens do Pedido",
-    "sales.orderItem.qtdVend": "Qtd. Vendida",
-    "sales.orderItem.qtdEnt": "Qtd. Entregue",
+    "sales.orderItem.numSold": "Qtd. Vendida",
+    "sales.orderItem.numDelivered": "Qtd. Entregue",
     "sales.orderItem.process": "Processo",
     "sales.orderItem.statusAss": "Status",
-    "sales.orderItem.modFrete": "Modalidade Frete",
+    "sales.orderItem.shippingModality": "Modalidade Frete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
