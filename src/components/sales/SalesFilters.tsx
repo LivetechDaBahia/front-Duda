@@ -48,11 +48,11 @@ export const SalesFilters = ({
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "", sellerId: "", name: "", sellerGroup: "" });
+    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "" });
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.sellerId || filters.name || filters.sellerGroup,
+    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup,
   );
 
   return (
@@ -124,15 +124,6 @@ export const SalesFilters = ({
           </Select>
         </div>
       )}
-
-      <div className="space-y-2">
-        <Label>{t("sales.sellerId")}</Label>
-        <Input
-          placeholder={t("sales.sellerIdPlaceholder")}
-          value={filters.sellerId}
-          onChange={(e) => updateFilter("sellerId", e.target.value)}
-        />
-      </div>
 
       <div className="space-y-2">
         <Label>{t("sales.name")}</Label>

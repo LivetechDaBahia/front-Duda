@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { salesService } from "@/services/salesService";
-import type { SalesTrackingEvent } from "@/types/sales";
+import type { ItemTrackingStatus } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Package, Clock } from "lucide-react";
@@ -14,7 +14,7 @@ interface SalesTrackingTabProps {
 export const SalesTrackingTab = ({ orderId, orderBranch, processId }: SalesTrackingTabProps) => {
   const { t } = useLocale();
 
-  const { data: events = [], isLoading } = useQuery<SalesTrackingEvent[]>({
+  const { data: events = [], isLoading } = useQuery<ItemTrackingStatus[]>({
     queryKey: ["salesTracking", orderId, orderBranch, processId],
     queryFn: () => salesService.getTracking(orderId, orderBranch, processId),
     enabled: !!orderId && !!orderBranch && !!processId,

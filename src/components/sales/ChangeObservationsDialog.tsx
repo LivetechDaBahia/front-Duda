@@ -43,7 +43,7 @@ export const ChangeObservationsDialog = ({
       setObsPacking(order.obsPacking || "");
       setObsLogistics(order.obsLogistics || "");
       setObsProposal(order.obsProposal || "");
-      setMinimumDate(order.minimumDate ? order.minimumDate.split("T")[0] : "");
+      setMinimumDate(order.minimumDate ? new Date(order.minimumDate).toISOString().split("T")[0] : "");
     }
   }, [order]);
 
