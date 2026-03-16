@@ -204,7 +204,7 @@ const AllocationCardView = ({
               <TableHead className="whitespace-nowrap">{t("sales.local")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numAvailable")}</TableHead>
               <TableHead className="whitespace-nowrap text-right">{t("sales.numReserved")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.minDate")}</TableHead>
+              
             </TableRow>
           </TableHeader>
           <TableBody>
