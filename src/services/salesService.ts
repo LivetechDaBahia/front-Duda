@@ -5,7 +5,7 @@ import type {
   Stage,
   SalesElementItemDetails,
   SalesAssignPayload,
-  SalesTrackingEvent,
+  ItemTrackingStatus,
   SalesOrderDetails,
   DeallocateItemPayload,
   ItemStock,
