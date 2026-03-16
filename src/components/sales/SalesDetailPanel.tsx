@@ -207,10 +207,6 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
                     <p className="font-medium">{item.type}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.operation")}:</span>
-                    <p className="font-medium">{item.oper}</p>
-                  </div>
-                  <div>
                     <span className="text-muted-foreground">{t("sales.cnpj")}:</span>
                     <p className="font-medium">{item.cnpj}</p>
                   </div>
