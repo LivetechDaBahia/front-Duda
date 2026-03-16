@@ -59,6 +59,7 @@ const Sales = () => {
       if (filters.seller && item.sellerName !== filters.seller) return false;
       if (filters.name && !item.name?.toLowerCase().includes(filters.name.toLowerCase())) return false;
       if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup) return false;
+      if (filters.salesGroup && item.group !== filters.salesGroup) return false;
       return true;
     });
   }, [items, filters]);
