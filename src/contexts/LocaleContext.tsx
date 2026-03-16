@@ -1881,6 +1881,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.namePlaceholder": "Filtrar por nome...",
     "sales.sellerGroup": "Grupo do Vendedor",
     "sales.allSellerGroups": "Todos os Grupos",
+    "sales.salesGroup": "Grupo de Vendas",
+    "sales.allSalesGroups": "Todos os Grupos de Vendas",
     "sales.type": "Tipo",
     "sales.operation": "Operação",
     "sales.cnpj": "CNPJ",
