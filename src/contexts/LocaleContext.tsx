@@ -944,11 +944,11 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsLogistics": "Logistics Observations",
     "sales.obsProposal": "Proposal Observations",
     "sales.orderItems": "Order Items",
-    "sales.orderItem.qtdVend": "Qty Sold",
-    "sales.orderItem.qtdEnt": "Qty Delivered",
+    "sales.orderItem.numSold": "Qty Sold",
+    "sales.orderItem.numDelivered": "Qty Delivered",
     "sales.orderItem.process": "Process",
     "sales.orderItem.statusAss": "Status",
-    "sales.orderItem.modFrete": "Freight Mode",
+    "sales.orderItem.shippingModality": "Shipping Modality",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
