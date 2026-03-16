@@ -43,16 +43,21 @@ export const SalesFilters = ({
     return Array.from(groups).sort();
   }, [items]);
 
+  const availableSalesGroups = useMemo(() => {
+    const groups = new Set(items.map((i) => i.group).filter(Boolean));
+    return Array.from(groups).sort();
+  }, [items]);
+
   const updateFilter = (key: keyof SalesFiltersType, value: string) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "" });
+    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "", salesGroup: "" });
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup,
+    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup || filters.salesGroup,
   );
 
   return (
@@ -118,6 +123,21 @@ export const SalesFilters = ({
             <SelectContent>
               <SelectItem value="all">{t("sales.allSellerGroups")}</SelectItem>
               {availableSellerGroups.map((g) => (
+                <SelectItem key={g} value={g}>{g}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {availableSalesGroups.length > 0 && (
+        <div className="space-y-2">
+          <Label>{t("sales.salesGroup")}</Label>
+          <Select value={filters.salesGroup || "all"} onValueChange={(v) => updateFilter("salesGroup", v === "all" ? "" : v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("sales.allSalesGroups")}</SelectItem>
+              {availableSalesGroups.map((g) => (
                 <SelectItem key={g} value={g}>{g}</SelectItem>
               ))}
             </SelectContent>
