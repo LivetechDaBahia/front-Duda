@@ -2969,6 +2969,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.obsPacking": "Observaciones Empaque",
     "sales.obsLogistics": "Observaciones Logística",
     "sales.obsProposal": "Observaciones Propuesta",
+    "sales.orderItems": "Ítems del Pedido",
+    "sales.orderItem.qtdVend": "Cant. Vendida",
+    "sales.orderItem.qtdEnt": "Cant. Entregada",
+    "sales.orderItem.process": "Proceso",
+    "sales.orderItem.statusAss": "Estado",
+    "sales.orderItem.modFrete": "Modalidad Flete",
 
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",

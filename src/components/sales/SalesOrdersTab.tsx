@@ -9,6 +9,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import type { SalesOrderDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
@@ -172,6 +181,46 @@ export const SalesOrdersTab = ({ orders, isLoading, onObservationsChanged }: Sal
                   <p className="text-sm">{order.obsProposal}</p>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Order items section */}
+          {order.items && order.items.length > 0 && (
+            <div className="border-t pt-2 space-y-2">
+              <span className="text-sm font-semibold">{t("sales.orderItems")}</span>
+              <ScrollArea className="w-full whitespace-nowrap">
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap">{t("sales.item")}</TableHead>
+                        <TableHead className="whitespace-nowrap">{t("sales.product")}</TableHead>
+                        <TableHead className="whitespace-nowrap">{t("sales.description")}</TableHead>
+                        <TableHead className="whitespace-nowrap text-right">{t("sales.orderItem.qtdVend")}</TableHead>
+                        <TableHead className="whitespace-nowrap text-right">{t("sales.orderItem.qtdEnt")}</TableHead>
+                        <TableHead className="whitespace-nowrap">{t("sales.orderItem.process")}</TableHead>
+                        <TableHead className="whitespace-nowrap">{t("sales.orderItem.statusAss")}</TableHead>
+                        <TableHead className="whitespace-nowrap">{t("sales.orderItem.modFrete")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {order.items.map((orderItem, itemIdx) => (
+                        <TableRow key={`${order.order}-item-${itemIdx}`}>
+                          <TableCell className="whitespace-nowrap">{orderItem.item}</TableCell>
+                          <TableCell className="whitespace-nowrap">{orderItem.product}</TableCell>
+                          <TableCell className="whitespace-nowrap">{orderItem.description}</TableCell>
+                          <TableCell className="whitespace-nowrap text-right">{orderItem.qtdVend}</TableCell>
+                          <TableCell className="whitespace-nowrap text-right">{orderItem.qtdEnt}</TableCell>
+                          <TableCell className="whitespace-nowrap">{orderItem.process || "-"}</TableCell>
+                          <TableCell className="whitespace-nowrap">{orderItem.statusAss || "-"}</TableCell>
+                          <TableCell className="whitespace-nowrap">{orderItem.modFrete || "-"}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </div>
           )}
         </div>
