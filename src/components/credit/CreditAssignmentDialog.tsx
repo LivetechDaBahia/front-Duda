@@ -42,7 +42,8 @@ export const CreditAssignmentDialog = ({
   const { toast } = useToast();
   const { t } = useLocale();
   const { user: currentUser } = useAuth();
-  const { isAdmin, isCreditManager, canAssignCreditToOthers } = usePermissions();
+  const { isAdmin, isCreditManager, canAssignCreditToOthers } =
+    usePermissions();
 
   // Fetch all users for assignment
   const { data: usersData, isLoading: isLoadingUsers } = useQuery({
@@ -296,11 +297,12 @@ export const CreditAssignmentDialog = ({
                 className="pl-9"
               />
             </div>
-            {!searchQuery.trim() && (isAdmin || isCreditManager || canAssignCreditToOthers) && (
-              <p className="text-xs text-muted-foreground">
-                {t("credit.assign.searchHint")}
-              </p>
-            )}
+            {!searchQuery.trim() &&
+              (isAdmin || isCreditManager || canAssignCreditToOthers) && (
+                <p className="text-xs text-muted-foreground">
+                  {t("credit.assign.searchHint")}
+                </p>
+              )}
           </div>
 
           {/* User List */}

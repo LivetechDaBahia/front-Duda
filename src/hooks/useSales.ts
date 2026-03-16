@@ -6,12 +6,10 @@ import type { SalesElementItem } from "@/types/sales";
  *  Each item is kept individually (no dedup) so cards with different PO/process show separately.
  *  variationsMap groups all occurrences of the same id+key for the detail panel. */
 export const useSales = () => {
-  const {
-    data,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery<{ items: SalesElementItem[]; variationsMap: Map<string, SalesElementItem[]> }>({
+  const { data, isLoading, error, refetch } = useQuery<{
+    items: SalesElementItem[];
+    variationsMap: Map<string, SalesElementItem[]>;
+  }>({
     queryKey: ["sales"],
     queryFn: async () => {
       const groups = await salesService.getAllStages();

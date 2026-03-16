@@ -8,7 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { ChevronRight, Layers } from "lucide-react";
 import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
@@ -60,16 +64,34 @@ export const SalesTableView = ({
         <TableHeader>
           <TableRow>
             <TableHead className="w-8" />
-            <TableHead className="whitespace-nowrap">{t("sales.offer")}</TableHead>
-            <TableHead className="whitespace-nowrap">{t("sales.client")}</TableHead>
-            <TableHead className="whitespace-nowrap">{t("sales.value")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.seller")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.variations.purchaseOrderId")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">{t("sales.variations.purchaseOrderBranch")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.variations.processId")}</TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("sales.offer")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("sales.client")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("sales.value")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              {t("sales.seller")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              {t("sales.variations.purchaseOrderId")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              {t("sales.variations.purchaseOrderBranch")}
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">
+              {t("sales.variations.processId")}
+            </TableHead>
             <TableHead className="whitespace-nowrap">{t("status")}</TableHead>
-            <TableHead className="whitespace-nowrap hidden md:table-cell">VIP</TableHead>
-            <TableHead className="whitespace-nowrap hidden lg:table-cell">{t("sales.date")}</TableHead>
+            <TableHead className="whitespace-nowrap hidden md:table-cell">
+              VIP
+            </TableHead>
+            <TableHead className="whitespace-nowrap hidden lg:table-cell">
+              {t("sales.date")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -92,7 +114,11 @@ export const SalesTableView = ({
               const isExpanded = expandedRows.has(rowKey);
 
               return (
-                <Collapsible key={`sales-table-${rowKey}`} open={isExpanded} asChild>
+                <Collapsible
+                  key={`sales-table-${rowKey}`}
+                  open={isExpanded}
+                  asChild
+                >
                   <>
                     <TableRow
                       className="cursor-pointer hover:bg-muted/50"
@@ -115,10 +141,18 @@ export const SalesTableView = ({
                           </CollapsibleTrigger>
                         )}
                       </TableCell>
-                      <TableCell className="font-medium whitespace-nowrap">{item.offer}</TableCell>
-                      <TableCell className="whitespace-nowrap">{item.client}/{item.clientBranch}</TableCell>
-                      <TableCell className="whitespace-nowrap">{formatCurrency(item.value, item.currency, locale)}</TableCell>
-                      <TableCell className="whitespace-nowrap hidden md:table-cell">{item.sellerName}</TableCell>
+                      <TableCell className="font-medium whitespace-nowrap">
+                        {item.offer}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {item.client}/{item.clientBranch}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {formatCurrency(item.value, item.currency, locale)}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap hidden md:table-cell">
+                        {item.sellerName}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">
                         {hasGroupedItems ? (
                           <Badge variant="outline" className="text-xs gap-1">
@@ -130,20 +164,29 @@ export const SalesTableView = ({
                         )}
                       </TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">
-                        {hasGroupedItems ? "-" : item.purchaseOrderBranch || "-"}
+                        {hasGroupedItems
+                          ? "-"
+                          : item.purchaseOrderBranch || "-"}
                       </TableCell>
                       <TableCell className="whitespace-nowrap hidden lg:table-cell">
                         {hasGroupedItems ? "-" : item.processId || "-"}
                       </TableCell>
                       <TableCell className="whitespace-nowrap">
                         {stage && (
-                          <Badge variant={stage.final ? "success" : "secondary"} className="text-xs">
+                          <Badge
+                            variant={stage.final ? "success" : "secondary"}
+                            className="text-xs"
+                          >
                             {stage.name}
                           </Badge>
                         )}
                       </TableCell>
                       <TableCell className="whitespace-nowrap hidden md:table-cell">
-                        {item.vip === "Sim" && <Badge variant="default" className="text-xs">VIP</Badge>}
+                        {item.vip === "Sim" && (
+                          <Badge variant="default" className="text-xs">
+                            VIP
+                          </Badge>
+                        )}
                       </TableCell>
                       <TableCell className="whitespace-nowrap hidden lg:table-cell">
                         {formatDate(item.date, locale)}
@@ -157,15 +200,28 @@ export const SalesTableView = ({
                               {hasGroupedItems && (
                                 <div>
                                   <p className="text-xs font-medium text-muted-foreground mb-1">
-                                    {t("sales.groupedItems")} ({group.length} {t("sales.groupedItemsCount")})
+                                    {t("sales.groupedItems")} ({group.length}{" "}
+                                    {t("sales.groupedItemsCount")})
                                   </p>
                                   <Table>
                                     <TableHeader>
                                       <TableRow className="bg-muted/50">
-                                        <TableHead className="text-xs">{t("sales.variations.purchaseOrderId")}</TableHead>
-                                        <TableHead className="text-xs">{t("sales.variations.purchaseOrderBranch")}</TableHead>
-                                        <TableHead className="text-xs">{t("sales.variations.processId")}</TableHead>
-                                        <TableHead className="text-xs">{t("sales.variations.assignee")}</TableHead>
+                                        <TableHead className="text-xs">
+                                          {t(
+                                            "sales.variations.purchaseOrderId",
+                                          )}
+                                        </TableHead>
+                                        <TableHead className="text-xs">
+                                          {t(
+                                            "sales.variations.purchaseOrderBranch",
+                                          )}
+                                        </TableHead>
+                                        <TableHead className="text-xs">
+                                          {t("sales.variations.processId")}
+                                        </TableHead>
+                                        <TableHead className="text-xs">
+                                          {t("sales.variations.assignee")}
+                                        </TableHead>
                                       </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -175,10 +231,18 @@ export const SalesTableView = ({
                                           className="bg-muted/20 cursor-pointer hover:bg-muted/40"
                                           onClick={() => onItemClick(gi)}
                                         >
-                                          <TableCell className="text-xs py-1.5">{gi.purchaseOrderId || "-"}</TableCell>
-                                          <TableCell className="text-xs py-1.5">{gi.purchaseOrderBranch || "-"}</TableCell>
-                                          <TableCell className="text-xs py-1.5">{gi.processId || "-"}</TableCell>
-                                          <TableCell className="text-xs py-1.5">{gi.user || "-"}</TableCell>
+                                          <TableCell className="text-xs py-1.5">
+                                            {gi.purchaseOrderId || "-"}
+                                          </TableCell>
+                                          <TableCell className="text-xs py-1.5">
+                                            {gi.purchaseOrderBranch || "-"}
+                                          </TableCell>
+                                          <TableCell className="text-xs py-1.5">
+                                            {gi.processId || "-"}
+                                          </TableCell>
+                                          <TableCell className="text-xs py-1.5">
+                                            {gi.user || "-"}
+                                          </TableCell>
                                         </TableRow>
                                       ))}
                                     </TableBody>
@@ -188,7 +252,9 @@ export const SalesTableView = ({
                               {hasVariations && (
                                 <div>
                                   <p className="text-xs font-medium text-muted-foreground mb-1">
-                                    {t("sales.variations.label")} ({variations.length} {t("sales.variations.stages")})
+                                    {t("sales.variations.label")} (
+                                    {variations.length}{" "}
+                                    {t("sales.variations.stages")})
                                   </p>
                                   <SalesStageVariations
                                     variations={variations}

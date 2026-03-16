@@ -2,8 +2,8 @@
  * Map common currency symbols/abbreviations to ISO 4217 codes.
  */
 const CURRENCY_MAP: Record<string, string> = {
-  "R$": "BRL",
-  "$": "USD",
+  R$: "BRL",
+  $: "USD",
   "€": "EUR",
   "£": "GBP",
   "¥": "JPY",

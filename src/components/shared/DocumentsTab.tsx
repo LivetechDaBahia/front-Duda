@@ -139,7 +139,9 @@ export const DocumentsTab = ({
                     <PaginationItem>
                       <PaginationPrevious
                         onClick={() =>
-                          onClientDocsPageChange(Math.max(1, clientDocsPage - 1))
+                          onClientDocsPageChange(
+                            Math.max(1, clientDocsPage - 1),
+                          )
                         }
                         className={
                           clientDocsPage <= 1

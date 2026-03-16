@@ -173,7 +173,9 @@ export function CreditLimitDialog({
             </Popover>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="observation">{t("credit.limit.observationLabel")}</Label>
+            <Label htmlFor="observation">
+              {t("credit.limit.observationLabel")}
+            </Label>
             <Textarea
               id="observation"
               value={observation}

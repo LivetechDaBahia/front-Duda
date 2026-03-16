@@ -72,13 +72,15 @@ export const SalesAssignmentDialog = ({
 
   const departmentUsers = useMemo(() => {
     return permittedUsers.filter(
-      (user) => currentDepartmentId && user.departmentId === currentDepartmentId,
+      (user) =>
+        currentDepartmentId && user.departmentId === currentDepartmentId,
     );
   }, [permittedUsers, currentDepartmentId]);
 
   const otherDepartmentUsers = useMemo(() => {
     return permittedUsers.filter(
-      (user) => !currentDepartmentId || user.departmentId !== currentDepartmentId,
+      (user) =>
+        !currentDepartmentId || user.departmentId !== currentDepartmentId,
     );
   }, [permittedUsers, currentDepartmentId]);
 
@@ -140,7 +142,10 @@ export const SalesAssignmentDialog = ({
 
       toast({
         title: t("sales.assign.successTitle"),
-        description: t("sales.assign.successDesc").replace("{name}", selectedUser.name),
+        description: t("sales.assign.successDesc").replace(
+          "{name}",
+          selectedUser.name,
+        ),
       });
 
       onAssignSuccess();
@@ -156,7 +161,8 @@ export const SalesAssignmentDialog = ({
         toast({
           variant: "destructive",
           title: t("sales.assign.failedTitle"),
-          description: error?.response?.data?.message || t("sales.assign.genericError"),
+          description:
+            error?.response?.data?.message || t("sales.assign.genericError"),
         });
       } else {
         toast({
@@ -211,9 +217,7 @@ export const SalesAssignmentDialog = ({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>{t("sales.assign.title")}</DialogTitle>
-          <DialogDescription>
-            {t("sales.assign.description")}
-          </DialogDescription>
+          <DialogDescription>{t("sales.assign.description")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -233,12 +237,18 @@ export const SalesAssignmentDialog = ({
           {/* Item Info */}
           <div className="space-y-2 p-3 bg-muted/50 rounded-lg">
             <div className="text-sm">
-              <span className="text-muted-foreground">{t("sales.offer")}: </span>
+              <span className="text-muted-foreground">
+                {t("sales.offer")}:{" "}
+              </span>
               <span className="font-medium">{item.offer}</span>
             </div>
             <div className="text-sm">
-              <span className="text-muted-foreground">{t("sales.client")}: </span>
-              <span className="font-medium">{item.client}/{item.clientBranch}</span>
+              <span className="text-muted-foreground">
+                {t("sales.client")}:{" "}
+              </span>
+              <span className="font-medium">
+                {item.client}/{item.clientBranch}
+              </span>
             </div>
           </div>
 
@@ -254,7 +264,9 @@ export const SalesAssignmentDialog = ({
             <>
               {/* Search Input */}
               <div className="space-y-2">
-                <Label htmlFor="sales-user-search">{t("sales.assign.selectUser")}</Label>
+                <Label htmlFor="sales-user-search">
+                  {t("sales.assign.selectUser")}
+                </Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -342,7 +354,10 @@ export const SalesAssignmentDialog = ({
                       {t("sales.assign.willAssignTo")}:{" "}
                     </span>
                     <span className="font-medium">{selectedUser.name}</span>
-                    <span className="text-muted-foreground"> ({selectedUser.email})</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      ({selectedUser.email})
+                    </span>
                   </p>
                 </div>
               )}
@@ -356,7 +371,9 @@ export const SalesAssignmentDialog = ({
           </Button>
           <Button
             onClick={handleAssign}
-            disabled={isLoading || isLoadingUsers || !selectedUserId || !canSelfAssign}
+            disabled={
+              isLoading || isLoadingUsers || !selectedUserId || !canSelfAssign
+            }
           >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t("sales.assign.submit")}

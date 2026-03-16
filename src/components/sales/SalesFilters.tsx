@@ -10,7 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { FilterContainer } from "@/components/shared/FilterContainer";
 import { useLocale } from "@/contexts/LocaleContext";
-import type { SalesFilters as SalesFiltersType, Stage, SalesElementItem } from "@/types/sales";
+import type {
+  SalesFilters as SalesFiltersType,
+  Stage,
+  SalesElementItem,
+} from "@/types/sales";
 
 interface SalesFiltersProps {
   filters: SalesFiltersType;
@@ -53,11 +57,23 @@ export const SalesFilters = ({
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", status: "all", type: "", seller: "", name: "", sellerGroup: "", salesGroup: "" });
+    onFiltersChange({
+      search: "",
+      status: "all",
+      type: "",
+      seller: "",
+      name: "",
+      sellerGroup: "",
+    });
   };
 
   const hasActiveFilters = Boolean(
-    filters.search || filters.status !== "all" || filters.type || filters.seller || filters.name || filters.sellerGroup || filters.salesGroup,
+    filters.search ||
+      filters.status !== "all" ||
+      filters.type ||
+      filters.seller ||
+      filters.name ||
+      filters.sellerGroup,
   );
 
   return (
@@ -67,19 +83,28 @@ export const SalesFilters = ({
       onSearchChange={(value) => updateFilter("search", value)}
       showFilters={showFilters}
       onShowFiltersChange={setShowFilters}
-      filterButtonLabel={showFilters ? t("common.hideFilters") : t("filters.filters")}
+      filterButtonLabel={
+        showFilters ? t("common.hideFilters") : t("filters.filters")
+      }
       onClearFilters={clearFilters}
       clearButtonLabel={t("clearFilters")}
       hasActiveFilters={hasActiveFilters}
     >
       <div className="space-y-2">
         <Label>{t("status")}</Label>
-        <Select value={filters.status} onValueChange={(v) => updateFilter("status", v)}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
+        <Select
+          value={filters.status}
+          onValueChange={(v) => updateFilter("status", v)}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">{t("sales.allStages")}</SelectItem>
             {stages.map((s) => (
-              <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+              <SelectItem key={s.id} value={s.id}>
+                {s.name}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -88,12 +113,19 @@ export const SalesFilters = ({
       {availableTypes.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.type")}</Label>
-          <Select value={filters.type || "all"} onValueChange={(v) => updateFilter("type", v === "all" ? "" : v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+          <Select
+            value={filters.type || "all"}
+            onValueChange={(v) => updateFilter("type", v === "all" ? "" : v)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allTypes")}</SelectItem>
               {availableTypes.map((type) => (
-                <SelectItem key={type} value={type}>{type}</SelectItem>
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -103,12 +135,19 @@ export const SalesFilters = ({
       {availableSellers.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.seller")}</Label>
-          <Select value={filters.seller || "all"} onValueChange={(v) => updateFilter("seller", v === "all" ? "" : v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+          <Select
+            value={filters.seller || "all"}
+            onValueChange={(v) => updateFilter("seller", v === "all" ? "" : v)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allSellers")}</SelectItem>
               {availableSellers.map((s) => (
-                <SelectItem key={s} value={s}>{s}</SelectItem>
+                <SelectItem key={s} value={s}>
+                  {s}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -118,12 +157,21 @@ export const SalesFilters = ({
       {availableSellerGroups.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.sellerGroup")}</Label>
-          <Select value={filters.sellerGroup || "all"} onValueChange={(v) => updateFilter("sellerGroup", v === "all" ? "" : v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+          <Select
+            value={filters.sellerGroup || "all"}
+            onValueChange={(v) =>
+              updateFilter("sellerGroup", v === "all" ? "" : v)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allSellerGroups")}</SelectItem>
               {availableSellerGroups.map((g) => (
-                <SelectItem key={g} value={g}>{g}</SelectItem>
+                <SelectItem key={g} value={g}>
+                  {g}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -133,12 +181,21 @@ export const SalesFilters = ({
       {availableSalesGroups.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.salesGroup")}</Label>
-          <Select value={filters.salesGroup || "all"} onValueChange={(v) => updateFilter("salesGroup", v === "all" ? "" : v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+          <Select
+            value={filters.salesGroup || "all"}
+            onValueChange={(v) =>
+              updateFilter("salesGroup", v === "all" ? "" : v)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allSalesGroups")}</SelectItem>
               {availableSalesGroups.map((g) => (
-                <SelectItem key={g} value={g}>{g}</SelectItem>
+                <SelectItem key={g} value={g}>
+                  {g}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

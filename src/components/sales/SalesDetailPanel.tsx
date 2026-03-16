@@ -27,20 +27,34 @@ interface SalesDetailPanelProps {
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
   try {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency }).format(value);
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency,
+    }).format(value);
   } catch {
     return `${currency} ${value.toFixed(2)}`;
   }
 };
 
-export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variations = [] }: SalesDetailPanelProps) => {
+export const SalesDetailPanel = ({
+  item,
+  isOpen,
+  onClose,
+  onAssignClick,
+  variations = [],
+}: SalesDetailPanelProps) => {
   const { t, locale } = useLocale();
   const { details, isLoading } = useSalesDetails(item ? item.key : null);
-  const { orders, isLoading: isLoadingOrders, refetch: refetchOrders } = useSalesOrders(item ? item.key : null);
+  const {
+    orders,
+    isLoading: isLoadingOrders,
+    refetch: refetchOrders,
+  } = useSalesOrders(item ? item.key : null);
   const { canManageSales } = usePermissions();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-  const DOCUMENTS_BASE_PATH = import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH || "";
+  const DOCUMENTS_BASE_PATH =
+    import.meta.env.VITE_DOCUMENTS_SHARE_BASE_PATH || "";
 
   // Client documents pagination
   const [clientDocsPage, setClientDocsPage] = useState(1);
@@ -107,33 +121,44 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
   };
 
   // Sales order documents
-  const {
-    data: documents,
-    isLoading: isLoadingDocuments,
-  } = useQuery<CreditDocument[]>({
+  const { data: documents, isLoading: isLoadingDocuments } = useQuery<
+    CreditDocument[]
+  >({
     queryKey: ["creditDocuments", item?.key],
     queryFn: () => creditService.getCreditDocuments(item!.key),
     enabled: !!item?.key,
   });
 
   // Client documents
-  const {
-    data: clientDocuments,
-    isLoading: isLoadingClientDocs,
-  } = useQuery<CreditClientDocument[]>({
-    queryKey: ["creditClientDocuments", item?.key, clientDocsPage, clientDocsSize],
-    queryFn: () => creditService.getClientDocuments(item!.key, clientDocsPage, clientDocsSize),
+  const { data: clientDocuments, isLoading: isLoadingClientDocs } = useQuery<
+    CreditClientDocument[]
+  >({
+    queryKey: [
+      "creditClientDocuments",
+      item?.key,
+      clientDocsPage,
+      clientDocsSize,
+    ],
+    queryFn: () =>
+      creditService.getClientDocuments(
+        item!.key,
+        clientDocsPage,
+        clientDocsSize,
+      ),
     enabled: !!item?.key,
   });
 
-  const clientDocsTotalPages = Math.ceil((clientDocuments || []).length / clientDocsSize);
+  const clientDocsTotalPages = Math.ceil(
+    (clientDocuments || []).length / clientDocsSize,
+  );
 
   return (
     <div className="h-full overflow-y-auto border-l bg-background">
       <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between gap-2 mb-6">
           <h2 className="text-lg font-semibold truncate">
-            {item?.offer} - {item?.client}/{item?.clientBranch}
+            {item?.offer} - {item?.client}/{item?.clientBranch} -{" "}
+            {item?.clientName}
           </h2>
           <div className="flex items-center gap-2 shrink-0">
             {canManageSales && item && onAssignClick && (
@@ -157,9 +182,15 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
           <Tabs defaultValue="overview">
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview">{t("sales.overview")}</TabsTrigger>
-              <TabsTrigger value="salesOrder">{t("sales.internalOrder")}</TabsTrigger>
-              <TabsTrigger value="documents">{t("credit.documents")}</TabsTrigger>
-              <TabsTrigger value="allocation">{t("sales.allocationDetails")}</TabsTrigger>
+              <TabsTrigger value="salesOrder">
+                {t("sales.internalOrder")}
+              </TabsTrigger>
+              <TabsTrigger value="documents">
+                {t("credit.documents")}
+              </TabsTrigger>
+              <TabsTrigger value="allocation">
+                {t("sales.allocationDetails")}
+              </TabsTrigger>
               <TabsTrigger value="tracking">{t("sales.tracking")}</TabsTrigger>
             </TabsList>
 
@@ -171,7 +202,9 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
                 </div>
 
                 <div className="p-3 bg-muted/50 rounded-lg">
-                  <span className="text-muted-foreground text-sm">{t("sales.assign.currentAssignee")}:</span>
+                  <span className="text-muted-foreground text-sm">
+                    {t("sales.assign.currentAssignee")}:
+                  </span>
                   <p className="font-medium text-sm">
                     {item.user || t("sales.assign.unassigned")}
                   </p>
@@ -179,81 +212,137 @@ export const SalesDetailPanel = ({ item, isOpen, onClose, onAssignClick, variati
 
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <span className="text-muted-foreground">{t("sales.offer")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.offer")}:
+                    </span>
                     <p className="font-medium">{item.offer}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.client")}:</span>
-                    <p className="font-medium">{item.client}/{item.clientBranch}</p>
+                    <span className="text-muted-foreground">
+                      {t("sales.client")}:
+                    </span>
+                    <p className="font-medium">
+                      {item.client}/{item.clientBranch}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.value")}:</span>
-                    <p className="font-medium">{formatCurrency(item.value, item.currency)}</p>
+                    <span className="text-muted-foreground">
+                      {t("sales.value")}:
+                    </span>
+                    <p className="font-medium">
+                      {formatCurrency(item.value, item.currency)}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.currency")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.currency")}:
+                    </span>
                     <p className="font-medium">{item.currency}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.seller")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.seller")}:
+                    </span>
                     <p className="font-medium">{item.sellerName}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.sellerGroup")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.sellerGroup")}:
+                    </span>
                     <p className="font-medium">{item.sellerGroup}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.type")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.groupName")}:
+                    </span>
+                    <p className="font-medium">{item.groupName}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">
+                      {t("sales.type")}:
+                    </span>
                     <p className="font-medium">{item.type}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.cnpj")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.cnpj")}:
+                    </span>
                     <p className="font-medium">{item.cnpj}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.tid")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.tid")}:
+                    </span>
                     <p className="font-medium">{item.tid || "-"}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.date")}:</span>
-                    <p className="font-medium">{formatDate(item.date, locale)}</p>
+                    <span className="text-muted-foreground">
+                      {t("sales.date")}:
+                    </span>
+                    <p className="font-medium">
+                      {formatDate(item.date, locale)}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.paymentCondition")}:</span>
-                    <p className="font-medium">{item.paymentCondition || "-"}</p>
+                    <span className="text-muted-foreground">
+                      {t("sales.paymentCondition")}:
+                    </span>
+                    <p className="font-medium">
+                      {item.paymentCondition || "-"}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.contract")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.contract")}:
+                    </span>
                     <p className="font-medium">{item.contract || "-"}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.additive")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.additive")}:
+                    </span>
                     <p className="font-medium">{item.additive || "-"}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.partial")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.partial")}:
+                    </span>
                     <p className="font-medium">{item.partial || "-"}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("sales.reinvoice")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("sales.reinvoice")}:
+                    </span>
                     <p className="font-medium">{item.reinvoice || "-"}</p>
                   </div>
                 </div>
 
                 {/* Current card PO details */}
                 <div className="border-t pt-3 mt-3">
-                  <h4 className="font-medium text-sm mb-2">{t("sales.purchaseOrders")}</h4>
+                  <h4 className="font-medium text-sm mb-2">
+                    {t("sales.purchaseOrders")}
+                  </h4>
                   <div className="grid grid-cols-3 gap-3 text-sm">
                     <div>
-                      <span className="text-muted-foreground">{t("sales.variations.purchaseOrderId")}:</span>
-                      <p className="font-medium">{item.purchaseOrderId || "-"}</p>
+                      <span className="text-muted-foreground">
+                        {t("sales.variations.purchaseOrderId")}:
+                      </span>
+                      <p className="font-medium">
+                        {item.purchaseOrderId || "-"}
+                      </p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">{t("sales.variations.purchaseOrderBranch")}:</span>
-                      <p className="font-medium">{item.purchaseOrderBranch || "-"}</p>
+                      <span className="text-muted-foreground">
+                        {t("sales.variations.purchaseOrderBranch")}:
+                      </span>
+                      <p className="font-medium">
+                        {item.purchaseOrderBranch || "-"}
+                      </p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">{t("sales.variations.processId")}:</span>
+                      <span className="text-muted-foreground">
+                        {t("sales.variations.processId")}:
+                      </span>
                       <p className="font-medium">{item.processId || "-"}</p>
                     </div>
                   </div>

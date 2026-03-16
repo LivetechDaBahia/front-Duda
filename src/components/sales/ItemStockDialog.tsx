@@ -65,25 +65,53 @@ export const ItemStockDialog = ({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="whitespace-nowrap">{t("sales.branch")}</TableHead>
-                    <TableHead className="whitespace-nowrap">{t("sales.stock.warehouse")}</TableHead>
-                    <TableHead className="whitespace-nowrap text-right">{t("sales.stock.available")}</TableHead>
-                    <TableHead className="whitespace-nowrap text-right">{t("sales.stock.30days")}</TableHead>
-                    <TableHead className="whitespace-nowrap text-right">{t("sales.stock.31_60days")}</TableHead>
-                    <TableHead className="whitespace-nowrap text-right">{t("sales.stock.61_90days")}</TableHead>
-                    <TableHead className="whitespace-nowrap text-right">{t("sales.stock.90plus")}</TableHead>
+                    <TableHead className="whitespace-nowrap">
+                      {t("sales.branch")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap">
+                      {t("sales.stock.warehouse")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap text-right">
+                      {t("sales.stock.available")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap text-right">
+                      {t("sales.stock.30days")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap text-right">
+                      {t("sales.stock.31_60days")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap text-right">
+                      {t("sales.stock.61_90days")}
+                    </TableHead>
+                    <TableHead className="whitespace-nowrap text-right">
+                      {t("sales.stock.90plus")}
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {stocks.map((row, idx) => (
                     <TableRow key={`stock-${idx}`}>
-                      <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
-                      <TableCell className="whitespace-nowrap">{row.warehouse}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{row.available}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{row["30"]}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{row["31-60"]}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{row["61-90"]}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{row["90+"]}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {row.branch}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {row.warehouse}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-right">
+                        {row.available}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-right">
+                        {row["30"]}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-right">
+                        {row["31-60"]}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-right">
+                        {row["61-90"]}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-right">
+                        {row["90+"]}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

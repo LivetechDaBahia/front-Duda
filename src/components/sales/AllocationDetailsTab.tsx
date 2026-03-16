@@ -10,7 +10,15 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, TableIcon, MoreHorizontal, PackageMinus, PackageSearch, PackagePlus, ClipboardList } from "lucide-react";
+import {
+  LayoutGrid,
+  TableIcon,
+  MoreHorizontal,
+  PackageMinus,
+  PackageSearch,
+  PackagePlus,
+  ClipboardList,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,17 +51,28 @@ const DetailField = ({ label, value, className = "" }: DetailFieldProps) => (
   </div>
 );
 
-const ObservationField = ({ label, value }: { label: string; value: string | null | undefined }) => {
+const ObservationField = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | null | undefined;
+}) => {
   if (!value) return null;
   return (
     <div>
-      <span className="text-muted-foreground text-xs font-medium">{label}:</span>
+      <span className="text-muted-foreground text-xs font-medium">
+        {label}:
+      </span>
       <p className="text-sm mt-0.5">{value}</p>
     </div>
   );
 };
 
-const ObservationsSection = (_props: { details: SalesElementItemDetails[]; t: (key: string) => string }) => {
+const ObservationsSection = (_props: {
+  details: SalesElementItemDetails[];
+  t: (key: string) => string;
+}) => {
   return null;
 };
 
@@ -66,10 +85,22 @@ interface ItemActionsMenuProps {
   t: (key: string) => string;
 }
 
-const ItemActionsMenu = ({ item, onDeallocate, onReallocate, onCheckStock, onViewAllocation, t }: ItemActionsMenuProps) => (
+const ItemActionsMenu = ({
+  item,
+  onDeallocate,
+  onReallocate,
+  onCheckStock,
+  onViewAllocation,
+  t,
+}: ItemActionsMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7"
+        onClick={(e) => e.stopPropagation()}
+      >
         <MoreHorizontal className="h-4 w-4" />
       </Button>
     </DropdownMenuTrigger>
@@ -116,53 +147,149 @@ const AllocationTableView = ({
           <TableHeader>
             <TableRow>
               <TableHead className="whitespace-nowrap w-10"></TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.branch")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.order")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.item")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.product")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.description")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.local")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numAvailable")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numReserved")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.review")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.contract")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.additional")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.batch")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.sequence")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.include")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numOp")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.purchaseOrder")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numPo")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.purchaseRequest")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numSc")}</TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.branch")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.order")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.item")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.product")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.description")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.local")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.numSold")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numAvailable")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numReserved")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.review")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.contract")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.additional")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.batch")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.sequence")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.include")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numOp")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.purchaseOrder")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numPo")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.purchaseRequest")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numSc")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.pa1")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.pa2")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {details.map((row, idx) => (
               <TableRow key={`detail-${idx}`}>
                 <TableCell>
-                  <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} onViewAllocation={onViewAllocation} t={t} />
+                  <ItemActionsMenu
+                    item={row}
+                    onDeallocate={onDeallocate}
+                    onReallocate={onReallocate}
+                    onCheckStock={onCheckStock}
+                    onViewAllocation={onViewAllocation}
+                    t={t}
+                  />
                 </TableCell>
-                <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.branch}
+                </TableCell>
                 <TableCell className="whitespace-nowrap">{row.order}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.item}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.product}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.description}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.local || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numAvailable}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numReserved}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.review || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.contract || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.additional || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.batch || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.sequence || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.include || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numOp}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.purchaseOrder || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numPo}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.purchaseRequest || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numSc}</TableCell>
-
+                <TableCell className="whitespace-nowrap">
+                  {row.product}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.description}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.local || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.numSold}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numAvailable}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numReserved}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.review || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.contract || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.additional || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.batch || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.sequence || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.include || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numOp}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.purchaseOrder || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numPo}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.purchaseRequest || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numSc}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row["pa1"]}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row["pa2"]}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -196,28 +323,65 @@ const AllocationCardView = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="whitespace-nowrap">{t("sales.branch")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.order")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.item")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.product")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.description")}</TableHead>
-              <TableHead className="whitespace-nowrap">{t("sales.local")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numAvailable")}</TableHead>
-              <TableHead className="whitespace-nowrap text-right">{t("sales.numReserved")}</TableHead>
-
+              <TableHead className="whitespace-nowrap">
+                {t("sales.branch")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.order")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.item")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.product")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.description")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.local")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.numSold")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numAvailable")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numReserved")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {details.map((row, idx) => (
               <TableRow key={`detail-${idx}`}>
-                <TableCell className="whitespace-nowrap">{row.branch}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.order}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.item}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.product}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.description}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.local || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numAvailable}</TableCell>
-                <TableCell className="whitespace-nowrap text-right">{row.numReserved}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.branch || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.order || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.item || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.product || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.description || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.local || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.numSold || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numAvailable}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.numReserved}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -234,7 +398,14 @@ const AllocationCardView = ({
             <p className="font-semibold text-sm break-words whitespace-normal">
               {row.product} - {row.description}
             </p>
-            <ItemActionsMenu item={row} onDeallocate={onDeallocate} onReallocate={onReallocate} onCheckStock={onCheckStock} onViewAllocation={onViewAllocation} t={t} />
+            <ItemActionsMenu
+              item={row}
+              onDeallocate={onDeallocate}
+              onReallocate={onReallocate}
+              onCheckStock={onCheckStock}
+              onViewAllocation={onViewAllocation}
+              t={t}
+            />
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3">
@@ -244,6 +415,7 @@ const AllocationCardView = ({
             <DetailField label={t("sales.batch")} value={row.batch} />
             <DetailField label={t("sales.sequence")} value={row.sequence} />
             <DetailField label={t("sales.include")} value={row.include} />
+
             <DetailField
               label={t("sales.productOrder")}
               value={`${row.productOrder || "-"} (${t("sales.numOp")}: ${row.numOp})`}
@@ -257,7 +429,6 @@ const AllocationCardView = ({
               value={`${row.purchaseRequest || "-"} (${t("sales.numSc")}: ${row.numSc})`}
             />
           </div>
-
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
@@ -265,13 +436,22 @@ const AllocationCardView = ({
   </div>
 );
 
-export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: AllocationDetailsTabProps) => {
+export const AllocationDetailsTab = ({
+  details,
+  isLoading,
+  onDeallocated,
+}: AllocationDetailsTabProps) => {
   const { t } = useLocale();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
-  const [deallocateItem, setDeallocateItem] = useState<SalesElementItemDetails | null>(null);
-  const [reallocateItem, setReallocateItem] = useState<SalesElementItemDetails | null>(null);
-  const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(null);
-  const [allocationItem, setAllocationItem] = useState<SalesElementItemDetails | null>(null);
+  const [deallocateItem, setDeallocateItem] =
+    useState<SalesElementItemDetails | null>(null);
+  const [reallocateItem, setReallocateItem] =
+    useState<SalesElementItemDetails | null>(null);
+  const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(
+    null,
+  );
+  const [allocationItem, setAllocationItem] =
+    useState<SalesElementItemDetails | null>(null);
 
   if (isLoading) {
     return (
@@ -315,7 +495,7 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
         </div>
       </div>
 
-      {viewMode === "cards" ? (
+      {viewMode === "table" ? (
         <AllocationCardView
           details={details}
           t={t}
@@ -351,14 +531,22 @@ export const AllocationDetailsTab = ({ details, isLoading, onDeallocated }: Allo
 
       <ItemStockDialog
         productId={stockItem?.product || null}
-        productName={stockItem ? `${stockItem.product} - ${stockItem.description}` : undefined}
+        productName={
+          stockItem
+            ? `${stockItem.product} - ${stockItem.description}`
+            : undefined
+        }
         open={!!stockItem}
         onClose={() => setStockItem(null)}
       />
 
       <ProductAllocationDialog
         productId={allocationItem?.product || null}
-        productName={allocationItem ? `${allocationItem.product} - ${allocationItem.description}` : undefined}
+        productName={
+          allocationItem
+            ? `${allocationItem.product} - ${allocationItem.description}`
+            : undefined
+        }
         open={!!allocationItem}
         onClose={() => setAllocationItem(null)}
       />

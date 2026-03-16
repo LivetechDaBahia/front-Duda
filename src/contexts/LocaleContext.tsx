@@ -548,7 +548,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
-    "credit.assign.description": "Select a user to assign this credit item to. Search by name or email to find users from other departments.",
+    "credit.assign.description":
+      "Select a user to assign this credit item to. Search by name or email to find users from other departments.",
     "credit.assign.currentAssignee": "Current Assignee",
     "credit.assign.unassigned": "Unassigned",
     "credit.assign.emailLabel": "Assignee Email *",
@@ -617,7 +618,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.insufficientCredit": "Insufficient Credit Limit",
     "credit.limit.insufficientCreditDetail": "Exceeded by {value}",
     "credit.limit.observationLabel": "Observation",
-    "credit.limit.observationPlaceholder": "Enter your reason (max 100 characters)",
+    "credit.limit.observationPlaceholder":
+      "Enter your reason (max 100 characters)",
     "credit.defaultProbability.title": "Default Risk Analysis",
     "credit.defaultProbability.probability": "Default Probability",
     "credit.defaultProbability.pendingItems": "Pending Items",
@@ -890,6 +892,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.product": "Product",
     "sales.description": "Description",
     "sales.local": "Location",
+    "sales.numSold": "Qty. Sold",
+    "sales.group": "Sales Group",
     "sales.numAvailable": "Qty Available",
     "sales.numReserved": "Qty Reserved",
     "sales.productOrder": "Production Order",
@@ -911,6 +915,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.additive": "Additive",
     "sales.partial": "Partial",
     "sales.reinvoice": "Reinvoice",
+    "sales.pa1": "PA1",
+    "sales.pa2": "PA2",
+    "sales.group": "Grupo de Vendas",
     "sales.clientName": "Client Name",
     "sales.groupName": "Group",
     "sales.statusAss": "Status",
@@ -958,14 +965,18 @@ const translations: Record<Locale, Record<string, string>> = {
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Deallocate",
     "sales.deallocateTitle": "Confirm Deallocation",
-    "sales.deallocateDescription": "Are you sure you want to deallocate this item? This action cannot be undone.",
+    "sales.deallocateDescription":
+      "Are you sure you want to deallocate this item? This action cannot be undone.",
     "sales.deallocateSuccess": "Item Deallocated",
-    "sales.deallocateSuccessDescription": "The item has been successfully deallocated.",
+    "sales.deallocateSuccessDescription":
+      "The item has been successfully deallocated.",
     "sales.reallocate": "Reallocate",
     "sales.reallocateTitle": "Confirm Reallocation",
-    "sales.reallocateDescription": "Are you sure you want to reallocate this item?",
+    "sales.reallocateDescription":
+      "Are you sure you want to reallocate this item?",
     "sales.reallocateSuccess": "Item Reallocated",
-    "sales.reallocateSuccessDescription": "The item has been successfully reallocated.",
+    "sales.reallocateSuccessDescription":
+      "The item has been successfully reallocated.",
     "sales.checkStock": "Check Stock",
     "sales.itemStock": "Item Stock",
     "sales.noStockData": "No stock data available",
@@ -980,9 +991,11 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Change Observations
     "sales.changeObservations": "Change Observations",
-    "sales.changeObservationsDescription": "Edit the observations for this internal order",
+    "sales.changeObservationsDescription":
+      "Edit the observations for this internal order",
     "sales.observationsUpdated": "Observations Updated",
-    "sales.observationsUpdatedDescription": "The observations have been successfully updated.",
+    "sales.observationsUpdatedDescription":
+      "The observations have been successfully updated.",
 
     "common.processing": "Processing...",
 
@@ -1005,10 +1018,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.assign.successTitle": "Item assigned",
     "sales.assign.successDesc": "Successfully assigned to {name}",
     "sales.assign.permissionDeniedTitle": "Permission denied",
-    "sales.assign.permissionDeniedDesc": "You don't have permission to assign this item.",
+    "sales.assign.permissionDeniedDesc":
+      "You don't have permission to assign this item.",
     "sales.assign.failedTitle": "Assignment failed",
     "sales.assign.genericError": "Could not assign item. Please try again.",
-    "sales.assign.alreadyAssigned": "This item is already assigned. Only managers or admins can reassign it.",
+    "sales.assign.alreadyAssigned":
+      "This item is already assigned. Only managers or admins can reassign it.",
   },
   "pt-BR": {
     // Error messages
@@ -1620,7 +1635,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.insufficientCredit": "Limite de Crédito Insuficiente",
     "credit.limit.insufficientCreditDetail": "Excedido em {value}",
     "credit.limit.observationLabel": "Observações",
-    "credit.limit.observationPlaceholder": "Escreva o motivo (max 100 caracteres)",
+    "credit.limit.observationPlaceholder":
+      "Escreva o motivo (max 100 caracteres)",
     "credit.defaultProbability.title": "Análise de Risco de Inadimplência",
     "credit.defaultProbability.probability": "Probabilidade de Inadimplência",
     "credit.defaultProbability.pendingItems": "A vencer",
@@ -1909,6 +1925,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.product": "Produto",
     "sales.description": "Descrição",
     "sales.local": "Local",
+    "sales.numSold": "Qtd. Vendida",
     "sales.numAvailable": "Qtd. Disponível",
     "sales.numReserved": "Qtd. Reservada",
     "sales.productOrder": "Ordem de Produção",
@@ -1921,6 +1938,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.sequence": "Ordem",
     "sales.include": "Incluído",
     "sales.minDate": "Data Mín.",
+    "sales.pa1": "PA1",
+    "sales.pa2": "PA2",
     "sales.nf": "Mens. NF",
     "sales.observations": "Observações",
     "sales.shippingObservations": "Obs. Romaneio",
@@ -1977,7 +1996,8 @@ const translations: Record<Locale, Record<string, string>> = {
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desalocar",
     "sales.deallocateTitle": "Confirmar Desalocação",
-    "sales.deallocateDescription": "Tem certeza que deseja desalocar este item? Esta ação não pode ser desfeita.",
+    "sales.deallocateDescription":
+      "Tem certeza que deseja desalocar este item? Esta ação não pode ser desfeita.",
     "sales.deallocateSuccess": "Item Desalocado",
     "sales.deallocateSuccessDescription": "O item foi desalocado com sucesso.",
     "sales.reallocate": "Realocar",
@@ -1999,22 +2019,27 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Change Observations
     "sales.changeObservations": "Alterar Observações",
-    "sales.changeObservationsDescription": "Edite as observações deste pedido interno",
+    "sales.changeObservationsDescription":
+      "Edite as observações deste pedido interno",
     "sales.observationsUpdated": "Observações Atualizadas",
-    "sales.observationsUpdatedDescription": "As observações foram atualizadas com sucesso.",
+    "sales.observationsUpdatedDescription":
+      "As observações foram atualizadas com sucesso.",
 
     "common.processing": "Processando...",
 
     // Sales Assignment
     "sales.assign.title": "Atribuir Item",
-    "sales.assign.description": "Selecione um usuário para atribuir este item de venda.",
+    "sales.assign.description":
+      "Selecione um usuário para atribuir este item de venda.",
     "sales.assign.currentAssignee": "Responsável Atual",
     "sales.assign.unassigned": "Não atribuído",
     "sales.assign.selectUser": "Selecionar Usuário",
     "sales.assign.searchPlaceholder": "Buscar por nome ou e-mail...",
-    "sales.assign.searchHint": "Pesquise para encontrar usuários de outros departamentos",
+    "sales.assign.searchHint":
+      "Pesquise para encontrar usuários de outros departamentos",
     "sales.assign.loadingUsers": "Carregando usuários...",
-    "sales.assign.noUsersAvailable": "Nenhum usuário disponível para atribuição.",
+    "sales.assign.noUsersAvailable":
+      "Nenhum usuário disponível para atribuição.",
     "sales.assign.myDepartment": "Meu Departamento",
     "sales.assign.otherDepartments": "Outros Departamentos",
     "sales.assign.noResults": "Nenhum usuário encontrado.",
@@ -2024,10 +2049,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.assign.successTitle": "Item atribuído",
     "sales.assign.successDesc": "Atribuído com sucesso a {name}",
     "sales.assign.permissionDeniedTitle": "Permissão negada",
-    "sales.assign.permissionDeniedDesc": "Você não tem permissão para atribuir este item.",
+    "sales.assign.permissionDeniedDesc":
+      "Você não tem permissão para atribuir este item.",
     "sales.assign.failedTitle": "Falha na atribuição",
-    "sales.assign.genericError": "Não foi possível atribuir o item. Tente novamente.",
-    "sales.assign.alreadyAssigned": "Este item já está atribuído. Apenas gerentes ou administradores podem reatribuí-lo.",
+    "sales.assign.genericError":
+      "Não foi possível atribuir o item. Tente novamente.",
+    "sales.assign.alreadyAssigned":
+      "Este item já está atribuído. Apenas gerentes ou administradores podem reatribuí-lo.",
   },
   "es-ES": {
     // Error messages
@@ -2645,8 +2673,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.limit.noData": "No hay datos de límite de crédito disponibles",
     "credit.limit.insufficientCredit": "Límite de Crédito Insuficiente",
     "credit.limit.insufficientCreditDetail": "Excedido por {value}",
-      "credit.limit.observationLabel": "Observaciones",
-      "credit.limit.observationPlaceholder": "Introduce tu motivo (max 100 characters)",
+    "credit.limit.observationLabel": "Observaciones",
+    "credit.limit.observationPlaceholder":
+      "Introduce tu motivo (max 100 characters)",
     "credit.defaultProbability.title": "Análisis de Riesgo de Incumplimiento",
     "credit.defaultProbability.probability": "Probabilidad de Incumplimiento",
     "credit.defaultProbability.pendingItems": "Elementos Pendientes",
@@ -2926,6 +2955,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.product": "Producto",
     "sales.description": "Descripción",
     "sales.local": "Ubicación",
+    "sales.numSold": "Cant. Vendida",
+    "sales.group": "Grupo de Ventas",
     "sales.numAvailable": "Cant. Disponible",
     "sales.numReserved": "Cant. Reservada",
     "sales.productOrder": "Orden de Producción",
@@ -2939,6 +2970,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.include": "Incluido",
     "sales.minDate": "Fecha Mín.",
     "sales.nf": "Mens. NF",
+    "sales.pa1": "PA1",
+    "sales.pa2": "PA2",
     "sales.observations": "Observaciones",
     "sales.shippingObservations": "Obs. Envío",
     "sales.logisticsObservations": "Obs. Logística",
@@ -2994,14 +3027,18 @@ const translations: Record<Locale, Record<string, string>> = {
     // Deallocate, Reallocate & Stock
     "sales.deallocate": "Desasignar",
     "sales.deallocateTitle": "Confirmar Desasignación",
-    "sales.deallocateDescription": "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
+    "sales.deallocateDescription":
+      "¿Está seguro de que desea desasignar este elemento? Esta acción no se puede deshacer.",
     "sales.deallocateSuccess": "Elemento Desasignado",
-    "sales.deallocateSuccessDescription": "El elemento ha sido desasignado exitosamente.",
+    "sales.deallocateSuccessDescription":
+      "El elemento ha sido desasignado exitosamente.",
     "sales.reallocate": "Reasignar",
     "sales.reallocateTitle": "Confirmar Reasignación",
-    "sales.reallocateDescription": "¿Está seguro de que desea reasignar este elemento?",
+    "sales.reallocateDescription":
+      "¿Está seguro de que desea reasignar este elemento?",
     "sales.reallocateSuccess": "Elemento Reasignado",
-    "sales.reallocateSuccessDescription": "El elemento ha sido reasignado exitosamente.",
+    "sales.reallocateSuccessDescription":
+      "El elemento ha sido reasignado exitosamente.",
     "sales.checkStock": "Verificar Stock",
     "sales.itemStock": "Stock del Artículo",
     "sales.noStockData": "No hay datos de stock disponibles",
@@ -3016,22 +3053,27 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Change Observations
     "sales.changeObservations": "Cambiar Observaciones",
-    "sales.changeObservationsDescription": "Edite las observaciones de este pedido interno",
+    "sales.changeObservationsDescription":
+      "Edite las observaciones de este pedido interno",
     "sales.observationsUpdated": "Observaciones Actualizadas",
-    "sales.observationsUpdatedDescription": "Las observaciones han sido actualizadas exitosamente.",
+    "sales.observationsUpdatedDescription":
+      "Las observaciones han sido actualizadas exitosamente.",
 
     "common.processing": "Procesando...",
 
     // Sales Assignment
     "sales.assign.title": "Asignar Elemento",
-    "sales.assign.description": "Seleccione un usuario para asignar este elemento de venta.",
+    "sales.assign.description":
+      "Seleccione un usuario para asignar este elemento de venta.",
     "sales.assign.currentAssignee": "Responsable Actual",
     "sales.assign.unassigned": "Sin asignar",
     "sales.assign.selectUser": "Seleccionar Usuario",
     "sales.assign.searchPlaceholder": "Buscar por nombre o correo...",
-    "sales.assign.searchHint": "Busque para encontrar usuarios de otros departamentos",
+    "sales.assign.searchHint":
+      "Busque para encontrar usuarios de otros departamentos",
     "sales.assign.loadingUsers": "Cargando usuarios...",
-    "sales.assign.noUsersAvailable": "No hay usuarios disponibles para asignación.",
+    "sales.assign.noUsersAvailable":
+      "No hay usuarios disponibles para asignación.",
     "sales.assign.myDepartment": "Mi Departamento",
     "sales.assign.otherDepartments": "Otros Departamentos",
     "sales.assign.noResults": "No se encontraron usuarios.",
@@ -3041,10 +3083,13 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.assign.successTitle": "Elemento asignado",
     "sales.assign.successDesc": "Asignado exitosamente a {name}",
     "sales.assign.permissionDeniedTitle": "Permiso denegado",
-    "sales.assign.permissionDeniedDesc": "No tiene permiso para asignar este elemento.",
+    "sales.assign.permissionDeniedDesc":
+      "No tiene permiso para asignar este elemento.",
     "sales.assign.failedTitle": "Error en la asignación",
-    "sales.assign.genericError": "No se pudo asignar el elemento. Intente nuevamente.",
-    "sales.assign.alreadyAssigned": "Este elemento ya está asignado. Solo gerentes o administradores pueden reasignarlo.",
+    "sales.assign.genericError":
+      "No se pudo asignar el elemento. Intente nuevamente.",
+    "sales.assign.alreadyAssigned":
+      "Este elemento ya está asignado. Solo gerentes o administradores pueden reasignarlo.",
   },
 };
 

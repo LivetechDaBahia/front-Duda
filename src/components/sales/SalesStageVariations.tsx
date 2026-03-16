@@ -51,7 +51,8 @@ export const SalesStageVariations = ({
                 </Badge>
               )}
               <span className="text-muted-foreground truncate">
-                {t("sales.variations.po")}: {v.purchaseOrderId || "-"}/{v.purchaseOrderBranch || "-"}
+                {t("sales.variations.po")}: {v.purchaseOrderId || "-"}/
+                {v.purchaseOrderBranch || "-"}
               </span>
               <span className="text-muted-foreground truncate">
                 {t("sales.variations.process")}: {v.processId || "-"}
@@ -67,12 +68,24 @@ export const SalesStageVariations = ({
     <Table>
       <TableHeader>
         <TableRow className="bg-muted/50">
-          <TableHead className="text-xs">{t("sales.variations.stage")}</TableHead>
-          <TableHead className="text-xs">{t("sales.variations.purchaseOrderId")}</TableHead>
-          <TableHead className="text-xs">{t("sales.variations.purchaseOrderBranch")}</TableHead>
-          <TableHead className="text-xs">{t("sales.variations.processId")}</TableHead>
-          <TableHead className="text-xs">{t("sales.variations.assignee")}</TableHead>
-          <TableHead className="text-xs">{t("sales.variations.group")}</TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.stage")}
+          </TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.purchaseOrderId")}
+          </TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.purchaseOrderBranch")}
+          </TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.processId")}
+          </TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.assignee")}
+          </TableHead>
+          <TableHead className="text-xs">
+            {t("sales.variations.group")}
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -90,9 +103,15 @@ export const SalesStageVariations = ({
                   </Badge>
                 )}
               </TableCell>
-              <TableCell className="text-xs py-1.5">{v.purchaseOrderId || "-"}</TableCell>
-              <TableCell className="text-xs py-1.5">{v.purchaseOrderBranch || "-"}</TableCell>
-              <TableCell className="text-xs py-1.5">{v.processId || "-"}</TableCell>
+              <TableCell className="text-xs py-1.5">
+                {v.purchaseOrderId || "-"}
+              </TableCell>
+              <TableCell className="text-xs py-1.5">
+                {v.purchaseOrderBranch || "-"}
+              </TableCell>
+              <TableCell className="text-xs py-1.5">
+                {v.processId || "-"}
+              </TableCell>
               <TableCell className="text-xs py-1.5">{v.user || "-"}</TableCell>
               <TableCell className="text-xs py-1.5">{v.group || "-"}</TableCell>
             </TableRow>

@@ -11,7 +11,11 @@ interface SalesTrackingTabProps {
   processId: string;
 }
 
-export const SalesTrackingTab = ({ orderId, orderBranch, processId }: SalesTrackingTabProps) => {
+export const SalesTrackingTab = ({
+  orderId,
+  orderBranch,
+  processId,
+}: SalesTrackingTabProps) => {
   const { t } = useLocale();
 
   const { data: events = [], isLoading } = useQuery<ItemTrackingStatus[]>({
@@ -47,7 +51,9 @@ export const SalesTrackingTab = ({ orderId, orderBranch, processId }: SalesTrack
 
   return (
     <div className="space-y-1">
-      <h3 className="font-semibold text-sm mb-3">{t("sales.tracking.title")}</h3>
+      <h3 className="font-semibold text-sm mb-3">
+        {t("sales.tracking.title")}
+      </h3>
       <ol className="relative border-l-2 border-muted ml-3 space-y-4">
         {events.map((event, index) => (
           <li key={index} className="ml-4">
@@ -55,7 +61,9 @@ export const SalesTrackingTab = ({ orderId, orderBranch, processId }: SalesTrack
             <p className="font-medium text-sm">{event.description}</p>
             <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
               <Clock className="h-3 w-3" />
-              <span>{event.date} — {event.time}</span>
+              <span>
+                {event.date} — {event.time}
+              </span>
             </div>
           </li>
         ))}

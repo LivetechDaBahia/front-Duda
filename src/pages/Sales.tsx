@@ -12,19 +12,38 @@ import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { useLocale } from "@/contexts/LocaleContext";
 import { AccessDenied } from "@/components/shared/AccessDenied";
 import { Loader2 } from "lucide-react";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
-import type { SalesElementItem, SalesFilters as SalesFiltersType } from "@/types/sales";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@/components/ui/resizable";
+import type {
+  SalesElementItem,
+  SalesFilters as SalesFiltersType,
+} from "@/types/sales";
 
 const Sales = () => {
   const { canViewSales } = usePermissions();
   const { handleError } = useErrorHandler();
   const { t } = useLocale();
 
-  const { items, variationsMap, isLoading: isLoadingItems, error: itemsError, refetch } = useSales();
-  const { stages, isLoading: isLoadingStages, error: stagesError } = useSalesStages();
+  const {
+    items,
+    variationsMap,
+    isLoading: isLoadingItems,
+    error: itemsError,
+    refetch,
+  } = useSales();
+  const {
+    stages,
+    isLoading: isLoadingStages,
+    error: stagesError,
+  } = useSalesStages();
 
   const [view, setView] = useState<"kanban" | "table">("kanban");
-  const [selectedItem, setSelectedItem] = useState<SalesElementItem | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SalesElementItem | null>(
+    null,
+  );
   const [assignItem, setAssignItem] = useState<SalesElementItem | null>(null);
   const [filters, setFilters] = useState<SalesFiltersType>({
     search: "",
@@ -54,12 +73,17 @@ const Sales = () => {
           item.groupName?.toLowerCase().includes(s);
         if (!matches) return false;
       }
-      if (filters.status !== "all" && item.stageId !== filters.status) return false;
+      if (filters.status !== "all" && item.stageId !== filters.status)
+        return false;
       if (filters.type && item.type !== filters.type) return false;
       if (filters.seller && item.sellerName !== filters.seller) return false;
-      if (filters.name && !item.name?.toLowerCase().includes(filters.name.toLowerCase())) return false;
-      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup) return false;
-      if (filters.salesGroup && item.groupName !== filters.salesGroup) return false;
+      if (
+        filters.name &&
+        !item.name?.toLowerCase().includes(filters.name.toLowerCase())
+      )
+        return false;
+      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup)
+        return false;
       return true;
     });
   }, [items, filters]);
@@ -135,7 +159,10 @@ const Sales = () => {
           />
         </div>
 
-        <ResizablePanelGroup direction="horizontal" className="min-h-[calc(100vh-200px)]">
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="min-h-[calc(100vh-200px)]"
+        >
           <ResizablePanel defaultSize={selectedItem ? 50 : 100} minSize={25}>
             <div className="px-4 sm:px-6 pt-4 h-full overflow-auto">
               {view === "kanban" ? (
@@ -163,7 +190,11 @@ const Sales = () => {
                 <SalesDetailPanel
                   item={selectedItem}
                   isOpen={!!selectedItem}
-                  variations={variationsMap.get(`${selectedItem.id}-${selectedItem.key}`) || []}
+                  variations={
+                    variationsMap.get(
+                      `${selectedItem.id}-${selectedItem.key}`,
+                    ) || []
+                  }
                   onClose={() => setSelectedItem(null)}
                   onAssignClick={(item) => {
                     setSelectedItem(null);
