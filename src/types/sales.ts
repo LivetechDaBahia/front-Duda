@@ -33,6 +33,10 @@ export interface SalesElementItem {
   purchaseOrderId: string;
   purchaseOrderBranch: string;
   processId: string;
+  clientName: string;
+  groupName: string;
+  minimumDate: Date | null;
+  statusAss: string;
 }
 
 export interface SalesGroupedItem {
