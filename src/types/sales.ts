@@ -33,6 +33,10 @@ export interface SalesElementItem {
   purchaseOrderId: string;
   purchaseOrderBranch: string;
   processId: string;
+  clientName: string;
+  groupName: string;
+  minimumDate: Date | null;
+  statusAss: string;
 }
 
 export interface SalesGroupedItem {
@@ -95,17 +99,6 @@ export interface SalesAssignPayload {
   key?: string;
 }
 
-export interface SalesOrderItem {
-  item: string;
-  product: string;
-  description: string;
-  qtdVend: number;
-  qtdEnt: number;
-  process: string;
-  statusAss: string;
-  modFrete: string;
-}
-
 export interface SalesOrderDetails {
   branch: string;
   order: string;
@@ -127,7 +120,14 @@ export interface SalesOrderDetails {
   obsPacking: string;
   obsLogistics: string;
   obsProposal: string;
-  items: SalesOrderItem[];
+  item: string;
+  product: string;
+  description: string;
+  numSold: number;
+  numDelivered: number;
+  process: string;
+  statusAss: string;
+  shippingModality: string;
 }
 
 export interface DeallocateItemPayload {
