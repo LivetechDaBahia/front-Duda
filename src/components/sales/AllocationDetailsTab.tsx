@@ -258,14 +258,6 @@ const AllocationCardView = ({
             />
           </div>
 
-          {(row.nf || row.shippingObservations || row.logisticsObservations || row.offerObservations) && (
-            <div className="mt-3 pt-3 border-t space-y-2">
-              <ObservationField label={t("sales.nf")} value={row.nf} />
-              <ObservationField label={t("sales.shippingObservations")} value={row.shippingObservations} />
-              <ObservationField label={t("sales.logisticsObservations")} value={row.logisticsObservations} />
-              <ObservationField label={t("sales.offerObservations")} value={row.offerObservations} />
-            </div>
-          )}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
