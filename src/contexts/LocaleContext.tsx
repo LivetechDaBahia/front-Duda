@@ -862,6 +862,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.namePlaceholder": "Filter by name...",
     "sales.sellerGroup": "Seller Group",
     "sales.allSellerGroups": "All Seller Groups",
+    "sales.salesGroup": "Sales Group",
+    "sales.allSalesGroups": "All Sales Groups",
     "sales.type": "Type",
     "sales.operation": "Operation",
     "sales.cnpj": "CNPJ",
