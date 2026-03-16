@@ -33,6 +33,7 @@ const Sales = () => {
     seller: "",
     name: "",
     sellerGroup: "",
+    salesGroup: "",
   });
 
   const filteredItems = useMemo(() => {
