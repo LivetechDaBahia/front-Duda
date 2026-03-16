@@ -157,7 +157,6 @@ const AllocationTableView = ({
                 <TableCell className="whitespace-nowrap">{row.batch || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.sequence || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.include || "-"}</TableCell>
-                <TableCell className="whitespace-nowrap">{row.productOrder || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numOp}</TableCell>
                 <TableCell className="whitespace-nowrap">{row.purchaseOrder || "-"}</TableCell>
                 <TableCell className="whitespace-nowrap text-right">{row.numPo}</TableCell>
