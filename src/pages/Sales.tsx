@@ -70,7 +70,7 @@ const Sales = () => {
           item.processId?.toLowerCase().includes(s) ||
           item.sellerName?.toLowerCase().includes(s) ||
           item.clientBranch?.toLowerCase().includes(s) ||
-          item.groupName?.toLowerCase().includes(s);
+          item.group?.toLowerCase().includes(s);
         if (!matches) return false;
       }
       if (filters.status !== "all" && item.stageId !== filters.status)
