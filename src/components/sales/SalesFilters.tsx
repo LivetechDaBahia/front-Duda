@@ -64,6 +64,7 @@ export const SalesFilters = ({
       seller: "",
       name: "",
       sellerGroup: "",
+      salesGroup: "",
     });
   };
 
