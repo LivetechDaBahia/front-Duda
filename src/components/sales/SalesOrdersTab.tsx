@@ -271,6 +271,12 @@ export const SalesOrdersTab = ({
                         <TableHead className="whitespace-nowrap">
                           {t("sales.orderItem.process")}
                         </TableHead>
+                        <TableHead className="whitespace-nowrap">
+                          {t("sales.orderItem.statusAss")}
+                        </TableHead>
+                        <TableHead className="whitespace-nowrap">
+                          {t("sales.orderItem.shippingModality")}
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
