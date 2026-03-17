@@ -168,18 +168,6 @@ export const SalesOrdersTab = ({
             </div>
             <div>
               <span className="text-muted-foreground">
-                {t("sales.statusAss")}:
-              </span>
-              <p className="font-medium">{order.statusAss || "-"}</p>
-            </div>
-            <div>
-              <span className="text-muted-foreground">
-                {t("sales.shippingModality")}:
-              </span>
-              <p className="font-medium">{order.shippingModality || "-"}</p>
-            </div>
-            <div>
-              <span className="text-muted-foreground">
                 {t("sales.isPartial")}:
               </span>
               <p className="font-medium">
