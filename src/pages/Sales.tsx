@@ -64,7 +64,7 @@ const Sales = () => {
           String(item.id).includes(s) ||
           item.offer?.toLowerCase().includes(s) ||
           item.client?.toLowerCase().includes(s) ||
-          item.clientName?.toLowerCase().includes(s) ||
+          
           item.cnpj?.toLowerCase().includes(s) ||
           item.purchaseOrderId?.toLowerCase().includes(s) ||
           item.processId?.toLowerCase().includes(s) ||
