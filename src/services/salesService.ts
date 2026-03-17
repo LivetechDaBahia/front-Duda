@@ -108,6 +108,6 @@ export const salesService = {
     productId: string,
   ): Promise<ProductAllocationInfo[]> {
     addUIBreadcrumb("getProductAllocation", "salesService", { productId });
-    return apiClient.get(`/sales/item-allocation/${productId}`);
+    return apiClient.get(`/sales/item-allocation/${encodeURIComponent(productId)}`);
   },
 };
