@@ -77,7 +77,7 @@ export const salesService = {
 
   async getItemStock(productId: string): Promise<ItemStock[]> {
     addUIBreadcrumb("getItemStock", "salesService", { productId });
-    return apiClient.post(`/sales/item-stock/${productId}`);
+    return apiClient.post(`/sales/item-stock/${encodeURIComponent(productId)}`);
   },
 
   async changeObservations(payload: ChangeObservationsPayload): Promise<void> {

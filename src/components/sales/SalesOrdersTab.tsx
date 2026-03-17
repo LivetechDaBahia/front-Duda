@@ -168,18 +168,6 @@ export const SalesOrdersTab = ({
             </div>
             <div>
               <span className="text-muted-foreground">
-                {t("sales.statusAss")}:
-              </span>
-              <p className="font-medium">{order.statusAss || "-"}</p>
-            </div>
-            <div>
-              <span className="text-muted-foreground">
-                {t("sales.shippingModality")}:
-              </span>
-              <p className="font-medium">{order.shippingModality || "-"}</p>
-            </div>
-            <div>
-              <span className="text-muted-foreground">
                 {t("sales.isPartial")}:
               </span>
               <p className="font-medium">
@@ -283,6 +271,12 @@ export const SalesOrdersTab = ({
                         <TableHead className="whitespace-nowrap">
                           {t("sales.orderItem.process")}
                         </TableHead>
+                        <TableHead className="whitespace-nowrap">
+                          {t("sales.orderItem.statusAss")}
+                        </TableHead>
+                        <TableHead className="whitespace-nowrap">
+                          {t("sales.orderItem.shippingModality")}
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -305,6 +299,12 @@ export const SalesOrdersTab = ({
                           </TableCell>
                           <TableCell className="whitespace-nowrap">
                             {row.process || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {row.statusAss || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {row.modFrete || "-"}
                           </TableCell>
                         </TableRow>
                       ))}

@@ -48,7 +48,7 @@ export const SalesFilters = ({
   }, [items]);
 
   const availableSalesGroups = useMemo(() => {
-    const groups = new Set(items.map((i) => i.groupName).filter(Boolean));
+    const groups = new Set(items.map((i) => i.group).filter(Boolean));
     return Array.from(groups).sort();
   }, [items]);
 
