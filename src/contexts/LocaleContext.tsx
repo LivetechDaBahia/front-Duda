@@ -917,7 +917,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.reinvoice": "Reinvoice",
     "sales.pa1": "PA1",
     "sales.pa2": "PA2",
-    "sales.group": "Grupo de Vendas",
+    
     "sales.clientName": "Client Name",
     "sales.groupName": "Group",
     "sales.statusAss": "Status",
