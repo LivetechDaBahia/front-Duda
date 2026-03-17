@@ -123,20 +123,12 @@ export const SalesCard = ({
             <span className="truncate ml-2">{item.paymentCondition}</span>
           </div>
         )}
-        {item.groupName && (
+        {item.group && (
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">
-              {t("sales.groupName")}
+              {t("sales.group")}
             </span>
-            <span className="truncate ml-2">{item.groupName}</span>
-          </div>
-        )}
-        {item.statusAss && (
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("sales.statusAss")}
-            </span>
-            <span className="truncate ml-2">{item.statusAss}</span>
+            <span className="truncate ml-2">{item.group}</span>
           </div>
         )}
 
