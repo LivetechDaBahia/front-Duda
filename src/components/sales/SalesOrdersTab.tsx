@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import type { SalesOrderDetails, SalesOrderItem } from "@/types/sales";
+import type { SalesOrderDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
 import { ChangeObservationsDialog } from "@/components/sales/ChangeObservationsDialog";
@@ -48,23 +48,6 @@ export const SalesOrdersTab = ({
   const { t, locale } = useLocale();
   const [observationsOrder, setObservationsOrder] =
     useState<SalesOrderDetails | null>(null);
-
-  const groupedOrders = useMemo<GroupedOrder[]>(() => {
-    const map = new Map<string, GroupedOrder>();
-    for (const row of orders) {
-      const key = `${row.branch}-${row.order}`;
-      if (!map.has(key)) {
-        map.set(key, {
-          branch: row.branch,
-          order: row.order,
-          header: row,
-          items: [],
-        });
-      }
-      map.get(key)!.items.push(row);
-    }
-    return Array.from(map.values());
-  }, [orders]);
 
   if (isLoading) {
     return (
