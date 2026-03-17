@@ -66,7 +66,7 @@ export const SalesCard = ({
               {t("sales.client")}
             </span>
             <p className="text-xs text-muted-foreground truncate mt-1">
-              {item.clientName || `${item.client}/${item.clientBranch}`}
+              {item.client}/{item.clientBranch}
             </p>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
