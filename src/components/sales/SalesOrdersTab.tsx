@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import type { SalesOrderDetails } from "@/types/sales";
+import type { SalesOrderDetails, SalesOrderItem } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
 import { ChangeObservationsDialog } from "@/components/sales/ChangeObservationsDialog";
@@ -27,13 +27,6 @@ interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
   onObservationsChanged?: () => void;
-}
-
-interface GroupedOrder {
-  branch: string;
-  order: string;
-  header: SalesOrderDetails;
-  items: SalesOrderDetails[];
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
