@@ -66,7 +66,7 @@ export const SalesCard = ({
               {t("sales.client")}
             </span>
             <p className="text-xs text-muted-foreground truncate mt-1">
-              {item.clientName || `${item.client}/${item.clientBranch}`}
+              {item.client}/{item.clientBranch}
             </p>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
@@ -123,38 +123,18 @@ export const SalesCard = ({
             <span className="truncate ml-2">{item.paymentCondition}</span>
           </div>
         )}
-        {item.groupName && (
+        {item.group && (
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">
-              {t("sales.groupName")}
+              {t("sales.group")}
             </span>
-            <span className="truncate ml-2">{item.groupName}</span>
-          </div>
-        )}
-        {item.statusAss && (
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("sales.statusAss")}
-            </span>
-            <span className="truncate ml-2">{item.statusAss}</span>
+            <span className="truncate ml-2">{item.group}</span>
           </div>
         )}
 
         {item.date && (
           <div className="text-xs text-muted-foreground truncate">
             {formatDate(item.date, locale)} • {item.oper}
-          </div>
-        )}
-        {item.minimumDate && (
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("sales.minimumDate")}
-            </span>
-            <span
-              className={`truncate ml-2 ${new Date(item.minimumDate) > new Date() ? "font-bold" : ""}`}
-            >
-              {formatDate(item.minimumDate, locale)}
-            </span>
           </div>
         )}
 
