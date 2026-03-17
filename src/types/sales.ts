@@ -33,10 +33,6 @@ export interface SalesElementItem {
   purchaseOrderId: string;
   purchaseOrderBranch: string;
   processId: string;
-  clientName: string;
-  groupName: string;
-  minimumDate: Date | null;
-  statusAss: string;
 }
 
 export interface SalesGroupedItem {
@@ -60,7 +56,6 @@ export interface Stage {
 }
 
 export interface SalesElementItemDetails {
-  numSold: string;
   branch: string;
   order: string;
   offer: string;
@@ -71,6 +66,7 @@ export interface SalesElementItemDetails {
   product: string;
   description: string;
   local: string;
+  numSold: number;
   numAvailable: number;
   numReserved: number;
   productOrder: string;
@@ -82,6 +78,8 @@ export interface SalesElementItemDetails {
   batch: string;
   sequence: string;
   include: string;
+  pa1: string;
+  pa2: string;
 }
 
 export interface SalesFilters {
@@ -108,6 +106,8 @@ export interface SalesOrderItem {
   qtdVend: number;
   qtdEnt: number;
   process: string;
+  statusAss: string;
+  modFrete: string;
 }
 
 export interface SalesOrderDetails {
@@ -131,8 +131,6 @@ export interface SalesOrderDetails {
   obsPacking: string;
   obsLogistics: string;
   obsProposal: string;
-  statusAss: string;
-  shippingModality: string;
   items: SalesOrderItem[];
 }
 

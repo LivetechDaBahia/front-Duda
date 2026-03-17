@@ -300,6 +300,12 @@ export const SalesOrdersTab = ({
                           <TableCell className="whitespace-nowrap">
                             {row.process || "-"}
                           </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {row.statusAss || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {row.modFrete || "-"}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

@@ -252,9 +252,9 @@ export const SalesDetailPanel = ({
                   </div>
                   <div>
                     <span className="text-muted-foreground">
-                      {t("sales.groupName")}:
+                      {t("sales.group")}:
                     </span>
-                    <p className="font-medium">{item.groupName}</p>
+                    <p className="font-medium">{item.group}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">

@@ -137,18 +137,6 @@ export const SalesCard = ({
             {formatDate(item.date, locale)} • {item.oper}
           </div>
         )}
-        {item.minimumDate && (
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("sales.minimumDate")}
-            </span>
-            <span
-              className={`truncate ml-2 ${new Date(item.minimumDate) > new Date() ? "font-bold" : ""}`}
-            >
-              {formatDate(item.minimumDate, locale)}
-            </span>
-          </div>
-        )}
 
         {hasGroupedItems && (
           <Collapsible open={groupOpen} onOpenChange={setGroupOpen}>
