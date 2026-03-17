@@ -101,6 +101,15 @@ export interface SalesAssignPayload {
   key?: string;
 }
 
+export interface SalesOrderItem {
+  item: string;
+  product: string;
+  description: string;
+  qtdVend: number;
+  qtdEnt: number;
+  process: string;
+}
+
 export interface SalesOrderDetails {
   branch: string;
   order: string;
@@ -122,14 +131,9 @@ export interface SalesOrderDetails {
   obsPacking: string;
   obsLogistics: string;
   obsProposal: string;
-  item: string;
-  product: string;
-  description: string;
-  numSold: number;
-  numDelivered: number;
-  process: string;
   statusAss: string;
   shippingModality: string;
+  items: SalesOrderItem[];
 }
 
 export interface DeallocateItemPayload {
