@@ -44,6 +44,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
 export const SalesOrdersTab = ({
   orders,
   isLoading,
+  groupName,
   onObservationsChanged,
 }: SalesOrdersTabProps) => {
   const { t, locale } = useLocale();
