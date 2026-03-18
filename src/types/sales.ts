@@ -1,4 +1,6 @@
 export interface SalesElementItem {
+  groupName: string;
+  clientName: string;
   id: number;
   flowId: string;
   stageId: string;

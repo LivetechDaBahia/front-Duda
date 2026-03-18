@@ -110,9 +110,7 @@ export const SalesOrdersTab = ({
               <span className="text-muted-foreground">
                 {t("sales.totalValue")}:
               </span>
-              <p className="font-medium">
-                {formatCurrency(order.totalValue)}
-              </p>
+              <p className="font-medium">{formatCurrency(order.totalValue)}</p>
             </div>
             <div>
               <span className="text-muted-foreground">
@@ -132,9 +130,7 @@ export const SalesOrdersTab = ({
               <span className="text-muted-foreground">
                 {t("sales.orderItem.shippingModality")}:
               </span>
-              <p className="font-medium">
-                {order.items?.[0]?.modFrete || "-"}
-              </p>
+              <p className="font-medium">{order.items?.[0]?.modFrete || "-"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">{t("sales.tid")}:</span>
@@ -165,9 +161,7 @@ export const SalesOrdersTab = ({
               <p className="font-medium">{order.addictive || "-"}</p>
             </div>
             <div>
-              <span className="text-muted-foreground">
-                {t("sales.type")}:
-              </span>
+              <span className="text-muted-foreground">{t("sales.type")}:</span>
               <p className="font-medium">{order.type || "-"}</p>
             </div>
             <div>
@@ -284,9 +278,6 @@ export const SalesOrdersTab = ({
                         <TableHead className="whitespace-nowrap">
                           {t("sales.orderItem.statusAss")}
                         </TableHead>
-                        <TableHead className="whitespace-nowrap">
-                          {t("sales.orderItem.shippingModality")}
-                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -312,9 +303,6 @@ export const SalesOrdersTab = ({
                           </TableCell>
                           <TableCell className="whitespace-nowrap">
                             {row.statusAss || "-"}
-                          </TableCell>
-                          <TableCell className="whitespace-nowrap">
-                            {row.modFrete || "-"}
                           </TableCell>
                         </TableRow>
                       ))}

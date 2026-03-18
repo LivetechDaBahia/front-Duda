@@ -157,7 +157,8 @@ export const SalesDetailPanel = ({
       <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between gap-2 mb-6">
           <h2 className="text-lg font-semibold truncate">
-            {item?.offer} - {item?.client}/{item?.clientBranch}{item?.name ? ` - ${item.name}` : ''}
+            {item?.offer} - {item?.client}/{item?.clientBranch}
+            {item?.clientName ? ` - ${item.clientName}` : ""}
           </h2>
           <div className="flex items-center gap-2 shrink-0">
             {canManageSales && item && onAssignClick && (
@@ -260,7 +261,7 @@ export const SalesDetailPanel = ({
                     <span className="text-muted-foreground">
                       {t("sales.group")}:
                     </span>
-                    <p className="font-medium">{item.group || "-"}</p>
+                    <p className="font-medium">{item.groupName || "-"}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">

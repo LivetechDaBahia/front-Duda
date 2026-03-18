@@ -125,9 +125,7 @@ export const SalesCard = ({
         )}
         {item.group && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("sales.group")}
-            </span>
+            <span className="text-muted-foreground">{t("sales.group")}</span>
             <span className="truncate ml-2">{item.group}</span>
           </div>
         )}

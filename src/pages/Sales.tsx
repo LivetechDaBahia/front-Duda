@@ -64,7 +64,6 @@ const Sales = () => {
           String(item.id).includes(s) ||
           item.offer?.toLowerCase().includes(s) ||
           item.client?.toLowerCase().includes(s) ||
-          
           item.cnpj?.toLowerCase().includes(s) ||
           item.purchaseOrderId?.toLowerCase().includes(s) ||
           item.processId?.toLowerCase().includes(s) ||
@@ -84,8 +83,7 @@ const Sales = () => {
         return false;
       if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup)
         return false;
-      if (filters.salesGroup && item.group !== filters.salesGroup)
-        return false;
+      if (filters.salesGroup && item.group !== filters.salesGroup) return false;
       return true;
     });
   }, [items, filters]);

@@ -50,8 +50,8 @@ export const SalesFilters = ({
   const availableSalesGroups = useMemo(() => {
     const groupMap = new Map<string, string>();
     items.forEach((i) => {
-      if (i.group && !groupMap.has(i.group)) {
-        groupMap.set(i.group, i.name || i.group);
+      if (i.groupName && !groupMap.has(i.groupName)) {
+        groupMap.set(i.groupName, i.name || i.groupName);
       }
     });
     return Array.from(groupMap.entries())
@@ -211,9 +211,9 @@ export const SalesFilters = ({
       )}
 
       <div className="space-y-2">
-        <Label>{t("sales.name")}</Label>
+        <Label>{t("sales.group")}</Label>
         <Input
-          placeholder={t("sales.namePlaceholder")}
+          placeholder={t("sales.groupPlaceholder")}
           value={filters.name}
           onChange={(e) => updateFilter("name", e.target.value)}
         />
