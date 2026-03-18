@@ -113,6 +113,7 @@ export interface SalesOrderItem {
 }
 
 export interface SalesOrderDetails {
+  shippingModality: string;
   groupName: string;
   branch: string;
   order: string;
