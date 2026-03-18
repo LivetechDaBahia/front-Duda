@@ -164,9 +164,9 @@ export const SalesOrdersTab = ({
             </div>
             <div>
               <span className="text-muted-foreground">
-                {t("sales.oper")}:
+                {t("sales.groupName")}:
               </span>
-              <p className="font-medium">{order.oper || "-"}</p>
+              <p className="font-medium">{groupName || "-"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">

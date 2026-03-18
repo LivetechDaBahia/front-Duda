@@ -359,6 +359,7 @@ export const SalesDetailPanel = ({
               <SalesOrdersTab
                 orders={orders}
                 isLoading={isLoadingOrders}
+                groupName={item.name}
                 onObservationsChanged={() => refetchOrders()}
               />
             </TabsContent>
