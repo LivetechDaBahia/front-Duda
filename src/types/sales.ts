@@ -113,6 +113,7 @@ export interface SalesOrderItem {
 }
 
 export interface SalesOrderDetails {
+  groupName: string;
   branch: string;
   order: string;
   emissionDate: Date | null;
