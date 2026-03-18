@@ -26,6 +26,7 @@ import { ChangeObservationsDialog } from "@/components/sales/ChangeObservationsD
 interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
+  groupName?: string;
   onObservationsChanged?: () => void;
 }
 
