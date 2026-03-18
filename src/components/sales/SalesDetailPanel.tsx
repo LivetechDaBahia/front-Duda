@@ -157,7 +157,7 @@ export const SalesDetailPanel = ({
       <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between gap-2 mb-6">
           <h2 className="text-lg font-semibold truncate">
-            {item?.offer} - {item?.client}/{item?.clientBranch}
+            {item?.offer} - {item?.client}/{item?.clientBranch}{item?.name ? ` - ${item.name}` : ''}
           </h2>
           <div className="flex items-center gap-2 shrink-0">
             {canManageSales && item && onAssignClick && (
@@ -252,9 +252,15 @@ export const SalesDetailPanel = ({
                   </div>
                   <div>
                     <span className="text-muted-foreground">
+                      {t("sales.groupName")}:
+                    </span>
+                    <p className="font-medium">{item.name || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">
                       {t("sales.group")}:
                     </span>
-                    <p className="font-medium">{item.group}</p>
+                    <p className="font-medium">{item.group || "-"}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">
@@ -353,6 +359,7 @@ export const SalesDetailPanel = ({
               <SalesOrdersTab
                 orders={orders}
                 isLoading={isLoadingOrders}
+                groupName={item.name}
                 onObservationsChanged={() => refetchOrders()}
               />
             </TabsContent>

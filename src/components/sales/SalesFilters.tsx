@@ -48,8 +48,15 @@ export const SalesFilters = ({
   }, [items]);
 
   const availableSalesGroups = useMemo(() => {
-    const groups = new Set(items.map((i) => i.group).filter(Boolean));
-    return Array.from(groups).sort();
+    const groupMap = new Map<string, string>();
+    items.forEach((i) => {
+      if (i.group && !groupMap.has(i.group)) {
+        groupMap.set(i.group, i.name || i.group);
+      }
+    });
+    return Array.from(groupMap.entries())
+      .map(([code, name]) => ({ code, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [items]);
 
   const updateFilter = (key: keyof SalesFiltersType, value: string) => {
@@ -181,7 +188,7 @@ export const SalesFilters = ({
 
       {availableSalesGroups.length > 0 && (
         <div className="space-y-2">
-          <Label>{t("sales.salesGroup")}</Label>
+          <Label>{t("sales.groupName")}</Label>
           <Select
             value={filters.salesGroup || "all"}
             onValueChange={(v) =>
@@ -193,9 +200,9 @@ export const SalesFilters = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allSalesGroups")}</SelectItem>
-              {availableSalesGroups.map((g) => (
-                <SelectItem key={g} value={g}>
-                  {g}
+              {availableSalesGroups.map(({ code, name }) => (
+                <SelectItem key={code} value={code}>
+                  {name}
                 </SelectItem>
               ))}
             </SelectContent>

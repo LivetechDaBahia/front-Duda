@@ -26,6 +26,7 @@ import { ChangeObservationsDialog } from "@/components/sales/ChangeObservationsD
 interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
+  groupName?: string;
   onObservationsChanged?: () => void;
 }
 
@@ -43,6 +44,7 @@ const formatCurrency = (value: number, currency: string = "BRL") => {
 export const SalesOrdersTab = ({
   orders,
   isLoading,
+  groupName,
   onObservationsChanged,
 }: SalesOrdersTabProps) => {
   const { t, locale } = useLocale();
@@ -127,6 +129,14 @@ export const SalesOrdersTab = ({
               </p>
             </div>
             <div>
+              <span className="text-muted-foreground">
+                {t("sales.orderItem.shippingModality")}:
+              </span>
+              <p className="font-medium">
+                {order.items?.[0]?.modFrete || "-"}
+              </p>
+            </div>
+            <div>
               <span className="text-muted-foreground">{t("sales.tid")}:</span>
               <p className="font-medium">{order.TID || "-"}</p>
             </div>
@@ -162,9 +172,9 @@ export const SalesOrdersTab = ({
             </div>
             <div>
               <span className="text-muted-foreground">
-                {t("sales.oper")}:
+                {t("sales.groupName")}:
               </span>
-              <p className="font-medium">{order.oper || "-"}</p>
+              <p className="font-medium">{groupName || "-"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">
