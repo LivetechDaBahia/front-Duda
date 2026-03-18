@@ -48,8 +48,15 @@ export const SalesFilters = ({
   }, [items]);
 
   const availableSalesGroups = useMemo(() => {
-    const groups = new Set(items.map((i) => i.group).filter(Boolean));
-    return Array.from(groups).sort();
+    const groupMap = new Map<string, string>();
+    items.forEach((i) => {
+      if (i.group && !groupMap.has(i.group)) {
+        groupMap.set(i.group, i.name || i.group);
+      }
+    });
+    return Array.from(groupMap.entries())
+      .map(([code, name]) => ({ code, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [items]);
 
   const updateFilter = (key: keyof SalesFiltersType, value: string) => {
