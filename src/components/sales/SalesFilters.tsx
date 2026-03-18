@@ -209,15 +209,6 @@ export const SalesFilters = ({
           </Select>
         </div>
       )}
-
-      <div className="space-y-2">
-        <Label>{t("sales.group")}</Label>
-        <Input
-          placeholder={t("sales.groupPlaceholder")}
-          value={filters.name}
-          onChange={(e) => updateFilter("name", e.target.value)}
-        />
-      </div>
     </FilterContainer>
   );
 };
