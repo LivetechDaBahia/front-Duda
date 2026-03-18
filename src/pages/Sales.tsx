@@ -83,7 +83,7 @@ const Sales = () => {
         return false;
       if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup)
         return false;
-      if (filters.salesGroup && item.group !== filters.salesGroup) return false;
+      if (filters.salesGroup && item.groupName !== filters.salesGroup) return false;
       return true;
     });
   }, [items, filters]);
