@@ -193,9 +193,9 @@ export const SalesFilters = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("sales.allSalesGroups")}</SelectItem>
-              {availableSalesGroups.map(({ code, name }) => (
-                <SelectItem key={code} value={code}>
-                  {name}
+              {availableSalesGroups.map((g) => (
+                <SelectItem key={g} value={g}>
+                  {g}
                 </SelectItem>
               ))}
             </SelectContent>
