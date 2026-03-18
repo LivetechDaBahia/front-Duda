@@ -129,6 +129,14 @@ export const SalesOrdersTab = ({
               </p>
             </div>
             <div>
+              <span className="text-muted-foreground">
+                {t("sales.orderItem.shippingModality")}:
+              </span>
+              <p className="font-medium">
+                {order.items?.[0]?.modFrete || "-"}
+              </p>
+            </div>
+            <div>
               <span className="text-muted-foreground">{t("sales.tid")}:</span>
               <p className="font-medium">{order.TID || "-"}</p>
             </div>
