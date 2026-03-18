@@ -51,7 +51,7 @@ export const SalesFilters = ({
     const groupMap = new Map<string, string>();
     items.forEach((i) => {
       if (i.groupName && !groupMap.has(i.groupName)) {
-        groupMap.set(i.groupName, i.name || i.groupName);
+        groupMap.set(i.groupName, i.groupName || i.groupName);
       }
     });
     return Array.from(groupMap.entries())
