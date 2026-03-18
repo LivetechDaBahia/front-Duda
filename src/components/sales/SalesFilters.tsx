@@ -181,7 +181,7 @@ export const SalesFilters = ({
 
       {availableSalesGroups.length > 0 && (
         <div className="space-y-2">
-          <Label>{t("sales.salesGroup")}</Label>
+          <Label>{t("sales.groupName")}</Label>
           <Select
             value={filters.salesGroup || "all"}
             onValueChange={(v) =>
