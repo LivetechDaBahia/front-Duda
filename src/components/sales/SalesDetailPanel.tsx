@@ -253,12 +253,6 @@ export const SalesDetailPanel = ({
                   </div>
                   <div>
                     <span className="text-muted-foreground">
-                      {t("sales.groupName")}:
-                    </span>
-                    <p className="font-medium">{item.name || "-"}</p>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">
                       {t("sales.group")}:
                     </span>
                     <p className="font-medium">{item.groupName || "-"}</p>
