@@ -276,83 +276,23 @@ export const CreditDetailPanel = ({
     setFinancialPage(1);
   };
 
-  const toSafeNumber = (value: unknown): number | null => {
-    if (typeof value === "number") {
-      return Number.isFinite(value) ? value : null;
-    }
-
-    if (typeof value === "string") {
-      const raw = value.trim();
-
-      if (!raw) return null;
-
-      let normalized = raw.replace(/[^\d,.-]/g, "");
-
-      if (!normalized) return null;
-
-      const hasComma = normalized.includes(",");
-      const hasDot = normalized.includes(".");
-
-      if (hasComma && hasDot) {
-        const lastComma = normalized.lastIndexOf(",");
-        const lastDot = normalized.lastIndexOf(".");
-
-        if (lastComma > lastDot) {
-          normalized = normalized.replace(/\./g, "").replace(",", ".");
-        } else {
-          normalized = normalized.replace(/,/g, "");
-        }
-      } else if (hasComma) {
-        normalized = normalized.replace(/\./g, "").replace(",", ".");
-      } else {
-        normalized = normalized.replace(/,/g, "");
-      }
-
-      const minusCount = (normalized.match(/-/g) || []).length;
-      if (minusCount > 1) return null;
-      if (minusCount === 1 && !normalized.startsWith("-")) return null;
-
-      const parsed = Number(normalized);
-
-      return Number.isFinite(parsed) ? parsed : null;
-    }
-
-    return null;
-  };
-
-  const formatCurrency = (value: number, currency?: unknown) => {
+  const formatCurrency = (value: number, currency: string = "BRL") => {
     const currencyMap: Record<string, string> = {
       R$: "BRL",
-      BRL: "BRL",
-      REAL: "BRL",
       US$: "USD",
-      USD: "USD",
-      DOLLAR: "USD",
-      $: "USD",
       "€": "EUR",
-      EUR: "EUR",
     };
 
-    const rawCurrency =
-      typeof currency === "string" ? currency.trim().toUpperCase() : "";
-
-    const normalizedCurrency = currencyMap[rawCurrency] || rawCurrency || "BRL";
-
-    let formatted: string;
+    const currencyCode = currencyMap[currency] || currency || "BRL";
 
     try {
-      formatted = new Intl.NumberFormat("pt-BR", {
+      return new Intl.NumberFormat("pt-BR", {
         style: "currency",
-        currency: normalizedCurrency,
-      }).format(Math.abs(value));
-    } catch {
-      formatted = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(Math.abs(value));
+        currency: currencyCode,
+      }).format(value);
+    } catch (error) {
+      return `${currency} ${value.toFixed(2)}`;
     }
-
-    return value < 0 ? formatted.replace(/\d/, "-$&") : formatted;
   };
 
   return (
@@ -1019,39 +959,34 @@ export const CreditDetailPanel = ({
                           key: "openContractBalance",
                           label: "Contratos em Aberto",
                         },
-                      ].map((field) => {
-                        const numericValue = toSafeNumber(
-                          creditLimit[field.key as keyof typeof creditLimit],
-                        );
+                      ]
+                        .filter((field) => field.key in creditLimit)
+                        .map((field) => {
+                          const value = creditLimit[
+                            field.key as keyof typeof creditLimit
+                          ] as number;
 
-                        if (numericValue === null) {
-                          return null;
-                        }
+                          const isNegative = value < 0;
 
-                        const isNegative = numericValue < 0;
-
-                        return (
-                          <div
-                            key={field.key}
-                            className="p-3 bg-background border rounded-md"
-                          >
-                            <span className="text-muted-foreground">
-                              {field.label}
-                            </span>
-
-                            <p
-                              className={`font-semibold ${
-                                isNegative ? "text-destructive" : ""
-                              }`}
+                          return (
+                            <div
+                              key={field.key}
+                              className="p-3 bg-background border rounded-md"
                             >
-                              {formatCurrency(
-                                numericValue,
-                                credit?.details.currency,
-                              )}
-                            </p>
-                          </div>
-                        );
-                      })}
+                              <span className="text-muted-foreground">
+                                {field.label}
+                              </span>
+
+                              <p
+                                className={`font-semibold ${
+                                  isNegative ? "text-destructive" : ""
+                                }`}
+                              >
+                                {formatCurrency(value)}
+                              </p>
+                            </div>
+                          );
+                        })}
                     </div>
                   )}
 
