@@ -20,7 +20,7 @@ interface ChangeObservationsDialogProps {
   order: SalesOrderDetails | null;
   open: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (updated: SalesOrderDetails) => void;
 }
 
 export const ChangeObservationsDialog = ({
@@ -68,8 +68,16 @@ export const ChangeObservationsDialog = ({
         title: t("sales.observationsUpdated"),
         description: t("sales.observationsUpdatedDescription"),
       });
-      onSuccess?.();
-      onClose();
+
+      onClose(); // fecha primeiro
+      onSuccess?.({
+        ...order,
+        obsNF,
+        obsPacking,
+        obsLogistics,
+        obsProposal,
+        minimumDate: minimumDate ? new Date(minimumDate) : order.minimumDate,
+      });
     } catch (error) {
       console.error("Error changing observations:", error);
     } finally {

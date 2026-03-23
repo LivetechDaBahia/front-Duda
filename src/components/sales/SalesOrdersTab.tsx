@@ -27,7 +27,7 @@ interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
   groupName?: string;
-  onObservationsChanged?: () => void;
+  onObservationsChanged?: (updated: SalesOrderDetails) => void;
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {

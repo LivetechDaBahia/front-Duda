@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 import { UserPlus, X } from "lucide-react";
-import type { SalesElementItem } from "@/types/sales";
+import type { SalesElementItem, SalesOrderDetails } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { useSalesOrders } from "@/hooks/useSalesOrders";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
@@ -151,6 +152,8 @@ export const SalesDetailPanel = ({
   const clientDocsTotalPages = Math.ceil(
     (clientDocuments || []).length / clientDocsSize,
   );
+
+  const queryClient = useQueryClient();
 
   return (
     <div className="h-full overflow-y-auto border-l bg-background">
@@ -367,7 +370,17 @@ export const SalesDetailPanel = ({
                 orders={orders}
                 isLoading={isLoadingOrders}
                 groupName={item.name}
-                onObservationsChanged={() => refetchOrders()}
+                onObservationsChanged={(updated) => {
+                  queryClient.setQueryData<SalesOrderDetails[]>(
+                    ["salesOrders", item.key],
+                    (prev) =>
+                      prev?.map((o) =>
+                        o.order === updated.order && o.branch === updated.branch
+                          ? updated
+                          : o,
+                      ) ?? [],
+                  );
+                }}
               />
             </TabsContent>
 
