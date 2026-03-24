@@ -215,7 +215,7 @@ export const SalesDetailPanel = ({
                     <span className="text-muted-foreground">
                       {t("sales.offer")}:
                     </span>
-                    <p className="font-medium">{item.offer}</p>
+                    <p className="font-medium">{"item.offer"}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">
@@ -314,6 +314,12 @@ export const SalesDetailPanel = ({
                       {t("sales.reinvoice")}:
                     </span>
                     <p className="font-medium">{item.reinvoice || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">
+                      {t("sales.statusAss")}:
+                    </span>
+                    <p className="font-medium">{item.statusAss || "-"}</p>
                   </div>
                 </div>
 

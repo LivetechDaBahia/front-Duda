@@ -277,7 +277,6 @@ export const CreditDetailPanel = ({
   };
 
   const formatCurrency = (value: number, currency: string = "BRL") => {
-    // Map currency symbols to ISO codes
     const currencyMap: Record<string, string> = {
       R$: "BRL",
       US$: "USD",
@@ -292,7 +291,6 @@ export const CreditDetailPanel = ({
         currency: currencyCode,
       }).format(value);
     } catch (error) {
-      // Fallback if currency code is invalid
       return `${currency} ${value.toFixed(2)}`;
     }
   };
@@ -947,6 +945,50 @@ export const CreditDetailPanel = ({
                       </p>
                     )}
                   </div>
+
+                  {creditLimit && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm mt-4">
+                      {[
+                        { key: "creditLimit", label: "Limite de Crédito" },
+                        { key: "availableBalance", label: "Saldo Disponível" },
+                        { key: "pendingValue", label: "Valor Pendente" },
+                        { key: "approvedItemsValue", label: "Itens Aprovados" },
+                        { key: "raBalance", label: "Saldo RA" },
+                        { key: "nccBalance", label: "Saldo NCC" },
+                        {
+                          key: "openContractBalance",
+                          label: "Contratos em Aberto",
+                        },
+                      ]
+                        .filter((field) => field.key in creditLimit)
+                        .map((field) => {
+                          const value = creditLimit[
+                            field.key as keyof typeof creditLimit
+                          ] as number;
+
+                          const isNegative = value < 0;
+
+                          return (
+                            <div
+                              key={field.key}
+                              className="p-3 bg-background border rounded-md"
+                            >
+                              <span className="text-muted-foreground">
+                                {field.label}
+                              </span>
+
+                              <p
+                                className={`font-semibold ${
+                                  isNegative ? "text-destructive" : ""
+                                }`}
+                              >
+                                {formatCurrency(value)}
+                              </p>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
 
                   {/* Default Probability Indicator */}
                   {clientHistory &&
