@@ -920,7 +920,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     "sales.clientName": "Client Name",
     "sales.groupName": "Group",
-    "sales.statusAss": "Signature",
+    "sales.statusAss": "Status",
     "sales.errorLoading": "Error loading sales data",
     "sales.purchaseOrders": "Internal Orders",
     "sales.noPurchaseOrders": "No internal orders found",
@@ -1952,7 +1952,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.reinvoice": "Refaturamento",
     "sales.clientName": "Nome do Cliente",
     "sales.groupName": "Grupo",
-    "sales.statusAss": "Assinatura",
+    "sales.statusAss": "Status",
     "sales.errorLoading": "Erro ao carregar dados de vendas",
     "sales.purchaseOrders": "Pedidos Internos",
     "sales.noPurchaseOrders": "Nenhum pedido interno encontrado",
