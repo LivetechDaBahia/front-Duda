@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { UserPlus, X } from "lucide-react";
-import type { SalesElementItem } from "@/types/sales";
+import type { SalesElementItem, SalesOrderDetails } from "@/types/sales";
 import { useSalesDetails } from "@/hooks/useSalesDetails";
 import { useSalesOrders } from "@/hooks/useSalesOrders";
 import { AllocationDetailsTab } from "@/components/sales/AllocationDetailsTab";
@@ -13,6 +13,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { usePermissions } from "@/hooks/usePermissions";
 import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { creditService } from "@/services/creditService";
 import type { CreditDocument, CreditClientDocument } from "@/types/credit";
 import { useState, useEffect } from "react";
@@ -51,6 +52,7 @@ export const SalesDetailPanel = ({
     refetch: refetchOrders,
   } = useSalesOrders(item ? item.key : null);
   const { canManageSales } = usePermissions();
+  const queryClient = useQueryClient();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const DOCUMENTS_BASE_PATH =
@@ -355,7 +357,17 @@ export const SalesDetailPanel = ({
                 orders={orders}
                 isLoading={isLoadingOrders}
                 groupName={item.name}
-                onObservationsChanged={() => refetchOrders()}
+                onObservationsChanged={(updated) => {
+                  queryClient.setQueryData<SalesOrderDetails[]>(
+                    ["salesOrders", item.key],
+                    (prev) =>
+                      prev?.map((o) =>
+                        o.order === updated.order && o.branch === updated.branch
+                          ? updated
+                          : o,
+                      ) ?? [],
+                  );
+                }}
               />
             </TabsContent>
 
