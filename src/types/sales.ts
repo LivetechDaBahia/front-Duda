@@ -30,7 +30,6 @@ export interface SalesElementItem {
   oper: string;
   cnpj: string;
   partial: string;
-  statusAss: string;
   reinvoice: string;
   tid: string;
   purchaseOrderId: string;
