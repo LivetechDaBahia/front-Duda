@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { toDateNoTZShift } from "@/utils/date";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -43,9 +44,11 @@ export const ChangeObservationsDialog = ({
       setObsPacking(order.obsPacking || "");
       setObsLogistics(order.obsLogistics || "");
       setObsProposal(order.obsProposal || "");
+
+      const d = toDateNoTZShift(order.minimumDate);
       setMinimumDate(
-        order.minimumDate
-          ? new Date(order.minimumDate).toISOString().split("T")[0]
+        d
+          ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
           : "",
       );
     }
@@ -69,14 +72,14 @@ export const ChangeObservationsDialog = ({
         description: t("sales.observationsUpdatedDescription"),
       });
 
-      onClose(); // fecha primeiro
+      onClose();
       onSuccess?.({
         ...order,
         obsNF,
         obsPacking,
         obsLogistics,
         obsProposal,
-        minimumDate: minimumDate ? new Date(minimumDate) : order.minimumDate,
+        minimumDate: minimumDate ? toDateNoTZShift(minimumDate)! : null,
       });
     } catch (error) {
       console.error("Error changing observations:", error);
