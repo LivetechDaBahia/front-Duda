@@ -41,6 +41,8 @@ const Sales = () => {
   } = useSalesStages();
 
   const [view, setView] = useState<"kanban" | "table">("kanban");
+  const [dateSort, setDateSort] = useState<"asc" | "desc">("desc");
+
   const [selectedItem, setSelectedItem] = useState<SalesElementItem | null>(
     null,
   );
@@ -56,7 +58,7 @@ const Sales = () => {
   });
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    const filtered = items.filter((item) => {
       if (filters.search) {
         const s = filters.search.toLowerCase();
         const matches =
@@ -83,10 +85,21 @@ const Sales = () => {
         return false;
       if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup)
         return false;
-      if (filters.salesGroup && item.groupName !== filters.salesGroup) return false;
+      if (filters.salesGroup && item.groupName !== filters.salesGroup)
+        return false;
       return true;
     });
-  }, [items, filters]);
+
+    if (dateSort) {
+      filtered.sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateSort === "asc" ? dateA - dateB : dateB - dateA;
+      });
+    }
+
+    return filtered;
+  }, [items, filters, dateSort]);
 
   if (!canViewSales) {
     return <AccessDenied />;
@@ -178,6 +191,8 @@ const Sales = () => {
                   stages={stages}
                   variationsMap={variationsMap}
                   onItemClick={setSelectedItem}
+                  dateSort={dateSort}
+                  onDateSortChange={setDateSort}
                 />
               )}
             </div>
