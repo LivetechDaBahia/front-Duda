@@ -4,6 +4,7 @@ import type { SalesElementItem, Stage } from "@/types/sales";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocale } from "@/contexts/LocaleContext";
 import { ChevronsUpDown } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface SalesKanbanViewProps {
   items: SalesElementItem[];
@@ -83,7 +84,9 @@ export const SalesKanbanView = ({
                       {stage.name}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <button
+                      <Button
+                        variant="sort"
+                        size="fitContent"
                         onClick={() => toggleSort(stage.id)}
                         className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                         title={
@@ -96,7 +99,7 @@ export const SalesKanbanView = ({
                         {sort === "desc"
                           ? t("sales.sortNewest")
                           : t("sales.sortOldest")}
-                      </button>
+                      </Button>
                       <span className="text-xs sm:text-sm text-muted-foreground">
                         {stageItems.length}
                       </span>
