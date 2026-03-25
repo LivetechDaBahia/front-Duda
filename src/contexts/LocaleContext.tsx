@@ -2007,6 +2007,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.deallocateSuccessDescription": "O item foi desalocado com sucesso.",
     "sales.reallocate": "Realocar",
     "sales.reallocateTitle": "Confirmar Realocação",
+    "sales.newSequence": "Nova Ordem",
     "sales.reallocateDescription": "Tem certeza que deseja realocar este item?",
     "sales.reallocateSuccess": "Item Realocado",
     "sales.reallocateSuccessDescription": "O item foi realocado com sucesso.",

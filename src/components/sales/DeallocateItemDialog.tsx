@@ -49,7 +49,14 @@ export const DeallocateItemDialog = ({
       onSuccess?.();
       onClose();
     } catch (error) {
-      console.error("Error deallocating item:", error);
+      const message =
+        error?.parsed?.message || error?.message || "Erro ao realocar item";
+
+      toast({
+        title: "Erro",
+        description: message,
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
