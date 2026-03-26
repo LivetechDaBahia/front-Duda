@@ -147,9 +147,7 @@ const AllocationTableView = ({
           <TableHeader>
             <TableRow>
               <TableHead className="whitespace-nowrap w-10"></TableHead>
-              <TableHead className="whitespace-nowrap">
-                {t("sales.branch")}
-              </TableHead>
+              <TableHead className="whitespace-nowrap">{t("teste")}</TableHead>
               <TableHead className="whitespace-nowrap">
                 {t("sales.order")}
               </TableHead>

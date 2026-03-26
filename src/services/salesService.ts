@@ -8,6 +8,7 @@ import type {
   ItemTrackingStatus,
   SalesOrderDetails,
   DeallocateItemPayload,
+  AllocationReleasesIndividualPayload,
   ItemStock,
   ChangeObservationsPayload,
   ProductAllocationInfo,
@@ -100,6 +101,20 @@ export const salesService = {
     );
     return apiClient.post(
       "/sales/reallocate-item",
+      payload as unknown as Record<string, unknown>,
+    );
+  },
+
+  async allocationReleasesIndividual(
+    payload: AllocationReleasesIndividualPayload,
+  ): Promise<any> {
+    addUIBreadcrumb(
+      "allocationReleasesIndividual",
+      "salesService",
+      payload as unknown as Record<string, unknown>,
+    );
+    return apiClient.post(
+      "/sales/allocation-releases-individual",
       payload as unknown as Record<string, unknown>,
     );
   },

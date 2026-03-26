@@ -998,6 +998,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observations Updated",
     "sales.observationsUpdatedDescription":
       "The observations have been successfully updated.",
+    "sales.releaseSingleOrder": "Release single order",
+    "sales.releaseSingleOrderTitle": "Confirm single order release",
+    "sales.releaseSingleOrderDescription":
+      "Are you sure you want to release the order for item",
+    "sales.releaseSingleOrderSuccess": "Single order released",
+    "sales.releaseSingleOrderSuccessDescription":
+      "The single order was released successfully.",
+    "sales.releaseSingleOrderError": "Release failed",
+    "sales.releaseSingleOrderErrorDescription":
+      "Unable to release single order item.",
 
     "common.processing": "Processing...",
 
@@ -1404,7 +1414,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.presets.clear": "Limpar datas",
 
     // Order
-    "order.branch": "Filial",
+    "order.branch": "Filial1",
     "order.filterByBranch": "Filtrar por filial",
     "order.allBranches": "Todas as Filiais",
 
@@ -1412,7 +1422,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "table.orderID": "ID do Pedido",
     "table.orderNumber": "Pedido Nº",
     "table.supplier": "Fornecedor",
-    "table.branch": "Filial",
+    "table.branch": "Filial2",
     "table.client": "Cliente",
     "table.status": "Status",
     "table.value": "Valor",
@@ -1920,12 +1930,12 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.tracking": "Rastreamento",
     "sales.tracking.title": "Eventos de Rastreamento",
     "sales.tracking.empty": "Nenhum evento de rastreamento encontrado.",
-    "sales.branch": "Filial",
+    "sales.branch": "Filial4",
     "sales.order": "Pedido",
     "sales.review": "Revisão",
     "sales.contract": "Contrato",
     "sales.additional": "Aditivo",
-    "sales.item": "Item",
+    "sales.item": "Item3",
     "sales.group": "Grupo de vendas",
     "sales.product": "Produto",
     "sales.description": "Descrição",
@@ -2030,6 +2040,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observações Atualizadas",
     "sales.observationsUpdatedDescription":
       "As observações foram atualizadas com sucesso.",
+    "sales.releaseSingleOrder": "Libera Pedido",
+    "sales.releaseSingleOrderTitle": "Confirmar liberação",
+    "sales.releaseSingleOrderDescription":
+      "Tem certeza que deseja liberar o pedido do item",
+    "sales.releaseSingleOrderSuccess": "Pedido liberado",
+    "sales.releaseSingleOrderSuccessDescription":
+      "O pedido do item foi liberado com sucesso.",
+    "sales.releaseSingleOrderError": "Erro ao liberar pedido",
+    "sales.releaseSingleOrderErrorDescription":
+      "Não foi possível liberar o pedido do item.",
 
     "common.processing": "Processando...",
 
@@ -3066,6 +3086,16 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observaciones Actualizadas",
     "sales.observationsUpdatedDescription":
       "Las observaciones han sido actualizadas exitosamente.",
+    "sales.releaseSingleOrder": "Liberar pedido individual",
+    "sales.releaseSingleOrderTitle": "Confirmar liberación",
+    "sales.releaseSingleOrderDescription":
+      "¿Está seguro de que desea liberar el pedido del ítem",
+    "sales.releaseSingleOrderSuccess": "Pedido individual liberado",
+    "sales.releaseSingleOrderSuccessDescription":
+      "El pedido del ítem fue liberado con éxito.",
+    "sales.releaseSingleOrderError": "Error al liberar pedido individual",
+    "sales.releaseSingleOrderErrorDescription":
+      "No se pudo liberar el pedido del ítem.",
 
     "common.processing": "Procesando...",
 

@@ -148,6 +148,13 @@ export interface DeallocateItemPayload {
   proposal: string;
 }
 
+export interface AllocationReleasesIndividualPayload {
+  branch: string;
+  order: string;
+  product: string;
+  itemCode: string;
+}
+
 export interface ItemStock {
   branch: string;
   id: string;
