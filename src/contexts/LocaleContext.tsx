@@ -1935,7 +1935,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.review": "Revisão",
     "sales.contract": "Contrato",
     "sales.additional": "Aditivo",
-    "sales.item": "Item3",
+    "sales.item": "Item",
     "sales.group": "Grupo de vendas",
     "sales.product": "Produto",
     "sales.description": "Descrição",
