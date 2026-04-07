@@ -82,6 +82,8 @@ export interface SalesElementItemDetails {
   include: string;
   pa1: string;
   pa2: string;
+  minDate: string;
+  prevArrival: string;
 }
 
 export interface SalesFilters {
