@@ -198,6 +198,9 @@ const AllocationTableView = ({
               <TableHead className="whitespace-nowrap">
                 {t("sales.purchaseOrder")}
               </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.prevArrival")}
+              </TableHead>
               <TableHead className="whitespace-nowrap text-right">
                 {t("sales.numPo")}
               </TableHead>
@@ -212,6 +215,9 @@ const AllocationTableView = ({
               </TableHead>
               <TableHead className="whitespace-nowrap text-right">
                 {t("sales.pa2")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {t("sales.minDate")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -275,6 +281,9 @@ const AllocationTableView = ({
                 <TableCell className="whitespace-nowrap">
                   {row.purchaseOrder || "-"}
                 </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.prevArrival || "-"}
+                </TableCell>
                 <TableCell className="whitespace-nowrap text-right">
                   {row.numPo}
                 </TableCell>
@@ -289,6 +298,9 @@ const AllocationTableView = ({
                 </TableCell>
                 <TableCell className="whitespace-nowrap text-right">
                   {row["pa2"]}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.minDate || "-"}
                 </TableCell>
               </TableRow>
             ))}
@@ -425,9 +437,14 @@ const AllocationCardView = ({
               value={`${row.purchaseOrder || "-"} (${t("sales.numPo")}: ${row.numPo})`}
             />
             <DetailField
+              label={t("sales.prevArrival")}
+              value={row.prevArrival}
+            />
+            <DetailField
               label={t("sales.purchaseRequest")}
               value={`${row.purchaseRequest || "-"} (${t("sales.numSc")}: ${row.numSc})`}
             />
+            <DetailField label={t("sales.minDate")} value={row.minDate} />
           </div>
         </div>
         <ScrollBar orientation="horizontal" />
