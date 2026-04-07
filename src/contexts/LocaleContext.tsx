@@ -917,6 +917,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.reinvoice": "Reinvoice",
     "sales.pa1": "PA1",
     "sales.pa2": "PA2",
+    "sales.prevArrival": "Prev. Arrival",
 
     "sales.clientName": "Client Name",
     "sales.groupName": "Group",
@@ -1941,6 +1942,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.minDate": "Data Mín.",
     "sales.pa1": "PA1",
     "sales.pa2": "PA2",
+    "sales.prevArrival": "Prev. Chegada",
     "sales.nf": "Mens. NF",
     "sales.observations": "Observações",
     "sales.shippingObservations": "Obs. Romaneio",
@@ -2973,6 +2975,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.nf": "Mens. NF",
     "sales.pa1": "PA1",
     "sales.pa2": "PA2",
+    "sales.prevArrival": "Prev. Llegada",
     "sales.observations": "Observaciones",
     "sales.shippingObservations": "Obs. Envío",
     "sales.logisticsObservations": "Obs. Logística",
