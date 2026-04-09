@@ -69,7 +69,9 @@ export const SalesTableView = ({
         <TableHeader>
           <TableRow>
             <TableHead className="w-8" />
-            <TableHead className="whitespace-nowrap">{t("teste2")}</TableHead>
+            <TableHead className="whitespace-nowrap">
+              {t("sales.offer")}
+            </TableHead>
             <TableHead className="whitespace-nowrap">
               {t("sales.client")}
             </TableHead>

@@ -1415,7 +1415,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "filters.presets.clear": "Limpar datas",
 
     // Order
-    "order.branch": "Filial1",
+    "order.branch": "Filial",
     "order.filterByBranch": "Filtrar por filial",
     "order.allBranches": "Todas as Filiais",
 
@@ -1423,7 +1423,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "table.orderID": "ID do Pedido",
     "table.orderNumber": "Pedido Nº",
     "table.supplier": "Fornecedor",
-    "table.branch": "Filial2",
+    "table.branch": "Filial",
     "table.client": "Cliente",
     "table.status": "Status",
     "table.value": "Valor",
@@ -1931,7 +1931,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.tracking": "Rastreamento",
     "sales.tracking.title": "Eventos de Rastreamento",
     "sales.tracking.empty": "Nenhum evento de rastreamento encontrado.",
-    "sales.branch": "Filial4",
+    "sales.branch": "Filial",
     "sales.order": "Pedido",
     "sales.review": "Revisão",
     "sales.contract": "Contrato",
