@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { SalesCard } from "./SalesCard";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocale } from "@/contexts/LocaleContext";
+import { ChevronsUpDown } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface SalesKanbanViewProps {
   items: SalesElementItem[];
@@ -10,7 +13,6 @@ interface SalesKanbanViewProps {
   onItemClick: (item: SalesElementItem) => void;
 }
 
-/** Group items by key within the same stage */
 const groupItemsByKey = (items: SalesElementItem[]) => {
   const map = new Map<string, SalesElementItem[]>();
   items.forEach((item) => {
@@ -21,6 +23,17 @@ const groupItemsByKey = (items: SalesElementItem[]) => {
   return Array.from(map.values());
 };
 
+const sortGroupsByDate = (
+  groups: SalesElementItem[][],
+  sort: "asc" | "desc",
+) => {
+  return [...groups].sort((a, b) => {
+    const dateA = a[0].date ? new Date(a[0].date).getTime() : 0;
+    const dateB = b[0].date ? new Date(b[0].date).getTime() : 0;
+    return sort === "asc" ? dateA - dateB : dateB - dateA;
+  });
+};
+
 export const SalesKanbanView = ({
   items,
   stages,
@@ -28,6 +41,19 @@ export const SalesKanbanView = ({
   onItemClick,
 }: SalesKanbanViewProps) => {
   const { t } = useLocale();
+  const [columnSorts, setColumnSorts] = useState<
+    Record<string, "asc" | "desc">
+  >({});
+
+  const toggleSort = (stageId: string) => {
+    setColumnSorts((prev) => {
+      const current = prev[stageId] ?? "desc";
+      return {
+        ...prev,
+        [stageId]: current === "desc" ? "asc" : "desc",
+      };
+    });
+  };
 
   const getItemsByStage = (stageId: string) =>
     items.filter((item) => item.stageId === stageId);
@@ -42,6 +68,9 @@ export const SalesKanbanView = ({
           {stages.map((stage) => {
             const stageItems = getItemsByStage(stage.id);
             const grouped = groupItemsByKey(stageItems);
+            const sort = columnSorts[stage.id] ?? "desc";
+            const sortedGroups = sortGroupsByDate(grouped, sort);
+
             return (
               <div
                 key={stage.id}
@@ -54,18 +83,36 @@ export const SalesKanbanView = ({
                     <h3 className="font-semibold text-sm sm:text-base">
                       {stage.name}
                     </h3>
-                    <span className="text-xs sm:text-sm text-muted-foreground">
-                      {stageItems.length}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="sort"
+                        size="fitContent"
+                        onClick={() => toggleSort(stage.id)}
+                        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                        title={
+                          sort === "desc"
+                            ? t("sales.sortOldest")
+                            : t("sales.sortNewest")
+                        }
+                      >
+                        <ChevronsUpDown className="h-3.5 w-3.5" />
+                        {sort === "desc"
+                          ? t("sales.sortNewest")
+                          : t("sales.sortOldest")}
+                      </Button>
+                      <span className="text-xs sm:text-sm text-muted-foreground">
+                        {stageItems.length}
+                      </span>
+                    </div>
                   </div>
                   <ScrollArea className="flex-1">
                     <div className="space-y-2 sm:space-y-3 p-3 sm:p-4">
-                      {grouped.length === 0 ? (
+                      {sortedGroups.length === 0 ? (
                         <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
                           {t("sales.noItemsInStage")}
                         </p>
                       ) : (
-                        grouped.map((group) => {
+                        sortedGroups.map((group) => {
                           const representative = group[0];
                           return (
                             <SalesCard

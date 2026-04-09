@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toDateNoTZShift } from "@/utils/date";
 import { useLocale } from "@/contexts/LocaleContext";
 import { salesService } from "@/services/salesService";
 import { toast } from "@/hooks/use-toast";
@@ -20,7 +21,7 @@ interface ChangeObservationsDialogProps {
   order: SalesOrderDetails | null;
   open: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (updated: SalesOrderDetails) => void;
 }
 
 export const ChangeObservationsDialog = ({
@@ -43,9 +44,11 @@ export const ChangeObservationsDialog = ({
       setObsPacking(order.obsPacking || "");
       setObsLogistics(order.obsLogistics || "");
       setObsProposal(order.obsProposal || "");
+
+      const d = toDateNoTZShift(order.minimumDate);
       setMinimumDate(
-        order.minimumDate
-          ? new Date(order.minimumDate).toISOString().split("T")[0]
+        d
+          ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
           : "",
       );
     }
@@ -68,8 +71,15 @@ export const ChangeObservationsDialog = ({
         title: t("sales.observationsUpdated"),
         description: t("sales.observationsUpdatedDescription"),
       });
-      onSuccess?.();
       onClose();
+      onSuccess?.({
+        ...order,
+        obsNF,
+        obsPacking,
+        obsLogistics,
+        obsProposal,
+        minimumDate: minimumDate ? toDateNoTZShift(minimumDate)! : null,
+      });
     } catch (error) {
       console.error("Error changing observations:", error);
     } finally {

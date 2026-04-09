@@ -146,6 +146,7 @@ export interface DeallocateItemPayload {
   product: string;
   sequence: string;
   batch: string;
+  newOrder?: string;
   proposal: string;
 }
 
