@@ -561,7 +561,7 @@ export const AllocationDetailsTab = ({
       />
 
       <ProductAllocationDialog
-        productCode={allocationItem?.product || null}
+        productId={allocationItem?.product || null}
         productName={
           allocationItem
             ? `${allocationItem.product} - ${allocationItem.description}`
