@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useErrorHandler } from "@/hooks/useErrorHandler";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import type {
   CreditElementItem,
@@ -192,6 +192,79 @@ const Credit = () => {
       return true;
     });
   }, [credits, filters, isCreditManager, user?.email, canViewCredit]);
+
+  const uniqueCardClients = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        branch: string;
+        client: string;
+      }
+    >();
+
+    filteredCredits.forEach((credit) => {
+      const branch = (credit.details.clientBranch || "").trim();
+      const client = (credit.details.client || "").trim();
+      if (!branch || !client) return;
+
+      const clientKey = `${branch}:${client}`;
+      if (!map.has(clientKey)) {
+        map.set(clientKey, { branch, client });
+      }
+    });
+
+    return Array.from(map.entries()).map(([clientKey, value]) => ({
+      clientKey,
+      ...value,
+    }));
+  }, [filteredCredits]);
+
+  const blacklistQueries = useQueries({
+    queries: uniqueCardClients.map(({ branch, client, clientKey }) => ({
+      queryKey: ["credit-client-details-card", clientKey],
+      queryFn: () => creditService.getClientDetails(branch, client),
+      staleTime: 5 * 60 * 1000,
+      retry: false,
+    })),
+  });
+
+  const blacklistedClientKeys = useMemo(() => {
+    const keys = new Set<string>();
+
+    uniqueCardClients.forEach(({ clientKey }, index) => {
+      const clientDetails = blacklistQueries[index]?.data;
+      if (!clientDetails) return;
+
+      const hasBlackListInfo = Boolean(
+        clientDetails.blackList ||
+          clientDetails.totalInBlacklist ||
+          clientDetails.blacklistObservation,
+      );
+
+      if (hasBlackListInfo) {
+        keys.add(clientKey);
+      }
+    });
+
+    return keys;
+  }, [uniqueCardClients, blacklistQueries]);
+
+  const blacklistedCreditIds = useMemo(() => {
+    const ids = new Set<number>();
+
+    filteredCredits.forEach((credit) => {
+      const branch = (credit.details.clientBranch || "").trim();
+      const client = (credit.details.client || "").trim();
+      if (!branch || !client) return;
+
+      const clientKey = `${branch}:${client}`;
+      if (blacklistedClientKeys.has(clientKey)) {
+        ids.add(credit.id);
+      }
+    });
+
+    return ids;
+  }, [filteredCredits, blacklistedClientKeys]);
 
   // Early permission check - after all hooks
   if (!canViewCredit) {
@@ -403,6 +476,7 @@ const Credit = () => {
             <CreditKanbanView
               credits={filteredCredits}
               statuses={statuses}
+              blacklistedCreditIds={blacklistedCreditIds}
               onCreditClick={setSelectedCredit}
               onStatusChange={isReadOnly ? undefined : handleStatusChange}
               onActionsClick={handleActionsClick}
