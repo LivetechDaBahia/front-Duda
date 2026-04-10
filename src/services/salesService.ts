@@ -8,10 +8,10 @@ import type {
   ItemTrackingStatus,
   SalesOrderDetails,
   DeallocateItemPayload,
-  AllocationReleasesIndividualPayload,
   ItemStock,
   ChangeObservationsPayload,
   ProductAllocationInfo,
+  AllocationByProductGroupInfo,
 } from "@/types/sales";
 
 export const salesService = {
@@ -105,26 +105,21 @@ export const salesService = {
     );
   },
 
-  async allocationReleasesIndividual(
-    payload: AllocationReleasesIndividualPayload,
-  ): Promise<any> {
-    addUIBreadcrumb(
-      "allocationReleasesIndividual",
-      "salesService",
-      payload as unknown as Record<string, unknown>,
-    );
-    return apiClient.post(
-      "/sales/allocation-releases-individual",
-      payload as unknown as Record<string, unknown>,
-    );
-  },
-
   async getProductAllocation(
     productId: string,
   ): Promise<ProductAllocationInfo[]> {
     addUIBreadcrumb("getProductAllocation", "salesService", { productId });
     return apiClient.get(
       `/sales/item-allocation/${encodeURIComponent(productId)}`,
+    );
+  },
+
+  async getAllocationByProduct(
+    code: string,
+  ): Promise<AllocationByProductGroupInfo[]> {
+    addUIBreadcrumb("getAllocationByProduct", "salesService", { code });
+    return apiClient.get(
+      `/sales/allocation-product?code=${encodeURIComponent(code)}`,
     );
   },
 };
