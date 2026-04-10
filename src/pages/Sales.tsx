@@ -5,7 +5,7 @@ import { SalesKanbanView } from "@/components/sales/SalesKanbanView";
 import { SalesTableView } from "@/components/sales/SalesTableView";
 import { SalesDetailPanel } from "@/components/sales/SalesDetailPanel";
 import { SalesAssignmentDialog } from "@/components/sales/SalesAssignmentDialog";
-import { ProductAllocationDialog } from "@/components/sales/ProductAllocationDialog";
+import { AllocationCodeDialog } from "@/components/sales/AllocationCodeDialog";
 import { useSales } from "@/hooks/useSales";
 import { useSalesStages } from "@/hooks/useSalesStages";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -246,9 +246,9 @@ const Sales = () => {
         }}
       />
 
-      <ProductAllocationDialog
-        productCode={submittedAllocationCode || null}
-        productName={submittedAllocationCode || undefined}
+      <AllocationCodeDialog
+        allocationCode={submittedAllocationCode || null}
+        allocationName={submittedAllocationCode || undefined}
         open={allocationSearchDialogOpen}
         onClose={closeAllocationSearchDialog}
       />
