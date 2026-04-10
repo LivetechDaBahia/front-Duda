@@ -22,31 +22,12 @@ import type { SalesOrderDetails } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
 import { formatDate } from "@/lib/utils";
 import { ChangeObservationsDialog } from "@/components/sales/ChangeObservationsDialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { salesService } from "@/services/salesService";
-import { toast } from "@/hooks/use-toast";
 
 interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
   groupName?: string;
   onObservationsChanged?: (updated: SalesOrderDetails) => void;
-}
-
-interface ReleaseSingleOrderTarget {
-  branch: string;
-  order: string;
-  product: string;
-  itemCode: string;
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
@@ -69,37 +50,6 @@ export const SalesOrdersTab = ({
   const { t, locale } = useLocale();
   const [observationsOrder, setObservationsOrder] =
     useState<SalesOrderDetails | null>(null);
-  const [releaseTarget, setReleaseTarget] =
-    useState<ReleaseSingleOrderTarget | null>(null);
-  const [isReleasingItem, setIsReleasingItem] = useState(false);
-
-  const handleReleaseSingleOrder = async () => {
-    if (!releaseTarget) return;
-
-    setIsReleasingItem(true);
-    try {
-      await salesService.allocationReleasesIndividual(releaseTarget);
-      toast({
-        title: t("sales.releaseSingleOrderSuccess"),
-        description: t("sales.releaseSingleOrderSuccessDescription"),
-      });
-      setReleaseTarget(null);
-    } catch (error) {
-      const err = error as { parsed?: { message?: string }; message?: string };
-      const message =
-        err?.parsed?.message ||
-        err?.message ||
-        t("sales.releaseSingleOrderErrorDescription");
-
-      toast({
-        title: t("sales.releaseSingleOrderError"),
-        description: message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsReleasingItem(false);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -307,7 +257,6 @@ export const SalesOrdersTab = ({
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="whitespace-nowrap w-10"></TableHead>
                         <TableHead className="whitespace-nowrap">
                           {t("sales.item")}
                         </TableHead>
@@ -334,33 +283,6 @@ export const SalesOrdersTab = ({
                     <TableBody>
                       {order.items.map((row, itemIdx) => (
                         <TableRow key={`${order.order}-item-${itemIdx}`}>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-7 w-7"
-                                >
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem
-                                  onClick={() =>
-                                    setReleaseTarget({
-                                      branch: order.branch,
-                                      order: order.order,
-                                      product: row.product,
-                                      itemCode: row.item,
-                                    })
-                                  }
-                                >
-                                  {t("sales.releaseSingleOrder")}
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
                           <TableCell className="whitespace-nowrap">
                             {row.item}
                           </TableCell>
@@ -400,32 +322,6 @@ export const SalesOrdersTab = ({
         onClose={() => setObservationsOrder(null)}
         onSuccess={onObservationsChanged}
       />
-
-      <AlertDialog
-        open={!!releaseTarget}
-        onOpenChange={(open) => !open && setReleaseTarget(null)}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("sales.releaseSingleOrderTitle")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("sales.releaseSingleOrderDescription")}{" "}
-              <span className="font-medium">{releaseTarget?.itemCode}</span>?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isReleasingItem}>
-              {t("common.cancel")}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleReleaseSingleOrder}
-              disabled={isReleasingItem}
-            >
-              {isReleasingItem ? t("common.processing") : t("common.confirm")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };

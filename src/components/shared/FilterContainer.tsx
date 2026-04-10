@@ -23,6 +23,7 @@ interface FilterContainerProps {
   hasActiveFilters?: boolean;
   children: ReactNode;
   onSearchKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  searchHeader?: ReactNode;
 }
 
 export const FilterContainer = ({
@@ -39,39 +40,41 @@ export const FilterContainer = ({
   hasActiveFilters = true,
   children,
   onSearchKeyDown,
+  searchHeader,
 }: FilterContainerProps) => {
   return (
     <div className="space-y-4">
-      {/* Search Bar */}
-      <div className="flex gap-2 items-center flex-wrap">
-        <div className="relative flex-1 min-w-[250px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-          <Input
-            placeholder={searchPlaceholder}
-            value={searchValue}
-            onChange={(e) => onSearchChange(e.target.value)}
-            onKeyDown={onSearchKeyDown}
-            className="pl-10"
-          />
+      {searchHeader || (
+        <div className="flex gap-2 items-center flex-wrap">
+          <div className="relative flex-1 min-w-[250px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+            <Input
+              placeholder={searchPlaceholder}
+              value={searchValue}
+              onChange={(e) => onSearchChange(e.target.value)}
+              onKeyDown={onSearchKeyDown}
+              className="pl-10"
+            />
+          </div>
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => onShowFiltersChange(!showFilters)}
+          >
+            <Filter className="w-4 h-4" />
+            {filterButtonLabel}
+            <ChevronDown
+              className={cn(
+                "h-4 w-4 transition-transform",
+                showFilters && "rotate-180",
+              )}
+            />
+          </Button>
+          {onApplyFilters && (
+            <Button onClick={onApplyFilters}>{applyButtonLabel}</Button>
+          )}
         </div>
-        <Button
-          variant="outline"
-          className="gap-2"
-          onClick={() => onShowFiltersChange(!showFilters)}
-        >
-          <Filter className="w-4 h-4" />
-          {filterButtonLabel}
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              showFilters && "rotate-180",
-            )}
-          />
-        </Button>
-        {onApplyFilters && (
-          <Button onClick={onApplyFilters}>{applyButtonLabel}</Button>
-        )}
-      </div>
+      )}
 
       {/* Collapsible Filters */}
       <Collapsible open={showFilters} onOpenChange={onShowFiltersChange}>

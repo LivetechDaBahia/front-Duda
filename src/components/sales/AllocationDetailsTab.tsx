@@ -51,24 +51,6 @@ const DetailField = ({ label, value, className = "" }: DetailFieldProps) => (
   </div>
 );
 
-const ObservationField = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | null | undefined;
-}) => {
-  if (!value) return null;
-  return (
-    <div>
-      <span className="text-muted-foreground text-xs font-medium">
-        {label}:
-      </span>
-      <p className="text-sm mt-0.5">{value}</p>
-    </div>
-  );
-};
-
 const ObservationsSection = (_props: {
   details: SalesElementItemDetails[];
   t: (key: string) => string;
@@ -93,7 +75,7 @@ const ItemActionsMenu = ({
   onViewAllocation,
   t,
 }: ItemActionsMenuProps) => (
-  <DropdownMenu>
+  <DropdownMenu modal={false}>
     <DropdownMenuTrigger asChild>
       <Button
         variant="ghost"
@@ -329,7 +311,6 @@ const AllocationCardView = ({
   onViewAllocation: (item: SalesElementItemDetails) => void;
 }) => (
   <div className="space-y-4">
-    {/* Summary table */}
     <ScrollArea className="w-full whitespace-nowrap">
       <div className="rounded-md border">
         <Table>
@@ -402,7 +383,6 @@ const AllocationCardView = ({
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
 
-    {/* Product detail cards */}
     {details.map((row, idx) => (
       <ScrollArea key={`detail-card-${idx}`} className="w-full">
         <div className="border rounded-md p-4 min-w-[500px]">
@@ -427,7 +407,6 @@ const AllocationCardView = ({
             <DetailField label={t("sales.batch")} value={row.batch} />
             <DetailField label={t("sales.sequence")} value={row.sequence} />
             <DetailField label={t("sales.include")} value={row.include} />
-
             <DetailField
               label={t("sales.productOrder")}
               value={`${row.productOrder || "-"} (${t("sales.numOp")}: ${row.numOp})`}
@@ -462,13 +441,37 @@ export const AllocationDetailsTab = ({
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [deallocateItem, setDeallocateItem] =
     useState<SalesElementItemDetails | null>(null);
+  const [deallocateOpen, setDeallocateOpen] = useState(false);
   const [reallocateItem, setReallocateItem] =
     useState<SalesElementItemDetails | null>(null);
+  const [reallocateOpen, setReallocateOpen] = useState(false);
   const [stockItem, setStockItem] = useState<SalesElementItemDetails | null>(
     null,
   );
+  const [stockOpen, setStockOpen] = useState(false);
   const [allocationItem, setAllocationItem] =
     useState<SalesElementItemDetails | null>(null);
+  const [allocationOpen, setAllocationOpen] = useState(false);
+
+  const handleDeallocate = (item: SalesElementItemDetails) => {
+    setDeallocateItem(item);
+    setDeallocateOpen(true);
+  };
+
+  const handleReallocate = (item: SalesElementItemDetails) => {
+    setReallocateItem(item);
+    setReallocateOpen(true);
+  };
+
+  const handleCheckStock = (item: SalesElementItemDetails) => {
+    setStockItem(item);
+    setStockOpen(true);
+  };
+
+  const handleViewAllocation = (item: SalesElementItemDetails) => {
+    setAllocationItem(item);
+    setAllocationOpen(true);
+  };
 
   if (isLoading) {
     return (
@@ -516,33 +519,33 @@ export const AllocationDetailsTab = ({
         <AllocationCardView
           details={details}
           t={t}
-          onDeallocate={setDeallocateItem}
-          onReallocate={setReallocateItem}
-          onCheckStock={setStockItem}
-          onViewAllocation={setAllocationItem}
+          onDeallocate={handleDeallocate}
+          onReallocate={handleReallocate}
+          onCheckStock={handleCheckStock}
+          onViewAllocation={handleViewAllocation}
         />
       ) : (
         <AllocationTableView
           details={details}
           t={t}
-          onDeallocate={setDeallocateItem}
-          onReallocate={setReallocateItem}
-          onCheckStock={setStockItem}
-          onViewAllocation={setAllocationItem}
+          onDeallocate={handleDeallocate}
+          onReallocate={handleReallocate}
+          onCheckStock={handleCheckStock}
+          onViewAllocation={handleViewAllocation}
         />
       )}
 
       <DeallocateItemDialog
         item={deallocateItem}
-        open={!!deallocateItem}
-        onClose={() => setDeallocateItem(null)}
+        open={deallocateOpen}
+        onClose={() => setDeallocateOpen(false)}
         onSuccess={onDeallocated}
       />
 
       <ReallocateItemDialog
         item={reallocateItem}
-        open={!!reallocateItem}
-        onClose={() => setReallocateItem(null)}
+        open={reallocateOpen}
+        onClose={() => setReallocateOpen(false)}
         onSuccess={onDeallocated}
       />
 
@@ -553,19 +556,19 @@ export const AllocationDetailsTab = ({
             ? `${stockItem.product} - ${stockItem.description}`
             : undefined
         }
-        open={!!stockItem}
-        onClose={() => setStockItem(null)}
+        open={stockOpen}
+        onClose={() => setStockOpen(false)}
       />
 
       <ProductAllocationDialog
-        productId={allocationItem?.product || null}
+        productCode={allocationItem?.product || null}
         productName={
           allocationItem
             ? `${allocationItem.product} - ${allocationItem.description}`
             : undefined
         }
-        open={!!allocationItem}
-        onClose={() => setAllocationItem(null)}
+        open={allocationOpen}
+        onClose={() => setAllocationOpen(false)}
       />
     </div>
   );

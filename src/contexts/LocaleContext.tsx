@@ -873,6 +873,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.date": "Date",
     "sales.noItems": "No sales items found",
     "sales.noItemsInStage": "No items in this stage",
+    "sales.searchType.offerClient": "Offer / client",
+    "sales.searchType.allocationCode": "Allocation code",
+    "sales.searchType.allocationCodePlaceholder":
+      "Search by allocation code...",
     "sales.searchPlaceholder": "Search by offer, client, or name...",
     "sales.allStages": "All Stages",
     "sales.allTypes": "All Types",
@@ -999,16 +1003,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observations Updated",
     "sales.observationsUpdatedDescription":
       "The observations have been successfully updated.",
-    "sales.releaseSingleOrder": "Release single order",
-    "sales.releaseSingleOrderTitle": "Confirm single order release",
-    "sales.releaseSingleOrderDescription":
-      "Are you sure you want to release the order for item",
-    "sales.releaseSingleOrderSuccess": "Single order released",
-    "sales.releaseSingleOrderSuccessDescription":
-      "The single order was released successfully.",
-    "sales.releaseSingleOrderError": "Release failed",
-    "sales.releaseSingleOrderErrorDescription":
-      "Unable to release single order item.",
 
     "common.processing": "Processing...",
 
@@ -1921,6 +1915,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.date": "Data",
     "sales.noItems": "Nenhum item de venda encontrado",
     "sales.noItemsInStage": "Nenhum item nesta etapa",
+    "sales.searchType.offerClient": "Proposta/Cliente",
+    "sales.searchType.allocationCode": "Código de Alocação",
+    "sales.searchType.allocationCodePlaceholder":
+      "Pesquisar por código de alocação...",
     "sales.searchPlaceholder": "Pesquisar por proposta, cliente ou nome...",
     "sales.allStages": "Todas as Etapas",
     "sales.allTypes": "Todos os Tipos",
@@ -2042,16 +2040,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observações Atualizadas",
     "sales.observationsUpdatedDescription":
       "As observações foram atualizadas com sucesso.",
-    "sales.releaseSingleOrder": "Libera Pedido",
-    "sales.releaseSingleOrderTitle": "Confirmar liberação",
-    "sales.releaseSingleOrderDescription":
-      "Tem certeza que deseja liberar o pedido do item",
-    "sales.releaseSingleOrderSuccess": "Pedido liberado",
-    "sales.releaseSingleOrderSuccessDescription":
-      "O pedido do item foi liberado com sucesso.",
-    "sales.releaseSingleOrderError": "Erro ao liberar pedido",
-    "sales.releaseSingleOrderErrorDescription":
-      "Não foi possível liberar o pedido do item.",
 
     "common.processing": "Processando...",
 
@@ -2966,6 +2954,10 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.date": "Fecha",
     "sales.noItems": "No se encontraron elementos de venta",
     "sales.noItemsInStage": "No hay elementos en esta etapa",
+    "sales.searchType.offerClient": "Propuesta / cliente",
+    "sales.searchType.allocationCode": "Código de asignación",
+    "sales.searchType.allocationCodePlaceholder":
+      "Buscar por código de asignación...",
     "sales.searchPlaceholder": "Buscar por propuesta, cliente o nombre...",
     "sales.allStages": "Todas las Etapas",
     "sales.allTypes": "Todos los Tipos",
@@ -3089,16 +3081,6 @@ const translations: Record<Locale, Record<string, string>> = {
     "sales.observationsUpdated": "Observaciones Actualizadas",
     "sales.observationsUpdatedDescription":
       "Las observaciones han sido actualizadas exitosamente.",
-    "sales.releaseSingleOrder": "Liberar pedido individual",
-    "sales.releaseSingleOrderTitle": "Confirmar liberación",
-    "sales.releaseSingleOrderDescription":
-      "¿Está seguro de que desea liberar el pedido del ítem",
-    "sales.releaseSingleOrderSuccess": "Pedido individual liberado",
-    "sales.releaseSingleOrderSuccessDescription":
-      "El pedido del ítem fue liberado con éxito.",
-    "sales.releaseSingleOrderError": "Error al liberar pedido individual",
-    "sales.releaseSingleOrderErrorDescription":
-      "No se pudo liberar el pedido del ítem.",
 
     "common.processing": "Procesando...",
 
