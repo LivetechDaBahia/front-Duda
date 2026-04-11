@@ -86,6 +86,7 @@ export const creditService = {
     addUIBreadcrumb("updateCreditStatus", "creditService", {
       id: payload.item.id,
       newStatus: payload.status,
+      type: payload.type
     });
     return apiClient.patch(`/credit/creditElement/${payload.item.id}/status`, {
       payload,

@@ -182,6 +182,7 @@ export interface UpdateCreditStatusDto {
   oldStatus: string;
   email: string;
   branch: string;
+  type: string;
   item: {
     id: string;
     clientId: string;
