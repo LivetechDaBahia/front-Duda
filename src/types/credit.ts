@@ -17,6 +17,7 @@ export interface CreditItemDetails {
   type: string;
   tid: string;
   debitHistory?: string;
+  finalClientBlacklist?: string;
 }
 
 export interface CreditElementItem {
