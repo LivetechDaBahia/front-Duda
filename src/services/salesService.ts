@@ -11,6 +11,7 @@ import type {
   ItemStock,
   ChangeObservationsPayload,
   ProductAllocationInfo,
+  AllocationByProductGroupInfo,
 } from "@/types/sales";
 
 export const salesService = {
@@ -110,6 +111,15 @@ export const salesService = {
     addUIBreadcrumb("getProductAllocation", "salesService", { productId });
     return apiClient.get(
       `/sales/item-allocation/${encodeURIComponent(productId)}`,
+    );
+  },
+
+  async getAllocationByProduct(
+    code: string,
+  ): Promise<AllocationByProductGroupInfo[]> {
+    addUIBreadcrumb("getAllocationByProduct", "salesService", { code });
+    return apiClient.get(
+      `/sales/allocation-product?code=${encodeURIComponent(code)}`,
     );
   },
 };

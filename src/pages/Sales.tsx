@@ -1,10 +1,11 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SalesFilters } from "@/components/sales/SalesFilters";
 import { SalesKanbanView } from "@/components/sales/SalesKanbanView";
 import { SalesTableView } from "@/components/sales/SalesTableView";
 import { SalesDetailPanel } from "@/components/sales/SalesDetailPanel";
 import { SalesAssignmentDialog } from "@/components/sales/SalesAssignmentDialog";
+import { AllocationCodeDialog } from "@/components/sales/AllocationCodeDialog";
 import { useSales } from "@/hooks/useSales";
 import { useSalesStages } from "@/hooks/useSalesStages";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -17,10 +18,7 @@ import {
   ResizablePanel,
   ResizableHandle,
 } from "@/components/ui/resizable";
-import type {
-  SalesElementItem,
-  SalesFilters as SalesFiltersType,
-} from "@/types/sales";
+import { useSalesUIStore } from "@/store/useSalesUIStore";
 
 const Sales = () => {
   const { canViewSales } = usePermissions();
@@ -40,53 +38,87 @@ const Sales = () => {
     error: stagesError,
   } = useSalesStages();
 
-  const [view, setView] = useState<"kanban" | "table">("kanban");
-  const [selectedItem, setSelectedItem] = useState<SalesElementItem | null>(
-    null,
+  const view = useSalesUIStore((state) => state.view);
+  const dateSort = useSalesUIStore((state) => state.dateSort);
+  const activeSearchType = useSalesUIStore((state) => state.activeSearchType);
+  const allocationCodeSearch = useSalesUIStore(
+    (state) => state.allocationCodeSearch,
   );
-  const [assignItem, setAssignItem] = useState<SalesElementItem | null>(null);
-  const [filters, setFilters] = useState<SalesFiltersType>({
-    search: "",
-    status: "all",
-    type: "",
-    seller: "",
-    name: "",
-    sellerGroup: "",
-    salesGroup: "",
-  });
+  const submittedAllocationCode = useSalesUIStore(
+    (state) => state.submittedAllocationCode,
+  );
+  const allocationSearchRequestId = useSalesUIStore(
+    (state) => state.allocationSearchRequestId,
+  );
+  const allocationSearchDialogOpen = useSalesUIStore(
+    (state) => state.allocationSearchDialogOpen,
+  );
+  const selectedItem = useSalesUIStore((state) => state.selectedItem);
+  const assignItem = useSalesUIStore((state) => state.assignItem);
+  const filters = useSalesUIStore((state) => state.filters);
+  const setView = useSalesUIStore((state) => state.setView);
+  const setDateSort = useSalesUIStore((state) => state.setDateSort);
+  const setSelectedItem = useSalesUIStore((state) => state.setSelectedItem);
+  const setAssignItem = useSalesUIStore((state) => state.setAssignItem);
+  const closeAllocationSearchDialog = useSalesUIStore(
+    (state) => state.closeAllocationSearchDialog,
+  );
+  const resetState = useSalesUIStore((state) => state.resetState);
+
+  useEffect(() => {
+    resetState();
+    return () => resetState();
+  }, [resetState]);
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      if (filters.search) {
-        const s = filters.search.toLowerCase();
-        const matches =
-          item.key?.toLowerCase().includes(s) ||
-          String(item.id).includes(s) ||
-          item.offer?.toLowerCase().includes(s) ||
-          item.client?.toLowerCase().includes(s) ||
-          item.cnpj?.toLowerCase().includes(s) ||
-          item.purchaseOrderId?.toLowerCase().includes(s) ||
-          item.processId?.toLowerCase().includes(s) ||
-          item.sellerName?.toLowerCase().includes(s) ||
-          item.clientBranch?.toLowerCase().includes(s) ||
-          item.group?.toLowerCase().includes(s);
-        if (!matches) return false;
+    const filtered = items.filter((item) => {
+      if (activeSearchType === "allocationCode") {
+        return true;
       }
-      if (filters.status !== "all" && item.stageId !== filters.status)
+
+      const searchValue =
+        typeof filters.search === "string" ? filters.search : "";
+
+      if (searchValue) {
+        const search = searchValue.toLowerCase();
+        const matchesSearch =
+          item.offer?.toLowerCase().includes(search) ||
+          item.client?.toLowerCase().includes(search) ||
+          item.clientName?.toLowerCase().includes(search) ||
+          item.name?.toLowerCase().includes(search);
+
+        if (!matchesSearch) return false;
+      }
+      if (filters.status !== "all" && item.stageId !== filters.status) {
         return false;
+      }
       if (filters.type && item.type !== filters.type) return false;
       if (filters.seller && item.sellerName !== filters.seller) return false;
       if (
         filters.name &&
         !item.name?.toLowerCase().includes(filters.name.toLowerCase())
-      )
+      ) {
         return false;
-      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup)
+      }
+      if (filters.sellerGroup && item.sellerGroup !== filters.sellerGroup) {
         return false;
-      if (filters.salesGroup && item.group !== filters.salesGroup) return false;
+      }
+      if (filters.salesGroup && item.groupName !== filters.salesGroup) {
+        return false;
+      }
       return true;
     });
-  }, [items, filters]);
+
+    if (dateSort) {
+      filtered.sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateSort === "asc" ? dateA - dateB : dateB - dateA;
+      });
+    }
+
+    return filtered;
+  }, [items, filters, activeSearchType, dateSort]);
 
   if (!canViewSales) {
     return <AccessDenied />;
@@ -151,12 +183,7 @@ const Sales = () => {
 
       <main className="max-w-full">
         <div className="max-w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10 pb-4 pt-2 px-4 sm:px-6">
-          <SalesFilters
-            filters={filters}
-            stages={stages}
-            items={items}
-            onFiltersChange={setFilters}
-          />
+          <SalesFilters stages={stages} items={items} />
         </div>
 
         <ResizablePanelGroup
@@ -178,6 +205,8 @@ const Sales = () => {
                   stages={stages}
                   variationsMap={variationsMap}
                   onItemClick={setSelectedItem}
+                  dateSort={dateSort}
+                  onDateSortChange={setDateSort}
                 />
               )}
             </div>
@@ -215,6 +244,13 @@ const Sales = () => {
           setAssignItem(null);
           refetch();
         }}
+      />
+
+      <AllocationCodeDialog
+        allocationCode={submittedAllocationCode || null}
+        allocationName={submittedAllocationCode || undefined}
+        open={allocationSearchDialogOpen}
+        onClose={closeAllocationSearchDialog}
       />
     </div>
   );

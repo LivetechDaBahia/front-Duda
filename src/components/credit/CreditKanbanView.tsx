@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface CreditKanbanViewProps {
   credits: CreditElementItem[];
   statuses: CreditStatus[];
+  blacklistedCreditIds?: Set<number>;
   onCreditClick: (credit: CreditElementItem) => void;
   onStatusChange?: (
     creditId: number,
@@ -25,6 +26,7 @@ interface CreditKanbanViewProps {
 export const CreditKanbanView = ({
   credits,
   statuses,
+  blacklistedCreditIds,
   onCreditClick,
   onStatusChange,
   onActionsClick,
@@ -154,6 +156,7 @@ export const CreditKanbanView = ({
                               key={`credit-${credit.id}`}
                               credit={credit}
                               statuses={statuses}
+                              isBlacklisted={blacklistedCreditIds?.has(credit.id)}
                               onClick={() => onCreditClick(credit)}
                               onDragStart={
                                 onStatusChange && isDraggable

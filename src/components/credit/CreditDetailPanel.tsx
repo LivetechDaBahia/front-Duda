@@ -803,6 +803,56 @@ export const CreditDetailPanel = ({
                         </span>
                         <p className="font-medium">{clientDetails.warranty}</p>
                       </div>
+                      {(clientDetails.blackList ||
+                        clientDetails.totalInBlacklist ||
+                        clientDetails.blacklistObservation) && (
+                        <div className="col-span-2">
+                          <div className="flex items-start gap-2 mt-2 p-3 rounded-md bg-destructive/10 border border-destructive/20 w-[450px]">
+                            <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                            <div className="text-sm w-full">
+                              <p className="font-medium text-destructive mb-2">
+                                <span className="capitalize">
+                                  {String(
+                                    clientDetails.blackList ||
+                                      t("credit.blacklistInfo"),
+                                  ).toLowerCase()}
+                                </span>
+                              </p>
+                              <div className="grid grid-cols-2 gap-3">
+                                {clientDetails.totalInBlacklist && (
+                                  <div>
+                                    <p className="font-medium text-foreground">
+                                      Total:
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {typeof clientDetails.totalInBlacklist ===
+                                      "number"
+                                        ? new Intl.NumberFormat(
+                                            locale || "pt-BR",
+                                          ).format(
+                                            clientDetails.totalInBlacklist,
+                                          )
+                                        : String(
+                                            clientDetails.totalInBlacklist,
+                                          )}
+                                    </p>
+                                  </div>
+                                )}
+                                {clientDetails.blacklistObservation && (
+                                  <div>
+                                    <p className="font-medium text-foreground">
+                                      Observações:
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {clientDetails.blacklistObservation}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -13,7 +14,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronRight, Layers } from "lucide-react";
+import { ChevronRight, Layers, ChevronsUpDown } from "lucide-react";
 import { SalesStageVariations } from "./SalesStageVariations";
 import type { SalesElementItem, Stage } from "@/types/sales";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -25,6 +26,8 @@ interface SalesTableViewProps {
   stages: Stage[];
   variationsMap: Map<string, SalesElementItem[]>;
   onItemClick: (item: SalesElementItem) => void;
+  dateSort: "asc" | "desc";
+  onDateSortChange: (sort: "asc" | "desc") => void;
 }
 
 /** Group items by key+stageId */
@@ -43,6 +46,8 @@ export const SalesTableView = ({
   stages,
   variationsMap,
   onItemClick,
+  dateSort,
+  onDateSortChange,
 }: SalesTableViewProps) => {
   const { t, locale } = useLocale();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
@@ -90,7 +95,16 @@ export const SalesTableView = ({
               VIP
             </TableHead>
             <TableHead className="whitespace-nowrap hidden lg:table-cell">
-              {t("sales.date")}
+              <Button
+                variant="ghost"
+                className="flex items-center gap-1 hover:text-foreground text-muted-foreground transition-colors"
+                onClick={() =>
+                  onDateSortChange(dateSort === "desc" ? "asc" : "desc")
+                }
+              >
+                {t("sales.date")}
+                <ChevronsUpDown className="h-4 w-4" />
+              </Button>
             </TableHead>
           </TableRow>
         </TableHeader>

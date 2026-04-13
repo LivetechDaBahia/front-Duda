@@ -34,6 +34,7 @@ import { useAuth } from "@/contexts/AuthContext";
 interface CreditCardProps {
   credit: CreditElementItem;
   statuses: CreditStatus[];
+  isBlacklisted?: boolean;
   onClick: () => void;
   onDragStart?: (e: React.DragEvent, creditId: number) => void;
   onDragEnd?: () => void;
@@ -47,6 +48,7 @@ interface CreditCardProps {
 export const CreditCard = ({
   credit,
   statuses,
+  isBlacklisted = false,
   onClick,
   onDragStart,
   onDragEnd,
@@ -88,7 +90,6 @@ export const CreditCard = ({
     }
   };
 
-  // Normalize colors from API, e.g., "25, 90%, 55%" -> "hsl(25, 90%, 55%)"
   const toCssColor = (input?: string) => {
     if (!input) return input as any;
     const value = input.trim();
@@ -118,20 +119,44 @@ export const CreditCard = ({
   };
 
   const { t } = useLocale();
+  const mutedTextClass = isBlacklisted
+    ? "text-[#eee]"
+    : "text-muted-foreground";
+  const secondaryTextClass = isBlacklisted
+    ? "text-[#fff]"
+    : "text-muted-foreground";
+
+  const cardBackgroundStyle = isBlacklisted
+    ? {
+        backgroundColor: "hsl(var(--destructive) / 0.1)",
+        backgroundImage:
+          "linear-gradient(135deg, hsl(var(--destructive) / 0.1) 0%, hsl(var(--destructive) / 0.66) 100%)",
+      }
+    : credit.background
+      ? {
+          backgroundColor: toCssColor(credit.background),
+          backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
+        }
+      : {};
 
   const cardContent = (
     <Card
       className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full max-w-full min-w-0 overflow-hidden relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
-      } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""}`}
+      } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""} ${
+        isBlacklisted ? "border-destructive/70 text-white" : ""
+      }`}
       style={{
-        borderLeftColor: toCssColor(credit.borders.left),
-        borderRightColor: toCssColor(credit.borders.right),
-        ...(credit.background && {
-          // Normalize API color and blend it with the current theme's card color
-          backgroundColor: toCssColor(credit.background),
-          backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
-        }),
+        borderColor: isBlacklisted
+          ? "hsl(var(--destructive) / 0.7)"
+          : undefined,
+        borderLeftColor: isBlacklisted
+          ? "hsl(var(--destructive))"
+          : toCssColor(credit.borders.left),
+        borderRightColor: isBlacklisted
+          ? "hsl(var(--destructive))"
+          : toCssColor(credit.borders.right),
+        ...cardBackgroundStyle,
       }}
       onClick={onClick}
       draggable={!!onDragStart && !isLoading}
@@ -146,32 +171,37 @@ export const CreditCard = ({
       <CardHeader className="pb-2 sm:pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <span className="text-muted-foreground">{t("credit.offer")}</span>
+            <span className={mutedTextClass}>{t("credit.offer")}</span>
             <h3 className="font-semibold text-xs sm:text-sm break-all">
               {credit.details.offer}
             </h3>
-            <span className="text-muted-foreground">{t("credit.client")}</span>
-            <p className="text-xs text-muted-foreground break-words mt-1">
+            <span className={mutedTextClass}>{t("credit.client")}</span>
+            <p className={`text-xs break-words mt-1 ${secondaryTextClass}`}>
               {credit.details.client}/{credit.details.clientBranch} -
               {credit.details.clientName}
             </p>
             {credit.details.resell && (
               <>
-                <span className="text-muted-foreground">
-                  {t("credit.resell")}
-                </span>
-                <p className="text-xs text-muted-foreground truncate mt-1">
+                <span className={mutedTextClass}>{t("credit.resell")}</span>
+                <p className={`text-xs truncate mt-1 ${secondaryTextClass}`}>
                   {credit.details.resell} - {credit.details.resellerName}
                 </p>
               </>
             )}
-            <p className="text-xs text-muted-foreground truncate mt-1">
+            <p className={`text-xs truncate mt-1 ${secondaryTextClass}`}>
               {credit.details.type} • {credit.details.financial}
             </p>
             {/* Assignee Badge */}
             {credit.user && (
               <div className="mt-2">
-                <Badge variant="outline" className="gap-1 text-xs">
+                <Badge
+                  variant="outline"
+                  className={`gap-1 text-xs ${
+                    isBlacklisted
+                      ? "border-white/40 text-white bg-white/10"
+                      : ""
+                  }`}
+                >
                   <User className="h-3 w-3" />
                   {credit.user}
                 </Badge>
@@ -252,34 +282,32 @@ export const CreditCard = ({
       </CardHeader>
       <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
         <div className="flex items-center justify-between text-xs sm:text-sm">
-          <span className="text-muted-foreground">{t("credit.value")}</span>
+          <span className={mutedTextClass}>{t("credit.value")}</span>
           <span className="font-medium">
             {formatCurrency(credit.details.value, credit.details.currency)}
           </span>
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">{t("credit.seller")}</span>
+          <span className={mutedTextClass}>{t("credit.seller")}</span>
           <span className="truncate ml-2">{credit.details.sellerName}</span>
         </div>
         {credit.details.resellerName && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              {t("credit.reseller")}
-            </span>
+            <span className={mutedTextClass}>{t("credit.reseller")}</span>
             <span className="truncate ml-2">{credit.details.resellerName}</span>
           </div>
         )}
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">{t("credit.group")}</span>
+          <span className={mutedTextClass}>{t("credit.group")}</span>
           <span className="truncate ml-2">{credit.details.sellerGroup}</span>
         </div>
         {credit.details.paymentConditions && (
-          <div className="text-xs text-muted-foreground truncate">
+          <div className={`text-xs truncate ${secondaryTextClass}`}>
             {credit.details.paymentConditions}
           </div>
         )}
         {credit.details.date && (
-          <div className="text-xs text-muted-foreground truncate">
+          <div className={`text-xs truncate ${secondaryTextClass}`}>
             {format(
               (() => {
                 const rawDate = credit.details.date;
@@ -309,8 +337,16 @@ export const CreditCard = ({
           <TooltipTrigger asChild>
             <div className="relative">
               {cardContent}
-              <div className="absolute top-2 right-2 bg-background/90 rounded-full p-1">
-                <Lock className="h-3 w-3 text-muted-foreground" />
+              <div
+                className={`absolute top-2 right-2 rounded-full p-1 ${
+                  isBlacklisted ? "bg-black/20" : "bg-background/90"
+                }`}
+              >
+                <Lock
+                  className={`h-3 w-3 ${
+                    isBlacklisted ? "text-white" : "text-muted-foreground"
+                  }`}
+                />
               </div>
             </div>
           </TooltipTrigger>

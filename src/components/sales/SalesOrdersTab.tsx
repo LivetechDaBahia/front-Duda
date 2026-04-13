@@ -27,7 +27,7 @@ interface SalesOrdersTabProps {
   orders: SalesOrderDetails[];
   isLoading: boolean;
   groupName?: string;
-  onObservationsChanged?: () => void;
+  onObservationsChanged?: (updated: SalesOrderDetails) => void;
 }
 
 const formatCurrency = (value: number, currency: string = "BRL") => {
@@ -130,7 +130,7 @@ export const SalesOrdersTab = ({
               <span className="text-muted-foreground">
                 {t("sales.orderItem.shippingModality")}:
               </span>
-              <p className="font-medium">{order.items?.[0]?.modFrete || "-"}</p>
+              <p className="font-medium">{order.shippingModality || "-"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">{t("sales.tid")}:</span>
@@ -168,7 +168,7 @@ export const SalesOrdersTab = ({
               <span className="text-muted-foreground">
                 {t("sales.groupName")}:
               </span>
-              <p className="font-medium">{groupName || "-"}</p>
+              <p className="font-medium">{order.groupName || "-"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">

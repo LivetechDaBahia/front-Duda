@@ -12,6 +12,7 @@ export const useSalesOrders = (id: string | null) => {
     queryKey: ["salesOrders", id],
     queryFn: () => salesService.getSalesOrderDetails(id!),
     enabled: !!id,
+    staleTime: 0,
   });
 
   return {

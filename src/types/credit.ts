@@ -16,6 +16,7 @@ export interface CreditItemDetails {
   paymentConditions: string;
   type: string;
   tid: string;
+  debitHistory?: string;
 }
 
 export interface CreditElementItem {
@@ -101,6 +102,9 @@ export interface CreditClientDetails {
   biggestDelay: string;
   comments: string;
   warranty: string;
+  blackList?: string | null;
+  totalInBlacklist?: number | null;
+  blacklistObservation?: string | null;
 }
 
 export interface FinancialHistory {
