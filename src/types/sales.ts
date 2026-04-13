@@ -82,7 +82,11 @@ export interface SalesElementItemDetails {
   include: string;
   pa1: string;
   pa2: string;
+  minDate: string;
+  prevArrival: string;
 }
+
+export type SalesSearchType = "offerClient" | "allocationCode";
 
 export interface SalesFilters {
   search: string;
@@ -144,6 +148,7 @@ export interface DeallocateItemPayload {
   product: string;
   sequence: string;
   batch: string;
+  newOrder?: string;
   proposal: string;
 }
 
@@ -189,4 +194,41 @@ export interface ProductAllocationInfo {
   include: string;
   PA1: string;
   PA2: string;
+}
+
+export interface AllocationByProductInfo {
+  level: string;
+  branch: string;
+  order: string;
+  item: string;
+  proposal: string;
+  review: string;
+  contract: string;
+  additional: string;
+  product: string;
+  description: string;
+  local: string;
+  quantitySold: number;
+  quantityAvailable: number;
+  quantityReserved: number;
+  productOrder: number;
+  quantityOp: number;
+  purchaseOrder: number;
+  quantityPo: number;
+  expectedArrival: string;
+  purchaseRequest: number;
+  quantitySc: number;
+  batch: string;
+  sequence: number;
+  included: string;
+  minimumDate: string;
+}
+
+export interface AllocationByProductGroupInfo {
+  groupKey: string;
+  order: string;
+  item: string;
+  proposal: string;
+  review: string;
+  allocations: AllocationByProductInfo[];
 }
