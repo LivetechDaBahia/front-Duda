@@ -275,6 +275,7 @@ const Credit = () => {
         oldStatus: current.statusId,
         email: emailVal,
         branch: branchVal,
+        type: current.details.type,
         item: {
           id: offerIdVal,
           clientId: clientIdVal,
