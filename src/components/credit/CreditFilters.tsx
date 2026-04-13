@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +37,7 @@ export const CreditFilters = ({
 }: CreditFiltersProps) => {
   const { t } = useLocale();
   const [showFilters, setShowFilters] = useState(false);
+  const [draftSearch, setDraftSearch] = useState(filters.search || "");
 
   const availableBadges = useMemo(() => {
     const badgeMap = new Map<string, CreditBadge>();
@@ -102,7 +103,22 @@ export const CreditFilters = ({
     onFiltersChange({ ...filters, [key]: value });
   };
 
+  useEffect(() => {
+    setDraftSearch(filters.search || "");
+  }, [filters.search]);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      if (draftSearch !== filters.search) {
+        onFiltersChange({ ...filters, search: draftSearch });
+      }
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [draftSearch, filters, onFiltersChange]);
+
   const clearFilters = () => {
+    setDraftSearch("");
     onFiltersChange({
       search: "",
       status: "all",
@@ -136,9 +152,9 @@ export const CreditFilters = ({
 
   return (
     <FilterContainer
-      searchValue={filters.search}
+      searchValue={draftSearch}
       searchPlaceholder={t("credit.searchPlaceholder")}
-      onSearchChange={(value) => updateFilter("search", value)}
+      onSearchChange={setDraftSearch}
       showFilters={showFilters}
       onShowFiltersChange={setShowFilters}
       filterButtonLabel={

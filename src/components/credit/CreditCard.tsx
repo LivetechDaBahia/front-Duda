@@ -34,7 +34,6 @@ import { useAuth } from "@/contexts/AuthContext";
 interface CreditCardProps {
   credit: CreditElementItem;
   statuses: CreditStatus[];
-  isBlacklisted?: boolean;
   onClick: () => void;
   onDragStart?: (e: React.DragEvent, creditId: number) => void;
   onDragEnd?: () => void;
@@ -48,7 +47,6 @@ interface CreditCardProps {
 export const CreditCard = ({
   credit,
   statuses,
-  isBlacklisted = false,
   onClick,
   onDragStart,
   onDragEnd,
@@ -119,6 +117,9 @@ export const CreditCard = ({
   };
 
   const { t } = useLocale();
+  const isBlacklisted = Boolean(
+    (credit.details.finalClientBlacklist || "").trim(),
+  );
   const mutedTextClass = isBlacklisted
     ? "text-[#eee]"
     : "text-muted-foreground";
