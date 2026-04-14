@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -7,30 +7,58 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { FilterContainer } from "@/components/shared/FilterContainer";
+import { ProductAllocationCodeSearch } from "./ProductAllocationCodeSearch";
 import { useLocale } from "@/contexts/LocaleContext";
-import type {
-  SalesFilters as SalesFiltersType,
-  Stage,
-  SalesElementItem,
-} from "@/types/sales";
+import { useSalesUIStore } from "@/store/useSalesUIStore";
+import type { SalesSearchType, Stage, SalesElementItem } from "@/types/sales";
 
 interface SalesFiltersProps {
-  filters: SalesFiltersType;
   stages: Stage[];
   items: SalesElementItem[];
-  onFiltersChange: (filters: SalesFiltersType) => void;
 }
 
-export const SalesFilters = ({
-  filters,
-  stages,
-  items,
-  onFiltersChange,
-}: SalesFiltersProps) => {
+export const SalesFilters = ({ stages, items }: SalesFiltersProps) => {
   const { t } = useLocale();
-  const [showFilters, setShowFilters] = useState(false);
+  const filters = useSalesUIStore((state) => state.filters);
+  const activeSearchType = useSalesUIStore((state) => state.activeSearchType);
+  const allocationCodeSearch = useSalesUIStore(
+    (state) => state.allocationCodeSearch,
+  );
+  const showFilters = useSalesUIStore((state) => state.showFilters);
+  const updateFilter = useSalesUIStore((state) => state.updateFilter);
+  const clearFilters = useSalesUIStore((state) => state.clearFilters);
+  const setShowFilters = useSalesUIStore((state) => state.setShowFilters);
+  const submitAllocationCodeSearch = useSalesUIStore(
+    (state) => state.submitAllocationCodeSearch,
+  );
+  const setActiveSearchType = useSalesUIStore(
+    (state) => state.setActiveSearchType,
+  );
+  const setAllocationCodeSearch = useSalesUIStore(
+    (state) => state.setAllocationCodeSearch,
+  );
+  const searchTypeOptions = useMemo(
+    () => [
+      {
+        value: "offerClient" as const,
+        label: t("sales.searchType.offerClient"),
+        placeholder: t("sales.searchPlaceholder"),
+        hasFilters: true,
+      },
+      {
+        value: "allocationCode" as const,
+        label: t("sales.searchType.allocationCode"),
+        placeholder: t("sales.searchType.allocationCodePlaceholder"),
+        hasFilters: false,
+      },
+    ],
+    [t],
+  );
+
+  const activeSearchOption =
+    searchTypeOptions.find((option) => option.value === activeSearchType) ??
+    searchTypeOptions[0];
 
   const availableTypes = useMemo(() => {
     const types = new Set(items.map((i) => i.type).filter(Boolean));
@@ -52,37 +80,34 @@ export const SalesFilters = ({
     return Array.from(groups).sort();
   }, [items]);
 
-  const updateFilter = (key: keyof SalesFiltersType, value: string) => {
-    onFiltersChange({ ...filters, [key]: value });
-  };
-
-  const clearFilters = () => {
-    onFiltersChange({
-      search: "",
-      status: "all",
-      type: "",
-      seller: "",
-      name: "",
-      sellerGroup: "",
-      salesGroup: "",
-    });
-  };
-
   const hasActiveFilters = Boolean(
-    filters.search ||
-      filters.status !== "all" ||
-      filters.type ||
-      filters.seller ||
-      filters.name ||
-      filters.sellerGroup,
+    activeSearchOption.hasFilters &&
+      (filters.search ||
+        filters.status !== "all" ||
+        filters.type ||
+        filters.seller ||
+        filters.name ||
+        filters.sellerGroup ||
+        filters.salesGroup),
   );
 
   return (
     <FilterContainer
-      searchValue={filters.search}
-      searchPlaceholder={t("sales.searchPlaceholder")}
-      onSearchChange={(value) => updateFilter("search", value)}
-      showFilters={showFilters}
+      searchValue={
+        activeSearchType === "allocationCode"
+          ? allocationCodeSearch
+          : filters.search
+      }
+      searchPlaceholder={activeSearchOption.placeholder}
+      onSearchChange={(value) => {
+        if (activeSearchType === "allocationCode") {
+          setAllocationCodeSearch(value);
+          return;
+        }
+
+        updateFilter("search", value);
+      }}
+      showFilters={activeSearchOption.hasFilters ? showFilters : false}
       onShowFiltersChange={setShowFilters}
       filterButtonLabel={
         showFilters ? t("common.hideFilters") : t("filters.filters")
@@ -90,28 +115,64 @@ export const SalesFilters = ({
       onClearFilters={clearFilters}
       clearButtonLabel={t("clearFilters")}
       hasActiveFilters={hasActiveFilters}
-    >
-      <div className="space-y-2">
-        <Label>{t("status")}</Label>
-        <Select
-          value={filters.status}
-          onValueChange={(v) => updateFilter("status", v)}
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("sales.allStages")}</SelectItem>
-            {stages.map((s) => (
-              <SelectItem key={s.id} value={s.id}>
-                {s.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      searchHeader={
+        <ProductAllocationCodeSearch
+          value={
+            activeSearchType === "allocationCode"
+              ? allocationCodeSearch
+              : filters.search
+          }
+          placeholder={activeSearchOption.placeholder}
+          onChange={(value) => {
+            if (activeSearchType === "allocationCode") {
+              setAllocationCodeSearch(value);
+              return;
+            }
 
-      {availableTypes.length > 0 && (
+            updateFilter("search", value);
+          }}
+          onSubmit={
+            activeSearchType === "allocationCode"
+              ? submitAllocationCodeSearch
+              : undefined
+          }
+          activePill={activeSearchType}
+          pills={searchTypeOptions}
+          onActivePillChange={(value) =>
+            setActiveSearchType(value as SalesSearchType)
+          }
+          showFilters={showFilters}
+          onShowFiltersChange={setShowFilters}
+          showFilterButton={activeSearchOption.hasFilters}
+          filterButtonLabel={
+            showFilters ? t("common.hideFilters") : t("filters.filters")
+          }
+        />
+      }
+    >
+      {activeSearchOption.hasFilters && (
+        <div className="space-y-2">
+          <Label>{t("status")}</Label>
+          <Select
+            value={filters.status}
+            onValueChange={(v) => updateFilter("status", v)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("sales.allStages")}</SelectItem>
+              {stages.map((s) => (
+                <SelectItem key={s.id} value={s.id}>
+                  {s.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {activeSearchOption.hasFilters && availableTypes.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.type")}</Label>
           <Select
@@ -133,7 +194,7 @@ export const SalesFilters = ({
         </div>
       )}
 
-      {availableSellers.length > 0 && (
+      {activeSearchOption.hasFilters && availableSellers.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.seller")}</Label>
           <Select
@@ -155,7 +216,7 @@ export const SalesFilters = ({
         </div>
       )}
 
-      {availableSellerGroups.length > 0 && (
+      {activeSearchOption.hasFilters && availableSellerGroups.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.sellerGroup")}</Label>
           <Select
@@ -179,7 +240,7 @@ export const SalesFilters = ({
         </div>
       )}
 
-      {availableSalesGroups.length > 0 && (
+      {activeSearchOption.hasFilters && availableSalesGroups.length > 0 && (
         <div className="space-y-2">
           <Label>{t("sales.groupName")}</Label>
           <Select

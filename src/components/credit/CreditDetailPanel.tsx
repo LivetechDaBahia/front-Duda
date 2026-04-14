@@ -277,7 +277,6 @@ export const CreditDetailPanel = ({
   };
 
   const formatCurrency = (value: number, currency: string = "BRL") => {
-    // Map currency symbols to ISO codes
     const currencyMap: Record<string, string> = {
       R$: "BRL",
       US$: "USD",
@@ -292,7 +291,6 @@ export const CreditDetailPanel = ({
         currency: currencyCode,
       }).format(value);
     } catch (error) {
-      // Fallback if currency code is invalid
       return `${currency} ${value.toFixed(2)}`;
     }
   };
@@ -805,6 +803,56 @@ export const CreditDetailPanel = ({
                         </span>
                         <p className="font-medium">{clientDetails.warranty}</p>
                       </div>
+                      {(clientDetails.blackList ||
+                        clientDetails.totalInBlacklist ||
+                        clientDetails.blacklistObservation) && (
+                        <div className="col-span-2">
+                          <div className="flex items-start gap-2 mt-2 p-3 rounded-md bg-destructive/10 border border-destructive/20 w-[450px]">
+                            <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                            <div className="text-sm w-full">
+                              <p className="font-medium text-destructive mb-2">
+                                <span className="capitalize">
+                                  {String(
+                                    clientDetails.blackList ||
+                                      t("credit.blacklistInfo"),
+                                  ).toLowerCase()}
+                                </span>
+                              </p>
+                              <div className="grid grid-cols-2 gap-3">
+                                {clientDetails.totalInBlacklist && (
+                                  <div>
+                                    <p className="font-medium text-foreground">
+                                      Total:
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {typeof clientDetails.totalInBlacklist ===
+                                      "number"
+                                        ? new Intl.NumberFormat(
+                                            locale || "pt-BR",
+                                          ).format(
+                                            clientDetails.totalInBlacklist,
+                                          )
+                                        : String(
+                                            clientDetails.totalInBlacklist,
+                                          )}
+                                    </p>
+                                  </div>
+                                )}
+                                {clientDetails.blacklistObservation && (
+                                  <div>
+                                    <p className="font-medium text-foreground">
+                                      Observações:
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {clientDetails.blacklistObservation}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -947,6 +995,50 @@ export const CreditDetailPanel = ({
                       </p>
                     )}
                   </div>
+
+                  {creditLimit && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm mt-4">
+                      {[
+                        { key: "creditLimit", label: "Limite de Crédito" },
+                        { key: "availableBalance", label: "Saldo Disponível" },
+                        { key: "pendingValue", label: "Valor Pendente" },
+                        { key: "approvedItemsValue", label: "Itens Aprovados" },
+                        { key: "raBalance", label: "Saldo RA" },
+                        { key: "nccBalance", label: "Saldo NCC" },
+                        {
+                          key: "openContractBalance",
+                          label: "Contratos em Aberto",
+                        },
+                      ]
+                        .filter((field) => field.key in creditLimit)
+                        .map((field) => {
+                          const value = creditLimit[
+                            field.key as keyof typeof creditLimit
+                          ] as number;
+
+                          const isNegative = value < 0;
+
+                          return (
+                            <div
+                              key={field.key}
+                              className="p-3 bg-background border rounded-md"
+                            >
+                              <span className="text-muted-foreground">
+                                {field.label}
+                              </span>
+
+                              <p
+                                className={`font-semibold ${
+                                  isNegative ? "text-destructive" : ""
+                                }`}
+                              >
+                                {formatCurrency(value)}
+                              </p>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
 
                   {/* Default Probability Indicator */}
                   {clientHistory &&
