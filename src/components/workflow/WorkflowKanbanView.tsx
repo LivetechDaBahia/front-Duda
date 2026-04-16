@@ -38,6 +38,11 @@ function isExpired(validityDate: string | undefined): boolean {
 // Derive status from summary for list display
 function getSummaryStatus(item: TrafficLightSummary): WorkflowStatus {
   // Check if cancelled first
+
+  if (item.erro) {
+    return "cancelled";
+  }
+
   if (item.canceled08 && item.canceled08.trim() !== "") {
     return "cancelled";
   }
