@@ -117,46 +117,24 @@ export const CreditCard = ({
   };
 
   const { t } = useLocale();
-  const isBlacklisted = Boolean(
-    (credit.details.finalClientBlacklist || "").trim(),
-  );
-  const mutedTextClass = isBlacklisted
-    ? "text-[#eee]"
-    : "text-muted-foreground";
-  const secondaryTextClass = isBlacklisted
-    ? "text-[#fff]"
-    : "text-muted-foreground";
+  const mutedTextClass = "text-muted-foreground";
+  const secondaryTextClass = "text-muted-foreground";
 
-  const cardBackgroundStyle = isBlacklisted
+  const cardBackgroundStyle = credit.background
     ? {
-        backgroundColor: "hsl(var(--destructive) / 0.1)",
-        backgroundImage:
-          "linear-gradient(135deg, hsl(var(--destructive) / 0.1) 0%, hsl(var(--destructive) / 0.66) 100%)",
+        backgroundColor: toCssColor(credit.background),
+        backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
       }
-    : credit.background
-      ? {
-          backgroundColor: toCssColor(credit.background),
-          backgroundImage: `linear-gradient(135deg, ${toCssColor(credit.background)} 0%, hsl(var(--card)) 100%)`,
-        }
-      : {};
+    : {};
 
   const cardContent = (
     <Card
       className={`cursor-pointer hover:shadow-md transition-all border-l-4 border-r-4 w-full max-w-full min-w-0 overflow-hidden relative ${
         onDragStart ? "cursor-grab active:cursor-grabbing" : ""
-      } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""} ${
-        isBlacklisted ? "border-destructive/70 text-white" : ""
-      }`}
+      } ${isDragging ? "opacity-50 scale-95" : ""} ${isLoading ? "pointer-events-none" : ""}`}
       style={{
-        borderColor: isBlacklisted
-          ? "hsl(var(--destructive) / 0.7)"
-          : undefined,
-        borderLeftColor: isBlacklisted
-          ? "hsl(var(--destructive))"
-          : toCssColor(credit.borders.left),
-        borderRightColor: isBlacklisted
-          ? "hsl(var(--destructive))"
-          : toCssColor(credit.borders.right),
+        borderLeftColor: toCssColor(credit.borders.left),
+        borderRightColor: toCssColor(credit.borders.right),
         ...cardBackgroundStyle,
       }}
       onClick={onClick}
@@ -195,14 +173,7 @@ export const CreditCard = ({
             {/* Assignee Badge */}
             {credit.user && (
               <div className="mt-2">
-                <Badge
-                  variant="outline"
-                  className={`gap-1 text-xs ${
-                    isBlacklisted
-                      ? "border-white/40 text-white bg-white/10"
-                      : ""
-                  }`}
-                >
+                <Badge variant="outline" className="gap-1 text-xs">
                   <User className="h-3 w-3" />
                   {credit.user}
                 </Badge>
@@ -338,16 +309,8 @@ export const CreditCard = ({
           <TooltipTrigger asChild>
             <div className="relative">
               {cardContent}
-              <div
-                className={`absolute top-2 right-2 rounded-full p-1 ${
-                  isBlacklisted ? "bg-black/20" : "bg-background/90"
-                }`}
-              >
-                <Lock
-                  className={`h-3 w-3 ${
-                    isBlacklisted ? "text-white" : "text-muted-foreground"
-                  }`}
-                />
+              <div className="absolute top-2 right-2 rounded-full p-1 bg-background/90">
+                <Lock className="h-3 w-3 text-muted-foreground" />
               </div>
             </div>
           </TooltipTrigger>
