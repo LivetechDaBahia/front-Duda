@@ -751,7 +751,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.filters.filters": "Filters",
     "workflow.filters.search": "Search",
     "workflow.filters.searchPlaceholder":
-      "Search by quote, sales order or LVTS number",
+      "Search by quote, invoice, sales order or LVTS number",
     "workflow.filters.status": "Status",
     "workflow.filters.allStatuses": "All Statuses",
     "workflow.filters.dateFrom": "Date From",
@@ -1790,7 +1790,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.filters.filters": "Filtros",
     "workflow.filters.search": "Buscar",
     "workflow.filters.searchPlaceholder":
-      "Buscar por cotação, pedido ou número LVTS",
+      "Buscar por cotação, invoice, pedido ou número LVTS",
     "workflow.filters.status": "Status",
     "workflow.filters.allStatuses": "Todos os Status",
     "workflow.filters.dateFrom": "Data Inicial",
@@ -2832,7 +2832,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "workflow.filters.filters": "Filtros",
     "workflow.filters.search": "Buscar",
     "workflow.filters.searchPlaceholder":
-      "Buscar por cotización, orden o número LVTS",
+      "Buscar por cotización, invoice, orden o número LVTS",
     "workflow.filters.status": "Estado",
     "workflow.filters.allStatuses": "Todos los Estados",
     "workflow.filters.dateFrom": "Fecha Desde",
