@@ -9,6 +9,10 @@ export interface TrafficLightSummary {
   finishedDate: string | null;
   canceled08?: string;
   lvts: string;
+  poName: string;
+  invoiceNumber: string;
+  pause: boolean;
+  erro: boolean;
 }
 
 export interface TrafficLightDetail {
@@ -28,6 +32,7 @@ export interface TrafficLightDetail {
   startDate: string | null;
   finishedDate: string | null;
   lastUpdate: string | null;
+  invoiceNumber: string;
 }
 
 export interface TrafficLightListResponse {
