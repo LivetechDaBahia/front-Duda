@@ -102,6 +102,10 @@ const getStatusConfig = (t: (key: string) => string) => ({
 function getSummaryStatus(
   item: TrafficLightSummary,
 ): "expired" | "in-progress" | "completed" | "failed" {
+  
+  if (item.erro === true) {
+    return "failed";
+}
   if (item.finishedDate) {
     return "completed";
   }
@@ -140,14 +144,16 @@ export default function Workflow() {
       filterValues: WorkflowFilterValues,
     ): TrafficLightSummary[] => {
       return items.filter((item) => {
-        // Search filter: match quote, sales order, or LVTS number
+        // Search filter: match quote, invoice, sales order, or LVTS number
         if (filterValues.search.trim()) {
           const term = filterValues.search.toLowerCase().trim();
           const quote = (item.numQuote || "").toLowerCase();
+          const invoice = (item.invoiceNumber || "").toLowerCase();
           const salesOrder = (item.salesOrderNumber || "").toLowerCase();
           const lvts = (item.lvts || "").toLowerCase();
           if (
             !quote.includes(term) &&
+            !invoice.includes(term) &&
             !salesOrder.includes(term) &&
             !lvts.includes(term)
           ) {
@@ -474,7 +480,7 @@ export default function Workflow() {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <h3 className="font-semibold text-foreground truncate">
-                                  {t("workflow.quote")}: {item.numQuote}
+                                  {t("workflow.quote")}: {item.numQuote} - Invoice {item.invoiceNumber} 
                                 </h3>
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
                                   <span>
