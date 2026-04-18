@@ -172,19 +172,17 @@ const AllocationTableView = ({
                 {t("sales.sequence")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {t("sales.include")}
+                {t("sales.productOrder")}
               </TableHead>
               <TableHead className="whitespace-nowrap text-right">
                 {t("sales.numOp")}
               </TableHead>
-              <TableHead className="whitespace-nowrap">
-                {t("sales.purchaseOrder")}
+              <TableHead className="whitespace-nowrap">PC/PO</TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.numPo")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
                 {t("sales.prevArrival")}
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-right">
-                {t("sales.numPo")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
                 {t("sales.purchaseRequest")}
@@ -200,6 +198,9 @@ const AllocationTableView = ({
               </TableHead>
               <TableHead className="whitespace-nowrap">
                 {t("sales.minDate")}
+              </TableHead>
+              <TableHead className="whitespace-nowrap text-right">
+                {t("sales.include")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -255,7 +256,7 @@ const AllocationTableView = ({
                   {row.sequence || "-"}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
-                  {row.include || "-"}
+                  {row.productOrder || "-"}
                 </TableCell>
                 <TableCell className="whitespace-nowrap text-right">
                   {row.numOp}
@@ -263,11 +264,11 @@ const AllocationTableView = ({
                 <TableCell className="whitespace-nowrap">
                   {row.purchaseOrder || "-"}
                 </TableCell>
-                <TableCell className="whitespace-nowrap">
-                  {row.prevArrival || "-"}
-                </TableCell>
                 <TableCell className="whitespace-nowrap text-right">
                   {row.numPo}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {row.prevArrival || "-"}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
                   {row.purchaseRequest || "-"}
@@ -283,6 +284,9 @@ const AllocationTableView = ({
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
                   {row.minDate || "-"}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-right">
+                  {row.include || "-"}
                 </TableCell>
               </TableRow>
             ))}
@@ -407,22 +411,16 @@ const AllocationCardView = ({
             <DetailField label={t("sales.batch")} value={row.batch} />
             <DetailField label={t("sales.sequence")} value={row.sequence} />
             <DetailField label={t("sales.include")} value={row.include} />
-            <DetailField
-              label={t("sales.productOrder")}
-              value={`${row.productOrder || "-"} (${t("sales.numOp")}: ${row.numOp})`}
-            />
-            <DetailField
-              label={t("sales.purchaseOrder")}
-              value={`${row.purchaseOrder || "-"} (${t("sales.numPo")}: ${row.numPo})`}
-            />
-            <DetailField
-              label={t("sales.prevArrival")}
-              value={row.prevArrival}
-            />
+            <DetailField label={t("sales.productOrder")} value={row.productOrder} />
+            <DetailField label={t("sales.numOp")} value={row.numOp} />
+            <DetailField label="PC/PO" value={row.purchaseOrder} />
+            <DetailField label={t("sales.numPo")} value={row.numPo} />
+            <DetailField label={t("sales.prevArrival")} value={row.prevArrival} />
             <DetailField
               label={t("sales.purchaseRequest")}
-              value={`${row.purchaseRequest || "-"} (${t("sales.numSc")}: ${row.numSc})`}
+              value={row.purchaseRequest}
             />
+            <DetailField label={t("sales.numSc")} value={row.numSc} />
             <DetailField label={t("sales.minDate")} value={row.minDate} />
           </div>
         </div>
