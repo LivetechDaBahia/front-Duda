@@ -252,7 +252,7 @@ export const CreditCard = ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-1.5 sm:space-y-2">
+      <CardContent className="pt-0 space-y-1.5 sm:space-y-2 pr-[120px]">
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className={mutedTextClass}>{t("credit.value")}</span>
           <span className="font-medium">
@@ -299,6 +299,26 @@ export const CreditCard = ({
           </div>
         )}
       </CardContent>
+      <div className="absolute bottom-2 right-4">
+        {(credit.flowElementTagStatus === true ||
+          credit.flowElementTagStatus === false) && (
+          <img
+            src={
+              credit.flowElementTagStatus === true
+                ? "/thumbs_up.svg"
+                : "/thumbs_down.svg"
+            }
+            alt={
+              credit.flowElementTagStatus === true ? "Aprovado" : "Nao liberado"
+            }
+            className={`object-contain pointer-events-none select-none ${
+              credit.flowElementTagStatus === true
+                ? "h-[75px] w-[75px]"
+                : "h-[59px] w-[59px]"
+            }`}
+          />
+        )}
+      </div>
     </Card>
   );
 

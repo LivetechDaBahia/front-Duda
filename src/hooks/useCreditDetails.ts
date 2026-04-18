@@ -117,11 +117,15 @@ export const useCreditDetails = ({
     isLoading: isLoadingClientDetails,
     error: clientDetailsError,
   } = useQuery<CreditClientDetails>({
-    queryKey: ["creditClientDetails", clientBranch, clientId],
+    queryKey: ["creditClientDetails", clientBranch, clientId, creditId],
     queryFn: async () => {
-      return creditService.getClientDetails(clientBranch!, clientId!);
+      return creditService.getClientDetails(
+        clientBranch!,
+        clientId!,
+        creditId!,
+      );
     },
-    enabled: !!clientBranch && !!clientId,
+    enabled: !!clientBranch && !!clientId && !!creditId,
   });
 
   const {

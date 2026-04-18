@@ -25,6 +25,7 @@ export interface CreditElementItem {
   flowId: string;
   name: string;
   statusId: string;
+  flowElementTagStatus?: boolean | null;
   group: string;
   user: string | null;
   key: string;
@@ -106,6 +107,8 @@ export interface CreditClientDetails {
   blackList?: string | null;
   totalInBlacklist?: number | null;
   blacklistObservation?: string | null;
+  flowElementTagStatus?: boolean | null;
+  flowElementTagReason?: string | null;
 }
 
 export interface FinancialHistory {

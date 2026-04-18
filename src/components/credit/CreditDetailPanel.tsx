@@ -799,6 +799,44 @@ export const CreditDetailPanel = ({
                       </div>
                       <div>
                         <span className="text-muted-foreground">
+                          Status do Cliente:
+                        </span>
+                        <p
+                          className="font-medium"
+                          style={
+                            clientDetails.flowElementTagStatus === true
+                              ? { color: "greenyellow" }
+                              : clientDetails.flowElementTagStatus === false
+                                ? { color: "#ff386d" }
+                                : undefined
+                          }
+                        >
+                          {clientDetails.flowElementTagStatus === true
+                            ? "Aprovado"
+                            : clientDetails.flowElementTagStatus === false
+                              ? "Não Liberado"
+                              : "-"}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Motivo:</span>
+                        <p
+                          className="font-medium"
+                          style={
+                            clientDetails.flowElementTagReason?.trim()
+                              ? clientDetails.flowElementTagStatus === true
+                                ? { color: "greenyellow" }
+                                : clientDetails.flowElementTagStatus === false
+                                  ? { color: "#ff386d" }
+                                  : undefined
+                              : undefined
+                          }
+                        >
+                          {clientDetails.flowElementTagReason || "-"}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">
                           {t("credit.warrantyInfo")}:
                         </span>
                         <p className="font-medium">{clientDetails.warranty}</p>

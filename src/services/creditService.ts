@@ -61,9 +61,16 @@ export const creditService = {
   async getClientDetails(
     branch: string,
     id: string,
+    proposal: string,
   ): Promise<CreditClientDetails> {
-    addUIBreadcrumb("getClientDetails", "creditService", { branch, id });
-    return apiClient.get(`/credit/creditElement/clientDetails/${branch}/${id}`);
+    addUIBreadcrumb("getClientDetails", "creditService", {
+      branch,
+      id,
+      proposal,
+    });
+    return apiClient.get(
+      `/credit/creditElement/clientDetails/${branch}/${id}/${proposal}`,
+    );
   },
 
   async getClientHistory(
