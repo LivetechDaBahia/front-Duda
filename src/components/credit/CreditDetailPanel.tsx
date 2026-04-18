@@ -805,7 +805,7 @@ export const CreditDetailPanel = ({
                           className="font-medium"
                           style={
                             clientDetails.flowElementTagStatus === true
-                              ? { color: "greenyellow" }
+                              ? { color: "#00AFFA" }
                               : clientDetails.flowElementTagStatus === false
                                 ? { color: "#ff386d" }
                                 : undefined
@@ -825,7 +825,7 @@ export const CreditDetailPanel = ({
                           style={
                             clientDetails.flowElementTagReason?.trim()
                               ? clientDetails.flowElementTagStatus === true
-                                ? { color: "greenyellow" }
+                                ? { color: "#00AFFA" }
                                 : clientDetails.flowElementTagStatus === false
                                   ? { color: "#ff386d" }
                                   : undefined
