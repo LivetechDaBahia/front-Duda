@@ -19,6 +19,7 @@ import {
   ResizableHandle,
 } from "@/components/ui/resizable";
 import { useSalesUIStore } from "@/store/useSalesUIStore";
+import { matchesSearchTerm } from "@/utils/search";
 
 const Sales = () => {
   const { canViewSales } = usePermissions();
@@ -80,12 +81,12 @@ const Sales = () => {
         typeof filters.search === "string" ? filters.search : "";
 
       if (searchValue) {
-        const search = searchValue.toLowerCase();
-        const matchesSearch =
-          item.offer?.toLowerCase().includes(search) ||
-          item.client?.toLowerCase().includes(search) ||
-          item.clientName?.toLowerCase().includes(search) ||
-          item.name?.toLowerCase().includes(search);
+        const offerValue = item.offer ?? "";
+        const clientValue = item.client ?? "";
+        const matchesSearch = matchesSearchTerm(searchValue, {
+          textFields: [offerValue, clientValue, item.clientName, item.name],
+          digitFields: [offerValue, clientValue],
+        });
 
         if (!matchesSearch) return false;
       }
