@@ -31,6 +31,7 @@ import Logout from "./pages/Logout";
 import AuthCallback from "./pages/AuthCallback";
 import RequestAccess from "./pages/RequestAccess";
 import NotFound from "./pages/NotFound";
+import Maintenance from "./pages/Maintenance";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -67,6 +68,17 @@ const AppRoutes = () => {
                   </ProtectedRoute>
                 }
               />
+              {/*}
+              <Route path="/" element={<Navigate to="/maintenance" replace />} />
+              <Route 
+                path="/home" 
+                element={
+                  <ProtectedRoute>
+                    <Navigate to="/maintenance" replace />
+                  </ProtectedRoute>
+                }
+              />
+              */}
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
@@ -116,6 +128,14 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <Sales />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/maintenance"
+                element={
+                  <ProtectedRoute>
+                    <Maintenance />
                   </ProtectedRoute>
                 }
               />
