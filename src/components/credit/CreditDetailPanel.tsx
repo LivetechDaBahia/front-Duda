@@ -385,6 +385,17 @@ export const CreditDetailPanel = ({
                     <p className="font-medium">{credit.details.sellerGroup}</p>
                   </div>
                 </div>
+
+                {credit.details.debitHistory && (
+                  <div className="col-span-2 pt-2 border-t">
+                    <span className="text-muted-foreground text-sm">
+                      {t("credit.releaseHistory") || "Histórico de Liberação"}:
+                    </span>
+                    <p className="font-medium text-sm mt-2 whitespace-pre-wrap break-words">
+                      {credit.details.debitHistory}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <SalesOrderDetailsTab
