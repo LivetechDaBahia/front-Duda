@@ -60,18 +60,72 @@ const parseCreditDetailsDate = (raw: unknown): Date | null => {
 export const transformCreditElementsToUI = (
   elements: CreditElementItem[],
 ): CreditElementItem[] => {
-  return elements.map((element) => ({
-    ...element,
-    details: {
-      ...element.details,
-      date: parseCreditDetailsDate(element.details?.date),
-    },
-    // Provide fallbacks if borders are empty
-    borders: {
-      left: element.borders?.left || DEFAULT_BORDER_COLOR,
-      right: element.borders?.right || DEFAULT_BORDER_COLOR,
-    },
-  }));
+  const getNestedString = (
+    source: Record<string, unknown>,
+    path: string[],
+  ): string | undefined => {
+    let current: unknown = source;
+    for (const key of path) {
+      if (!current || typeof current !== "object") {
+        return undefined;
+      }
+      current = (current as Record<string, unknown>)[key];
+    }
+
+    if (typeof current === "string" && current.trim().length > 0) {
+      return current;
+    }
+
+    return undefined;
+  };
+
+  const getFirstString = (
+    source: Record<string, unknown>,
+    keys: string[],
+  ): string | undefined => {
+    for (const key of keys) {
+      const value = source[key];
+      if (typeof value === "string" && value.trim().length > 0) {
+        return value;
+      }
+    }
+    return undefined;
+  };
+
+  const sanitizeString = (value: unknown): string | undefined => {
+    if (typeof value !== "string") return undefined;
+    // Remove null bytes and trim
+    const cleaned = value.replace(/\u0000/g, "").trim();
+    return cleaned.length > 0 ? cleaned : undefined;
+  };
+
+  return elements.map((element) => {
+    const rawDetails = element.details as unknown as Record<string, unknown>;
+
+    const debitHistory =
+      sanitizeString(element.details?.debitHistory) ??
+      sanitizeString(getNestedString(element as unknown as Record<string, unknown>, ["payback", "debitHistory"])) ??
+      sanitizeString(getFirstString(rawDetails, [
+        "debit_history",
+        "releaseHistory",
+        "release_history",
+        "debit_history_text",
+      ]));
+
+    return {
+      ...element,
+      details: {
+        ...element.details,
+        date: parseCreditDetailsDate(element.details?.date),
+        debitHistory,
+      },
+      // Provide fallbacks if borders are empty
+      borders: {
+        left: element.borders?.left || DEFAULT_BORDER_COLOR,
+        right: element.borders?.right || DEFAULT_BORDER_COLOR,
+      },
+    };
+  });
 };
 
 /**
