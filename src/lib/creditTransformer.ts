@@ -6,6 +6,22 @@ import type {
 
 const DEFAULT_BORDER_COLOR = "hsl(120, 100%, 80%)"; // Default green color
 
+type CreditDateInput = Date | string | number | null | undefined;
+
+interface CreditDetailsWithLegacyKeys {
+  debitHistory?: string | null;
+  debit_history?: string | null;
+  releaseHistory?: string | null;
+  release_history?: string | null;
+  debit_history_text?: string | null;
+}
+
+interface CreditElementWithLegacyPayback extends CreditElementItem {
+  payback?: {
+    debitHistory?: string | null;
+  };
+}
+
 /**
  * Parse YYYYMMDD date string to Date object
  */
@@ -28,7 +44,7 @@ export const parseYYYYMMDD = (dateStr: string): Date | null => {
  * Parse credit details date coming from the API.
  * We see multiple formats across environments: Date, ISO strings, and YYYYMMDD.
  */
-const parseCreditDetailsDate = (raw: unknown): Date | null => {
+const parseCreditDetailsDate = (raw: CreditDateInput): Date | null => {
   if (!raw) return null;
 
   if (raw instanceof Date) {
@@ -60,31 +76,12 @@ const parseCreditDetailsDate = (raw: unknown): Date | null => {
 export const transformCreditElementsToUI = (
   elements: CreditElementItem[],
 ): CreditElementItem[] => {
-  const getNestedString = (
-    source: Record<string, unknown>,
-    path: string[],
-  ): string | undefined => {
-    let current: unknown = source;
-    for (const key of path) {
-      if (!current || typeof current !== "object") {
-        return undefined;
-      }
-      current = (current as Record<string, unknown>)[key];
-    }
-
-    if (typeof current === "string" && current.trim().length > 0) {
-      return current;
-    }
-
-    return undefined;
-  };
-
   const getFirstString = (
-    source: Record<string, unknown>,
+    source: CreditDetailsWithLegacyKeys,
     keys: string[],
   ): string | undefined => {
     for (const key of keys) {
-      const value = source[key];
+      const value = source[key as keyof CreditDetailsWithLegacyKeys];
       if (typeof value === "string" && value.trim().length > 0) {
         return value;
       }
@@ -92,7 +89,7 @@ export const transformCreditElementsToUI = (
     return undefined;
   };
 
-  const sanitizeString = (value: unknown): string | undefined => {
+  const sanitizeString = (value: string | null | undefined): string | undefined => {
     if (typeof value !== "string") return undefined;
     // Remove null bytes and trim
     const cleaned = value.replace(/\u0000/g, "").trim();
@@ -100,11 +97,12 @@ export const transformCreditElementsToUI = (
   };
 
   return elements.map((element) => {
-    const rawDetails = element.details as unknown as Record<string, unknown>;
+    const rawDetails = element.details as CreditDetailsWithLegacyKeys;
+    const elementWithPayback = element as CreditElementWithLegacyPayback;
 
     const debitHistory =
       sanitizeString(element.details?.debitHistory) ??
-      sanitizeString(getNestedString(element as unknown as Record<string, unknown>, ["payback", "debitHistory"])) ??
+      sanitizeString(elementWithPayback.payback?.debitHistory) ??
       sanitizeString(getFirstString(rawDetails, [
         "debit_history",
         "releaseHistory",
