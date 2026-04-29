@@ -549,6 +549,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.contractValue": "Contract Value",
     "credit.billValue": "Bill Value",
     "credit.noContracts": "No contracts found",
+    "credit.debitHistory": "Debit Release History",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Assign Credit Item",
@@ -1568,6 +1569,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.contractValue": "Valor do Contrato",
     "credit.billValue": "Valor Faturado",
     "credit.noContracts": "Nenhum contrato encontrado",
+    "credit.debitHistory": "Hist. Liberação Débito",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Atribuir Item de Crédito",
@@ -2622,6 +2624,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "credit.contractValue": "Valor del Contrato",
     "credit.billValue": "Valor Facturado",
     "credit.noContracts": "No se encontraron contratos",
+    "credit.debitHistory": "Hist. Liberación Débito",
 
     // Credit Assignment Dialog
     "credit.assign.title": "Asignar elemento de crédito",
