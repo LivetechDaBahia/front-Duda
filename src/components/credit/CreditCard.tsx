@@ -278,6 +278,16 @@ export const CreditCard = ({
             {credit.details.paymentConditions}
           </div>
         )}
+        {credit.details.debitHistory && (
+          <div className="pt-1">
+            <p className={`${mutedTextClass} text-[11px]`}>
+              {t("credit.debitHistory")}
+            </p>
+            <p className="text-xs mt-1 line-clamp-2 break-words font-medium text-white">
+              {credit.details.debitHistory}
+            </p>
+          </div>
+        )}
         {credit.details.date && (
           <div className={`text-xs truncate ${secondaryTextClass}`}>
             {format(

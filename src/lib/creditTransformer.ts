@@ -6,6 +6,22 @@ import type {
 
 const DEFAULT_BORDER_COLOR = "hsl(120, 100%, 80%)"; // Default green color
 
+type CreditDateInput = Date | string | number | null | undefined;
+
+interface CreditDetailsWithLegacyKeys {
+  debitHistory?: string | null;
+  debit_history?: string | null;
+  releaseHistory?: string | null;
+  release_history?: string | null;
+  debit_history_text?: string | null;
+}
+
+interface CreditElementWithLegacyPayback extends CreditElementItem {
+  payback?: {
+    debitHistory?: string | null;
+  };
+}
+
 /**
  * Parse YYYYMMDD date string to Date object
  */
@@ -28,7 +44,7 @@ export const parseYYYYMMDD = (dateStr: string): Date | null => {
  * Parse credit details date coming from the API.
  * We see multiple formats across environments: Date, ISO strings, and YYYYMMDD.
  */
-const parseCreditDetailsDate = (raw: unknown): Date | null => {
+const parseCreditDetailsDate = (raw: CreditDateInput): Date | null => {
   if (!raw) return null;
 
   if (raw instanceof Date) {
@@ -60,18 +76,54 @@ const parseCreditDetailsDate = (raw: unknown): Date | null => {
 export const transformCreditElementsToUI = (
   elements: CreditElementItem[],
 ): CreditElementItem[] => {
-  return elements.map((element) => ({
-    ...element,
-    details: {
-      ...element.details,
-      date: parseCreditDetailsDate(element.details?.date),
-    },
-    // Provide fallbacks if borders are empty
-    borders: {
-      left: element.borders?.left || DEFAULT_BORDER_COLOR,
-      right: element.borders?.right || DEFAULT_BORDER_COLOR,
-    },
-  }));
+  const getFirstString = (
+    source: CreditDetailsWithLegacyKeys,
+    keys: string[],
+  ): string | undefined => {
+    for (const key of keys) {
+      const value = source[key as keyof CreditDetailsWithLegacyKeys];
+      if (typeof value === "string" && value.trim().length > 0) {
+        return value;
+      }
+    }
+    return undefined;
+  };
+
+  const sanitizeString = (value: string | null | undefined): string | undefined => {
+    if (typeof value !== "string") return undefined;
+    // Remove null bytes and trim
+    const cleaned = value.replace(/\u0000/g, "").trim();
+    return cleaned.length > 0 ? cleaned : undefined;
+  };
+
+  return elements.map((element) => {
+    const rawDetails = element.details as CreditDetailsWithLegacyKeys;
+    const elementWithPayback = element as CreditElementWithLegacyPayback;
+
+    const debitHistory =
+      sanitizeString(element.details?.debitHistory) ??
+      sanitizeString(elementWithPayback.payback?.debitHistory) ??
+      sanitizeString(getFirstString(rawDetails, [
+        "debit_history",
+        "releaseHistory",
+        "release_history",
+        "debit_history_text",
+      ]));
+
+    return {
+      ...element,
+      details: {
+        ...element.details,
+        date: parseCreditDetailsDate(element.details?.date),
+        debitHistory,
+      },
+      // Provide fallbacks if borders are empty
+      borders: {
+        left: element.borders?.left || DEFAULT_BORDER_COLOR,
+        right: element.borders?.right || DEFAULT_BORDER_COLOR,
+      },
+    };
+  });
 };
 
 /**
