@@ -279,11 +279,11 @@ export const CreditCard = ({
           </div>
         )}
         {credit.details.debitHistory && (
-          <div className="pt-1">
-            <p className={`${mutedTextClass} text-[11px]`}>
+          <div className="pt-1 w-full flex items-center justify-between gap-2">
+            <p className={`${mutedTextClass} text-[11px] shrink-0`}>
               {t("credit.debitHistory")}
             </p>
-            <p className="text-xs mt-1 line-clamp-2 break-words font-medium text-white">
+            <p className="text-xs font-medium text-right text-slate-900 dark:text-white ml-auto truncate">
               {credit.details.debitHistory}
             </p>
           </div>
