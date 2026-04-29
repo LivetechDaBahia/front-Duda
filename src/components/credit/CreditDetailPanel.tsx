@@ -384,6 +384,16 @@ export const CreditDetailPanel = ({
                     </span>
                     <p className="font-medium">{credit.details.sellerGroup}</p>
                   </div>
+                  {credit.details.debitHistory && (
+                    <div className="col-span-2 pt-2 w-full flex items-center justify-between gap-3">
+                      <p className="text-muted-foreground text-sm shrink-0">
+                        {t("credit.debitHistory")}
+                      </p>
+                      <p className="text-sm font-medium text-right text-slate-900 dark:text-white ml-auto">
+                        {credit.details.debitHistory}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
